@@ -1,0 +1,9 @@
+{
+  "candidate_count": 3,
+  "finish_status": "completed",
+  "provider_model": "gpt-5.5",
+  "provider_name": "linkflow",
+  "raw_response_sha256": "b1be468661fa29799fd637164a6c36be605a366adde832f366d2912298bc2a17",
+  "reasoning_effort": "low",
+  "request_id": "petsmart-inc_llmrequest_30"
+}
