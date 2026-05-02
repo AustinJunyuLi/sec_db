@@ -9,6 +9,7 @@ from .canonical import (
     ProcessCycle,
 )
 from .filings import CleanFiling, FILINGS_DDL, Paragraph, Section, SourceSpan
+from .extraction import EXTRACTION_DDL, ExtractionCandidate
 from .judgments import JUDGMENTS_DDL, Judgment
 from .participation_counts import PARTICIPATION_COUNTS_DDL, ParticipationCount
 from .runtime import RUN_METADATA_DDL, RunMetadata
@@ -20,6 +21,8 @@ __all__ = [
     "Deal",
     "Event",
     "EventActorLink",
+    "EXTRACTION_DDL",
+    "ExtractionCandidate",
     "FILINGS_DDL",
     "JUDGMENTS_DDL",
     "Judgment",
