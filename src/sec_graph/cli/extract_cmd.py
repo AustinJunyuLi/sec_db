@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 from pathlib import Path
 
 from sec_graph.extract.llm.models import LLMProviderConfig
@@ -30,6 +31,7 @@ def llm_config_from_args(args: argparse.Namespace) -> LLMProviderConfig | None:
         provider_name=args.llm_provider,
         model=args.llm_model,
         reasoning_effort=args.llm_reasoning_effort,
+        base_url=os.environ.get("LINKFLOW_BASE_URL", "https://www.linkflow.run/v1"),
     )
 
 
