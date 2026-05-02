@@ -60,5 +60,13 @@ def _argv_from_namespace(args: argparse.Namespace, unknown: list[str]) -> list[s
         rebuilt.extend(["--run-dir", str(args.run_dir)])
     if getattr(args, "run_id", None) is not None:
         rebuilt.extend(["--run-id", str(args.run_id)])
+    if getattr(args, "llm_provider", None) is not None:
+        rebuilt.extend(["--llm-provider", args.llm_provider])
+    if getattr(args, "llm_model", None) is not None:
+        rebuilt.extend(["--llm-model", args.llm_model])
+    if getattr(args, "llm_reasoning_effort", None) is not None:
+        rebuilt.extend(["--llm-reasoning-effort", args.llm_reasoning_effort])
+    if getattr(args, "llm_limit", None) is not None:
+        rebuilt.extend(["--llm-limit", str(args.llm_limit)])
     rebuilt.extend(unknown)
     return rebuilt

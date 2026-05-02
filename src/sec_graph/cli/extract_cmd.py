@@ -5,7 +5,8 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from sec_graph.extract.rules import run_rules
+from sec_graph.extract.llm.models import LLMProviderConfig
+from sec_graph.extract.pipeline import run_extract
 from sec_graph.schema import DEFAULT_DB_PATH, connect
 
 
@@ -15,7 +16,21 @@ def build_parser() -> argparse.ArgumentParser:
     group.add_argument("--filing-id", help="extract one filing by filing_id")
     group.add_argument("--all", action="store_true", help="extract every filing in the DB")
     parser.add_argument("--db", type=Path, default=DEFAULT_DB_PATH, help="DuckDB input/output path")
+    parser.add_argument("--llm-provider", choices=["linkflow"], help="optional LLM candidate provider")
+    parser.add_argument("--llm-model", default="gpt-5.5", help="LLM model name")
+    parser.add_argument("--llm-reasoning-effort", choices=["low", "medium", "high", "xhigh"], default="high")
+    parser.add_argument("--llm-limit", type=int, help="maximum paragraph requests per filing")
     return parser
+
+
+def llm_config_from_args(args: argparse.Namespace) -> LLMProviderConfig | None:
+    if args.llm_provider is None:
+        return None
+    return LLMProviderConfig(
+        provider_name=args.llm_provider,
+        model=args.llm_model,
+        reasoning_effort=args.llm_reasoning_effort,
+    )
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -26,7 +41,8 @@ def main(argv: list[str] | None = None) -> int:
         if args.all
         else [args.filing_id]
     )
+    llm_config = llm_config_from_args(args)
     for filing_id in filing_ids:
-        run_rules(conn, filing_id=filing_id)
+        run_extract(conn, filing_id=filing_id, llm_config=llm_config, llm_limit=args.llm_limit)
     print(f"extracted candidates for {len(filing_ids)} filing(s)")
     return 0

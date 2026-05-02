@@ -5,7 +5,8 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from sec_graph.extract.rules import run_rules
+from sec_graph.cli.extract_cmd import llm_config_from_args
+from sec_graph.extract.pipeline import run_extract
 from sec_graph.ingest.pipeline import DEFAULT_EXAMPLES_DIR, ingest_examples_to_db
 from sec_graph.project.summaries import write_projection_outputs
 from sec_graph.reconcile.pipeline import reconcile_all
@@ -20,6 +21,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--examples-dir", type=Path, default=DEFAULT_EXAMPLES_DIR, help="example markdown directory")
     parser.add_argument("--run-dir", type=Path, default=Path("runs/latest"), help="run artifact directory")
     parser.add_argument("--run-id", default="run-all", help="run_id for canonical rows")
+    parser.add_argument("--llm-provider", choices=["linkflow"], help="optional LLM candidate provider")
+    parser.add_argument("--llm-model", default="gpt-5.5", help="LLM model name")
+    parser.add_argument("--llm-reasoning-effort", choices=["low", "medium", "high", "xhigh"], default="high")
+    parser.add_argument("--llm-limit", type=int, help="maximum paragraph requests per filing")
     return parser
 
 
@@ -27,8 +32,9 @@ def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     filings = ingest_examples_to_db(args.db, examples_dir=args.examples_dir)
     conn = connect(args.db)
+    llm_config = llm_config_from_args(args)
     for filing in filings:
-        run_rules(conn, filing_id=filing.filing_id, run_id=args.run_id)
+        run_extract(conn, filing_id=filing.filing_id, run_id=args.run_id, llm_config=llm_config, llm_limit=args.llm_limit)
     reconcile_all(conn, run_id=args.run_id)
     report = write_validation_outputs(conn, args.run_dir)
     if not report["passed"]:
