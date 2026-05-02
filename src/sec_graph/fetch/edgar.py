@@ -16,7 +16,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
+REPO_ROOT = Path(__file__).resolve().parents[3]
 SEEDS_PATH = REPO_ROOT / "seeds.csv"
 FILINGS_DIR = REPO_ROOT / "data" / "filings"
 

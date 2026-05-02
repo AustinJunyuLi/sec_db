@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Status
 
-`sec_graph` is in early scaffolding. Today the package contains only the EDGAR fetcher (`src/sec_graph/edgar.py`). The full architecture (7-module pipeline, DuckDB canonical store, evidence-bound graph schema) is specified but **not yet implemented** — see "Sources of truth" below.
+`sec_graph` is in early scaffolding. Today the package contains the EDGAR fetcher (`src/sec_graph/fetch/edgar.py`) and the Stage 1A evidence-store schema foundation. The full 7-module canonical pipeline is specified but **not yet implemented** — see "Sources of truth" below.
 
 When asked to add code, check whether you are working inside the active phase per the executing plan. Phase 0 (Stage 1A — evidence store) is the current critical-path work.
 
@@ -46,7 +46,7 @@ Companion (read-only): **`docs/prior-pipeline-lessons.md`** — failure-mode pos
 
 Filing → 7 sequential layers, each with its own module under `src/sec_graph/`:
 
-1. **fetch** — EDGAR HTML download + sec2md conversion (currently `edgar.py`; will move to `src/sec_graph/fetch/edgar.py` in Phase 0).
+1. **fetch** — EDGAR HTML download + sec2md conversion (`src/sec_graph/fetch/edgar.py`).
 2. **ingest** — markdown → `CleanFiling` + paragraphs + page markers + source-span seeds.
 3. **extract** — deterministic patterns first; LLM later (Stage 8) behind a provider interface.
 4. **reconcile** — extraction candidates → canonical records (deals, cycles, actors, events, links, judgments) with deterministic IDs and alias resolution.
@@ -73,7 +73,7 @@ Hybrid: raw text artifacts as files, all structured tables in a single DuckDB fi
 
 ### Fetch module conventions
 
-`src/sec_graph/edgar.py` enforces SEC etiquette and substantive-document selection:
+`src/sec_graph/fetch/edgar.py` enforces SEC etiquette and substantive-document selection:
 
 - `USER_AGENT` is hardcoded with contact info per SEC requirements; throttled at `MIN_DELAY_SEC` with exponential backoff on 429/403.
 - `PRIMARY_FORM_TYPES` whitelists DEFM14A / PREM14A / SC TO-T / S-4 (and amendments). `EXCLUDED_FORM_TYPES` rejects 425.

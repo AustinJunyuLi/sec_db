@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 import pytest
 
-from sec_graph import edgar
+from sec_graph.fetch import edgar
 
 
 def test_parse_accession_accepts_compact_nested_and_direct_urls() -> None:

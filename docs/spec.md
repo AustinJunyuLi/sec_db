@@ -45,7 +45,7 @@ Each module is a Python subpackage under `src/sec_graph/`. Each owns one stage o
 
 ### 3.2 `fetch`
 
-**Owns:** EDGAR download + sec2md conversion. Already implemented in `src/sec_graph/edgar.py`; will move to `src/sec_graph/fetch/edgar.py` in Phase 0.
+**Owns:** EDGAR download + sec2md conversion. Implemented in `src/sec_graph/fetch/edgar.py`.
 
 **Inputs:** A row from `seeds.csv` (deal slug + EDGAR URL).
 
@@ -222,7 +222,7 @@ src/sec_graph/
   cli.py                  # thin dispatcher: python -m sec_graph {subcommand} ...
 
 scripts/
-  fetch_filings.py        # existing thin shim, kept for back-compat
+  fetch_filings.py        # thin fetch CLI shim
 
 data/
   examples/{slug}.md      # 4 hand-trimmed reference filings (existing)
