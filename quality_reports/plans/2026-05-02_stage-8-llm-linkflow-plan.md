@@ -366,7 +366,7 @@ Create `src/sec_graph/extract/llm/linkflow.py` using standard-library `urllib.re
 - hard-fail if the key is missing;
 - POST to `{config.base_url.rstrip("/")}/responses`;
 - send `model`, `reasoning: {"effort": config.reasoning_effort}`, and paragraph prompt input;
-- request JSON output with a simple schema and no `oneOf` or schema-valued `additionalProperties`;
+- request prompt-only JSON and rely on strict local validation rather than provider-side schema enforcement;
 - parse `output_text` or text content from `output[].content[]`;
 - hash the raw response;
 - return `LLMExtractionResponse`;
@@ -410,6 +410,11 @@ SEC_GRAPH_LIVE_LINKFLOW=1 SEC_GRAPH_LINKFLOW_EFFORTS=low,medium,high,xhigh PATH=
 ```
 
 Expected if Linkflow supports the contract: live test passes and writes sanitized artifacts.
+The live test is scoped to the shortest real PetSmart paragraph mentioning the
+Buyer Group with `allowed_candidate_types=["actor_mention"]`, so it proves live
+provider transport, reasoning controls, strict payload validation, exact quote
+offset handling, and source-span insertion without making broad paragraph
+coverage a release gate.
 
 Expected if Linkflow rejects GPT-5.5 or a reasoning effort: test fails loudly and writes a sanitized hard-failure artifact. Do not downgrade model, provider, or effort.
 
@@ -421,7 +426,15 @@ Run:
 SEC_GRAPH_LIVE_LINKFLOW=1 PATH=.venv/bin:$PATH python -m sec_graph extract --all --llm-provider linkflow --llm-model gpt-5.5 --llm-reasoning-effort high --llm-limit 1
 ```
 
-Expected: either succeeds with LLM candidates/spans added, or fails loudly with a sanitized artifact.
+For the live proof run, use a temporary DB and one filing to avoid polluting the
+default store:
+
+```bash
+PATH=.venv/bin:$PATH python -m sec_graph ingest --all --db tmp/stage8-cli-live.duckdb
+SEC_GRAPH_LIVE_LINKFLOW=1 PATH=.venv/bin:$PATH python -m sec_graph extract --filing-id petsmart-inc_filing_1 --db tmp/stage8-cli-live.duckdb --llm-provider linkflow --llm-model gpt-5.5 --llm-reasoning-effort high --llm-limit 1
+```
+
+Expected: either succeeds with a sanitized artifact, or fails loudly with a sanitized artifact.
 
 - [ ] **Step 4: Record G5 log**
 

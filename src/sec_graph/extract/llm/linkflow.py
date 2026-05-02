@@ -28,46 +28,6 @@ from sec_graph.extract.llm.requests import build_llm_requests
 _ARTIFACT_ROOT = Path("artifacts/linkflow")
 
 
-def _candidate_schema() -> dict[str, Any]:
-    return {
-        "type": "object",
-        "additionalProperties": False,
-        "required": ["candidates"],
-        "properties": {
-            "candidates": {
-                "type": "array",
-                "items": {
-                    "type": "object",
-                    "additionalProperties": False,
-                    "required": [
-                        "candidate_type",
-                        "raw_value",
-                        "normalized_value",
-                        "confidence",
-                        "quote_text",
-                        "quote_start",
-                        "quote_end",
-                        "dependencies",
-                    ],
-                    "properties": {
-                        "candidate_type": {
-                            "type": "string",
-                            "enum": ["actor_mention", "dated_event", "bid_value", "participation_count"],
-                        },
-                        "raw_value": {"type": "string"},
-                        "normalized_value": {"type": "string"},
-                        "confidence": {"type": "string", "enum": ["low", "medium", "high"]},
-                        "quote_text": {"type": "string"},
-                        "quote_start": {"type": "integer"},
-                        "quote_end": {"type": "integer"},
-                        "dependencies": {"type": "array", "items": {"type": "string"}},
-                    },
-                },
-            }
-        },
-    }
-
-
 def _response_payload(request: LLMExtractionRequest, config: LLMProviderConfig) -> dict[str, Any]:
     return {
         "model": config.model,
@@ -78,14 +38,6 @@ def _response_payload(request: LLMExtractionRequest, config: LLMProviderConfig) 
                 "content": build_prompt(request),
             }
         ],
-        "text": {
-            "format": {
-                "type": "json_schema",
-                "name": "sec_graph_llm_candidates",
-                "strict": True,
-                "schema": _candidate_schema(),
-            }
-        },
     }
 
 
@@ -129,6 +81,26 @@ def _parse_candidates(text: str) -> list[LLMCandidatePayload]:
         raise LLMContractError("provider candidate payload failed validation") from exc
 
 
+def _write_contract_failure(
+    request: LLMExtractionRequest,
+    config: LLMProviderConfig,
+    digest: str,
+    message: str,
+) -> None:
+    _write_artifact(
+        f"{request.request_id}_{config.reasoning_effort}_failure.json",
+        {
+            "request_id": request.request_id,
+            "provider_name": config.provider_name,
+            "provider_model": config.model,
+            "reasoning_effort": config.reasoning_effort,
+            "finish_status": "contract_invalid",
+            "raw_response_sha256": digest,
+            "contract_error": message,
+        },
+    )
+
+
 def extract(request: LLMExtractionRequest, config: LLMProviderConfig) -> LLMExtractionResponse:
     api_key = os.environ.get(config.api_key_env)
     if not api_key:
@@ -140,7 +112,9 @@ def extract(request: LLMExtractionRequest, config: LLMProviderConfig) -> LLMExtr
         data=body,
         headers={
             "Authorization": f"Bearer {api_key}",
+            "Accept": "application/json",
             "Content-Type": "application/json",
+            "User-Agent": "sec_graph-stage8/1",
         },
         method="POST",
     )
@@ -178,8 +152,12 @@ def extract(request: LLMExtractionRequest, config: LLMProviderConfig) -> LLMExtr
         raise LLMContractError("Linkflow request failed") from exc
     digest = hashlib.sha256(raw).hexdigest()
     response_json = json.loads(raw.decode("utf-8"))
-    output_text = _extract_output_text(response_json)
-    candidates = _parse_candidates(output_text)
+    try:
+        output_text = _extract_output_text(response_json)
+        candidates = _parse_candidates(output_text)
+    except LLMContractError as exc:
+        _write_contract_failure(request, config, digest, str(exc))
+        raise
     response = LLMExtractionResponse(
         request_id=request.request_id,
         provider_name=config.provider_name,

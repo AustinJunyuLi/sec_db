@@ -21,7 +21,10 @@ def test_live_linkflow_gpt55_reasoning_efforts() -> None:
     init_schema(conn)
     ingest_examples(conn, examples_dir=Path("data/examples"))
     requests = build_llm_requests(conn, filing_id="petsmart-inc_filing_1", limit=30)
-    request = next(request for request in requests if "Buyer Group" in request.paragraph_text)
+    request = min(
+        (request for request in requests if "Buyer Group" in request.paragraph_text),
+        key=lambda request: len(request.paragraph_text),
+    ).model_copy(update={"allowed_candidate_types": ["actor_mention"]})
     efforts = [
         effort.strip()
         for effort in os.environ.get("SEC_GRAPH_LINKFLOW_EFFORTS", "low,medium,high,xhigh").split(",")
@@ -35,8 +38,10 @@ def test_live_linkflow_gpt55_reasoning_efforts() -> None:
             model="gpt-5.5",
             reasoning_effort=effort,  # type: ignore[arg-type]
             base_url=os.environ.get("LINKFLOW_BASE_URL", "https://www.linkflow.run/v1"),
+            timeout_seconds=240,
         )
         response = extract(request, config)
         inserted = insert_llm_response(conn, request, response, run_id=f"live-{effort}")
         assert response.finish_status == "completed"
         assert inserted
+        assert {candidate.candidate_type for candidate in inserted} == {"actor_mention"}

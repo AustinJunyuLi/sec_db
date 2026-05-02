@@ -139,6 +139,10 @@ are hard failures when live mode is requested. Default offline tests must not
 require a key.
 
 Linkflow-specific behavior is confined to `extract/llm/linkflow.py`.
+The Linkflow adapter uses prompt-only JSON and local validation instead of
+provider-enforced structured output. Provider schema support is not part of the
+canonical contract because prior and current probes show provider-side schema
+shape can fail while plain Responses calls succeed.
 
 ## Feature Flags
 
@@ -175,6 +179,13 @@ It should also try:
 If Linkflow rejects GPT-5.5 or any requested reasoning control, the run stops
 and records a hard failure. It does not downgrade model, provider, or reasoning
 effort.
+
+The live pytest gate uses the shortest real PetSmart paragraph that mentions
+the Buyer Group and narrows `allowed_candidate_types` to `actor_mention`. That
+keeps the live release proof focused on provider transport, reasoning controls,
+strict JSON payloads, exact quote offsets, and local source-span insertion.
+Broader LLM extraction remains opt-in and may fail loudly on any paragraph whose
+provider payload violates the same local contract.
 
 Live artifacts are written under:
 
