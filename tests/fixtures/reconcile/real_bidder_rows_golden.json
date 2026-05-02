@@ -1,6 +1,6 @@
 {
   "row_count": 8,
-  "projection_sha256": "7aba26cd8510230e44c060de6e35090e676062ba11e4e74187d8976811ff82b0",
+  "projection_sha256": "6e1b893552f22160d1f25fd56b295657e43e5157ddd83e3f7d31f47c3b407866",
   "required_rows": [
     {
       "deal_slug": "petsmart-inc",
@@ -29,7 +29,7 @@
     {
       "deal_slug": "zep",
       "actor_label": "New Mountain Capital",
-      "bI": null,
+      "bI": 20.05,
       "bF": 20.05,
       "admitted": true,
       "formal_boundary": "advancement_admitted"

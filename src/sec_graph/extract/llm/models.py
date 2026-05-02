@@ -3,8 +3,7 @@
 Within-deal narrative window contract:
 - requests are LLMWindowRequest payloads (ordered paragraphs from one filing);
 - candidates emit quote_text only — Python owns char_start/char_end resolution;
-- actor_relation candidates use the typed LLMActorRelationCandidate payload,
-  not JSON-in-string smuggled through the flat candidate type.
+- relation extraction is not exposed through the current LLM response schema.
 """
 
 from __future__ import annotations
@@ -13,8 +12,7 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
-# Flat candidate types deliberately exclude actor_relation. Relations use the
-# typed LLMActorRelationCandidate payload below.
+# Flat candidate types deliberately exclude actor_relation.
 CandidateType = Literal[
     "actor_mention",
     "dated_event",
@@ -38,17 +36,6 @@ ExtractionTask = Literal[
     "actor_aliases",
     "events",
     "participation_counts",
-    "actor_relations",
-]
-RelationPredicate = Literal[
-    "member_of",
-    "affiliate_of",
-    "controls",
-    "acquisition_vehicle_of",
-    "advises",
-    "finances",
-    "supports",
-    "rollover_holder_of",
 ]
 
 
@@ -147,7 +134,8 @@ class LLMWindowRequest(BaseModel):
 
 class LLMCandidatePayload(BaseModel):
     """Flat candidate payload. Used for actor_mention, dated_event, bid_value,
-    participation_count. Relations use LLMActorRelationCandidate."""
+    participation_count. Relation extraction is not part of the current LLM
+    response schema."""
 
     model_config = ConfigDict(frozen=True, extra="forbid")
 
@@ -157,24 +145,6 @@ class LLMCandidatePayload(BaseModel):
     confidence: Confidence
     quote_text: str
     dependencies: list[str]
-
-
-class LLMActorRelationCandidate(BaseModel):
-    """Typed first-class relation candidate payload.
-
-    JSON-in-string smuggling through the flat candidate payload is forbidden.
-    """
-
-    model_config = ConfigDict(frozen=True, extra="forbid")
-
-    subject_actor_ref: str
-    predicate: RelationPredicate
-    object_actor_ref: str
-    evidence_quote: str
-    confidence: Confidence
-    role_detail: str | None = None
-    effective_date_first: str | None = None
-    dependencies: list[str] = Field(default_factory=list)
 
 
 class LLMExtractionResponse(BaseModel):

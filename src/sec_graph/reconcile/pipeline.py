@@ -19,14 +19,12 @@ Run-state policy (binding, see `docs/spec.md` §1A "Run-State Safety"):
 from __future__ import annotations
 
 import datetime as dt
-import json
 import re
 from dataclasses import dataclass
 
 import duckdb
 
 from sec_graph.reconcile.aliases import (
-    UnknownTargetLabelError,
     canonical_label,
     labels_in_text,
     target_label,
@@ -72,6 +70,11 @@ class CandidateContext:
     paragraph_text: str
     paragraph_start: int
     event_date: dt.date | None
+    relation_subject_label: str | None
+    relation_object_label: str | None
+    relation_type: str | None
+    relation_role_detail: str | None
+    relation_effective_date_first: dt.date | None
 
 
 @dataclass(frozen=True)
@@ -93,11 +96,15 @@ def _candidate_contexts(conn: duckdb.DuckDBPyConnection, filing_id: str) -> list
                candidates.candidate_type, candidates.raw_value, candidates.normalized_value,
                candidates.confidence, candidates.evidence_ids[1],
                spans.char_start, spans.char_end, spans.paragraph_id,
-               paragraphs.section, paragraphs.paragraph_text, paragraphs.char_start
+               paragraphs.section, paragraphs.paragraph_text, paragraphs.char_start,
+               relation_candidates.subject_label, relation_candidates.object_label,
+               relation_candidates.relation_type, relation_candidates.role_detail,
+               relation_candidates.effective_date_first
         FROM candidates
         JOIN filings USING (filing_id)
         JOIN spans ON candidates.evidence_ids[1] = spans.evidence_id
         JOIN paragraphs ON spans.paragraph_id = paragraphs.paragraph_id
+        LEFT JOIN relation_candidates USING (candidate_id)
         WHERE candidates.filing_id = ?
         ORDER BY spans.char_start, candidates.candidate_id
         """,
@@ -106,6 +113,9 @@ def _candidate_contexts(conn: duckdb.DuckDBPyConnection, filing_id: str) -> list
     contexts: list[CandidateContext] = []
     for row in rows:
         event_date = dt.date.fromisoformat(row[5]) if row[3] == "dated_event" else None
+        relation_effective_date = row[18]
+        if isinstance(relation_effective_date, str):
+            relation_effective_date = dt.date.fromisoformat(relation_effective_date)
         contexts.append(
             CandidateContext(
                 candidate_id=row[0],
@@ -123,68 +133,23 @@ def _candidate_contexts(conn: duckdb.DuckDBPyConnection, filing_id: str) -> list
                 paragraph_text=row[12],
                 paragraph_start=row[13],
                 event_date=event_date,
+                relation_subject_label=row[14],
+                relation_object_label=row[15],
+                relation_type=row[16],
+                relation_role_detail=row[17],
+                relation_effective_date_first=relation_effective_date,
             )
         )
     return contexts
 
 
-def _stash_external_judgments(conn: duckdb.DuckDBPyConnection) -> list[tuple]:
-    """Snapshot judgments NOT owned by reconcile so we can re-insert after rebuild.
+def _clear_derived_canonical(conn: duckdb.DuckDBPyConnection) -> None:
+    """Rebuild derived canonical tables while leaving judgments physically append-only.
 
-    Reviewer overrides (`created_by != 'reconcile'`) must survive a fresh
-    reconcile pass. Because `judgments.actor_id` and
-    `judgments.supersedes_judgment_id` are foreign keys, we cannot simply
-    DELETE the dependent actors while these rows remain — DuckDB enforces FKs
-    eagerly. The strategy is: stash external judgments, drop the table content,
-    rebuild derived canonical rows (which deterministically recreates the same
-    actor IDs), then reinsert the stashed judgments.
+    See `docs/spec.md` §1A "Run-State Safety". Order matters because of
+    canonical foreign keys: child tables first. `judgments` is deliberately
+    absent from this deletion list.
     """
-    rows = conn.execute(
-        """
-        SELECT judgment_id, run_id, judgment_kind, target_table, target_id,
-               target_column, prior_value, new_value, projection_name, actor_id,
-               included, rule_id, evidence_ids, supersedes_judgment_id,
-               created_at, created_by
-        FROM judgments
-        WHERE created_by <> 'reconcile'
-        """
-    ).fetchall()
-    return rows
-
-
-def _restore_external_judgments(
-    conn: duckdb.DuckDBPyConnection, rows: list[tuple]
-) -> None:
-    for row in rows:
-        conn.execute(
-            "INSERT INTO judgments VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            row,
-        )
-
-
-def _clear_derived_canonical(conn: duckdb.DuckDBPyConnection) -> list[tuple]:
-    """Rebuild derived canonical tables; preserve append-only reviewer judgments.
-
-    The `judgments` table is append-only with one narrow exception: rows
-    written by a previous reconcile pass (`created_by = 'reconcile'`) are
-    treated as derived artifacts of THIS pipeline stage and may be replaced by
-    a fresh reconcile run. Reviewer overrides and any other-source judgments
-    (`created_by` not equal to `'reconcile'`) MUST survive — they may pre-date
-    the current pipeline run, and silent deletion would erase reviewer work.
-
-    Returns the stashed reviewer-judgment rows so the caller can reinsert them
-    after the derived canonical rebuild has recreated the deterministic actor
-    IDs the rows reference.
-
-    See `docs/spec.md` §1A "Run-State Safety" and §10.2 "Append-only
-    judgments + reviewer-override chain".
-
-    Order matters because of foreign keys: child tables first.
-    """
-    stashed = _stash_external_judgments(conn)
-    # Reconcile-owned judgments may be replaced; everything else is removed
-    # only as a stash-and-restore step, not as a destruction.
-    conn.execute("DELETE FROM judgments")
     for table_name in (
         "event_actor_links",
         "participation_counts",
@@ -195,7 +160,17 @@ def _clear_derived_canonical(conn: duckdb.DuckDBPyConnection) -> list[tuple]:
         "deals",
     ):
         conn.execute(f"DELETE FROM {table_name}")
-    return stashed
+
+
+def _next_judgment_sequence(conn: duckdb.DuckDBPyConnection, slug: str) -> int:
+    prefix = f"{slug}_judgment_"
+    rows = conn.execute(
+        "SELECT judgment_id FROM judgments WHERE judgment_id LIKE ?",
+        [f"{prefix}%"],
+    ).fetchall()
+    if not rows:
+        return 1
+    return max(int(row[0].rsplit("_", maxsplit=1)[1]) for row in rows) + 1
 
 
 def _sentence_for_candidate(row: CandidateContext) -> str:
@@ -238,9 +213,9 @@ def _actor_shape(label: str) -> dict[str, object]:
             "actor_kind": "group",
             "observability": "named",
             "lead_arranger_label": None,
-            "member_count_known": 5,
+            "member_count_known": None,
             "has_strategic_member": None,
-            "has_sovereign_wealth_member": True,
+            "has_sovereign_wealth_member": None,
         }
     if "consortium of financial institutions" in label:
         return {
@@ -251,7 +226,7 @@ def _actor_shape(label: str) -> dict[str, object]:
             "has_strategic_member": None,
             "has_sovereign_wealth_member": None,
         }
-    if label == "Parent" or "Merger Sub" in label or label == "Argos Holdings Inc.":
+    if label == "Parent" or "Merger Sub" in label:
         return {
             "actor_kind": "vehicle",
             "observability": "named",
@@ -283,21 +258,15 @@ def _has_actor_mention(label: str, rows: list[CandidateContext]) -> bool:
     for row in rows:
         if row.candidate_type == "actor_mention" and canonical_label(row.raw_value) == label:
             return True
-        for paragraph_label in labels_in_text(row.paragraph_text, ("New Mountain Capital",)):
-            if paragraph_label == label:
-                return True
     return False
 
 
 def _collect_actor_records(slug: str, deal_id: str, run_id: str, rows: list[CandidateContext]) -> dict[str, ActorRecord]:
     """Build canonical actor records from candidate evidence.
 
-    Actors are sourced from `actor_mention` candidates and from labels that
-    appear in paragraph text under an explicit known-label match. The
-    deal-specific bridge for `actor_relation` candidates remains in place to
-    keep the existing reference-deal canonical golden stable; Phase 6 will
-    remove the deal-specific scaffolds and require every relation label to
-    come from explicit actor evidence.
+    Actors are sourced from `actor_mention` candidates. Relation payload labels
+    are not actor evidence by themselves; otherwise unresolved relations would
+    silently fabricate canonical actors before rejection.
 
     The unresolved-relation rejection contract is enforced separately in
     `_insert_actor_relations`, which uses `_has_actor_mention` to decide
@@ -310,13 +279,6 @@ def _collect_actor_records(slug: str, deal_id: str, run_id: str, rows: list[Cand
     for row in rows:
         if row.candidate_type == "actor_mention":
             label = canonical_label(row.raw_value)
-            records.setdefault(label, ActorRecord(actor_id="", label=label, evidence_id=row.evidence_id, context=row.paragraph_text))
-        if row.candidate_type == "actor_relation":
-            payload = json.loads(row.normalized_value)
-            for key in ("subject_label", "object_label"):
-                label = canonical_label(str(payload[key]))
-                records.setdefault(label, ActorRecord(actor_id="", label=label, evidence_id=row.evidence_id, context=row.paragraph_text))
-        for label in labels_in_text(row.paragraph_text, ("New Mountain Capital",)):
             records.setdefault(label, ActorRecord(actor_id="", label=label, evidence_id=row.evidence_id, context=row.paragraph_text))
     return {
         label: ActorRecord(actor_id=make_id(slug, "actor", index), label=record.label, evidence_id=record.evidence_id, context=record.context)
@@ -358,18 +320,7 @@ def _insert_deal_cycle_actors(
             )
         ),
     )
-    try:
-        resolved_target_label = target_label(slug)
-    except UnknownTargetLabelError:
-        # Phase 6 contract: when filing metadata does not resolve a target
-        # label, do NOT silently fall back to the slug string. Use an
-        # explicit sentinel that downstream consumers (validate, project,
-        # any reviewer reading the canonical store) can recognize as
-        # "metadata missing for this deal" rather than mistake for a real
-        # company name. This is the sentinel branch of the Phase 6
-        # alias-resolution contract; the raising branch is reserved for
-        # callers that can supply metadata up-front.
-        resolved_target_label = f"UNRESOLVED_TARGET:{slug}"
+    resolved_target_label = target_label(slug)
     target = Actor(
         actor_id=target_actor_id,
         run_id=run_id,
@@ -434,18 +385,20 @@ def _insert_actor_relations(
     dated_rows = [row for row in contexts if row.candidate_type == "dated_event"]
     seen: set[tuple[str, str, str, str | None, dt.date | None]] = set()
     for row in [candidate for candidate in contexts if candidate.candidate_type == "actor_relation"]:
-        payload = json.loads(row.normalized_value)
-        subject_label = canonical_label(str(payload["subject_label"]))
-        object_label = canonical_label(str(payload["object_label"]))
+        if (
+            row.relation_subject_label is None
+            or row.relation_object_label is None
+            or row.relation_type is None
+        ):
+            raise ReconcileError(
+                f"{row.candidate_id} is actor_relation but has no structured relation_candidate row"
+            )
+        subject_label = canonical_label(row.relation_subject_label)
+        object_label = canonical_label(row.relation_object_label)
         subject_actor_id = labels.get(subject_label)
         object_actor_id = labels.get(object_label)
-        # Resolution requires BOTH (a) the label to exist in `actor_records`
-        # so the FK is satisfiable, AND (b) the label to be backed by
-        # independent actor evidence (`actor_mention` candidate or known
-        # paragraph-text label). The records dict above auto-includes
-        # relation labels so the FK is always satisfiable today; the
-        # `_has_actor_mention` predicate is the actual gate against
-        # silently fabricating an actor from a bare relation payload.
+        # Resolution requires both the FK label and independent actor evidence.
+        # A bare relation payload cannot create a canonical actor.
         subject_has_mention = _has_actor_mention(subject_label, contexts)
         object_has_mention = _has_actor_mention(object_label, contexts)
         if (
@@ -501,9 +454,14 @@ def _insert_actor_relations(
             )
             rejected_judgment_seq += 1
             continue
-        effective_date_text = payload.get("effective_date_first")
-        effective_date = dt.date.fromisoformat(effective_date_text) if effective_date_text else _candidate_date(row, dated_rows)
-        key = (subject_actor_id, object_actor_id, str(payload["relation_type"]), payload.get("role_detail"), effective_date)
+        effective_date = row.relation_effective_date_first or _candidate_date(row, dated_rows)
+        key = (
+            subject_actor_id,
+            object_actor_id,
+            row.relation_type,
+            row.relation_role_detail,
+            effective_date,
+        )
         if key in seen:
             continue
         seen.add(key)
@@ -514,8 +472,8 @@ def _insert_actor_relations(
             deal_id=deal_id,
             subject_actor_id=subject_actor_id,
             object_actor_id=object_actor_id,
-            relation_type=payload["relation_type"],
-            role_detail=payload.get("role_detail"),
+            relation_type=row.relation_type,  # type: ignore[arg-type]
+            role_detail=row.relation_role_detail,
             cycle_id_first_observed=cycle_ids[cycle.sequence],
             cycle_id_last_observed=None,
             effective_date_first=effective_date,
@@ -583,11 +541,11 @@ def _insert_events_and_judgments(
     cycles: list[CycleWindow],
     cycle_ids: dict[int, str],
     actor_records: dict[str, ActorRecord],
-) -> None:
+    judgment_sequence: int,
+) -> int:
     dated_rows = [row for row in contexts if row.candidate_type == "dated_event"]
     event_sequence = 1
     link_sequence = 1
-    judgment_sequence = 1
     boundary_by_cycle: dict[int, tuple[str | None, dt.date | None]] = {}
     projection_by_actor: dict[str, tuple[bool, str]] = {}
     for cycle in cycles:
@@ -704,9 +662,10 @@ def _insert_events_and_judgments(
             "bidder_cycle_baseline_v1.admission",
         )
         judgment_sequence += 1
+    return judgment_sequence
 
 
-def _classify_actor_class(text: str) -> str:
+def _classify_actor_class(text: str) -> str | None:
     """Return `actor_class` for a participation-count candidate, derived from text.
 
     Closed enum (`participation_counts.actor_class`): `financial`, `strategic`,
@@ -715,11 +674,8 @@ def _classify_actor_class(text: str) -> str:
     chosen when the source quote names strategic acquirers/buyers. When both
     classes appear in the same quote, the row is `mixed`.
 
-    Critically: there is no `unknown` fallback. If no class signal exists in
-    the source text, we still emit `financial` only because the historical
-    `\\d+ financial buyers` rule extractor narrowly captures financial buyers;
-    other extractors must encode the source language explicitly in
-    `raw_value` so this classifier can preserve actor_class semantics.
+    Critically: there is no fallback. If no class signal exists in the source
+    text, the caller must not write a `participation_counts` row.
     """
     folded = text.casefold()
     has_financial = bool(
@@ -733,7 +689,9 @@ def _classify_actor_class(text: str) -> str:
         return "mixed"
     if has_strategic:
         return "strategic"
-    return "financial"
+    if has_financial:
+        return "financial"
+    return None
 
 
 _STAGE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
@@ -763,15 +721,13 @@ _STAGE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
 )
 
 
-def _classify_process_stage(text: str) -> str:
+def _classify_process_stage(text: str) -> str | None:
     folded = text.casefold()
     for stage, keywords in _STAGE_KEYWORDS:
         for keyword in keywords:
             if keyword in folded:
                 return stage
-    # No source signal: default to `contacted`. We do NOT invent any other
-    # stage; the closed enum forbids `unknown`.
-    return "contacted"
+    return None
 
 
 def _classify_count_qualifier(text: str) -> str:
@@ -833,6 +789,8 @@ def _insert_counts(
         )
         actor_class = _classify_actor_class(row.raw_value)
         process_stage = _classify_process_stage(row.raw_value)
+        if actor_class is None or process_stage is None:
+            continue
         qualifier = _classify_count_qualifier(row.raw_value)
         count_min = int(row.normalized_value)
         count_max: int | None
@@ -871,11 +829,8 @@ def reconcile_filing(conn: duckdb.DuckDBPyConnection, filing_id: str, run_id: st
         raise ValueError(f"filing {filing_id} has no dated-event candidates")
     actor_records = _collect_actor_records(slug, make_id(slug, "deal", 1), run_id, contexts)
     deal_id, cycle_ids = _insert_deal_cycle_actors(conn, slug, run_id, contexts, cycles, actor_records)
-    # Rejection judgments share the slug-scoped `judgment` sequence; reserve
-    # a high starting offset so they cannot collide with admission judgments
-    # written by `_insert_events_and_judgments` (which start at 1 per filing).
-    rejection_seq_start = 1000
-    _insert_actor_relations(
+    judgment_sequence = _next_judgment_sequence(conn, slug)
+    judgment_sequence = _insert_actor_relations(
         conn,
         slug,
         run_id,
@@ -884,9 +839,19 @@ def reconcile_filing(conn: duckdb.DuckDBPyConnection, filing_id: str, run_id: st
         cycles,
         cycle_ids,
         actor_records,
-        rejected_judgment_seq=rejection_seq_start,
+        rejected_judgment_seq=judgment_sequence,
     )
-    _insert_events_and_judgments(conn, slug, run_id, deal_id, contexts, cycles, cycle_ids, actor_records)
+    _insert_events_and_judgments(
+        conn,
+        slug,
+        run_id,
+        deal_id,
+        contexts,
+        cycles,
+        cycle_ids,
+        actor_records,
+        judgment_sequence,
+    )
     _insert_counts(conn, slug, run_id, deal_id, contexts, cycles, cycle_ids)
 
 
@@ -899,23 +864,15 @@ def _utc_run_id(prefix: str) -> str:
 def reconcile_all(conn: duckdb.DuckDBPyConnection, run_id: str | None = None) -> None:
     """Default reconcile pass.
 
-    `run_id` is OPTIONAL. When omitted, a UTC-timestamped id is generated
-    on the spot (`reconcile_YYYYMMDDTHHMMSSZ`) rather than reusing a
-    historical bring-up scaffold name. Callers that need a stable id
-    should pass one explicitly.
-
-    Append-only `judgments` are preserved across reruns: rows with
-    `created_by != 'reconcile'` are stashed before the derived canonical
-    rebuild and reinserted after deterministic actor IDs are recreated. This
-    is the binding contract from `docs/spec.md` §1A "Run-State Safety" and
-    §10.2; reviewer overrides MUST survive default reconcile.
+    `run_id` is optional. When omitted, a UTC-stamped id is generated on the
+    spot. Append-only `judgments` are preserved physically across reruns; only
+    derived canonical tables are cleared.
     """
     if run_id is None:
         run_id = _utc_run_id("reconcile")
-    stashed_judgments = _clear_derived_canonical(conn)
+    _clear_derived_canonical(conn)
     filing_ids = [row[0] for row in conn.execute("SELECT filing_id FROM filings ORDER BY filing_id").fetchall()]
     if not filing_ids:
         raise ValueError("no filings available for reconcile")
     for filing_id in filing_ids:
         reconcile_filing(conn, filing_id=filing_id, run_id=run_id)
-    _restore_external_judgments(conn, stashed_judgments)

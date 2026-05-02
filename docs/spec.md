@@ -581,16 +581,20 @@ Single CLI entry point `python -m sec_graph` with subcommands per module:
 
 ```
 python -m sec_graph fetch --slug X | --reference-only | --all
-python -m sec_graph ingest --slug X | --all
+python -m sec_graph ingest --slug X | --all | --input DIR
 python -m sec_graph extract --slug X | --all
 python -m sec_graph reconcile
-python -m sec_graph validate
-python -m sec_graph project
-python -m sec_graph run --slug X | --all   # ingest → extract → reconcile → validate → project
-python -m sec_graph snapshot [--run-id Y]  # freeze pipeline.duckdb to runs/{Y}/
+python -m sec_graph validate --run-dir runs/{run_id}
+python -m sec_graph project --run-dir runs/{run_id}
+python -m sec_graph run --source examples|filings --slugs X ... --run-id Y --run-dir runs/{Y}
+python -m sec_graph snapshot --run-dir runs/{Y} --snapshot-dir runs/{Z}
 ```
 
-`run` invokes `snapshot` automatically with a generated `run_id` (timestamp + short hash). The standalone `snapshot` command is for cases where you want to override the auto-generated id (e.g., a memorable name like `baseline-2026-05-02`); if `--run-id` is omitted, a fresh id is generated.
+`run` requires an explicit fail-loud `run_id` of form
+`YYYY-MM-DDTHHMMSSZ_<slug-or-scope>_<short-input-hash>`. The command rejects
+existing run directories and rejects IDs whose suffix does not match the
+selected input files. The standalone `snapshot` command copies one immutable
+run directory to another and also refuses to overwrite its destination.
 
 `scripts/fetch_filings.py` is a deliberate root convenience command for EDGAR
 downloads. It is not retained for backward compatibility; if a full
@@ -603,16 +607,21 @@ The pipeline makes three guarantees:
 
 1. **Stable IDs.** Every record has a deterministic ID of form `{slug}_{type}_{sequence}` (e.g., `petsmart_actor_3`, `petsmart_evt_017`, `petsmart_judgment_005`). The third actor in PetSmart is always `petsmart_actor_3`. IDs do not change between runs over identical input + identical code.
 2. **Byte-stable rows.** Reruns over unchanged input + unchanged code produce identical row content hashes. The unit of comparison is the row hash, not the DuckDB file bytes (which can differ even when contents match).
-3. **Versioned runs.** Every run gets a `run_id` (timestamp + short hash). Every canonical row carries the `run_id` that produced it. Each stage maintains its own version counter (`ingest_version`, `extract_version`, `reconcile_version`, `validate_version`, `project_version`) recorded in `run_metadata`. Code-version bumps trigger a new `run_id`; the prior run is preserved in its snapshot.
+3. **Versioned runs.** Every run gets an explicit `run_id` of form `YYYY-MM-DDTHHMMSSZ_<slug-or-scope>_<short-input-hash>`. Every canonical row carries the `run_id` that produced it. Each stage maintains its own version counter (`ingest_version`, `extract_version`, `reconcile_version`, `validate_version`, `project_version`) recorded in `run_metadata` and `run_manifest.json`. Code-version bumps trigger a new `run_id`; the prior run is preserved in its snapshot.
 
 A determinism test runs the pipeline twice on the smoke filing and asserts identical row content hashes across runs.
 
 ## 8. Run Model & Snapshots
 
-`pipeline.duckdb` is **the** working canonical store and gets fully rewritten on each rerun. To preserve historical runs:
+The pipeline writes a working DuckDB for the current run and then freezes the
+validated database under the immutable run directory. To preserve historical
+runs:
 
-- `python -m sec_graph snapshot --run-id Y` copies `pipeline.duckdb` → `runs/{Y}/canonical.duckdb` and exports current views/reports into the same folder.
-- `python -m sec_graph run --slug X` invokes `snapshot` automatically at the end.
+- `python -m sec_graph run ... --run-id Y --run-dir runs/{Y}` writes
+  `runs/{Y}/canonical.duckdb`, `run_manifest.json`, validation outputs, and
+  projection exports.
+- `python -m sec_graph snapshot --run-dir runs/{Y} --snapshot-dir runs/{Z}`
+  copies an existing immutable run directory to a new immutable directory.
 
 Snapshots are filesystem-frozen artifacts. Comparing run A to run B is a row-by-row content diff between `runs/{A}/canonical.duckdb` and `runs/{B}/canonical.duckdb` (via DuckDB queries), not a file-bytes diff.
 

@@ -5,7 +5,7 @@ from __future__ import annotations
 import duckdb
 
 from sec_graph.extract.llm.models import LLMProviderConfig
-from sec_graph.extract.rules import run_rules
+from sec_graph.extract.rules import _utc_run_id, run_rules
 
 
 def run_extract(
@@ -21,11 +21,12 @@ def run_extract(
     within-deal narrative window, with quotes locally resolved against the
     underlying paragraph source spans.
 
-    `run_id` is OPTIONAL; when `None`, `run_rules` synthesizes a generic
-    UTC-timestamped id rather than reusing a historical bring-up scaffold
-    like `extract-smoke`.
+    `run_id` is optional. When absent, this function synthesizes one generic
+    stage id and uses it for both rules and LLM candidates.
     """
 
+    if run_id is None:
+        run_id = _utc_run_id("extract")
     candidates = run_rules(conn, filing_id=filing_id, run_id=run_id)
     if llm_config is None:
         return candidates

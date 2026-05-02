@@ -64,10 +64,14 @@ def test_generic_merger_sub_relations_do_not_manufacture_petsmart_vehicle_labels
         "surviving the merger as a wholly owned subsidiary of Parent."
     )
 
-    payloads = [json.loads(match.normalized_value) for match in relation_matches(text)]
+    payloads = [
+        match.relation_payload.model_dump(mode="json")
+        for match in relation_matches(text)
+    ]
 
     assert payloads == [
         {
+            "candidate_id": "pending",
             "effective_date_first": None,
             "object_label": "Parent",
             "relation_type": "acquisition_vehicle_of",
@@ -85,9 +89,13 @@ def test_defined_parent_and_merger_sub_aliases_use_clean_company_labels() -> Non
         "subsidiary of Parent."
     )
 
-    payloads = [json.loads(match.normalized_value) for match in relation_matches(text)]
+    payloads = [
+        match.relation_payload.model_dump(mode="json")
+        for match in relation_matches(text)
+    ]
 
     assert {
+        "candidate_id": "pending",
         "effective_date_first": None,
         "object_label": "Argos Holdings Inc.",
         "relation_type": "acquisition_vehicle_of",
@@ -100,12 +108,13 @@ def test_document_level_aliases_apply_to_later_generic_vehicle_clauses() -> None
     text = "Merger Sub is a wholly owned subsidiary of Parent."
 
     payloads = [
-        json.loads(match.normalized_value)
+        match.relation_payload.model_dump(mode="json")
         for match in relation_matches(text, {"Parent": "Argos Holdings Inc.", "Merger Sub": "Argos Merger Sub Inc."})
     ]
 
     assert payloads == [
         {
+            "candidate_id": "pending",
             "effective_date_first": None,
             "object_label": "Argos Holdings Inc.",
             "relation_type": "acquisition_vehicle_of",
@@ -133,6 +142,21 @@ def test_real_extraction_candidate_sequence_follows_source_order() -> None:
         """
     ).fetchone()[0]
     assert first_dated_event == "2014-05-21"
+
+
+def test_rule_extraction_can_rerun_after_relation_candidates() -> None:
+    conn = connect(":memory:")
+    init_schema(conn)
+    filing_id = ingest_examples(conn, examples_dir=Path("data/examples"))[0].filing_id
+
+    first = run_rules(conn, filing_id=filing_id, run_id="extract-1")
+    second = run_rules(conn, filing_id=filing_id, run_id="extract-2")
+
+    assert len(first) == len(second)
+    relation_rows = conn.execute("SELECT count(*) FROM relation_candidates").fetchone()[0]
+    candidate_rows = conn.execute("SELECT count(*) FROM candidates WHERE filing_id = ?", [filing_id]).fetchone()[0]
+    assert relation_rows > 0
+    assert candidate_rows == len(second)
 
 
 def _loaded_real_conn():

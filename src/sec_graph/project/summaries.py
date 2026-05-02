@@ -31,8 +31,11 @@ def write_projection_outputs(
     run_dir: Path,
     *,
     projection_name: str = "bidder_cycle_baseline_v1",
+    allow_existing: bool = False,
 ) -> None:
-    run_dir.mkdir(parents=True, exist_ok=True)
+    if run_dir.exists() and not allow_existing:
+        raise FileExistsError(f"{run_dir} already exists")
+    run_dir.mkdir(parents=True, exist_ok=allow_existing)
     rows = bidder_rows(conn, projection_name=projection_name)
     _write_jsonl(run_dir / "bidder_rows.jsonl", rows)
     cycles = [

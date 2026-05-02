@@ -23,7 +23,9 @@ Binding authorities:
 - `docs/spec.md`, especially §1A, is the schema and architecture authority.
 - `docs/llm-interface.md` is the Linkflow/LLM authority.
 - This file is the implementation plan.
-- `docs/prior-pipeline-lessons.md` and `quality_reports/specs/*` are failure-mode context only.
+- `docs/prior-pipeline-lessons.md` is failure-mode context only.
+- Deleted historical specs and the deleted parallel-execution plan are not
+  inputs to this implementation plan.
 
 If any older doc or fixture conflicts with `docs/spec.md` §1A, update or supersede the older artifact. Do not preserve compatibility with stale schema shapes.
 
@@ -46,9 +48,6 @@ Modify:
 
 - `docs/spec.md` - keep §1A as binding schema authority.
 - `docs/prior-pipeline-lessons.md` - cleanse stale `GroupMembership` and row-first language.
-- `quality_reports/plans/2026-05-02_parallel-execution-plan.md` - mark superseded by this deployable plan for goal execution.
-- `quality_reports/specs/2026-05-02_pipeline-gaps-and-buyer-group-atomization.md` - superseded pointer.
-- `quality_reports/specs/2026-05-02_schema-direction-overfit-and-overengineering.md` - context-only pointer to `docs/spec.md` §1A.
 - `src/sec_graph/schema/models/filings.py` - add `process_scope`.
 - `src/sec_graph/schema/models/canonical.py` - actor redesign, `ActorRelation`, `event_subtype`, event roles.
 - `src/sec_graph/schema/models/participation_counts.py` - cohort-count model.
@@ -95,9 +94,6 @@ Do not create:
 **Files:**
 
 - Modify: `docs/spec.md`
-- Modify: `quality_reports/specs/2026-05-02_schema-direction-overfit-and-overengineering.md`
-- Modify: `quality_reports/specs/2026-05-02_pipeline-gaps-and-buyer-group-atomization.md`
-- Modify: `quality_reports/plans/2026-05-02_parallel-execution-plan.md`
 - Modify: `docs/prior-pipeline-lessons.md`
 - Test: `tests/test_validate_project.py`
 
@@ -113,15 +109,8 @@ Do not create:
       spec = Path("docs/spec.md").read_text(encoding="utf-8")
       assert "## 1A. Deployable Canonical Schema Contract" in spec
 
-      context_files = [
-          Path("quality_reports/specs/2026-05-02_schema-direction-overfit-and-overengineering.md"),
-          Path("quality_reports/specs/2026-05-02_pipeline-gaps-and-buyer-group-atomization.md"),
-          Path("quality_reports/plans/2026-05-02_parallel-execution-plan.md"),
-      ]
-      for path in context_files:
-          text = path.read_text(encoding="utf-8")
-          assert "docs/spec.md" in text
-          assert "§1A" in text or "section 1A" in text
+      assert not (Path("quality_reports") / "specs").exists()
+      assert not any(Path("quality_reports/plans").glob("*parallel*"))
   ```
 
 - [ ] **Step 2: Run the stale-authority test and verify failure**
@@ -132,15 +121,9 @@ Do not create:
   python -m pytest tests/test_validate_project.py::test_deployable_goal_has_single_binding_schema_authority -q
   ```
 
-  Expected: failure until context docs point to `docs/spec.md` §1A.
+  Expected: failure until deleted context docs are absent and `docs/spec.md` §1A exists.
 
 - [ ] **Step 3: Update context documents**
-
-  At the top of each context file, add:
-
-  ```markdown
-  > **Execution authority:** For the deployable canonical-pipeline goal, `docs/spec.md` §1A is binding. This document is context only and must not be used to preserve older schema shapes when it conflicts with §1A.
-  ```
 
   In `docs/prior-pipeline-lessons.md`, replace `GroupMembership` references with `actor_relations`. Keep the file as lessons, not as migration instruction.
 
@@ -157,7 +140,7 @@ Do not create:
 - [ ] **Step 5: Commit**
 
   ```bash
-  git add docs/spec.md docs/prior-pipeline-lessons.md quality_reports/specs quality_reports/plans/2026-05-02_parallel-execution-plan.md tests/test_validate_project.py
+  git add docs/spec.md docs/prior-pipeline-lessons.md tests/test_validate_project.py
   git commit -m "docs: make deployable schema contract binding"
   ```
 
@@ -1240,7 +1223,7 @@ Do not create:
 
 
   def test_run_pipeline_writes_immutable_snapshot(tmp_path: Path) -> None:
-      run_id = "2026-05-02T120000Z_petsmart_test"
+      run_id = "2026-05-02T120000Z_petsmart-inc_<short-input-hash>"
       run_dir = tmp_path / run_id
       run_pipeline(run_id=run_id, run_dir=run_dir, source="examples", slugs=["petsmart-inc"], projection_name="bidder_cycle_baseline_v1")
       assert (run_dir / "canonical.duckdb").exists()
@@ -1249,7 +1232,7 @@ Do not create:
 
 
   def test_run_pipeline_refuses_existing_run_dir(tmp_path: Path) -> None:
-      run_id = "2026-05-02T120000Z_petsmart_test"
+      run_id = "2026-05-02T120000Z_petsmart-inc_<short-input-hash>"
       run_dir = tmp_path / run_id
       run_dir.mkdir()
       with pytest.raises(FileExistsError):
@@ -1319,7 +1302,7 @@ Do not create:
   Run:
 
   ```bash
-  RUN_ID="$(date -u +%Y-%m-%dT%H%M%SZ)_reference9_rules"
+  RUN_ID="$(date -u +%Y-%m-%dT%H%M%SZ)_9-deals_<short-input-hash>"
   python -m sec_graph run \
     --source filings \
     --slugs imprivata mac-gray medivation penford petsmart-inc providence-worcester saks stec zep \
@@ -1376,9 +1359,6 @@ Do not create:
 **Files:**
 
 - Modify: `docs/prior-pipeline-lessons.md`
-- Modify: `quality_reports/plans/2026-05-02_parallel-execution-plan.md`
-- Modify: `quality_reports/specs/2026-05-02_pipeline-gaps-and-buyer-group-atomization.md`
-- Modify: `quality_reports/specs/2026-05-02_schema-direction-overfit-and-overengineering.md`
 - Modify: `tests/fixtures/**/*.json`
 - Modify: `tests/**/*.py`
 
@@ -1477,7 +1457,7 @@ Do not create:
   Run:
 
   ```bash
-  RUN_ID="$(date -u +%Y-%m-%dT%H%M%SZ)_petsmart_linkflow_high"
+  RUN_ID="$(date -u +%Y-%m-%dT%H%M%SZ)_petsmart-inc_<short-input-hash>"
   python -m sec_graph run \
     --source filings \
     --slugs petsmart-inc \
@@ -1531,7 +1511,7 @@ Do not create:
   Run:
 
   ```bash
-  RUN_ID="$(date -u +%Y-%m-%dT%H%M%SZ)_reference9_linkflow_high"
+  RUN_ID="$(date -u +%Y-%m-%dT%H%M%SZ)_9-deals_<short-input-hash>"
   python -m sec_graph run \
     --source filings \
     --slugs imprivata mac-gray medivation penford petsmart-inc providence-worcester saks stec zep \
@@ -1653,4 +1633,3 @@ Reject the implementation if any of these are true:
 - `imprivata`: advisor-driven process letters, sponsor screening, explicit no management participation condition.
 - `penford`: historical contacts vs current sale process, support-holder facts, prior discussions.
 - `medivation`: bidder-side Schedule TO scope, tender-offer/acquisition vehicle structure, unsolicited proposal history, no financing condition.
-

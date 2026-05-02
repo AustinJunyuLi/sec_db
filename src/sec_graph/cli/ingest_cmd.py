@@ -14,6 +14,7 @@ def build_parser() -> argparse.ArgumentParser:
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("--slug", help="ingest one example filing by slug")
     group.add_argument("--all", action="store_true", help="ingest every example filing")
+    group.add_argument("--input", type=Path, help="ingest every markdown filing under this directory")
     parser.add_argument("--db", type=Path, default=DEFAULT_DB_PATH, help="DuckDB output path")
     parser.add_argument("--examples-dir", type=Path, default=DEFAULT_EXAMPLES_DIR, help="example markdown directory")
     parser.add_argument("--fresh", action="store_true", help="replace an existing DuckDB file")
@@ -22,8 +23,9 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
-    if args.all:
-        filings = ingest_examples_to_db(args.db, examples_dir=args.examples_dir, fresh=args.fresh)
+    if args.all or args.input is not None:
+        examples_dir = args.input or args.examples_dir
+        filings = ingest_examples_to_db(args.db, examples_dir=examples_dir, fresh=args.fresh)
     else:
         sources = [source for source in example_sources(args.examples_dir) if source.slug == args.slug]
         if not sources:

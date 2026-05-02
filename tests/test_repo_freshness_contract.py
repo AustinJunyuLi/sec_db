@@ -42,6 +42,21 @@ ACTIVE_AUTHORITY_DOCS: tuple[Path, ...] = (
     REPO_ROOT / "docs" / "llm-interface.md",
 )
 
+ACTIVE_EXECUTION_DOCS: tuple[Path, ...] = (
+    REPO_ROOT
+    / "quality_reports"
+    / "plans"
+    / "2026-05-02_stale-scaffold-hard-cleanse-repair-plan.md",
+    REPO_ROOT
+    / "quality_reports"
+    / "plans"
+    / "2026-05-02_deployable-canonical-pipeline-goal.md",
+    REPO_ROOT
+    / "quality_reports"
+    / "plans"
+    / "2026-05-02_deployable-canonical-pipeline-plan.md",
+)
+
 # Files allowed to mention forbidden phrases. These are point-in-time proof,
 # failure history, the executing plan itself (which must quote its own
 # requirements), or tests that assert the phrase is rejected.
@@ -198,8 +213,11 @@ def test_active_docs_do_not_contain_stale_kickoff_phrases() -> None:
     )
 
 
-def test_source_files_do_not_contain_compatibility_shim_language() -> None:
-    pattern = re.compile(r"compatibility shim", re.IGNORECASE)
+def test_source_files_do_not_contain_backward_compatibility_language() -> None:
+    pattern = re.compile(
+        r"compatibility shim|backwards?-compatible|backward compatibility",
+        re.IGNORECASE,
+    )
     violations: list[tuple[Path, int, str]] = []
     for sub in ("src", "scripts"):
         root = REPO_ROOT / sub
@@ -217,8 +235,37 @@ def test_source_files_do_not_contain_compatibility_shim_language() -> None:
                     violations.append((path, idx + 1, line))
     assert not violations, (
         "Source files under src/ and scripts/ must not contain "
-        "'compatibility shim' language. Violations:\n"
+        "backward-compatibility language. Violations:\n"
         + _format_violations(violations)
+    )
+
+
+def test_active_deployable_docs_do_not_modify_deleted_context_artifacts() -> None:
+    """The active deployable docs must not steer agents toward deleted plans/specs."""
+    deleted_artifact_pattern = re.compile(
+        r"quality_reports/specs|2026-05-02_parallel-execution-plan\.md",
+        re.IGNORECASE,
+    )
+    active_instruction_pattern = re.compile(
+        r"\b(Modify|Create|Test|git add|git rm)\b",
+        re.IGNORECASE,
+    )
+    violations: list[tuple[Path, int, str]] = []
+    for path in ACTIVE_EXECUTION_DOCS:
+        assert path.exists(), f"active execution doc missing: {path}"
+        lines = _read_lines(path)
+        for idx, line in enumerate(lines):
+            if not deleted_artifact_pattern.search(line):
+                continue
+            if _disclaimed(lines, idx):
+                continue
+            if path.name == CURRENT_EXECUTING_PLAN_NAME:
+                continue
+            if active_instruction_pattern.search(line) or not _disclaimed(lines, idx):
+                violations.append((path, idx + 1, line))
+    assert not violations, (
+        "Active deployable docs must not instruct agents to modify deleted "
+        "context artifacts. Violations:\n" + _format_violations(violations)
     )
 
 
@@ -240,6 +287,41 @@ def test_generated_output_directories_have_no_tracked_files() -> None:
         "file, add its exact repo-relative path to "
         "GENERATED_OUTPUT_TRACKED_ALLOWLIST in this test. Tracked files:\n  "
         + "\n  ".join(unexpected)
+    )
+
+
+def test_tracked_files_do_not_contain_secrets_or_raw_provider_payloads() -> None:
+    """Tracked artifacts may keep response digests, not secrets or raw bodies."""
+    result = subprocess.run(
+        ["git", "ls-files"],
+        cwd=REPO_ROOT,
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    patterns = {
+        "openai_style_secret": re.compile(r"\bsk-[A-Za-z0-9_-]{20,}\b"),
+        "bearer_token": re.compile(r"Authorization\s*:\s*Bearer\s+\S+", re.IGNORECASE),
+        "raw_response_field": re.compile(r'"raw_response"\s*:'),
+        "provider_body_field": re.compile(r'"provider_body"\s*:'),
+    }
+    violations: list[str] = []
+    for rel_path in result.stdout.splitlines():
+        path = REPO_ROOT / rel_path
+        if _is_allowed_path(path):
+            continue
+        try:
+            text = path.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            continue
+        for line_number, line in enumerate(text.splitlines(), start=1):
+            for label, pattern in patterns.items():
+                if pattern.search(line):
+                    violations.append(f"{rel_path}:{line_number}: {label}")
+    assert not violations, (
+        "Tracked files must not contain secrets or raw provider payloads. "
+        "Digest fields such as raw_response_sha256 are allowed. Violations:\n  "
+        + "\n  ".join(violations)
     )
 
 

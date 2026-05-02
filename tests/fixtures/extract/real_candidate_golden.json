@@ -1,7 +1,7 @@
 {
   "petsmart-inc": {
     "row_count": 107,
-    "projection_sha256": "fb3c8e4db63d1c0863271e23bedb41ecc94a06a9b34de684ae2f206e508a9303",
+    "projection_sha256": "850888d5495da41cf3079362008f2343fe7070267522a1bc8939e6adcf569e0b",
     "required_rows": [
       {
         "candidate_type": "actor_mention",
@@ -36,8 +36,8 @@
     ]
   },
   "saks": {
-    "row_count": 194,
-    "projection_sha256": "d22400350f9a8226f852ba834242a2466027548ffab4de78ae751206ecc1b188",
+    "row_count": 164,
+    "projection_sha256": "1f335c9656610970ab8b59f8c48a8db8be06d2bf71433f7bc86cff466b0fdf66",
     "required_rows": [
       {
         "candidate_type": "actor_mention",

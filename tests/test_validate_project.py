@@ -162,6 +162,24 @@ def test_broken_fixture_reports_specific_hard_check_classes() -> None:
     assert HardCheck.PROJECTION_ELIGIBILITY in checks
 
 
+def test_validate_database_checks_source_truth_without_explicit_raw_root() -> None:
+    conn = _loaded_conn()
+    forged_quote = "The board fabricated a quote that is not in the raw source."
+    conn.execute(
+        "UPDATE spans SET quote_text = ?, quote_hash = ? WHERE evidence_id = ?",
+        [forged_quote, quote_hash(forged_quote), "petsmart_evidence_1"],
+    )
+
+    result = validate_database(conn)
+
+    assert any(
+        failure.check is HardCheck.SOURCE_TRUTH
+        and failure.table_name == "spans"
+        and failure.row_id == "petsmart_evidence_1"
+        for failure in result.hard_failures
+    )
+
+
 def test_vehicle_actor_with_included_projection_judgment_is_hard_failure() -> None:
     conn = _loaded_conn()
     vehicle = Actor(
@@ -215,7 +233,7 @@ def test_soft_flags_and_validation_outputs_are_written(tmp_path) -> None:
 
     assert any(flag.flag_type == "count_only_cohort" for flag in flags)
 
-    report = write_validation_outputs(conn, tmp_path)
+    report = write_validation_outputs(conn, tmp_path, allow_existing=True)
     assert report["passed"] is True
     report_path = tmp_path / "validation_report.json"
     queue_path = tmp_path / "ambiguity_queue.csv"
@@ -227,7 +245,7 @@ def test_soft_flags_and_validation_outputs_are_written(tmp_path) -> None:
 
 def test_projection_outputs_match_golden_bidder_rows(tmp_path) -> None:
     conn = _loaded_conn()
-    write_projection_outputs(conn, tmp_path, projection_name="bidder_cycle_baseline_v1")
+    write_projection_outputs(conn, tmp_path, projection_name="bidder_cycle_baseline_v1", allow_existing=True)
 
     actual = (tmp_path / "bidder_rows.jsonl").read_text(encoding="utf-8").splitlines()
     raw_lines = Path("tests/fixtures/canonical/petsmart_bidder_rows.jsonl").read_text(encoding="utf-8").splitlines()

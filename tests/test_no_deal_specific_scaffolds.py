@@ -24,6 +24,7 @@ from sec_graph.extract import rules as rules_init
 from sec_graph.extract.rules import actors as actors_module
 from sec_graph.extract.rules import relations as relations_module
 from sec_graph.reconcile import aliases as aliases_module
+from sec_graph.reconcile import boundaries as boundaries_module
 from sec_graph.reconcile import pipeline as reconcile_pipeline
 
 
@@ -37,6 +38,9 @@ _FORBIDDEN_NAMES = (
     "zep",
     "imprivata",
     "medivation",
+    "new mountain",
+    "hudson",
+    "g&w",
     "penford",
     "stec",
 )
@@ -78,8 +82,8 @@ def _string_literals_outside_docstrings(source_text: str) -> list[tuple[int, str
     return findings
 
 
-def test_rule_extractors_do_not_hardcode_reference_deal_names() -> None:
-    """`actors.py` and `relations.py` must not embed reference-deal name literals.
+def test_production_paths_do_not_hardcode_reference_deal_names() -> None:
+    """Production extraction/reconcile paths must not embed reference-deal name literals.
 
     AST walk: every non-docstring `str` constant is searched for forbidden
     reference-deal names. Comments are not searched (the AST drops them); only
@@ -91,6 +95,9 @@ def test_rule_extractors_do_not_hardcode_reference_deal_names() -> None:
     targets = (
         Path(actors_module.__file__),
         Path(relations_module.__file__),
+        Path(aliases_module.__file__),
+        Path(boundaries_module.__file__),
+        Path(reconcile_pipeline.__file__),
     )
     violations: list[str] = []
     for path in targets:

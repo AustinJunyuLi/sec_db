@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import re
 import shutil
 from pathlib import Path
 
@@ -20,7 +22,10 @@ from sec_graph.ingest.pipeline import (
 from sec_graph.project.summaries import write_projection_outputs
 from sec_graph.reconcile.pipeline import reconcile_all
 from sec_graph.schema import connect, init_schema
+from sec_graph.schema import versions
 from sec_graph.validate.integrity import write_validation_outputs
+
+_RUN_ID_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{6}Z_[a-z0-9-]+_[0-9a-f]{8}$")
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -59,6 +64,34 @@ def _sources(source: str, slugs: list[str] | None, all_selected: bool, examples_
     return filing_sources(slugs)
 
 
+def _run_scope(sources: list[IngestSource]) -> str:
+    if len(sources) == 1:
+        return sources[0].slug
+    return f"{len(sources)}-deals"
+
+
+def _short_input_hash(sources: list[IngestSource]) -> str:
+    digest = hashlib.sha256()
+    for source in sorted(sources, key=lambda item: item.slug):
+        digest.update(source.slug.encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(hashlib.sha256(source.source_path.read_bytes()).hexdigest().encode("ascii"))
+        digest.update(b"\n")
+    return digest.hexdigest()[:8]
+
+
+def _validate_run_id(run_id: str, sources: list[IngestSource]) -> None:
+    if not _RUN_ID_RE.match(run_id):
+        raise ValueError(
+            "run_id must match YYYY-MM-DDTHHMMSSZ_<slug-or-scope>_<short-input-hash>"
+        )
+    expected_suffix = f"_{_run_scope(sources)}_{_short_input_hash(sources)}"
+    if not run_id.endswith(expected_suffix):
+        raise ValueError(
+            f"run_id suffix must be {expected_suffix!r} for the selected inputs"
+        )
+
+
 def _write_manifest(
     run_dir: Path,
     *,
@@ -75,6 +108,13 @@ def _write_manifest(
         "input_hashes": {getattr(filing, "deal_slug"): getattr(filing, "raw_sha256") for filing in filings},
         "source_paths": {getattr(filing, "deal_slug"): getattr(filing, "source_path") for filing in filings},
         "projection_name": projection_name,
+        "schema_version": versions.SCHEMA_VERSION,
+        "parser_version": versions.PARSER_VERSION,
+        "ingest_version": versions.INGEST_VERSION,
+        "extract_version": versions.EXTRACT_VERSION,
+        "reconcile_version": versions.RECONCILE_VERSION,
+        "validate_version": versions.VALIDATE_VERSION,
+        "project_version": versions.PROJECT_VERSION,
         "llm": None
         if llm_config is None
         else {
@@ -99,6 +139,8 @@ def run_pipeline(
     llm_config: LLMProviderConfig | None = None,
     llm_limit: int | None = None,
 ) -> dict[str, object]:
+    selected_sources = _sources(source, slugs, all_selected=slugs is None, examples_dir=examples_dir)
+    _validate_run_id(run_id, selected_sources)
     if run_dir.exists():
         raise FileExistsError(f"{run_dir} already exists")
     run_dir.mkdir(parents=True)
@@ -108,7 +150,6 @@ def run_pipeline(
 
     conn = connect(working_db)
     init_schema(conn)
-    selected_sources = _sources(source, slugs, all_selected=slugs is None, examples_dir=examples_dir)
     filings = ingest_sources(conn, selected_sources, run_id=run_id)
     for filing in filings:
         run_extract(conn, filing_id=filing.filing_id, run_id=run_id, llm_config=llm_config, llm_limit=llm_limit)
@@ -121,10 +162,10 @@ def run_pipeline(
         projection_name=projection_name,
         llm_config=llm_config,
     )
-    report = write_validation_outputs(conn, run_dir)
+    report = write_validation_outputs(conn, run_dir, allow_existing=True)
     if not report["passed"]:
         raise RuntimeError(f"run failed validation; artifacts: {run_dir}")
-    write_projection_outputs(conn, run_dir, projection_name=projection_name)
+    write_projection_outputs(conn, run_dir, projection_name=projection_name, allow_existing=True)
     conn.close()
     shutil.copy2(working_db, run_dir / "canonical.duckdb")
     return report

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import argparse
 
-from sec_graph.cli import extract_cmd, ingest_cmd, project_cmd, reconcile_cmd, run_cmd, validate_cmd
+from sec_graph.cli import extract_cmd, ingest_cmd, project_cmd, reconcile_cmd, run_cmd, snapshot_cmd, validate_cmd
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -17,6 +17,7 @@ def build_parser() -> argparse.ArgumentParser:
         ("validate", "validate canonical rows", validate_cmd),
         ("project", "project bidder-cycle rows", project_cmd),
         ("run", "run the full deterministic pipeline", run_cmd),
+        ("snapshot", "copy an immutable run snapshot", snapshot_cmd),
     ):
         command_parser = subparsers.add_parser(command, help=help_text)
         for action in module.build_parser()._actions:
@@ -41,6 +42,8 @@ def main(argv: list[str] | None = None) -> int:
         return project_cmd.main(_argv_from_namespace(args, unknown))
     if args.command == "run":
         return run_cmd.main(_argv_from_namespace(args, unknown))
+    if args.command == "snapshot":
+        return snapshot_cmd.main(_argv_from_namespace(args, unknown))
     raise SystemExit(f"unknown command {args.command}")
 
 
@@ -61,8 +64,12 @@ def _argv_from_namespace(args: argparse.Namespace, unknown: list[str]) -> list[s
         rebuilt.extend(["--db", str(args.db)])
     if getattr(args, "examples_dir", None) is not None:
         rebuilt.extend(["--examples-dir", str(args.examples_dir)])
+    if getattr(args, "input", None) is not None:
+        rebuilt.extend(["--input", str(args.input)])
     if getattr(args, "run_dir", None) is not None:
         rebuilt.extend(["--run-dir", str(args.run_dir)])
+    if getattr(args, "snapshot_dir", None) is not None:
+        rebuilt.extend(["--snapshot-dir", str(args.snapshot_dir)])
     if getattr(args, "run_id", None) is not None:
         rebuilt.extend(["--run-id", str(args.run_id)])
     if getattr(args, "projection", None) is not None:

@@ -4,8 +4,8 @@ The `judgments` table is APPEND-ONLY. The pipeline must never silently delete
 rows here. Reviewer overrides emit a NEW judgment whose
 `supersedes_judgment_id` points at the prior row (see `latest_judgments`
 below). Reconcile-owned admission judgments may be replaced as derived
-artifacts of the reconcile stage; rows authored by reviewers, fixtures, or
-other tooling MUST survive every default pipeline pass.
+    artifacts of the reconcile stage; later reconcile passes append fresh rows
+    rather than deleting the previous ones.
 
 The two axes are intentionally narrow:
 
@@ -138,7 +138,6 @@ CREATE TABLE judgments (
       AND rule_id IS NOT NULL
     )
   ),
-  FOREIGN KEY (actor_id) REFERENCES actors(actor_id),
   FOREIGN KEY (supersedes_judgment_id) REFERENCES judgments(judgment_id)
 );
 """

@@ -14,6 +14,7 @@ import duckdb
 from sec_graph.schema import quote_hash
 from sec_graph.validate.flags import soft_flags
 
+REPO_ROOT = Path(__file__).resolve().parents[3]
 
 class HardCheck(StrEnum):
     REFERENTIAL_INTEGRITY = "referential_integrity"
@@ -44,8 +45,8 @@ _ADMISSIVE_SUBTYPE_PHRASES: dict[str, tuple[str, ...]] = {
         "best and final",
         "invited to submit final",
         "advanced to the next round",
-        "exclusivity",
     ),
+    "exclusivity_grant": ("exclusivity",),
 }
 
 
@@ -537,7 +538,7 @@ def _check_event_subtype_evidence(
         """
         SELECT event_id, event_subtype, evidence_ids
         FROM events
-        WHERE event_subtype IN ('advancement_admitted')
+        WHERE event_subtype IN ('advancement_admitted', 'exclusivity_grant')
         """
     ).fetchall()
     if not rows:
@@ -601,8 +602,7 @@ def validate_database(
     failures.extend(_check_id_format(conn))
     failures.extend(_check_span_parentage(conn))
     failures.extend(_check_event_subtype_evidence(conn))
-    if raw_source_root is not None:
-        failures.extend(_check_source_truth(conn, raw_source_root))
+    failures.extend(_check_source_truth(conn, raw_source_root or REPO_ROOT))
     return ValidationResult(hard_failures=failures)
 
 
@@ -611,8 +611,11 @@ def write_validation_outputs(
     run_dir: Path,
     *,
     raw_source_root: Path | None = None,
+    allow_existing: bool = False,
 ) -> dict[str, object]:
-    run_dir.mkdir(parents=True, exist_ok=True)
+    if run_dir.exists() and not allow_existing:
+        raise FileExistsError(f"{run_dir} already exists")
+    run_dir.mkdir(parents=True, exist_ok=allow_existing)
     result = validate_database(conn, raw_source_root=raw_source_root)
     flags = soft_flags(conn)
     report = {

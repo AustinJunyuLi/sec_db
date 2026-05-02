@@ -39,7 +39,6 @@ _DEFAULT_TASKS: list[ExtractionTask] = [
     "actor_aliases",
     "events",
     "participation_counts",
-    "actor_relations",
 ]
 _TARGET_SECTIONS = ("Background of the Merger", "Financing", "unknown_section")
 # Deterministic stride: N consecutive paragraphs per window. Chosen so a

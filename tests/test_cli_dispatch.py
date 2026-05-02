@@ -66,6 +66,40 @@ def test_top_level_ingest_forwards_fresh(monkeypatch, tmp_path) -> None:
     assert captured.get("examples_dir") == examples_dir
 
 
+def test_top_level_ingest_forwards_input_directory(monkeypatch, tmp_path) -> None:
+    captured: dict[str, object] = {}
+
+    def fake_ingest_examples_to_db(db_path, examples_dir, fresh):
+        captured["db"] = Path(db_path)
+        captured["examples_dir"] = Path(examples_dir)
+        captured["fresh"] = fresh
+        return []
+
+    monkeypatch.setattr(
+        ingest_cmd,
+        "ingest_examples_to_db",
+        fake_ingest_examples_to_db,
+    )
+
+    db_path = tmp_path / "pipeline.duckdb"
+    input_dir = tmp_path / "input"
+    input_dir.mkdir()
+
+    rc = dispatcher_main(
+        [
+            "ingest",
+            "--input",
+            str(input_dir),
+            "--db",
+            str(db_path),
+            "--fresh",
+        ]
+    )
+
+    assert rc == 0
+    assert captured == {"db": db_path, "examples_dir": input_dir, "fresh": True}
+
+
 def test_fetch_script_is_not_documented_as_backward_compatibility() -> None:
     """`scripts/fetch_filings.py` must be framed as deliberate, not legacy."""
 

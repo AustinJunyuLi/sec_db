@@ -132,11 +132,15 @@ def bidder_rows(conn: duckdb.DuckDBPyConnection, *, projection_name: str = "bidd
             judgment = judgments.get(actor_id)
             if judgment is None or judgment["included"] is not True or observability == "count_only":
                 continue
+            if boundary is None or boundary_date is None:
+                continue
             events = _bid_events(conn, actor_id, cycle_id)
             if not events:
                 continue
             pre = [event for event in events if boundary_date is not None and event["event_date"] < boundary_date]
-            post = [event for event in events if boundary_date is None or event["event_date"] >= boundary_date]
+            post = [event for event in events if event["event_date"] >= boundary_date]
+            if not post:
+                continue
             b_i_event = pre[-1] if pre else None
             b_f_event = max(post, key=lambda event: event["bid_value"] or float("-inf")) if post else None
             unit_source = b_f_event or b_i_event or {}

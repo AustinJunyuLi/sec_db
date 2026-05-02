@@ -332,7 +332,6 @@ def extract(
         raise LLMContractError(
             f"{config.api_key_env} is required for live Linkflow calls"
         )
-    started = time.monotonic()
     try:
         output_text, finish_reason, attempts = asyncio.run(
             _stream_with_client(request, config, api_key)
@@ -397,6 +396,15 @@ def extract(
         raw_response_sha256=digest,
         finish_status="completed",
     )
+    return response
+
+
+def _write_success_artifact(
+    request: LLMWindowRequest,
+    config: LLMProviderConfig,
+    response: LLMExtractionResponse,
+    inserted_count: int,
+) -> None:
     _write_artifact(
         f"{request.request_id}_{config.reasoning_effort}_success.json",
         {
@@ -407,12 +415,9 @@ def extract(
             "finish_status": response.finish_status,
             "raw_response_sha256": response.raw_response_sha256,
             "candidate_count": len(response.candidates),
-            "attempts": attempts,
-            "latency_seconds": round(time.monotonic() - started, 3),
-            "finish_reason": finish_reason,
+            "inserted_candidate_count": inserted_count,
         },
     )
-    return response
 
 
 def run_linkflow_requests(
@@ -430,7 +435,11 @@ def run_linkflow_requests(
         windows = windows[:limit]
     for request in windows:
         response = extract(request, config)
-        inserted.extend(
-            insert_llm_response(conn, request, response, run_id=run_id)
-        )
+        try:
+            window_inserted = insert_llm_response(conn, request, response, run_id=run_id)
+        except LLMContractError as exc:
+            _write_contract_failure(request, config, response.raw_response_sha256, str(exc))
+            raise
+        _write_success_artifact(request, config, response, len(window_inserted))
+        inserted.extend(window_inserted)
     return inserted

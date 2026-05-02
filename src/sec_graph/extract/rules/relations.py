@@ -4,23 +4,17 @@ The production rule surface only emits relation candidates from GENERIC
 filing patterns: explicit `(“Parent”)` / `(“Merger Sub”)` alias clauses,
 the source-defined `the “Buyer Group” refers to ...` clause, and generic
 parent/merger-sub vehicle relations. No specific reference-deal members,
-no hand-listed buyer-group rosters, no Longview-style support/rollover
-patterns are encoded here. Deal-specific facts must come from source
+no hand-listed buyer-group rosters, and no one-off support/rollover patterns
+are encoded here. Deal-specific facts must come from source
 evidence parsed by these generic patterns or from LLM/window extraction
 fixtures — never from a hardcoded production constant.
-
-Phase 6 of the cleanup plan removed the prior reference-deal member list
-(BC Partners, La Caisse de dépôt et placement du Québec, GIC Special
-Investments, StepStone Group, Longview Asset Management) and the
-Longview-specific support/rollover/debt-financing patterns from this module.
-The buyer-group member parser now derives members from the source-defined
-clause itself.
 """
 
 from __future__ import annotations
 
-import json
 import re
+
+from sec_graph.schema import RelationCandidate
 
 from .actors import Match
 
@@ -65,21 +59,22 @@ def _payload(
     relation_type: str,
     role_detail: str | None = None,
     effective_date_first: str | None = None,
-) -> str:
-    return json.dumps(
-        {
-            "subject_label": subject_label,
-            "object_label": object_label,
-            "relation_type": relation_type,
-            "role_detail": role_detail,
-            "effective_date_first": effective_date_first,
-        },
-        sort_keys=True,
+) -> RelationCandidate:
+    return RelationCandidate(
+        candidate_id="pending",
+        subject_label=subject_label,
+        object_label=object_label,
+        relation_type=relation_type,  # type: ignore[arg-type]
+        role_detail=role_detail,
+        effective_date_first=effective_date_first,
     )
 
 
-def _relation_match(text: str, start: int, end: int, normalized_value: str) -> Match:
+def _relation_match(text: str, start: int, end: int, payload: RelationCandidate) -> Match:
     raw_value = text[start:end].strip()
+    normalized_value = (
+        f"{payload.subject_label} {payload.relation_type} {payload.object_label}"
+    )
     return Match(
         candidate_type="actor_relation",
         raw_value=raw_value,
@@ -88,6 +83,7 @@ def _relation_match(text: str, start: int, end: int, normalized_value: str) -> M
         start=start,
         end=end,
         span_kind="clause",
+        relation_payload=payload,
     )
 
 

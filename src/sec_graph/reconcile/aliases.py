@@ -1,10 +1,8 @@
 """Deterministic actor alias policy.
 
-Phase 6 contract: target labels for canonical `deals.target_actor_id` come
-from filing metadata (the seed corpus or per-filing manifest), not from a
-hand-coded `slug -> label` dict. An unknown slug FAILS LOUDLY with the
-slug name in the error so the caller can decide to add metadata or raise
-an explicit rejection — never a silent fallback to the slug string.
+Target labels for canonical `deals.target_actor_id` come from filing metadata
+(the seed corpus or per-filing manifest), not from a hand-coded slug map. An
+unknown slug fails loudly with the slug name in the error.
 """
 
 from __future__ import annotations
@@ -17,24 +15,18 @@ _REPO_ROOT = Path(__file__).resolve().parents[3]
 _SEEDS_PATH = _REPO_ROOT / "seeds.csv"
 _FILINGS_DIR = _REPO_ROOT / "data" / "filings"
 
-_IMPLICIT_LABELS = ("New Mountain Capital",)
-
-
 class UnknownTargetLabelError(KeyError):
     """Raised when no metadata source resolves a target label for a deal slug."""
 
 
 def canonical_label(raw_value: str) -> str:
-    return raw_value.replace("Hudson's Bay", "Hudson’s Bay")
+    return raw_value.replace("'", "’")
 
 
 def labels_in_text(text: str, known_labels: Iterable[str]) -> list[str]:
     labels: list[str] = []
     for label in sorted({canonical_label(label) for label in known_labels}, key=len, reverse=True):
         if label in text or label.replace("’", "'") in text:
-            labels.append(label)
-    for label in _IMPLICIT_LABELS:
-        if label in text and label not in labels:
             labels.append(label)
     return sorted(labels, key=lambda label: text.find(label.replace("’", "'") if label not in text else label))
 

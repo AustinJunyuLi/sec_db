@@ -3,7 +3,6 @@
 from .convert import insert_llm_response
 from .models import (
     LinkflowProviderContractError,
-    LLMActorRelationCandidate,
     LLMCandidatePayload,
     LLMContractError,
     LLMExtractionResponse,
@@ -12,14 +11,12 @@ from .models import (
     PriorActorAlias,
     PriorDealMemory,
     PriorEvent,
-    RelationPredicate,
     WindowKind,
     WindowParagraph,
 )
 from .requests import build_llm_windows
 
 __all__ = [
-    "LLMActorRelationCandidate",
     "LLMCandidatePayload",
     "LLMContractError",
     "LLMExtractionResponse",
@@ -29,7 +26,6 @@ __all__ = [
     "PriorActorAlias",
     "PriorDealMemory",
     "PriorEvent",
-    "RelationPredicate",
     "WindowKind",
     "WindowParagraph",
     "build_llm_windows",

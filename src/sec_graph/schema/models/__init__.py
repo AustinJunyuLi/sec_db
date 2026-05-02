@@ -10,7 +10,7 @@ from .canonical import (
     ProcessCycle,
 )
 from .filings import CleanFiling, FILINGS_DDL, Paragraph, Section, SourceSpan
-from .extraction import EXTRACTION_DDL, ExtractionCandidate
+from .extraction import EXTRACTION_DDL, ExtractionCandidate, RelationCandidate
 from .judgments import JUDGMENTS_DDL, Judgment, latest_judgments
 from .participation_counts import PARTICIPATION_COUNTS_DDL, ParticipationCount
 from .runtime import RUN_METADATA_DDL, RunMetadata
@@ -35,6 +35,7 @@ __all__ = [
     "ProcessCycle",
     "RUN_METADATA_DDL",
     "RunMetadata",
+    "RelationCandidate",
     "Section",
     "SourceSpan",
 ]

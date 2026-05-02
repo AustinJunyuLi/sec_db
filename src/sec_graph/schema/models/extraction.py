@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import datetime as dt
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict
@@ -22,6 +23,29 @@ class ExtractionCandidate(BaseModel):
     status: Literal["active", "rejected"]
 
 
+RelationType = Literal[
+    "member_of",
+    "affiliate_of",
+    "controls",
+    "acquisition_vehicle_of",
+    "advises",
+    "finances",
+    "supports",
+    "rollover_holder_of",
+]
+
+
+class RelationCandidate(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    candidate_id: str
+    subject_label: str
+    object_label: str
+    relation_type: RelationType
+    role_detail: str | None
+    effective_date_first: dt.date | None
+
+
 EXTRACTION_DDL = """
 CREATE TABLE candidates (
   candidate_id VARCHAR PRIMARY KEY,
@@ -35,5 +59,15 @@ CREATE TABLE candidates (
   dependencies VARCHAR[] NOT NULL,
   status VARCHAR NOT NULL CHECK (status IN ('active', 'rejected')),
   FOREIGN KEY (filing_id) REFERENCES filings(filing_id)
+);
+
+CREATE TABLE relation_candidates (
+  candidate_id VARCHAR PRIMARY KEY,
+  subject_label VARCHAR NOT NULL,
+  object_label VARCHAR NOT NULL,
+  relation_type VARCHAR NOT NULL CHECK (relation_type IN ('member_of', 'affiliate_of', 'controls', 'acquisition_vehicle_of', 'advises', 'finances', 'supports', 'rollover_holder_of')),
+  role_detail VARCHAR,
+  effective_date_first DATE,
+  FOREIGN KEY (candidate_id) REFERENCES candidates(candidate_id)
 );
 """

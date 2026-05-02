@@ -144,7 +144,7 @@ def test_rule_extraction_is_deterministic() -> None:
     first = _loaded_conn()
     second = _loaded_conn()
     for conn in (first, second):
-        run_rules(conn, filing_id="smoke_filing")
+        run_rules(conn, filing_id="smoke_filing", run_id="extract-determinism")
 
     assert _row_hashes(first, "candidates") == _row_hashes(second, "candidates")
     assert _row_hashes(first, "spans", "WHERE created_by_stage = 'extract'") == _row_hashes(

@@ -20,8 +20,8 @@ judgment memos for all reference deals.
 - `docs/llm-interface.md` is the binding Linkflow/LLM contract.
 - `quality_reports/plans/2026-05-02_deployable-canonical-pipeline-plan.md`
   is the binding implementation plan.
-- `docs/prior-pipeline-lessons.md` and `quality_reports/specs/*` are
-  failure-mode context only.
+- `docs/prior-pipeline-lessons.md` is failure-mode context only. Deleted
+  historical specs are not inputs to this goal.
 - This file controls goal sequencing, live-proof gates, soundness judgment, and
   final handoff requirements.
 
@@ -139,7 +139,7 @@ Use a fresh run ID and a fresh run directory. Do not overwrite an existing run.
 Command shape, adjusted only if Phase 1 deliberately changed the CLI:
 
 ```bash
-RUN_ID="$(date -u +%Y-%m-%dT%H%M%SZ)_petsmart_linkflow_high"
+RUN_ID="$(date -u +%Y-%m-%dT%H%M%SZ)_petsmart-inc_<short-input-hash>"
 python -m sec_graph run \
   --source filings \
   --slugs petsmart-inc \
@@ -210,7 +210,7 @@ PetSmart in the batch; the pilot does not substitute for a full-batch snapshot.
 Command shape, adjusted only if Phase 1 deliberately changed the CLI:
 
 ```bash
-RUN_ID="$(date -u +%Y-%m-%dT%H%M%SZ)_reference9_linkflow_high"
+RUN_ID="$(date -u +%Y-%m-%dT%H%M%SZ)_9-deals_<short-input-hash>"
 python -m sec_graph run \
   --source filings \
   --slugs imprivata mac-gray medivation penford petsmart-inc providence-worcester saks stec zep \

@@ -19,8 +19,7 @@ def _utc_run_id(prefix: str) -> str:
     """Generic UTC timestamp run id used when the caller does not pass one.
 
     Format: `{prefix}_{YYYYMMDDTHHMMSSZ}`. The prefix names the stage so a
-    pipeline grep can locate the call site without overloading any single
-    historical bring-up name like `extract-smoke`.
+    pipeline grep can locate the call site.
     """
     timestamp = dt.datetime.now(dt.UTC).strftime("%Y%m%dT%H%M%SZ")
     return f"{prefix}_{timestamp}"
@@ -83,15 +82,22 @@ def run_rules(
 ) -> list[ExtractionCandidate]:
     """Execute deterministic rule extraction for one filing.
 
-    `run_id` is OPTIONAL. When omitted, a UTC-timestamped id is generated
-    on the spot so the produced candidates carry a plainly-generic stamp
-    (`extract_YYYYMMDDTHHMMSSZ`) rather than the previous historical
-    scaffold name `extract-smoke`. Callers that need a stable id should
-    pass one explicitly.
+    `run_id` is optional. When omitted, a UTC-timestamped id is generated
+    on the spot so the produced candidates carry a generic stage stamp.
+    Callers that need a stable id should pass one explicitly.
     """
     if run_id is None:
         run_id = _utc_run_id("extract")
     slug = _slug_for_filing(conn, filing_id)
+    conn.execute(
+        """
+        DELETE FROM relation_candidates
+        WHERE candidate_id IN (
+            SELECT candidate_id FROM candidates WHERE filing_id = ?
+        )
+        """,
+        [filing_id],
+    )
     conn.execute("DELETE FROM candidates WHERE filing_id = ?", [filing_id])
     conn.execute("DELETE FROM spans WHERE filing_id = ? AND created_by_stage = 'extract'", [filing_id])
     candidates: list[ExtractionCandidate] = []
@@ -137,6 +143,14 @@ def run_rules(
                 "INSERT INTO candidates VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 tuple(candidate.model_dump().values()),
             )
+            if match.relation_payload is not None:
+                relation_payload = match.relation_payload.model_copy(
+                    update={"candidate_id": candidate_id}
+                )
+                conn.execute(
+                    "INSERT INTO relation_candidates VALUES (?, ?, ?, ?, ?, ?)",
+                    tuple(relation_payload.model_dump(mode="json").values()),
+                )
             candidates.append(candidate)
             sequence += 1
     return candidates

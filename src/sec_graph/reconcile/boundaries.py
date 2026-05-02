@@ -15,14 +15,8 @@ from sec_graph.reconcile.cycles import CycleWindow
 
 # Keywords that admit a boundary event subtype from the underlying source
 # quote. Each tuple is (closed_event_subtype, ordered_keyword_phrases). The
-# `advancement_admitted` set is checked first because the prior reference-deal
-# behaviour anchors on admissive language; `exclusivity` is grouped under it
-# (rather than mapping to `exclusivity_grant`) because the existing real
-# corpus tests expect every cycle whose paragraph contains exclusivity grant
-# language to surface as `advancement_admitted`. Phase 6 will revisit this
-# when deal-specific scaffolding is removed; until then, downgrading the
-# subtype here would fabricate a different misclassification rather than
-# eliminate fabrication.
+# `advancement_admitted` is checked first because it is the baseline projection
+# boundary signal. Exclusivity remains its own source verb.
 _SUBTYPE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     (
         "advancement_admitted",
@@ -35,9 +29,9 @@ _SUBTYPE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
             "best and final",
             "invited to submit final",
             "advanced to the next round",
-            "exclusivity",
         ),
     ),
+    ("exclusivity_grant", ("exclusivity",)),
     (
         "merger_agreement_executed",
         ("executed the merger agreement", "entered into the merger agreement"),
@@ -105,7 +99,7 @@ def classify_boundary(dated_rows: list[object], cycle: CycleWindow) -> BoundaryD
 
 
 def choose_boundary(dated_rows: list[object], cycle: CycleWindow) -> object | None:
-    """Backwards-compatible thin shim for callers that only need the row.
+    """Return the evidence row selected by `classify_boundary`.
 
     Returns `None` when no candidate quote inside the cycle window supports an
     admissive boundary subtype. Callers must check for `None` and refuse to

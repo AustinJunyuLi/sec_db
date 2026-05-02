@@ -573,26 +573,13 @@ def test_linkflow_missing_completed_event_fails_loudly(tmp_path, monkeypatch) ->
         linkflow.extract(window, config)
 
 
-def test_actor_relation_is_typed_payload_not_json_in_string() -> None:
-    """LLM relation candidates must use the typed first-class payload.
-    JSON-in-string normalized_value relation payloads are forbidden."""
-    from sec_graph.extract.llm.models import (
-        LLMActorRelationCandidate,
-        RelationPredicate,
-    )
+def test_actor_relation_is_not_smuggled_through_llm_flat_payload() -> None:
+    """The current LLM schema deliberately excludes actor relations.
 
-    # Typed payload validates with explicit fields
-    payload = LLMActorRelationCandidate(
-        subject_actor_ref="BC Partners",
-        predicate="member_of",
-        object_actor_ref="Buyer Group",
-        evidence_quote="BC Partners",
-        confidence="high",
-        role_detail="buyer group member",
-    )
-    assert payload.predicate in RelationPredicate.__args__  # type: ignore[attr-defined]
-
-    # And `actor_relation` cannot be smuggled through the flat candidate payload type.
+    Relation candidates in the deterministic extraction layer use structured
+    local payloads; provider output cannot smuggle relation JSON through the
+    flat normalized_value string.
+    """
     with pytest.raises(ValueError):
         LLMCandidatePayload.model_validate(
             {

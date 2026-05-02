@@ -30,8 +30,6 @@ PRIMARY_FORM_TYPES = {
     "PREM14A",
     "SC TO-T",
     "SC TO-T/A",
-    "SC 14D9",
-    "SC 14D9/A",
     "S-4",
     "S-4/A",
 }
@@ -189,7 +187,7 @@ def _row_to_doc(row: tuple[str, str, str, str]) -> FilingDocument:
     )
 
 
-def resolve_substantive_document(seed_url: str) -> tuple[FilingDocument, str]:
+def resolve_substantive_document(seed_url: str) -> tuple[FilingDocument, str, str]:
     """Resolve an EDGAR seed URL to the document that carries the narrative."""
     cik, accession = parse_accession(seed_url)
     index_url = canonical_index_url(cik, accession)
@@ -221,10 +219,10 @@ def resolve_substantive_document(seed_url: str) -> tuple[FilingDocument, str]:
         for row in rows:
             doc = _row_to_doc(row)
             if OFFER_TO_PURCHASE_EXHIBIT_PATTERN.match(doc.form_type):
-                return doc, index_url
+                return doc, index_url, primary.form_type
         # Spec's Fetch fail-loud contract: NO fallback to cover form.
         raise MissingOfferToPurchaseError(primary.form_type, index_url)
-    return primary, index_url
+    return primary, index_url, primary.form_type
 
 
 def _import_sec2md():
@@ -285,7 +283,7 @@ def process_deal(seed: Seed, force: bool = False) -> dict[str, Any]:
     cik, accession = parse_accession(seed.primary_url)
 
     print(f"[{seed.slug}] resolving substantive document ...")
-    doc, resolved_index_url = resolve_substantive_document(seed.primary_url)
+    doc, resolved_index_url, filing_form_type = resolve_substantive_document(seed.primary_url)
     print(f"[{seed.slug}]   picked: {doc.form_type} {doc.name} ({doc.size_bytes} B)")
 
     print(f"[{seed.slug}] downloading {doc.url}")
@@ -309,7 +307,9 @@ def process_deal(seed: Seed, force: bool = False) -> dict[str, Any]:
             "accession": accession,
             "primary_document_url": doc.url,
             "primary_document_name": doc.name,
-            "form_type": doc.form_type,
+            "filing_form_type": filing_form_type,
+            "selected_document_form_type": doc.form_type,
+            "form_type": filing_form_type,
         },
         "artifacts": {
             "raw_htm_bytes": len(html_bytes),

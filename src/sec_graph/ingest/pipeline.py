@@ -51,12 +51,15 @@ def _process_scope(source: IngestSource) -> str:
     if source.manifest_path is None:
         return "target_full_proxy"
     manifest = json.loads(source.manifest_path.read_text(encoding="utf-8"))
-    form_type = str(manifest.get("source", {}).get("form_type", "")).upper()
+    form_type = str(
+        manifest.get("source", {}).get("filing_form_type")
+        or manifest.get("source", {}).get("form_type", "")
+    ).upper()
     if form_type in {"DEFM14A", "PREM14A"}:
         return "target_full_proxy"
-    if form_type.startswith("SC TO") or form_type.startswith("EX-99"):
+    if form_type in {"SC TO-T", "SC TO-T/A"}:
         return "bidder_partial_schedule_to"
-    if form_type.startswith("DEFA14A"):
+    if form_type in {"DEFA14A", "DEFA14A/A"}:
         return "amendment_only"
     raise ValueError(f"cannot map form_type {form_type!r} to process_scope for {source.slug}")
 

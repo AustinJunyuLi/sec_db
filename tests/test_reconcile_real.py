@@ -2,9 +2,9 @@ import hashlib
 import json
 from pathlib import Path
 
-from sec_graph.cli.run_cmd import main as run_main
+from sec_graph.cli.run_cmd import _short_input_hash, main as run_main
 from sec_graph.extract.rules import run_rules
-from sec_graph.ingest.pipeline import ingest_examples
+from sec_graph.ingest.pipeline import example_sources, ingest_examples
 from sec_graph.project.bidder_rows import bidder_rows
 from sec_graph.reconcile.pipeline import reconcile_all
 from sec_graph.schema import connect, init_schema
@@ -98,7 +98,9 @@ def test_run_cli_executes_ingest_extract_reconcile_validate_project(tmp_path) ->
     db_path = tmp_path / "pipeline.duckdb"
     run_dir = tmp_path / "run"
 
-    assert run_main(["--all", "--db", str(db_path), "--run-dir", str(run_dir), "--run-id", "2026-05-02T120000Z_examples_test"]) == 0
+    sources = example_sources(Path("data/examples"))
+    run_id = f"2026-05-02T120000Z_{len(sources)}-deals_{_short_input_hash(sources)}"
+    assert run_main(["--all", "--db", str(db_path), "--run-dir", str(run_dir), "--run-id", run_id]) == 0
 
     report = json.loads((run_dir / "validation_report.json").read_text(encoding="utf-8"))
     assert report["passed"] is True

@@ -42,12 +42,13 @@ def test_resolve_substantive_document_picks_offer_to_purchase_for_tender_offer(m
         ],
     )
 
-    doc, index_url = edgar.resolve_substantive_document(
+    doc, index_url, filing_form_type = edgar.resolve_substantive_document(
         "https://www.sec.gov/Archives/edgar/data/1/000000000000000001/0000000000-00-000001-index.htm"
     )
 
     assert doc.name == "offer.htm"
     assert doc.form_type == "EX-99.(A)(1)(A)"
+    assert filing_form_type == "SC TO-T"
     assert index_url.endswith("/000000000000000001/0000000000-00-000001-index.htm")
 
 
@@ -119,7 +120,7 @@ def test_process_deal_writes_raw_markdown_pages_and_manifest(tmp_path, monkeypat
     )
 
     monkeypatch.setattr(edgar, "FILINGS_DIR", tmp_path / "data" / "filings")
-    monkeypatch.setattr(edgar, "resolve_substantive_document", lambda _: (doc, "https://index"))
+    monkeypatch.setattr(edgar, "resolve_substantive_document", lambda _: (doc, "https://index", doc.form_type))
     monkeypatch.setattr(edgar, "_rate_limited_get", lambda _: b"<html>body</html>")
     monkeypatch.setattr(
         edgar,
@@ -143,6 +144,8 @@ def test_process_deal_writes_raw_markdown_pages_and_manifest(tmp_path, monkeypat
     ]
     assert manifest["slug"] == "synthetic"
     assert manifest["source"]["primary_document_url"] == doc.url
+    assert manifest["source"]["filing_form_type"] == "DEFM14A"
+    assert manifest["source"]["selected_document_form_type"] == "DEFM14A"
     assert manifest["fetch"]["sec2md_version"] == "test-sec2md"
     assert re.fullmatch(r"[0-9a-f]{64}", manifest["artifacts"]["raw_htm_sha256"])
     assert re.fullmatch(r"[0-9a-f]{64}", manifest["artifacts"]["raw_md_sha256"])

@@ -87,8 +87,10 @@ forwards `--fresh` to the `ingest` subcommand.
 # Ingest example filings into a fresh DuckDB store
 python -m sec_graph ingest --input data/examples --db data/pipeline.duckdb --fresh
 
-# Run the full pipeline against named filings into an immutable run directory
-RUN_ID="$(date -u +%Y-%m-%dT%H%M%SZ)_petsmart_local"
+# Run the full pipeline against named filings into an immutable run directory.
+# Replace <short-input-hash> with the suffix for the selected source files;
+# `run` rejects mismatched IDs before writing artifacts.
+RUN_ID="$(date -u +%Y-%m-%dT%H%M%SZ)_petsmart-inc_<short-input-hash>"
 python -m sec_graph run \
   --source filings \
   --slugs petsmart-inc \

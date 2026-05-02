@@ -12,7 +12,7 @@ from sec_graph.schema import DEFAULT_DB_PATH, connect
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--db", type=Path, default=DEFAULT_DB_PATH, help="DuckDB input path")
-    parser.add_argument("--run-dir", type=Path, default=Path("runs/latest"), help="run artifact directory")
+    parser.add_argument("--run-dir", type=Path, required=True, help="new projection artifact directory")
     parser.add_argument("--projection", required=True, help="projection name, e.g. bidder_cycle_baseline_v1")
     return parser
 

@@ -3,13 +3,14 @@
 from __future__ import annotations
 
 import datetime as dt
-import json
+import re
 from pathlib import Path
 
 import pytest
 
 from sec_graph.extract.rules import run_rules
 from sec_graph.ingest.pipeline import ingest_examples
+from sec_graph.reconcile.aliases import UnknownTargetLabelError
 from sec_graph.project.bidder_rows import bidder_rows
 from sec_graph.reconcile.pipeline import ReconcileError, reconcile_all, reconcile_filing
 from sec_graph.schema import (
@@ -17,6 +18,7 @@ from sec_graph.schema import (
     ExtractionCandidate,
     Judgment,
     Paragraph,
+    RelationCandidate,
     SourceSpan,
     connect,
     init_schema,
@@ -51,6 +53,14 @@ def _insert_candidate(conn, candidate: ExtractionCandidate) -> None:
     conn.execute(
         "INSERT INTO candidates VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         tuple(candidate.model_dump().values()),
+    )
+
+
+def _insert_relation_candidate(conn, relation: RelationCandidate) -> None:
+    payload = relation.model_dump(mode="json")
+    conn.execute(
+        "INSERT INTO relation_candidates VALUES (?, ?, ?, ?, ?, ?)",
+        tuple(payload.values()),
     )
 
 
@@ -155,7 +165,9 @@ def _loaded_real_conn():
 # ----------------------------------------------------------------------
 
 
-def test_boundary_event_subtype_must_come_from_evidence_not_cycle_boundary_selection() -> None:
+def test_boundary_event_subtype_must_come_from_evidence_not_cycle_boundary_selection(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     """A dated event that says 'submitted a written proposal' must not become advancement_admitted.
 
     The reconcile boundary picker must classify the subtype from the source quote.
@@ -165,6 +177,7 @@ def test_boundary_event_subtype_must_come_from_evidence_not_cycle_boundary_selec
     conn = connect(":memory:")
     init_schema(conn)
     slug = "syntheticproposal"
+    monkeypatch.setattr("sec_graph.reconcile.pipeline.target_label", lambda deal_slug: "Synthetic Target")
     filing, _, spans = _build_synthetic_filing(
         conn,
         slug=slug,
@@ -208,6 +221,36 @@ def test_boundary_event_subtype_must_come_from_evidence_not_cycle_boundary_selec
         "boundary picker fabricated advancement_admitted from a non-admissive proposal: "
         f"subtypes={subtypes}"
     )
+
+
+def test_unknown_target_label_fails_loudly_without_slug_sentinel() -> None:
+    conn = connect(":memory:")
+    init_schema(conn)
+    slug = "syntheticmissingtarget"
+    filing, _, spans = _build_synthetic_filing(
+        conn,
+        slug=slug,
+        paragraphs=[
+            "On January 5, 2020, Party A executed the merger agreement with the Company.",
+        ],
+    )
+    _insert_candidate(
+        conn,
+        _make_dated_event_candidate(
+            slug=slug,
+            sequence=1,
+            filing_id=filing.filing_id,
+            raw_value="On January 5, 2020, Party A executed the merger agreement with the Company.",
+            iso_date="2020-01-05",
+            evidence_id=spans[0].evidence_id,
+        ),
+    )
+
+    with pytest.raises(UnknownTargetLabelError, match="target_name|deal_slug='syntheticmissingtarget'"):
+        reconcile_filing(conn, filing_id=filing.filing_id, run_id="test-run")
+
+    actor_count = conn.execute("SELECT count(*) FROM actors").fetchone()[0]
+    assert actor_count == 0, "unknown target slugs must not create sentinel actors"
 
 
 # ----------------------------------------------------------------------
@@ -262,7 +305,9 @@ def test_post_boundary_bid_does_not_imply_projection_admission() -> None:
 # ----------------------------------------------------------------------
 
 
-def test_participation_count_preserves_actor_class_and_stage_semantics() -> None:
+def test_participation_count_preserves_actor_class_and_stage_semantics(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     """Source: 'five financial sponsors and three strategic acquirers expressed interest at the
     early-outreach stage; at least two anonymous parties remained in the second round.'
 
@@ -273,6 +318,7 @@ def test_participation_count_preserves_actor_class_and_stage_semantics() -> None
     conn = connect(":memory:")
     init_schema(conn)
     slug = "syntheticcounts"
+    monkeypatch.setattr("sec_graph.reconcile.pipeline.target_label", lambda deal_slug: "Synthetic Target")
     filing, _, spans = _build_synthetic_filing(
         conn,
         slug=slug,
@@ -379,16 +425,9 @@ def test_participation_count_preserves_actor_class_and_stage_semantics() -> None
     assert ("contacted", "strategic", "exact") in triples, (
         "expected 3 strategic acquirers to land as strategic/contacted/exact: " f"got {rows}"
     )
-    # The 'second round' anonymous remainder must be carried as a lower-bound observation,
-    # NOT classified as financial-contacted-exact.
-    assert any(
-        row[0] in ("first_round", "ioi_submitted")
-        and row[4] == "lower_bound"
-        and row[5] >= 2
-        for row in rows
-    ), (
-        "expected at-least-two anonymous remainder rendered with lower_bound qualifier "
-        f"under a non-contacted stage: got {rows}"
+    assert not any(row[4] == "lower_bound" and row[5] >= 2 for row in rows), (
+        "unclassified anonymous counts must stay as candidates rather than "
+        f"fabricating a closed actor_class row: got {rows}"
     )
 
     # No row should treat the strategic-acquirer cohort as financial.
@@ -449,12 +488,25 @@ def test_reconcile_refuses_to_delete_existing_judgments() -> None:
     )
 
 
+def test_reconcile_source_never_deletes_from_judgments_table() -> None:
+    """The append-only judgment contract forbids destructive judgment SQL.
+
+    A stash-and-restore implementation can preserve a sampled reviewer row while
+    still violating `docs/spec.md` §1A by wiping the table transiently. Keep the
+    production source free of any `DELETE FROM judgments` statement.
+    """
+    source = Path("src/sec_graph/reconcile/pipeline.py").read_text(encoding="utf-8")
+    assert not re.search(r"\bDELETE\s+FROM\s+judgments\b", source, re.IGNORECASE)
+
+
 # ----------------------------------------------------------------------
 # Test 5: unresolved actor relations fail loudly or get rejected judgments
 # ----------------------------------------------------------------------
 
 
-def test_unresolved_actor_relation_is_rejected_not_silently_skipped() -> None:
+def test_unresolved_actor_relation_is_rejected_not_silently_skipped(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     """An actor_relation candidate whose subject or object cannot resolve to a
     canonical actor must produce a hard ReconcileError naming the candidate id,
     or an explicit rejection judgment with reason. It must NOT be silently
@@ -463,6 +515,7 @@ def test_unresolved_actor_relation_is_rejected_not_silently_skipped() -> None:
     conn = connect(":memory:")
     init_schema(conn)
     slug = "syntheticunresolved"
+    monkeypatch.setattr("sec_graph.reconcile.pipeline.target_label", lambda deal_slug: "Synthetic Target")
     filing, _, spans = _build_synthetic_filing(
         conn,
         slug=slug,
@@ -511,20 +564,22 @@ def test_unresolved_actor_relation_is_rejected_not_silently_skipped() -> None:
             raw_value=(
                 "Phantom Holdings LLC rolled over its stake into Mystery Vehicle Inc."
             ),
-            normalized_value=json.dumps(
-                {
-                    "subject_label": "Phantom Holdings LLC",
-                    "object_label": "Mystery Vehicle Inc.",
-                    "relation_type": "rollover_holder_of",
-                    "role_detail": None,
-                    "effective_date_first": "2020-03-05",
-                },
-                sort_keys=True,
-            ),
+            normalized_value="Phantom Holdings LLC rollover_holder_of Mystery Vehicle Inc.",
             confidence="medium",
             evidence_ids=[spans[1].evidence_id],
             dependencies=[],
             status="active",
+        ),
+    )
+    _insert_relation_candidate(
+        conn,
+        RelationCandidate(
+            candidate_id=unresolved_candidate_id,
+            subject_label="Phantom Holdings LLC",
+            object_label="Mystery Vehicle Inc.",
+            relation_type="rollover_holder_of",
+            role_detail=None,
+            effective_date_first=dt.date(2020, 3, 5),
         ),
     )
 
