@@ -437,12 +437,13 @@ These are unresolved and will be revisited at the relevant stage:
 - **`cycle_relation` value set.** Whether go-shops are encoded as same-cycle tails, separate cycles, or both (configurable per projection). Decided in Stage 4 / Stage 7.
 - **Dropout-mechanism evidence rules.** The text patterns / linked events that justify `target-rejected` vs `voluntarily-withdrew` vs `ambiguous` are codified in Stage 7.
 - **Anonymous aggregate-bidder policy.** When `participation_counts` reports N IOIs without naming each, do we always create N anonymous actors, or only when projection requires row-level completeness? Decided in Stage 7. The schema's `actor_creation_required` discriminator (§17.2) leaves the decision deferrable.
-- **LLM provider interface.** Designed in Stage 8 brainstorm. Constraints recorded here: provider-neutral, deterministic-output-respecting, evidence-emitting (quote text + location hints), feature-flagged.
+- **LLM provider interface.** Stage 8 is bound by [`docs/llm-interface.md`](./llm-interface.md): provider-neutral, deterministic-output-respecting, evidence-emitting (quote text + location hints), feature-flagged, and candidate-only.
 - **Reviewer UI shape.** Out of scope for this roadmap. The schema affordance (§10.2) is what we commit to today.
 
 ## 16. Related Documents
 
 - [`quality_reports/plans/2026-05-02_parallel-execution-plan.md`](../quality_reports/plans/2026-05-02_parallel-execution-plan.md) — sole source of truth for execution.
+- [`docs/llm-interface.md`](./llm-interface.md) — Stage 8 provider-neutral LLM extraction interface.
 - [`docs/prior-pipeline-lessons.md`](./prior-pipeline-lessons.md) — failure-mode postmortem from the previous extraction attempt; informs §17 invariants.
 - [`AGENTS.md`](../AGENTS.md) — repository contract for agents.
 - [`CLAUDE.md`](../CLAUDE.md) — Claude Code orientation.
