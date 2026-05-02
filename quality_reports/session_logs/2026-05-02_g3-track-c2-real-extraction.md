@@ -139,3 +139,54 @@ G3 passed for Track C2:
 - Every real PetSmart/Saks evidence ID resolves to an extract span inside its parent paragraph seed.
 - Rerun extraction is deterministic for PetSmart and Saks.
 - The four-example CLI ingest/extract path runs cleanly.
+
+## Post-Merge Verification on Main
+
+Merged `track-c/extract-real` into `main` with merge commit message:
+
+```text
+merge: track c real extraction
+```
+
+Command:
+
+```bash
+PATH=.venv/bin:$PATH python -m pytest
+```
+
+Outcome: exit 0; 36 passed.
+
+Command:
+
+```bash
+PATH=.venv/bin:$PATH python -m sec_graph ingest --all
+```
+
+Outcome: exit 0; ingested 4 filings into `data/pipeline.duckdb`.
+
+Command:
+
+```bash
+PATH=.venv/bin:$PATH python -m sec_graph extract --all
+```
+
+Outcome: exit 0; extracted candidates for 4 filings.
+
+Fresh main-worktree DuckDB counts and hashes:
+
+| Slug | Actor mentions | Bid values | Dated events |
+|------|----------------|------------|--------------|
+| `petsmart-inc` | 25 | 12 | 18 |
+| `providence-worcester` | 53 | 13 | 18 |
+| `saks` | 110 | 14 | 29 |
+| `zep` | 6 | 8 | 32 |
+
+Evidence-gap queries:
+
+- `empty_evidence_candidates`: 0
+- `orphan_extract_spans`: 0
+
+Golden hashes:
+
+- `petsmart-inc`: 55 rows; `17007c7803e62465cdabad5cc5b32bad94db7dfa9f25f10479f7f017d0528a46`
+- `saks`: 153 rows; `ba44fd1299920906f497943ca7dfa2f6b480638065f83368e0a7c401b2b9040c`
