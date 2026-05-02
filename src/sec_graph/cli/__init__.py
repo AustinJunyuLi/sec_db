@@ -50,6 +50,11 @@ def _argv_from_namespace(args: argparse.Namespace, unknown: list[str]) -> list[s
         rebuilt.extend(["--slug", args.slug])
     if getattr(args, "all", False):
         rebuilt.append("--all")
+    if getattr(args, "slugs", None) is not None:
+        rebuilt.append("--slugs")
+        rebuilt.extend(args.slugs)
+    if getattr(args, "source", None) is not None:
+        rebuilt.extend(["--source", args.source])
     if getattr(args, "filing_id", None) is not None:
         rebuilt.extend(["--filing-id", args.filing_id])
     if getattr(args, "db", None) is not None:
@@ -60,6 +65,8 @@ def _argv_from_namespace(args: argparse.Namespace, unknown: list[str]) -> list[s
         rebuilt.extend(["--run-dir", str(args.run_dir)])
     if getattr(args, "run_id", None) is not None:
         rebuilt.extend(["--run-id", str(args.run_id)])
+    if getattr(args, "projection", None) is not None:
+        rebuilt.extend(["--projection", str(args.projection)])
     if getattr(args, "llm_provider", None) is not None:
         rebuilt.extend(["--llm-provider", args.llm_provider])
     if getattr(args, "llm_model", None) is not None:
@@ -68,5 +75,7 @@ def _argv_from_namespace(args: argparse.Namespace, unknown: list[str]) -> list[s
         rebuilt.extend(["--llm-reasoning-effort", args.llm_reasoning_effort])
     if getattr(args, "llm_limit", None) is not None:
         rebuilt.extend(["--llm-limit", str(args.llm_limit)])
+    if getattr(args, "fresh", False):
+        rebuilt.append("--fresh")
     rebuilt.extend(unknown)
     return rebuilt

@@ -72,6 +72,26 @@ class ExcludedFormTypeError(Exception):
         super().__init__(form_type)
 
 
+class MissingOfferToPurchaseError(Exception):
+    """Raised when a tender-offer (SC TO-T) filing has no Offer to Purchase exhibit.
+
+    The spec's Fetch fail-loud contract forbids falling back to the cover form
+    when the EX-99.(A)(1)(A) exhibit is absent: the substantive narrative for
+    a tender offer lives in the Offer to Purchase, and silently picking the
+    cover form would corrupt downstream extraction.
+    """
+
+    def __init__(self, form_type: str, index_url: str):
+        self.form_type = form_type
+        self.index_url = index_url
+        super().__init__(
+            f"{form_type} filing at {index_url} is missing the required "
+            f"Offer to Purchase exhibit matching EX-99.(A)(1)(A) "
+            f"(regex {OFFER_TO_PURCHASE_EXHIBIT_PATTERN.pattern!r}); "
+            "no fallback to cover form is permitted."
+        )
+
+
 def load_seeds(path: Path = SEEDS_PATH) -> list[Seed]:
     with path.open(newline="", encoding="utf-8") as handle:
         reader = csv.DictReader(handle)
@@ -202,11 +222,8 @@ def resolve_substantive_document(seed_url: str) -> tuple[FilingDocument, str]:
             doc = _row_to_doc(row)
             if OFFER_TO_PURCHASE_EXHIBIT_PATTERN.match(doc.form_type):
                 return doc, index_url
-        print(
-            f"  WARNING: {primary.form_type} filing but no Offer to Purchase "
-            "exhibit found; using cover form",
-            file=sys.stderr,
-        )
+        # Spec's Fetch fail-loud contract: NO fallback to cover form.
+        raise MissingOfferToPurchaseError(primary.form_type, index_url)
     return primary, index_url
 
 
@@ -219,7 +236,10 @@ def _import_sec2md():
 
 
 def _sec2md_version() -> str:
-    return str(getattr(_import_sec2md(), "__version__", "unknown"))
+    version = getattr(_import_sec2md(), "__version__", None)
+    if version is None:
+        raise RuntimeError("sec2md does not expose __version__")
+    return str(version)
 
 
 def _parse_html_with_sec2md(html: str):

@@ -51,6 +51,32 @@ def test_resolve_substantive_document_picks_offer_to_purchase_for_tender_offer(m
     assert index_url.endswith("/000000000000000001/0000000000-00-000001-index.htm")
 
 
+def test_tender_offer_without_offer_to_purchase_fails_loudly(monkeypatch) -> None:
+    """SC TO-T filings without an EX-99.(A)(1)(A) exhibit MUST raise — no fallback."""
+    monkeypatch.setattr(
+        edgar,
+        "_parse_index_table",
+        lambda _: [
+            ("/Archives/edgar/data/1/000000000000000001/cover.htm", "cover.htm", "SC TO-T", "100"),
+            (
+                "/Archives/edgar/data/1/000000000000000001/some_other.htm",
+                "some_other.htm",
+                "EX-99.(A)(5)(B)",
+                "200",
+            ),
+        ],
+    )
+
+    with pytest.raises(edgar.MissingOfferToPurchaseError) as excinfo:
+        edgar.resolve_substantive_document(
+            "https://www.sec.gov/Archives/edgar/data/1/000000000000000001/0000000000-00-000001-index.htm"
+        )
+
+    message = str(excinfo.value)
+    assert "SC TO-T" in message
+    assert "EX-99" in message and "A)(1)(A" in message
+
+
 def test_resolve_substantive_document_rejects_excluded_forms(monkeypatch) -> None:
     monkeypatch.setattr(
         edgar,

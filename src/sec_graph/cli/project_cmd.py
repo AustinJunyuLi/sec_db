@@ -13,11 +13,12 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--db", type=Path, default=DEFAULT_DB_PATH, help="DuckDB input path")
     parser.add_argument("--run-dir", type=Path, default=Path("runs/latest"), help="run artifact directory")
+    parser.add_argument("--projection", required=True, help="projection name, e.g. bidder_cycle_baseline_v1")
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
-    write_projection_outputs(connect(args.db), args.run_dir)
+    write_projection_outputs(connect(args.db), args.run_dir, projection_name=args.projection)
     print(f"projection artifacts: {args.run_dir}")
     return 0
