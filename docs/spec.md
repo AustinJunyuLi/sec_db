@@ -144,6 +144,18 @@ Each module is a Python subpackage under `src/sec_graph/`. Each owns one stage o
 - `T` = 0 when `bidder_subtype = 'financial'`, 1 when `'strategic'`, null otherwise.
 - `confidence_min` = lowest of `boundary_quality`, `dropout_confidence`, `valuation_comparability.confidence`, `scope_validity.confidence` on the rank `low < medium < high`.
 
+### 3.8 Module Table Ownership
+
+Shared DuckDB tables are not shared write surfaces. Each module owns the tables below; if a module needs a table outside its write set, change this schema contract before writing around it.
+
+| Module | Writes | Reads |
+|---|---|---|
+| `ingest` | `filings`, `paragraphs`, `spans` (`paragraph_seed` only) | raw filing artifacts |
+| `extract` | `spans` (`sentence`, `clause`, `phrase` only), `candidates` | `filings`, `paragraphs`, `spans` |
+| `reconcile` | `deals`, `process_cycles`, `actors`, `events`, `event_actor_links`, `judgments`, `participation_counts` | `candidates`, `spans`, evidence tables |
+| `validate` | `runs/{run_id}/validation_report.json`, `runs/{run_id}/ambiguity_queue.csv` | all canonical and evidence tables |
+| `project` | `runs/{run_id}/*.jsonl`, `runs/{run_id}/*.csv`, `runs/{run_id}/run_memo.md` | all canonical and evidence tables |
+
 ## 4. Storage Architecture
 
 **Hybrid: files for blobs, DuckDB for everything structured.**
@@ -351,7 +363,7 @@ Each stage produces a runnable, testable artifact. Stages are completed in order
 |---|---|---|---|
 | **0** (done) | — | `fetch` works; 4 examples on disk; existing tests pass. | ✓ |
 | **1A** | `schema` (evidence) | Pydantic models + DuckDB DDL for `filings`/`paragraphs`/`spans`/`run_metadata` + ID helpers + evidence utilities + smoke filing fixture. | All four evidence tables creatable; round-trip Pydantic ↔ DB; ID helpers stable; smoke filing fixture written; rerun-determinism test green. |
-| **1B** | `schema` (canonical skeleton) | `Deal`, `ProcessCycle`, `Actor`, `Event`, `EventActorLink`, `Judgment`, `ParticipationCount` + hand-authored smoke canonical fixture. Auxiliaries deferred. | 13 tables creatable; smoke canonical FK-clean; module-table-ownership doc committed. |
+| **1B** | `schema` (canonical skeleton) | `Deal`, `ProcessCycle`, `Actor`, `Event`, `EventActorLink`, `Judgment`, `ParticipationCount` + hand-authored smoke canonical fixture. Auxiliaries deferred. | 11 tables creatable; smoke canonical FK-clean; module-table-ownership doc committed. |
 | **2** | `ingest` | Markdown → `filings`, `paragraphs`, `spans` rows in DuckDB. | All 4 examples ingest deterministically; reruns produce identical IDs and hashes; section/page-marker preservation matches §3.3. |
 | **3** | `reconcile` (skeleton) | Hand-author one filing's canonical records as a fixture. Walk the schema end-to-end. | One filing has complete canonical record set; all FKs resolve; all evidence_ids point to valid spans. |
 | **4** | `validate` | Hard-failure + soft-flag separation; ambiguity-queue export. | Stage-3 hand-authored fixture passes all hard checks; an intentionally-broken fixture fails with the right error class. |

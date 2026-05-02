@@ -201,7 +201,7 @@ def test_source_span_requires_non_negotiable_stage1a_fields() -> None:
     } <= missing
 
 
-def test_init_schema_creates_only_stage1a_tables() -> None:
+def test_init_schema_creates_evidence_tables() -> None:
     conn = connect(":memory:")
     apply_ddl(conn, "CREATE TABLE ddl_probe (id INTEGER);")
     assert _table_names(conn) == {"ddl_probe"}
@@ -209,7 +209,7 @@ def test_init_schema_creates_only_stage1a_tables() -> None:
     conn = connect(":memory:")
     init_schema(conn)
 
-    assert _table_names(conn) == {"filings", "paragraphs", "spans", "run_metadata"}
+    assert {"filings", "paragraphs", "spans", "run_metadata"} <= _table_names(conn)
 
 
 def test_models_round_trip_through_duckdb_and_validate_quote_hashes() -> None:

@@ -113,7 +113,7 @@ PHASE 0 ────────────────────────
 1. **Canonical core models + DDL** (`schema/models/canonical.py`): `Deal`, `ProcessCycle`, `Actor`, `Event`, `EventActorLink`. Per-model unit tests for round-trip. Each row carries `run_id`.
 2. **Judgment model + DDL** (`schema/models/judgments.py`): `Judgment` with `supersedes_judgment_id` for the append-only chain. Unit test asserts a 3-link supersession chain resolves to the latest non-superseded row.
 3. **Participation count model + DDL** (`schema/models/participation_counts.py`): `ParticipationCount` with the spec §17.2 actor-creation discriminator — `actor_creation_required: Literal["required", "deferred", "projection_only"]`. Plus `count_type`, `count_value`, `count_unit`, `process_stage`, `bidder_subtype_split` (optional dict), `evidence_ids` (list[str]).
-4. **Schema-init extension:** `init_schema` now creates 13 tables total (4 evidence + 9 canonical). Update top-level `schema/__init__.py` exports.
+4. **Schema-init extension:** `init_schema` now creates 11 tables total (4 evidence + 7 canonical). Update top-level `schema/__init__.py` exports. This corrects the prior arithmetic drift that said 13 tables while naming only seven non-auxiliary canonical tables; auxiliary tables remain deferred until fixture-demanded.
 5. **Module-ownership policy** (incorporated into `docs/spec.md` §3 + plan §9): explicit table-by-table read/write matrix per module:
    ```
    ingest  : writes filings, paragraphs, spans (paragraph_seed only)
@@ -134,7 +134,7 @@ PHASE 0 ────────────────────────
 
 ### 4.2 Acceptance for Phase 1 (gates Phase 2 fan-out)
 
-- 13 tables creatable, all round-trip green.
+- 11 tables creatable, all round-trip green.
 - Smoke canonical fixture FK-clean.
 - Module-ownership doc committed and referenced from `CLAUDE.md`.
 - The smoke canonical fixture is **the contract** Tracks B and C consume.

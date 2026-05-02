@@ -1,0 +1,151 @@
+{
+  "deals": [
+    {
+      "deal_id": "smoke_deal_1",
+      "run_id": "stage1b-smoke",
+      "deal_slug": "smoke",
+      "target_actor_id": "smoke_actor_1",
+      "announcement_date": "2024-02-01",
+      "evidence_ids": ["smoke_evidence_1"]
+    }
+  ],
+  "process_cycles": [
+    {
+      "cycle_id": "smoke_cycle_1",
+      "run_id": "stage1b-smoke",
+      "deal_id": "smoke_deal_1",
+      "cycle_sequence": 1,
+      "cycle_label": "pre-signing process",
+      "start_date": "2024-01-05",
+      "end_date": "2024-02-01",
+      "evidence_ids": ["smoke_evidence_1", "smoke_evidence_2"]
+    }
+  ],
+  "actors": [
+    {
+      "actor_id": "smoke_actor_1",
+      "run_id": "stage1b-smoke",
+      "deal_id": "smoke_deal_1",
+      "actor_label": "Synthetic Target",
+      "actor_type": "target",
+      "bidder_subtype": null,
+      "is_anonymous": false,
+      "evidence_ids": ["smoke_evidence_1"]
+    },
+    {
+      "actor_id": "smoke_actor_2",
+      "run_id": "stage1b-smoke",
+      "deal_id": "smoke_deal_1",
+      "actor_label": "Party A",
+      "actor_type": "bidder",
+      "bidder_subtype": "strategic",
+      "is_anonymous": true,
+      "evidence_ids": ["smoke_evidence_1"]
+    },
+    {
+      "actor_id": "smoke_actor_3",
+      "run_id": "stage1b-smoke",
+      "deal_id": "smoke_deal_1",
+      "actor_label": "Party B",
+      "actor_type": "bidder",
+      "bidder_subtype": "financial",
+      "is_anonymous": true,
+      "evidence_ids": ["smoke_evidence_2"]
+    }
+  ],
+  "events": [
+    {
+      "event_id": "smoke_event_1",
+      "run_id": "stage1b-smoke",
+      "deal_id": "smoke_deal_1",
+      "cycle_id": "smoke_cycle_1",
+      "event_type": "bid",
+      "event_date": "2024-01-05",
+      "description": "Party A submitted an indication of interest.",
+      "bid_value": null,
+      "bid_value_lower": null,
+      "bid_value_upper": null,
+      "bid_value_unit": null,
+      "consideration_type": null,
+      "evidence_ids": ["smoke_evidence_1"]
+    },
+    {
+      "event_id": "smoke_event_2",
+      "run_id": "stage1b-smoke",
+      "deal_id": "smoke_deal_1",
+      "cycle_id": "smoke_cycle_1",
+      "event_type": "bid",
+      "event_date": "2024-01-12",
+      "description": "Party B proposed $12.50 per share in cash.",
+      "bid_value": 12.5,
+      "bid_value_lower": null,
+      "bid_value_upper": null,
+      "bid_value_unit": "per_share",
+      "consideration_type": "cash",
+      "evidence_ids": ["smoke_evidence_2"]
+    }
+  ],
+  "event_actor_links": [
+    {
+      "link_id": "smoke_link_1",
+      "run_id": "stage1b-smoke",
+      "event_id": "smoke_event_1",
+      "actor_id": "smoke_actor_2",
+      "role": "bidder",
+      "evidence_ids": ["smoke_evidence_1"]
+    },
+    {
+      "link_id": "smoke_link_2",
+      "run_id": "stage1b-smoke",
+      "event_id": "smoke_event_2",
+      "actor_id": "smoke_actor_3",
+      "role": "bidder",
+      "evidence_ids": ["smoke_evidence_2"]
+    }
+  ],
+  "judgments": [
+    {
+      "judgment_id": "smoke_judgment_1",
+      "run_id": "stage1b-smoke",
+      "deal_id": "smoke_deal_1",
+      "cycle_id": "smoke_cycle_1",
+      "actor_id": null,
+      "event_id": null,
+      "judgment_type": "formal_boundary",
+      "judgment_value": "none_observed",
+      "confidence": "medium",
+      "alternative_value": null,
+      "supersedes_judgment_id": null,
+      "evidence_ids": ["smoke_evidence_1"]
+    },
+    {
+      "judgment_id": "smoke_judgment_2",
+      "run_id": "stage1b-smoke",
+      "deal_id": "smoke_deal_1",
+      "cycle_id": "smoke_cycle_1",
+      "actor_id": "smoke_actor_2",
+      "event_id": null,
+      "judgment_type": "dropout_mechanism",
+      "judgment_value": "voluntarily_withdrew",
+      "confidence": "low",
+      "alternative_value": "ambiguous",
+      "supersedes_judgment_id": null,
+      "evidence_ids": ["smoke_evidence_1"]
+    }
+  ],
+  "participation_counts": [
+    {
+      "participation_count_id": "smoke_count_1",
+      "run_id": "stage1b-smoke",
+      "deal_id": "smoke_deal_1",
+      "cycle_id": "smoke_cycle_1",
+      "count_type": "contacted_parties",
+      "count_value": 15,
+      "count_unit": "financial_buyers",
+      "process_stage": "market_check",
+      "bidder_subtype_split": {"financial": 15},
+      "actor_creation_required": "deferred",
+      "evidence_ids": ["smoke_evidence_3"]
+    }
+  ]
+}

@@ -42,6 +42,8 @@ Companion (read-only): **`docs/prior-pipeline-lessons.md`** — failure-mode pos
 
 `AGENTS.md` defines repository boundaries and working rules.
 
+The module-table ownership policy is in `docs/spec.md` §3.8. Treat it as binding: no module writes another module's tables without changing the spec first.
+
 ### Pipeline shape (target architecture)
 
 Filing → 7 sequential layers, each with its own module under `src/sec_graph/`:
