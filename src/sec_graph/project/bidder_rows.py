@@ -105,12 +105,22 @@ def bidder_rows(conn: duckdb.DuckDBPyConnection) -> list[dict[str, Any]]:
         visibility = _first_judgment(judgments, "cycle_visibility", cycle_id)
         actors = conn.execute(
             """
-            SELECT actor_id, actor_label, bidder_subtype
+            SELECT DISTINCT actors.actor_id, actors.actor_label, actors.bidder_subtype
             FROM actors
-            WHERE deal_id = ? AND actor_type = 'bidder'
-            ORDER BY actor_id
+            LEFT JOIN event_actor_links
+              ON event_actor_links.actor_id = actors.actor_id
+            LEFT JOIN events
+              ON events.event_id = event_actor_links.event_id
+             AND events.cycle_id = ?
+            LEFT JOIN judgments
+              ON judgments.actor_id = actors.actor_id
+             AND judgments.cycle_id = ?
+            WHERE actors.deal_id = ?
+              AND actors.actor_type = 'bidder'
+              AND (events.event_id IS NOT NULL OR judgments.judgment_id IS NOT NULL)
+            ORDER BY actors.actor_id
             """,
-            [deal_id],
+            [cycle_id, cycle_id, deal_id],
         ).fetchall()
         for actor_id, actor_label, bidder_subtype in actors:
             events = _bid_events(conn, actor_id, cycle_id)

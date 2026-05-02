@@ -1,0 +1,46 @@
+{
+  "row_count": 15,
+  "projection_sha256": "0123b0f860b7a515866fd19b9a4d3f693e1a6ce5576e427a4e3eae529431ff9a",
+  "required_rows": [
+    {
+      "deal_slug": "petsmart-inc",
+      "actor_label": "Buyer Group",
+      "bI": 82.0,
+      "bF": 83.0,
+      "admitted": true,
+      "T": 0
+    },
+    {
+      "deal_slug": "providence-worcester",
+      "actor_label": "G&W",
+      "bI": 22.15,
+      "bF": 25.0,
+      "admitted": true,
+      "T": 1
+    },
+    {
+      "deal_slug": "saks",
+      "actor_label": "Hudson\u2019s Bay",
+      "bI": 15.5,
+      "bF": 16.0,
+      "admitted": true,
+      "T": 1
+    },
+    {
+      "deal_slug": "zep",
+      "actor_label": "Party X",
+      "bI": 22.25,
+      "bF": null,
+      "admitted": false,
+      "dropout_mechanism": "ambiguous"
+    },
+    {
+      "deal_slug": "zep",
+      "actor_label": "New Mountain Capital",
+      "bI": null,
+      "bF": 20.05,
+      "admitted": true,
+      "T": 0
+    }
+  ]
+}
