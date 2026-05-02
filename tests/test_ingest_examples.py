@@ -95,6 +95,23 @@ def test_ingest_examples_is_deterministic() -> None:
         assert _row_hashes(first, table_name) == _row_hashes(second, table_name)
 
 
+def test_section_detection_does_not_promote_body_mentions_to_headings() -> None:
+    conn = connect(":memory:")
+    init_schema(conn)
+    ingest_examples(conn, examples_dir=Path("data/examples"))
+
+    section = conn.execute(
+        """
+        SELECT section
+        FROM paragraphs
+        JOIN filings USING (filing_id)
+        WHERE deal_slug = 'petsmart-inc'
+          AND paragraph_text LIKE 'On August 13, 2014,%'
+        """
+    ).fetchone()[0]
+    assert section == "Background of the Merger"
+
+
 def test_ingest_cli_writes_duckdb_to_explicit_path(tmp_path) -> None:
     from sec_graph.cli.ingest_cmd import main
 
