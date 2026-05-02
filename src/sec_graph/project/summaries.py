@@ -26,9 +26,14 @@ def _write_csv(path: Path, rows: list[dict[str, object]], fieldnames: list[str])
             writer.writerow({field: row.get(field) for field in fieldnames})
 
 
-def write_projection_outputs(conn: duckdb.DuckDBPyConnection, run_dir: Path) -> None:
+def write_projection_outputs(
+    conn: duckdb.DuckDBPyConnection,
+    run_dir: Path,
+    *,
+    projection_name: str = "bidder_cycle_baseline_v1",
+) -> None:
     run_dir.mkdir(parents=True, exist_ok=True)
-    rows = bidder_rows(conn)
+    rows = bidder_rows(conn, projection_name=projection_name)
     _write_jsonl(run_dir / "bidder_rows.jsonl", rows)
     cycles = [
         {"cycle_id": row[0], "deal_id": row[1], "cycle_label": row[2]}

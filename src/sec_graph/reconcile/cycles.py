@@ -1,4 +1,12 @@
-"""Process-cycle assignment from dated candidates."""
+"""Process-cycle assignment from dated candidates.
+
+Cycle windows group dated candidates by date proximity. They establish where
+in the timeline a candidate event sits — they do NOT establish what kind of
+event it is. Boundary event subtypes are owned by `boundaries.py`, which reads
+the candidate's own source quote to classify subtype. Cycle boundaries here
+must never be used to fabricate an `advancement_admitted` event from an
+arbitrary tail row; the absence of admissive language is itself a fact.
+"""
 
 from __future__ import annotations
 

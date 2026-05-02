@@ -59,10 +59,11 @@ def test_real_reconcile_produces_valid_canonical_projection() -> None:
         ("saks", "Sponsor A"),
         ("saks", "Sponsor E"),
         ("providence-worcester", "G&W"),
-        ("providence-worcester", "Party B"),
-        ("zep", "Party X"),
         ("zep", "New Mountain Capital"),
     } <= actual
+    assert ("zep", "Party X") not in actual
+    assert all("Merger Sub" not in row["actor_label"] for row in rows)
+    assert all(row["actor_label"] != "Parent" for row in rows)
     required_projection_rows = [
         {key: row[key] for key in required_row}
         for row in rows
@@ -71,7 +72,7 @@ def test_real_reconcile_produces_valid_canonical_projection() -> None:
     ]
     for required_row in golden["required_rows"]:
         assert required_row in required_projection_rows
-    assert all(row["cycle_visibility"] is not None for row in rows)
+    assert all(row["formal_boundary"] == "advancement_admitted" for row in rows)
 
 
 def test_real_reconcile_is_deterministic() -> None:
@@ -84,6 +85,7 @@ def test_real_reconcile_is_deterministic() -> None:
         "deals",
         "process_cycles",
         "actors",
+        "actor_relations",
         "events",
         "event_actor_links",
         "judgments",
@@ -96,7 +98,7 @@ def test_run_cli_executes_ingest_extract_reconcile_validate_project(tmp_path) ->
     db_path = tmp_path / "pipeline.duckdb"
     run_dir = tmp_path / "run"
 
-    assert run_main(["--all", "--db", str(db_path), "--run-dir", str(run_dir)]) == 0
+    assert run_main(["--all", "--db", str(db_path), "--run-dir", str(run_dir), "--run-id", "2026-05-02T120000Z_examples_test"]) == 0
 
     report = json.loads((run_dir / "validation_report.json").read_text(encoding="utf-8"))
     assert report["passed"] is True

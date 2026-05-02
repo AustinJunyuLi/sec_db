@@ -4,6 +4,7 @@ from pathlib import Path
 
 from sec_graph.schema import (
     Actor,
+    ActorRelation,
     CleanFiling,
     Deal,
     Event,
@@ -48,6 +49,7 @@ def _insert_smoke_evidence(conn) -> None:
         parser_version=versions.PARSER_VERSION,
         page_count=2,
         section_count=1,
+        process_scope="target_full_proxy",
     )
     metadata = RunMetadata(
         run_id="stage1b-smoke",
@@ -61,7 +63,7 @@ def _insert_smoke_evidence(conn) -> None:
         input_hashes={"smoke_filing.md": filing.raw_sha256},
         created_at=dt.datetime(2026, 5, 2, 13, 0, tzinfo=dt.UTC),
     )
-    conn.execute("INSERT INTO filings VALUES (?, ?, ?, ?, ?, ?, ?)", tuple(filing.model_dump().values()))
+    conn.execute("INSERT INTO filings VALUES (?, ?, ?, ?, ?, ?, ?, ?)", tuple(filing.model_dump().values()))
     paragraph_texts = [
         "On January 5, 2024, Party A submitted an indication of interest.",
         "On January 12, 2024, Party B proposed $12.50 per share in cash.",
@@ -109,6 +111,7 @@ def _load_smoke_fixture() -> dict[str, list[object]]:
         "deals": [Deal.model_validate(row) for row in payload["deals"]],
         "process_cycles": [ProcessCycle.model_validate(row) for row in payload["process_cycles"]],
         "actors": [Actor.model_validate(row) for row in payload["actors"]],
+        "actor_relations": [ActorRelation.model_validate(row) for row in payload["actor_relations"]],
         "events": [Event.model_validate(row) for row in payload["events"]],
         "event_actor_links": [EventActorLink.model_validate(row) for row in payload["event_actor_links"]],
         "judgments": [Judgment.model_validate(row) for row in payload["judgments"]],
@@ -119,28 +122,27 @@ def _load_smoke_fixture() -> dict[str, list[object]]:
 
 
 def _row_values(model) -> tuple[object, ...]:
-    payload = model.model_dump(mode="json")
-    if "bidder_subtype_split" in payload and payload["bidder_subtype_split"] is not None:
-        payload["bidder_subtype_split"] = json.dumps(payload["bidder_subtype_split"], sort_keys=True)
-    return tuple(payload.values())
+    return tuple(model.model_dump(mode="json").values())
 
 
 def _insert_canonical_fixture(conn, fixture: dict[str, list[object]]) -> None:
     for deal in fixture["deals"]:
         conn.execute("INSERT INTO deals VALUES (?, ?, ?, ?, ?, ?)", _row_values(deal))
     for actor in fixture["actors"]:
-        conn.execute("INSERT INTO actors VALUES (?, ?, ?, ?, ?, ?, ?, ?)", _row_values(actor))
+        conn.execute("INSERT INTO actors VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", _row_values(actor))
     for cycle in fixture["process_cycles"]:
         conn.execute("INSERT INTO process_cycles VALUES (?, ?, ?, ?, ?, ?, ?, ?)", _row_values(cycle))
+    for relation in fixture["actor_relations"]:
+        conn.execute("INSERT INTO actor_relations VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", _row_values(relation))
     for event in fixture["events"]:
-        conn.execute("INSERT INTO events VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", _row_values(event))
+        conn.execute("INSERT INTO events VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", _row_values(event))
     for link in fixture["event_actor_links"]:
-        conn.execute("INSERT INTO event_actor_links VALUES (?, ?, ?, ?, ?, ?)", _row_values(link))
+        conn.execute("INSERT INTO event_actor_links VALUES (?, ?, ?, ?, ?, ?, ?)", _row_values(link))
     for judgment in fixture["judgments"]:
-        conn.execute("INSERT INTO judgments VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", _row_values(judgment))
+        conn.execute("INSERT INTO judgments VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", _row_values(judgment))
     for count in fixture["participation_counts"]:
         conn.execute(
-            "INSERT INTO participation_counts VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO participation_counts VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             _row_values(count),
         )
 
@@ -157,6 +159,7 @@ def test_init_schema_creates_stage1b_table_subset() -> None:
         "deals",
         "process_cycles",
         "actors",
+        "actor_relations",
         "events",
         "event_actor_links",
         "judgments",
@@ -189,9 +192,13 @@ def test_smoke_canonical_fixture_is_fk_clean_and_evidence_bound() -> None:
     for link in fixture["event_actor_links"]:
         assert link.event_id in events
         assert link.actor_id in actors
+    for relation in fixture["actor_relations"]:
+        assert relation.subject_actor_id in actors
+        assert relation.object_actor_id in actors
+        assert relation.cycle_id_first_observed in cycles
     for count in fixture["participation_counts"]:
         assert count.cycle_id in cycles
-        assert count.actor_creation_required == "deferred"
+        assert count.actor_class == "financial"
 
     for rows in fixture.values():
         for row in rows:
@@ -213,6 +220,11 @@ def test_each_stage1b_model_round_trips_through_duckdb_rows() -> None:
 
     actor_row = conn.execute("SELECT * FROM actors WHERE actor_id = 'smoke_actor_2'").fetchone()
     assert Actor.model_validate(dict(zip(Actor.model_fields, actor_row, strict=True))) == fixture["actors"][1]
+
+    relation_row = conn.execute("SELECT * FROM actor_relations WHERE relation_id = 'smoke_relation_1'").fetchone()
+    assert ActorRelation.model_validate(dict(zip(ActorRelation.model_fields, relation_row, strict=True))) == fixture[
+        "actor_relations"
+    ][0]
 
     cycle_row = conn.execute("SELECT * FROM process_cycles WHERE cycle_id = 'smoke_cycle_1'").fetchone()
     assert ProcessCycle.model_validate(dict(zip(ProcessCycle.model_fields, cycle_row, strict=True))) == fixture[
@@ -236,7 +248,6 @@ def test_each_stage1b_model_round_trips_through_duckdb_rows() -> None:
         "SELECT * FROM participation_counts WHERE participation_count_id = 'smoke_count_1'"
     ).fetchone()
     count_payload = dict(zip(ParticipationCount.model_fields, count_row, strict=True))
-    count_payload["bidder_subtype_split"] = json.loads(count_payload["bidder_subtype_split"])
     assert ParticipationCount.model_validate(count_payload) == fixture["participation_counts"][0]
 
 
@@ -245,44 +256,56 @@ def test_latest_judgment_resolution_returns_non_superseded_chain_tip() -> None:
         Judgment(
             judgment_id="j1",
             run_id="r1",
-            deal_id="d1",
-            cycle_id="c1",
-            actor_id=None,
-            event_id=None,
-            judgment_type="formal_boundary",
-            judgment_value="none_observed",
-            confidence="low",
-            alternative_value=None,
+            judgment_kind="projection_eligibility",
+            target_table=None,
+            target_id=None,
+            target_column=None,
+            prior_value=None,
+            new_value=None,
+            projection_name="bidder_cycle_baseline_v1",
+            actor_id="a1",
+            included=False,
+            rule_id="bidder_cycle_baseline_v1.admission",
             supersedes_judgment_id=None,
             evidence_ids=["smoke_evidence_1"],
+            created_at="2026-05-02T00:00:00+00:00",
+            created_by="test",
         ),
         Judgment(
             judgment_id="j2",
             run_id="r1",
-            deal_id="d1",
-            cycle_id="c1",
-            actor_id=None,
-            event_id=None,
-            judgment_type="formal_boundary",
-            judgment_value="board_meeting",
-            confidence="medium",
-            alternative_value=None,
+            judgment_kind="projection_eligibility",
+            target_table=None,
+            target_id=None,
+            target_column=None,
+            prior_value=None,
+            new_value=None,
+            projection_name="bidder_cycle_baseline_v1",
+            actor_id="a1",
+            included=True,
+            rule_id="bidder_cycle_baseline_v1.admission",
             supersedes_judgment_id="j1",
             evidence_ids=["smoke_evidence_1"],
+            created_at="2026-05-02T00:00:01+00:00",
+            created_by="test",
         ),
         Judgment(
             judgment_id="j3",
             run_id="r1",
-            deal_id="d1",
-            cycle_id="c1",
-            actor_id=None,
-            event_id=None,
-            judgment_type="formal_boundary",
-            judgment_value="final_round_invitation",
-            confidence="high",
-            alternative_value=None,
+            judgment_kind="projection_eligibility",
+            target_table=None,
+            target_id=None,
+            target_column=None,
+            prior_value=None,
+            new_value=None,
+            projection_name="bidder_cycle_baseline_v1",
+            actor_id="a1",
+            included=True,
+            rule_id="bidder_cycle_baseline_v1.admission",
             supersedes_judgment_id="j2",
             evidence_ids=["smoke_evidence_2"],
+            created_at="2026-05-02T00:00:02+00:00",
+            created_by="test",
         ),
     ]
 
@@ -296,5 +319,5 @@ def test_docs_declare_module_table_ownership_policy() -> None:
     assert "Module Table Ownership" in spec_text
     assert "`ingest`" in spec_text and "`filings`, `paragraphs`, `spans`" in spec_text
     assert "`extract`" in spec_text and "`candidates`" in spec_text
-    assert "`reconcile`" in spec_text and "`judgments`, `participation_counts`" in spec_text
+    assert "`reconcile`" in spec_text and "`actor_relations`, `events`, `event_actor_links`, `participation_counts`, `judgments`" in spec_text
     assert "module-table ownership policy" in claude_text

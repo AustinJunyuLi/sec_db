@@ -1,26 +1,38 @@
-"""Participation-count model and DDL."""
+"""Closed cohort participation-count model and DDL."""
 
 from __future__ import annotations
 
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
+
+ProcessStage = Literal["contacted", "nda_signed", "ioi_submitted", "first_round", "final_round", "exclusivity"]
+ActorClass = Literal["financial", "strategic", "mixed"]
+CountQualifier = Literal["exact", "approximate", "lower_bound", "upper_bound", "range"]
 
 
 class ParticipationCount(BaseModel):
-    model_config = ConfigDict(frozen=True)
+    model_config = ConfigDict(frozen=True, extra="forbid")
 
     participation_count_id: str
     run_id: str
     deal_id: str
     cycle_id: str
-    count_type: str
-    count_value: int = Field(ge=0)
-    count_unit: str
-    process_stage: str
-    bidder_subtype_split: dict[str, int] | None
-    actor_creation_required: Literal["required", "deferred", "projection_only"]
+    event_id: str | None
+    process_stage: ProcessStage
+    actor_class: ActorClass
+    count_min: int = Field(ge=0)
+    count_max: int | None = Field(default=None, ge=0)
+    count_qualifier: CountQualifier
+    named_subset_actor_ids: list[str]
+    anonymous_remainder_count: int = Field(ge=0)
     evidence_ids: list[str]
+
+    @model_validator(mode="after")
+    def _count_range_is_ordered(self) -> "ParticipationCount":
+        if self.count_max is not None and self.count_max < self.count_min:
+            raise ValueError("count_max must be greater than or equal to count_min")
+        return self
 
 
 PARTICIPATION_COUNTS_DDL = """
@@ -29,15 +41,20 @@ CREATE TABLE participation_counts (
   run_id VARCHAR NOT NULL,
   deal_id VARCHAR NOT NULL,
   cycle_id VARCHAR NOT NULL,
-  count_type VARCHAR NOT NULL,
-  count_value INTEGER NOT NULL,
-  count_unit VARCHAR NOT NULL,
-  process_stage VARCHAR NOT NULL,
-  bidder_subtype_split VARCHAR,
-  actor_creation_required VARCHAR NOT NULL CHECK (actor_creation_required IN ('required', 'deferred', 'projection_only')),
+  event_id VARCHAR,
+  process_stage VARCHAR NOT NULL CHECK (process_stage IN ('contacted', 'nda_signed', 'ioi_submitted', 'first_round', 'final_round', 'exclusivity')),
+  actor_class VARCHAR NOT NULL CHECK (actor_class IN ('financial', 'strategic', 'mixed')),
+  count_min INTEGER NOT NULL,
+  count_max INTEGER,
+  count_qualifier VARCHAR NOT NULL CHECK (count_qualifier IN ('exact', 'approximate', 'lower_bound', 'upper_bound', 'range')),
+  named_subset_actor_ids VARCHAR[] NOT NULL,
+  anonymous_remainder_count INTEGER NOT NULL,
   evidence_ids VARCHAR[] NOT NULL,
-  CHECK (count_value >= 0),
+  CHECK (count_min >= 0),
+  CHECK (count_max IS NULL OR count_max >= count_min),
+  CHECK (anonymous_remainder_count >= 0),
   FOREIGN KEY (deal_id) REFERENCES deals(deal_id),
-  FOREIGN KEY (cycle_id) REFERENCES process_cycles(cycle_id)
+  FOREIGN KEY (cycle_id) REFERENCES process_cycles(cycle_id),
+  FOREIGN KEY (event_id) REFERENCES events(event_id)
 );
 """
