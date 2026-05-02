@@ -1,0 +1,17 @@
+[project]
+name = "sec-graph"
+version = "0.1.0"
+description = "Canonical graph extraction experiments for SEC merger filings"
+requires-python = ">=3.11"
+dependencies = [
+  "sec2md==0.1.22",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
