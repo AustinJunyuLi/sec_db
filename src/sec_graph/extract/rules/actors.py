@@ -17,13 +17,24 @@ class Match:
     span_kind: str
 
 
-_PARTY_RE = re.compile(r"\bParty [A-Z]\b")
+_ACTOR_RE = re.compile(
+    r"\b(?:"
+    r"Party [A-Z]"
+    r"|Bidder \d+"
+    r"|Buyer Group"
+    r"|Industry Participant"
+    r"|Sponsor [A-Z]"
+    r"|Company [A-Z]"
+    "|Hudson['\u2019]s Bay"
+    r"|G&W"
+    r")\b"
+)
 
 
 def actor_matches(text: str) -> list[Match]:
     seen: set[str] = set()
     matches: list[Match] = []
-    for match in _PARTY_RE.finditer(text):
+    for match in _ACTOR_RE.finditer(text):
         raw = match.group(0)
         if raw in seen:
             continue

@@ -14,9 +14,11 @@ def _normalize(text: str) -> str:
 
 
 def detect_section(paragraph_text: str) -> str | None:
-    normalized = _normalize(paragraph_text)
+    first_line = next((line for line in paragraph_text.splitlines() if line.strip()), "")
+    normalized = _normalize(first_line)
     for heading in SECTION_HEADINGS:
-        if heading.casefold() in normalized:
+        heading_normalized = heading.casefold()
+        if normalized == heading_normalized or normalized.startswith(heading_normalized):
             return heading
     return None
 

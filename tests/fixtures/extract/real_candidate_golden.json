@@ -1,0 +1,84 @@
+{
+  "petsmart-inc": {
+    "row_count": 55,
+    "projection_sha256": "17007c7803e62465cdabad5cc5b32bad94db7dfa9f25f10479f7f017d0528a46",
+    "required_rows": [
+      {
+        "candidate_type": "actor_mention",
+        "raw_value": "Industry Participant",
+        "normalized_value": "Industry Participant"
+      },
+      {
+        "candidate_type": "actor_mention",
+        "raw_value": "Buyer Group",
+        "normalized_value": "Buyer Group"
+      },
+      {
+        "candidate_type": "actor_mention",
+        "raw_value": "Bidder 2",
+        "normalized_value": "Bidder 2"
+      },
+      {
+        "candidate_type": "dated_event",
+        "raw_value": "On August 13, 2014, the board met in person, together with members of management and representatives of J.P. Morgan and Wachtell Lipton, to complete its initial review of strategic and financial alternatives potentially available to the Company and to receive an update on communications from stockholders and other interested parties, including Industry Participant.",
+        "normalized_value": "2014-08-13"
+      },
+      {
+        "candidate_type": "bid_value",
+        "raw_value": "$81.00 to $83.00 per share",
+        "normalized_value": "81.0-83.0"
+      },
+      {
+        "candidate_type": "dated_event",
+        "raw_value": "On December 14, 2014, the parties executed the merger agreement, the voting agreement and related transaction agreements and issued a press release announcing the transaction.",
+        "normalized_value": "2014-12-14"
+      }
+    ]
+  },
+  "saks": {
+    "row_count": 153,
+    "projection_sha256": "ba44fd1299920906f497943ca7dfa2f6b480638065f83368e0a7c401b2b9040c",
+    "required_rows": [
+      {
+        "candidate_type": "actor_mention",
+        "raw_value": "Hudson\u2019s Bay",
+        "normalized_value": "Hudson\u2019s Bay"
+      },
+      {
+        "candidate_type": "actor_mention",
+        "raw_value": "Sponsor A",
+        "normalized_value": "Sponsor A"
+      },
+      {
+        "candidate_type": "actor_mention",
+        "raw_value": "Sponsor E",
+        "normalized_value": "Sponsor E"
+      },
+      {
+        "candidate_type": "actor_mention",
+        "raw_value": "Sponsor G",
+        "normalized_value": "Sponsor G"
+      },
+      {
+        "candidate_type": "actor_mention",
+        "raw_value": "Company B",
+        "normalized_value": "Company B"
+      },
+      {
+        "candidate_type": "dated_event",
+        "raw_value": "On July 11, 2013, each of Hudson\u2019s Bay, on the one hand, and Sponsor E, together with Sponsor G, on the other hand, submitted proposals expressing their continued interest in an acquisition of Saks.",
+        "normalized_value": "2013-07-11"
+      },
+      {
+        "candidate_type": "bid_value",
+        "raw_value": "$14.50\u2013$15.50 per share",
+        "normalized_value": "14.5-15.5"
+      },
+      {
+        "candidate_type": "dated_event",
+        "raw_value": "On July 29, 2013, Saks and Hudson\u2019s Bay issued a joint press release announcing entry into the transaction.",
+        "normalized_value": "2013-07-29"
+      }
+    ]
+  }
+}

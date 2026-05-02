@@ -29,7 +29,8 @@ def _paragraph_rows(conn: duckdb.DuckDBPyConnection, filing_id: str) -> list[dic
           ON spans.paragraph_id = paragraphs.paragraph_id
          AND spans.span_kind = 'paragraph_seed'
         WHERE paragraphs.filing_id = ?
-        ORDER BY paragraphs.paragraph_id
+          AND paragraphs.section IN ('Background of the Merger', 'unknown_section')
+        ORDER BY paragraphs.char_start, paragraphs.paragraph_id
         """,
         [filing_id],
     ).fetchall()
