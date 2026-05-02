@@ -1,0 +1,259 @@
+{
+  "deals": [
+    {
+      "deal_id": "petsmart_deal_1",
+      "run_id": "track-b-petsmart",
+      "deal_slug": "petsmart",
+      "target_actor_id": "petsmart_actor_1",
+      "announcement_date": "2014-12-14",
+      "evidence_ids": ["petsmart_evidence_1"]
+    }
+  ],
+  "process_cycles": [
+    {
+      "cycle_id": "petsmart_cycle_1",
+      "run_id": "track-b-petsmart",
+      "deal_id": "petsmart_deal_1",
+      "cycle_sequence": 1,
+      "cycle_label": "exploratory sale process",
+      "start_date": "2014-10-30",
+      "end_date": "2014-12-14",
+      "evidence_ids": ["petsmart_evidence_1", "petsmart_evidence_2"]
+    }
+  ],
+  "actors": [
+    {
+      "actor_id": "petsmart_actor_1",
+      "run_id": "track-b-petsmart",
+      "deal_id": "petsmart_deal_1",
+      "actor_label": "PetSmart",
+      "actor_type": "target",
+      "bidder_subtype": null,
+      "is_anonymous": false,
+      "evidence_ids": ["petsmart_evidence_1"]
+    },
+    {
+      "actor_id": "petsmart_actor_2",
+      "run_id": "track-b-petsmart",
+      "deal_id": "petsmart_deal_1",
+      "actor_label": "Buyer Group",
+      "actor_type": "bidder",
+      "bidder_subtype": "financial",
+      "is_anonymous": false,
+      "evidence_ids": ["petsmart_evidence_2"]
+    },
+    {
+      "actor_id": "petsmart_actor_3",
+      "run_id": "track-b-petsmart",
+      "deal_id": "petsmart_deal_1",
+      "actor_label": "Bidder 2",
+      "actor_type": "bidder",
+      "bidder_subtype": "financial",
+      "is_anonymous": true,
+      "evidence_ids": ["petsmart_evidence_3"]
+    }
+  ],
+  "events": [
+    {
+      "event_id": "petsmart_event_1",
+      "run_id": "track-b-petsmart",
+      "deal_id": "petsmart_deal_1",
+      "cycle_id": "petsmart_cycle_1",
+      "event_type": "bid",
+      "event_date": "2014-10-30",
+      "description": "Buyer Group indicated a range of $81.00 to $83.00 per share.",
+      "bid_value": 82.0,
+      "bid_value_lower": 81.0,
+      "bid_value_upper": 83.0,
+      "bid_value_unit": "per_share",
+      "consideration_type": "cash",
+      "evidence_ids": ["petsmart_evidence_2"]
+    },
+    {
+      "event_id": "petsmart_event_2",
+      "run_id": "track-b-petsmart",
+      "deal_id": "petsmart_deal_1",
+      "cycle_id": "petsmart_cycle_1",
+      "event_type": "boundary",
+      "event_date": "2014-11-03",
+      "description": "The board allowed bidders at or above $80.00 to proceed to the final round.",
+      "bid_value": null,
+      "bid_value_lower": null,
+      "bid_value_upper": null,
+      "bid_value_unit": null,
+      "consideration_type": null,
+      "evidence_ids": ["petsmart_evidence_1"]
+    },
+    {
+      "event_id": "petsmart_event_3",
+      "run_id": "track-b-petsmart",
+      "deal_id": "petsmart_deal_1",
+      "cycle_id": "petsmart_cycle_1",
+      "event_type": "bid",
+      "event_date": "2014-12-12",
+      "description": "Buyer Group submitted a best and final offer of $83.00 per share.",
+      "bid_value": 83.0,
+      "bid_value_lower": null,
+      "bid_value_upper": null,
+      "bid_value_unit": "per_share",
+      "consideration_type": "cash",
+      "evidence_ids": ["petsmart_evidence_2"]
+    },
+    {
+      "event_id": "petsmart_event_4",
+      "run_id": "track-b-petsmart",
+      "deal_id": "petsmart_deal_1",
+      "cycle_id": "petsmart_cycle_1",
+      "event_type": "bid",
+      "event_date": "2014-12-12",
+      "description": "Bidder 2 submitted an offer of $81.50 per share.",
+      "bid_value": 81.5,
+      "bid_value_lower": null,
+      "bid_value_upper": null,
+      "bid_value_unit": "per_share",
+      "consideration_type": "cash",
+      "evidence_ids": ["petsmart_evidence_3"]
+    }
+  ],
+  "event_actor_links": [
+    {
+      "link_id": "petsmart_link_1",
+      "run_id": "track-b-petsmart",
+      "event_id": "petsmart_event_1",
+      "actor_id": "petsmart_actor_2",
+      "role": "bidder",
+      "evidence_ids": ["petsmart_evidence_2"]
+    },
+    {
+      "link_id": "petsmart_link_2",
+      "run_id": "track-b-petsmart",
+      "event_id": "petsmart_event_3",
+      "actor_id": "petsmart_actor_2",
+      "role": "bidder",
+      "evidence_ids": ["petsmart_evidence_2"]
+    },
+    {
+      "link_id": "petsmart_link_3",
+      "run_id": "track-b-petsmart",
+      "event_id": "petsmart_event_4",
+      "actor_id": "petsmart_actor_3",
+      "role": "bidder",
+      "evidence_ids": ["petsmart_evidence_3"]
+    }
+  ],
+  "judgments": [
+    {
+      "judgment_id": "petsmart_judgment_1",
+      "run_id": "track-b-petsmart",
+      "deal_id": "petsmart_deal_1",
+      "cycle_id": "petsmart_cycle_1",
+      "actor_id": null,
+      "event_id": "petsmart_event_2",
+      "judgment_type": "formal_boundary",
+      "judgment_value": "petsmart_event_2",
+      "confidence": "high",
+      "alternative_value": null,
+      "supersedes_judgment_id": null,
+      "evidence_ids": ["petsmart_evidence_1"]
+    },
+    {
+      "judgment_id": "petsmart_judgment_2",
+      "run_id": "track-b-petsmart",
+      "deal_id": "petsmart_deal_1",
+      "cycle_id": "petsmart_cycle_1",
+      "actor_id": null,
+      "event_id": null,
+      "judgment_type": "cycle_regime",
+      "judgment_value": "single_final_round",
+      "confidence": "high",
+      "alternative_value": null,
+      "supersedes_judgment_id": null,
+      "evidence_ids": ["petsmart_evidence_1"]
+    },
+    {
+      "judgment_id": "petsmart_judgment_3",
+      "run_id": "track-b-petsmart",
+      "deal_id": "petsmart_deal_1",
+      "cycle_id": "petsmart_cycle_1",
+      "actor_id": null,
+      "event_id": null,
+      "judgment_type": "cycle_visibility",
+      "judgment_value": "visible",
+      "confidence": "medium",
+      "alternative_value": null,
+      "supersedes_judgment_id": null,
+      "evidence_ids": ["petsmart_evidence_1"]
+    },
+    {
+      "judgment_id": "petsmart_judgment_4",
+      "run_id": "track-b-petsmart",
+      "deal_id": "petsmart_deal_1",
+      "cycle_id": "petsmart_cycle_1",
+      "actor_id": null,
+      "event_id": null,
+      "judgment_type": "cycle_relation",
+      "judgment_value": "primary_cycle",
+      "confidence": "medium",
+      "alternative_value": null,
+      "supersedes_judgment_id": null,
+      "evidence_ids": ["petsmart_evidence_1"]
+    },
+    {
+      "judgment_id": "petsmart_judgment_5",
+      "run_id": "track-b-petsmart",
+      "deal_id": "petsmart_deal_1",
+      "cycle_id": "petsmart_cycle_1",
+      "actor_id": "petsmart_actor_2",
+      "event_id": "petsmart_event_3",
+      "judgment_type": "admission",
+      "judgment_value": "true",
+      "confidence": "high",
+      "alternative_value": null,
+      "supersedes_judgment_id": null,
+      "evidence_ids": ["petsmart_evidence_2"]
+    },
+    {
+      "judgment_id": "petsmart_judgment_6",
+      "run_id": "track-b-petsmart",
+      "deal_id": "petsmart_deal_1",
+      "cycle_id": "petsmart_cycle_1",
+      "actor_id": "petsmart_actor_3",
+      "event_id": "petsmart_event_4",
+      "judgment_type": "admission",
+      "judgment_value": "true",
+      "confidence": "high",
+      "alternative_value": null,
+      "supersedes_judgment_id": null,
+      "evidence_ids": ["petsmart_evidence_3"]
+    },
+    {
+      "judgment_id": "petsmart_judgment_7",
+      "run_id": "track-b-petsmart",
+      "deal_id": "petsmart_deal_1",
+      "cycle_id": "petsmart_cycle_1",
+      "actor_id": "petsmart_actor_3",
+      "event_id": null,
+      "judgment_type": "dropout_mechanism",
+      "judgment_value": "target_rejected",
+      "confidence": "low",
+      "alternative_value": "ambiguous",
+      "supersedes_judgment_id": null,
+      "evidence_ids": ["petsmart_evidence_3"]
+    }
+  ],
+  "participation_counts": [
+    {
+      "participation_count_id": "petsmart_count_1",
+      "run_id": "track-b-petsmart",
+      "deal_id": "petsmart_deal_1",
+      "cycle_id": "petsmart_cycle_1",
+      "count_type": "interested_parties",
+      "count_value": 15,
+      "count_unit": "parties",
+      "process_stage": "preliminary_interest",
+      "bidder_subtype_split": {"financial": 15},
+      "actor_creation_required": "deferred",
+      "evidence_ids": ["petsmart_evidence_1"]
+    }
+  ]
+}
