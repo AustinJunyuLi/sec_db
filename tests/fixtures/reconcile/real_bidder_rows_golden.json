@@ -1,0 +1,38 @@
+{
+  "row_count": 8,
+  "projection_sha256": "6e1b893552f22160d1f25fd56b295657e43e5157ddd83e3f7d31f47c3b407866",
+  "required_rows": [
+    {
+      "deal_slug": "petsmart-inc",
+      "actor_label": "Buyer Group",
+      "bI": 82.0,
+      "bF": 83.0,
+      "admitted": true,
+      "formal_boundary": "advancement_admitted"
+    },
+    {
+      "deal_slug": "providence-worcester",
+      "actor_label": "G&W",
+      "bI": 22.15,
+      "bF": 25.0,
+      "admitted": true,
+      "formal_boundary": "advancement_admitted"
+    },
+    {
+      "deal_slug": "saks",
+      "actor_label": "Hudson’s Bay",
+      "bI": 15.5,
+      "bF": 16.0,
+      "admitted": true,
+      "formal_boundary": "advancement_admitted"
+    },
+    {
+      "deal_slug": "zep",
+      "actor_label": "New Mountain Capital",
+      "bI": 20.05,
+      "bF": 20.05,
+      "admitted": true,
+      "formal_boundary": "advancement_admitted"
+    }
+  ]
+}

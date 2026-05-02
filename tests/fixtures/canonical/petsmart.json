@@ -1,0 +1,222 @@
+{
+  "_meta": {
+    "role": "schema_unit_fixture",
+    "NOT_pipeline_proof": true,
+    "scope": "minimal Pydantic round-trip and contract assertions only",
+    "notes": "Hand-authored canonical rows scoped to the smallest shape that exercises validate/integrity, validate/flags, and project/bidder_rows. The `run_id` is a generic UTC timestamp; this fixture is not pipeline output."
+  },
+  "deals": [
+    {
+      "deal_id": "petsmart_deal_1",
+      "run_id": "2026-05-02T140000Z_unit_fixture",
+      "deal_slug": "petsmart",
+      "target_actor_id": "petsmart_actor_1",
+      "announcement_date": "2014-12-14",
+      "evidence_ids": ["petsmart_evidence_1"]
+    }
+  ],
+  "process_cycles": [
+    {
+      "cycle_id": "petsmart_cycle_1",
+      "run_id": "2026-05-02T140000Z_unit_fixture",
+      "deal_id": "petsmart_deal_1",
+      "cycle_sequence": 1,
+      "cycle_label": "exploratory sale process",
+      "start_date": "2014-10-30",
+      "end_date": "2014-12-14",
+      "evidence_ids": ["petsmart_evidence_1", "petsmart_evidence_2"]
+    }
+  ],
+  "actors": [
+    {
+      "actor_id": "petsmart_actor_1",
+      "run_id": "2026-05-02T140000Z_unit_fixture",
+      "deal_id": "petsmart_deal_1",
+      "actor_label": "PetSmart",
+      "actor_kind": "organization",
+      "observability": "named",
+      "evidence_ids": ["petsmart_evidence_1"],
+      "lead_arranger_label": null,
+      "member_count_known": null,
+      "has_strategic_member": null,
+      "has_sovereign_wealth_member": null
+    },
+    {
+      "actor_id": "petsmart_actor_2",
+      "run_id": "2026-05-02T140000Z_unit_fixture",
+      "deal_id": "petsmart_deal_1",
+      "actor_label": "Buyer Group",
+      "actor_kind": "group",
+      "observability": "named",
+      "evidence_ids": ["petsmart_evidence_2"],
+      "lead_arranger_label": "BC Partners",
+      "member_count_known": 5,
+      "has_strategic_member": false,
+      "has_sovereign_wealth_member": true
+    },
+    {
+      "actor_id": "petsmart_actor_3",
+      "run_id": "2026-05-02T140000Z_unit_fixture",
+      "deal_id": "petsmart_deal_1",
+      "actor_label": "Bidder 2",
+      "actor_kind": "organization",
+      "observability": "anonymous_handle",
+      "evidence_ids": ["petsmart_evidence_3"],
+      "lead_arranger_label": null,
+      "member_count_known": null,
+      "has_strategic_member": null,
+      "has_sovereign_wealth_member": null
+    }
+  ],
+  "actor_relations": [],
+  "events": [
+    {
+      "event_id": "petsmart_event_1",
+      "run_id": "2026-05-02T140000Z_unit_fixture",
+      "deal_id": "petsmart_deal_1",
+      "cycle_id": "petsmart_cycle_1",
+      "event_type": "bid",
+      "event_subtype": "first_round_bid",
+      "event_date": "2014-10-30",
+      "description": "Buyer Group indicated a range of $81.00 to $83.00 per share.",
+      "bid_value": 82.0,
+      "bid_value_lower": 81.0,
+      "bid_value_upper": 83.0,
+      "bid_value_unit": "per_share",
+      "consideration_type": "cash",
+      "evidence_ids": ["petsmart_evidence_2"]
+    },
+    {
+      "event_id": "petsmart_event_2",
+      "run_id": "2026-05-02T140000Z_unit_fixture",
+      "deal_id": "petsmart_deal_1",
+      "cycle_id": "petsmart_cycle_1",
+      "event_type": "process",
+      "event_subtype": "advancement_admitted",
+      "event_date": "2014-11-03",
+      "description": "The board allowed bidders at or above $80.00 to proceed to the final round.",
+      "bid_value": null,
+      "bid_value_lower": null,
+      "bid_value_upper": null,
+      "bid_value_unit": null,
+      "consideration_type": null,
+      "evidence_ids": ["petsmart_evidence_1"]
+    },
+    {
+      "event_id": "petsmart_event_3",
+      "run_id": "2026-05-02T140000Z_unit_fixture",
+      "deal_id": "petsmart_deal_1",
+      "cycle_id": "petsmart_cycle_1",
+      "event_type": "bid",
+      "event_subtype": "final_round_bid",
+      "event_date": "2014-12-12",
+      "description": "Buyer Group submitted a best and final offer of $83.00 per share.",
+      "bid_value": 83.0,
+      "bid_value_lower": null,
+      "bid_value_upper": null,
+      "bid_value_unit": "per_share",
+      "consideration_type": "cash",
+      "evidence_ids": ["petsmart_evidence_2"]
+    },
+    {
+      "event_id": "petsmart_event_4",
+      "run_id": "2026-05-02T140000Z_unit_fixture",
+      "deal_id": "petsmart_deal_1",
+      "cycle_id": "petsmart_cycle_1",
+      "event_type": "bid",
+      "event_subtype": "final_round_bid",
+      "event_date": "2014-12-12",
+      "description": "Bidder 2 submitted an offer of $81.50 per share.",
+      "bid_value": 81.5,
+      "bid_value_lower": null,
+      "bid_value_upper": null,
+      "bid_value_unit": "per_share",
+      "consideration_type": "cash",
+      "evidence_ids": ["petsmart_evidence_3"]
+    }
+  ],
+  "event_actor_links": [
+    {
+      "link_id": "petsmart_link_1",
+      "run_id": "2026-05-02T140000Z_unit_fixture",
+      "event_id": "petsmart_event_1",
+      "actor_id": "petsmart_actor_2",
+      "role": "bid_submitter",
+      "role_detail": null,
+      "evidence_ids": ["petsmart_evidence_2"]
+    },
+    {
+      "link_id": "petsmart_link_2",
+      "run_id": "2026-05-02T140000Z_unit_fixture",
+      "event_id": "petsmart_event_3",
+      "actor_id": "petsmart_actor_2",
+      "role": "bid_submitter",
+      "role_detail": null,
+      "evidence_ids": ["petsmart_evidence_2"]
+    },
+    {
+      "link_id": "petsmart_link_3",
+      "run_id": "2026-05-02T140000Z_unit_fixture",
+      "event_id": "petsmart_event_4",
+      "actor_id": "petsmart_actor_3",
+      "role": "bid_submitter",
+      "role_detail": null,
+      "evidence_ids": ["petsmart_evidence_3"]
+    }
+  ],
+  "judgments": [
+    {
+      "judgment_id": "petsmart_judgment_1",
+      "run_id": "2026-05-02T140000Z_unit_fixture",
+      "judgment_kind": "projection_eligibility",
+      "target_table": null,
+      "target_id": null,
+      "target_column": null,
+      "prior_value": null,
+      "new_value": null,
+      "projection_name": "bidder_cycle_baseline_v1",
+      "actor_id": "petsmart_actor_2",
+      "included": true,
+      "rule_id": "bidder_cycle_baseline_v1.admission",
+      "evidence_ids": ["petsmart_evidence_2"],
+      "supersedes_judgment_id": null,
+      "created_at": "2026-05-02T00:00:00+00:00",
+      "created_by": "fixture"
+    },
+    {
+      "judgment_id": "petsmart_judgment_2",
+      "run_id": "2026-05-02T140000Z_unit_fixture",
+      "judgment_kind": "projection_eligibility",
+      "target_table": null,
+      "target_id": null,
+      "target_column": null,
+      "prior_value": null,
+      "new_value": null,
+      "projection_name": "bidder_cycle_baseline_v1",
+      "actor_id": "petsmart_actor_3",
+      "included": true,
+      "rule_id": "bidder_cycle_baseline_v1.admission",
+      "evidence_ids": ["petsmart_evidence_3"],
+      "supersedes_judgment_id": null,
+      "created_at": "2026-05-02T00:00:00+00:00",
+      "created_by": "fixture"
+    }
+  ],
+  "participation_counts": [
+    {
+      "participation_count_id": "petsmart_count_1",
+      "run_id": "2026-05-02T140000Z_unit_fixture",
+      "deal_id": "petsmart_deal_1",
+      "cycle_id": "petsmart_cycle_1",
+      "event_id": null,
+      "process_stage": "contacted",
+      "actor_class": "financial",
+      "count_min": 15,
+      "count_max": 15,
+      "count_qualifier": "exact",
+      "named_subset_actor_ids": [],
+      "anonymous_remainder_count": 15,
+      "evidence_ids": ["petsmart_evidence_1"]
+    }
+  ]
+}

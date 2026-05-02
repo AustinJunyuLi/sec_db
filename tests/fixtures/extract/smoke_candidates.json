@@ -1,0 +1,44 @@
+[
+  {
+    "candidate_type": "actor_mention",
+    "raw_value": "Party A",
+    "normalized_value": "Party A",
+    "confidence": "high",
+    "status": "active"
+  },
+  {
+    "candidate_type": "dated_event",
+    "raw_value": "On January 5, 2024, Party A submitted an indication of interest.",
+    "normalized_value": "2024-01-05",
+    "confidence": "medium",
+    "status": "active"
+  },
+  {
+    "candidate_type": "actor_mention",
+    "raw_value": "Party B",
+    "normalized_value": "Party B",
+    "confidence": "high",
+    "status": "active"
+  },
+  {
+    "candidate_type": "dated_event",
+    "raw_value": "On January 12, 2024, Party B proposed $12.50 per share in cash.",
+    "normalized_value": "2024-01-12",
+    "confidence": "medium",
+    "status": "active"
+  },
+  {
+    "candidate_type": "bid_value",
+    "raw_value": "$12.50 per share",
+    "normalized_value": "12.5",
+    "confidence": "high",
+    "status": "active"
+  },
+  {
+    "candidate_type": "participation_count",
+    "raw_value": "15 financial buyers",
+    "normalized_value": "15",
+    "confidence": "high",
+    "status": "active"
+  }
+]

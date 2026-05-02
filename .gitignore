@@ -1,11 +1,13 @@
 .DS_Store
 .env
 .venv/
+.worktrees/
+data/pipeline.duckdb
 __pycache__/
 .pytest_cache/
 .ruff_cache/
 *.pyc
+*.egg-info/
 artifacts/
 runs/
 tmp/
-

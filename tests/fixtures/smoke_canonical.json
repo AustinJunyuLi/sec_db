@@ -1,0 +1,191 @@
+{
+  "deals": [
+    {
+      "deal_id": "smoke_deal_1",
+      "run_id": "stage1b-smoke",
+      "deal_slug": "smoke",
+      "target_actor_id": "smoke_actor_1",
+      "announcement_date": "2024-02-01",
+      "evidence_ids": ["smoke_evidence_1"]
+    }
+  ],
+  "process_cycles": [
+    {
+      "cycle_id": "smoke_cycle_1",
+      "run_id": "stage1b-smoke",
+      "deal_id": "smoke_deal_1",
+      "cycle_sequence": 1,
+      "cycle_label": "pre-signing process",
+      "start_date": "2024-01-05",
+      "end_date": "2024-02-01",
+      "evidence_ids": ["smoke_evidence_1", "smoke_evidence_2"]
+    }
+  ],
+  "actors": [
+    {
+      "actor_id": "smoke_actor_1",
+      "run_id": "stage1b-smoke",
+      "deal_id": "smoke_deal_1",
+      "actor_label": "Synthetic Target",
+      "actor_kind": "organization",
+      "observability": "named",
+      "evidence_ids": ["smoke_evidence_1"],
+      "lead_arranger_label": null,
+      "member_count_known": null,
+      "has_strategic_member": null,
+      "has_sovereign_wealth_member": null
+    },
+    {
+      "actor_id": "smoke_actor_2",
+      "run_id": "stage1b-smoke",
+      "deal_id": "smoke_deal_1",
+      "actor_label": "Party A",
+      "actor_kind": "organization",
+      "observability": "anonymous_handle",
+      "evidence_ids": ["smoke_evidence_1"],
+      "lead_arranger_label": null,
+      "member_count_known": null,
+      "has_strategic_member": null,
+      "has_sovereign_wealth_member": null
+    },
+    {
+      "actor_id": "smoke_actor_3",
+      "run_id": "stage1b-smoke",
+      "deal_id": "smoke_deal_1",
+      "actor_label": "Party B",
+      "actor_kind": "organization",
+      "observability": "anonymous_handle",
+      "evidence_ids": ["smoke_evidence_2"],
+      "lead_arranger_label": null,
+      "member_count_known": null,
+      "has_strategic_member": null,
+      "has_sovereign_wealth_member": null
+    }
+  ],
+  "actor_relations": [
+    {
+      "relation_id": "smoke_relation_1",
+      "run_id": "stage1b-smoke",
+      "deal_id": "smoke_deal_1",
+      "subject_actor_id": "smoke_actor_3",
+      "object_actor_id": "smoke_actor_2",
+      "relation_type": "supports",
+      "role_detail": "synthetic support relation for schema walkthrough",
+      "cycle_id_first_observed": "smoke_cycle_1",
+      "cycle_id_last_observed": null,
+      "effective_date_first": null,
+      "effective_date_last": null,
+      "confidence": "low",
+      "evidence_ids": ["smoke_evidence_2"]
+    }
+  ],
+  "events": [
+    {
+      "event_id": "smoke_event_1",
+      "run_id": "stage1b-smoke",
+      "deal_id": "smoke_deal_1",
+      "cycle_id": "smoke_cycle_1",
+      "event_type": "bid",
+      "event_subtype": "ioi_submitted",
+      "event_date": "2024-01-05",
+      "description": "Party A submitted an indication of interest.",
+      "bid_value": null,
+      "bid_value_lower": null,
+      "bid_value_upper": null,
+      "bid_value_unit": null,
+      "consideration_type": null,
+      "evidence_ids": ["smoke_evidence_1"]
+    },
+    {
+      "event_id": "smoke_event_2",
+      "run_id": "stage1b-smoke",
+      "deal_id": "smoke_deal_1",
+      "cycle_id": "smoke_cycle_1",
+      "event_type": "bid",
+      "event_subtype": "first_round_bid",
+      "event_date": "2024-01-12",
+      "description": "Party B proposed $12.50 per share in cash.",
+      "bid_value": 12.5,
+      "bid_value_lower": null,
+      "bid_value_upper": null,
+      "bid_value_unit": "per_share",
+      "consideration_type": "cash",
+      "evidence_ids": ["smoke_evidence_2"]
+    }
+  ],
+  "event_actor_links": [
+    {
+      "link_id": "smoke_link_1",
+      "run_id": "stage1b-smoke",
+      "event_id": "smoke_event_1",
+      "actor_id": "smoke_actor_2",
+      "role": "bid_submitter",
+      "role_detail": null,
+      "evidence_ids": ["smoke_evidence_1"]
+    },
+    {
+      "link_id": "smoke_link_2",
+      "run_id": "stage1b-smoke",
+      "event_id": "smoke_event_2",
+      "actor_id": "smoke_actor_3",
+      "role": "bid_submitter",
+      "role_detail": null,
+      "evidence_ids": ["smoke_evidence_2"]
+    }
+  ],
+  "judgments": [
+    {
+      "judgment_id": "smoke_judgment_1",
+      "run_id": "stage1b-smoke",
+      "judgment_kind": "projection_eligibility",
+      "target_table": null,
+      "target_id": null,
+      "target_column": null,
+      "prior_value": null,
+      "new_value": null,
+      "projection_name": "bidder_cycle_baseline_v1",
+      "actor_id": "smoke_actor_2",
+      "included": true,
+      "rule_id": "bidder_cycle_baseline_v1.admission",
+      "evidence_ids": ["smoke_evidence_1"],
+      "supersedes_judgment_id": null,
+      "created_at": "2026-05-02T00:00:00+00:00",
+      "created_by": "fixture"
+    },
+    {
+      "judgment_id": "smoke_judgment_2",
+      "run_id": "stage1b-smoke",
+      "judgment_kind": "projection_eligibility",
+      "target_table": null,
+      "target_id": null,
+      "target_column": null,
+      "prior_value": null,
+      "new_value": null,
+      "projection_name": "bidder_cycle_baseline_v1",
+      "actor_id": "smoke_actor_3",
+      "included": true,
+      "rule_id": "bidder_cycle_baseline_v1.admission",
+      "evidence_ids": ["smoke_evidence_2"],
+      "supersedes_judgment_id": null,
+      "created_at": "2026-05-02T00:00:00+00:00",
+      "created_by": "fixture"
+    }
+  ],
+  "participation_counts": [
+    {
+      "participation_count_id": "smoke_count_1",
+      "run_id": "stage1b-smoke",
+      "deal_id": "smoke_deal_1",
+      "cycle_id": "smoke_cycle_1",
+      "event_id": null,
+      "process_stage": "contacted",
+      "actor_class": "financial",
+      "count_min": 15,
+      "count_max": 15,
+      "count_qualifier": "exact",
+      "named_subset_actor_ids": [],
+      "anonymous_remainder_count": 15,
+      "evidence_ids": ["smoke_evidence_3"]
+    }
+  ]
+}

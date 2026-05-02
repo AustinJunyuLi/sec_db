@@ -4,6 +4,9 @@ version = "0.1.0"
 description = "Canonical graph extraction experiments for SEC merger filings"
 requires-python = ">=3.11"
 dependencies = [
+  "duckdb>=1.2",
+  "openai==2.31.0",
+  "pydantic>=2",
   "sec2md==0.1.22",
 ]
 

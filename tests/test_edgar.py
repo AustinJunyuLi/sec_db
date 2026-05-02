@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 import pytest
 
-from sec_graph import edgar
+from sec_graph.fetch import edgar
 
 
 def test_parse_accession_accepts_compact_nested_and_direct_urls() -> None:
@@ -42,13 +42,40 @@ def test_resolve_substantive_document_picks_offer_to_purchase_for_tender_offer(m
         ],
     )
 
-    doc, index_url = edgar.resolve_substantive_document(
+    doc, index_url, filing_form_type = edgar.resolve_substantive_document(
         "https://www.sec.gov/Archives/edgar/data/1/000000000000000001/0000000000-00-000001-index.htm"
     )
 
     assert doc.name == "offer.htm"
     assert doc.form_type == "EX-99.(A)(1)(A)"
+    assert filing_form_type == "SC TO-T"
     assert index_url.endswith("/000000000000000001/0000000000-00-000001-index.htm")
+
+
+def test_tender_offer_without_offer_to_purchase_fails_loudly(monkeypatch) -> None:
+    """SC TO-T filings without an EX-99.(A)(1)(A) exhibit MUST raise — no fallback."""
+    monkeypatch.setattr(
+        edgar,
+        "_parse_index_table",
+        lambda _: [
+            ("/Archives/edgar/data/1/000000000000000001/cover.htm", "cover.htm", "SC TO-T", "100"),
+            (
+                "/Archives/edgar/data/1/000000000000000001/some_other.htm",
+                "some_other.htm",
+                "EX-99.(A)(5)(B)",
+                "200",
+            ),
+        ],
+    )
+
+    with pytest.raises(edgar.MissingOfferToPurchaseError) as excinfo:
+        edgar.resolve_substantive_document(
+            "https://www.sec.gov/Archives/edgar/data/1/000000000000000001/0000000000-00-000001-index.htm"
+        )
+
+    message = str(excinfo.value)
+    assert "SC TO-T" in message
+    assert "EX-99" in message and "A)(1)(A" in message
 
 
 def test_resolve_substantive_document_rejects_excluded_forms(monkeypatch) -> None:
@@ -93,7 +120,7 @@ def test_process_deal_writes_raw_markdown_pages_and_manifest(tmp_path, monkeypat
     )
 
     monkeypatch.setattr(edgar, "FILINGS_DIR", tmp_path / "data" / "filings")
-    monkeypatch.setattr(edgar, "resolve_substantive_document", lambda _: (doc, "https://index"))
+    monkeypatch.setattr(edgar, "resolve_substantive_document", lambda _: (doc, "https://index", doc.form_type))
     monkeypatch.setattr(edgar, "_rate_limited_get", lambda _: b"<html>body</html>")
     monkeypatch.setattr(
         edgar,
@@ -117,6 +144,8 @@ def test_process_deal_writes_raw_markdown_pages_and_manifest(tmp_path, monkeypat
     ]
     assert manifest["slug"] == "synthetic"
     assert manifest["source"]["primary_document_url"] == doc.url
+    assert manifest["source"]["filing_form_type"] == "DEFM14A"
+    assert manifest["source"]["selected_document_form_type"] == "DEFM14A"
     assert manifest["fetch"]["sec2md_version"] == "test-sec2md"
     assert re.fullmatch(r"[0-9a-f]{64}", manifest["artifacts"]["raw_htm_sha256"])
     assert re.fullmatch(r"[0-9a-f]{64}", manifest["artifacts"]["raw_md_sha256"])
