@@ -130,6 +130,7 @@ Provider config is runtime-only:
 - `provider_name`;
 - `model`;
 - `reasoning_effort`;
+- `base_url`;
 - `api_key_env`;
 - timeout / retry limit.
 
@@ -153,6 +154,7 @@ CLI behavior:
 Environment variables:
 
 - `LINKFLOW_API_KEY`: required only for live Linkflow calls.
+- `LINKFLOW_BASE_URL`: optional; defaults to `https://www.linkflow.run/v1`.
 - `SEC_GRAPH_LIVE_LINKFLOW=1`: required by live tests.
 
 If LLM flags are absent, the candidate table and spans produced by extraction
