@@ -4,17 +4,23 @@ from __future__ import annotations
 
 import argparse
 
-from sec_graph.cli import ingest_cmd
+from sec_graph.cli import extract_cmd, ingest_cmd, project_cmd, validate_cmd
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="python -m sec_graph")
     subparsers = parser.add_subparsers(dest="command", required=True)
-    ingest_parser = subparsers.add_parser("ingest", help="ingest filing markdown")
-    for action in ingest_cmd.build_parser()._actions:
-        if action.dest == "help":
-            continue
-        ingest_parser._add_action(action)
+    for command, help_text, module in (
+        ("ingest", "ingest filing markdown", ingest_cmd),
+        ("extract", "extract candidates from ingested filings", extract_cmd),
+        ("validate", "validate canonical rows", validate_cmd),
+        ("project", "project bidder-cycle rows", project_cmd),
+    ):
+        command_parser = subparsers.add_parser(command, help=help_text)
+        for action in module.build_parser()._actions:
+            if action.dest == "help":
+                continue
+            command_parser._add_action(action)
     return parser
 
 
@@ -23,6 +29,12 @@ def main(argv: list[str] | None = None) -> int:
     args, unknown = parser.parse_known_args(argv)
     if args.command == "ingest":
         return ingest_cmd.main(_argv_from_namespace(args, unknown))
+    if args.command == "extract":
+        return extract_cmd.main(_argv_from_namespace(args, unknown))
+    if args.command == "validate":
+        return validate_cmd.main(_argv_from_namespace(args, unknown))
+    if args.command == "project":
+        return project_cmd.main(_argv_from_namespace(args, unknown))
     raise SystemExit(f"unknown command {args.command}")
 
 
@@ -32,9 +44,13 @@ def _argv_from_namespace(args: argparse.Namespace, unknown: list[str]) -> list[s
         rebuilt.extend(["--slug", args.slug])
     if getattr(args, "all", False):
         rebuilt.append("--all")
+    if getattr(args, "filing_id", None) is not None:
+        rebuilt.extend(["--filing-id", args.filing_id])
     if getattr(args, "db", None) is not None:
         rebuilt.extend(["--db", str(args.db)])
     if getattr(args, "examples_dir", None) is not None:
         rebuilt.extend(["--examples-dir", str(args.examples_dir)])
+    if getattr(args, "run_dir", None) is not None:
+        rebuilt.extend(["--run-dir", str(args.run_dir)])
     rebuilt.extend(unknown)
     return rebuilt
