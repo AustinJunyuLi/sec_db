@@ -1,15 +1,17 @@
-# sec_graph: Modular Architecture Spec
+# sec_graph: Specification
 
-**Status:** APPROVED (2026-05-02)
-**Scope:** Repository-wide architecture for the SEC merger-filing canonical pipeline.
-**Out of scope:** Per-module implementation plans (each module gets its own brainstorm → spec → plan → implementation cycle).
-**Supersedes:** Nothing. Lives alongside `docs/design.md` (the local design contract) and refines its module-level structure.
+**Status:** APPROVED (2026-05-02). Sole source of truth for design and contracts.
+**Scope:** Repository-wide architecture, schema-shape commitments, build order, slicing rules, and non-negotiable invariants.
+**Companion document:** `quality_reports/plans/2026-05-02_parallel-execution-plan.md` is the sole source of truth for executing this spec. Historical context lives in `docs/prior-pipeline-lessons.md`.
+**Out of scope:** Per-module implementation prose (each module gets its own brainstorm → spec → plan → implementation cycle when its track activates).
 
 ---
 
 ## 1. Purpose
 
 `sec_graph` turns SEC merger-proxy narratives into a canonical structured representation of takeover sale processes (`deals`, `process_cycles`, `actors`, `events`, `event_actor_links`, `judgments`, evidence-bound source spans, plus auxiliary tables for advisors, counsel, terms, group memberships, prior relationships, and participation counts). Bidder-cycle estimator rows are produced as **deterministic projections** over the canonical store, not as the primary extraction format.
+
+The canonical store must support future views over advisors, counsel, board committees, go-shops, deal terms, process restarts, prior relationships, consortia, and ambiguity judgments without re-extracting the filing text.
 
 This document is the architecture-level contract for **how** the pipeline is decomposed, what each module owns, where data lives, how runs are versioned, and in what order modules are built. It does not prescribe implementation details inside any single module — those belong in per-module specs.
 
@@ -43,7 +45,7 @@ Each module is a Python subpackage under `src/sec_graph/`. Each owns one stage o
 
 ### 3.2 `fetch`
 
-**Owns:** EDGAR download + sec2md conversion. Already implemented; the contract here documents what we keep when migrating it out of `src/sec_graph/edgar.py` into `src/sec_graph/fetch/`.
+**Owns:** EDGAR download + sec2md conversion. Already implemented in `src/sec_graph/edgar.py`; will move to `src/sec_graph/fetch/edgar.py` in Phase 0.
 
 **Inputs:** A row from `seeds.csv` (deal slug + EDGAR URL).
 
@@ -63,7 +65,7 @@ Each module is a Python subpackage under `src/sec_graph/`. Each owns one stage o
 
 **Owns:** Markdown normalization + provenance map.
 
-**Inputs:** A directory `data/filings/{slug}/` containing `raw.md` and `manifest.json`. Also accepts hand-trimmed examples in `data/examples/{slug}.md` with no manifest (some fields stay null).
+**Inputs:** A directory `data/filings/{slug}/` containing `raw.md` and `manifest.json`. Also accepts hand-trimmed examples in `data/examples/{slug}.md` with no manifest (some fields stay null). Current `data/examples/` set: `petsmart-inc.md`, `providence-worcester.md`, `saks.md`, `zep.md`.
 
 **Outputs:** Rows written to DuckDB tables:
 - `filings` — one row per filing with hashes, page count, section index, parser version
@@ -122,17 +124,25 @@ Each module is a Python subpackage under `src/sec_graph/`. Each owns one stage o
 
 ### 3.7 `project`
 
-**Owns:** Pure deterministic projection from canonical tables to estimator-facing views. No new factual judgments. Adapts the reference `derive_views.py` semantics.
+**Owns:** Pure deterministic projection from canonical tables to estimator-facing views. No new factual judgments.
 
 **Inputs:** Reads canonical tables from DuckDB.
 
 **Outputs:** Files under `runs/{run_id}/`:
-- `bidder_rows.jsonl` — one row per bidder-cycle (matches `derive_views.py` schema)
+- `bidder_rows.jsonl` — one row per bidder-cycle
 - `auctions.jsonl` — cycle-level metadata
 - `cycle_summary.csv`, `bidder_summary.csv`, `deal_index.csv`, `review_master.csv`
 - `run_memo.md` — markdown run summary
 
-**Acceptance:** Every exported `bidder_rows.jsonl` row populates all fields from the reference schema (`deal_slug`, `cycle_id`, `actor_id`, `actor_label`, `bI`, `bI_lo`, `bI_hi`, `w_logwidth`, `bF`, `admitted`, `T`, `bid_value_unit`, `consideration_type`, `boundary_event_id`, `boundary_quality`, `formal_boundary`, `dropout_mechanism`, `dropout_has_alternative`, `cycle_visibility`, `scope_validity`, `valuation_comparability`, `confidence_min`); nulls are present only where a corresponding scope flag explains them.
+**Acceptance:** Every exported `bidder_rows.jsonl` row populates all fields from the projection schema (`deal_slug`, `cycle_id`, `actor_id`, `actor_label`, `bI`, `bI_lo`, `bI_hi`, `w_logwidth`, `bF`, `admitted`, `T`, `bid_value_unit`, `consideration_type`, `boundary_event_id`, `boundary_quality`, `formal_boundary`, `dropout_mechanism`, `dropout_has_alternative`, `cycle_visibility`, `scope_validity`, `valuation_comparability`, `confidence_min`); nulls are present only where a corresponding scope flag explains them.
+
+**Projection-construction rules:**
+- `bI` = bidder's most recent proposal **before** the cycle's `formal_boundary` event date.
+- `bF` = bidder's highest proposal **at or after** the `formal_boundary` event date.
+- `admitted` = TRUE iff a non-null `bF` exists. Do **not** infer admission only from "post-boundary proposal exists" without checking the explicit `judgments.judgment_type = 'admission'` row when present.
+- `w_logwidth` = `log(bI_hi / bI_lo)` when both bounds are positive; null otherwise.
+- `T` = 0 when `bidder_subtype = 'financial'`, 1 when `'strategic'`, null otherwise.
+- `confidence_min` = lowest of `boundary_quality`, `dropout_confidence`, `valuation_comparability.confidence`, `scope_validity.confidence` on the rank `low < medium < high`.
 
 ## 4. Storage Architecture
 
@@ -153,9 +163,20 @@ src/sec_graph/
   __init__.py
   schema/                 # models, IDs, DDL, evidence helpers
     __init__.py
-    models.py
-    ddl.sql
+    models/
+      __init__.py
+      filings.py          # CleanFiling, Section, Paragraph, SourceSpan
+      canonical.py        # Deal, ProcessCycle, Actor, Event, EventActorLink
+      judgments.py        # Judgment (with supersedes chain)
+      participation_counts.py
+      auxiliary.py        # advisor / counsel / board / terms / group / prior / bid-norm / cycle-phase (deferred until fixture-demanded)
+      runtime.py          # RunMetadata
+      extraction.py       # ExtractionCandidate (Stage 6+)
     ids.py
+    evidence.py
+    db.py
+    versions.py
+    schema_init.py
   fetch/                  # existing edgar.py moved here
     __init__.py
     edgar.py
@@ -164,6 +185,7 @@ src/sec_graph/
     cleaning.py
     paragraphs.py
     sections.py
+    section_vocabulary.py
     spans.py
   extract/
     __init__.py
@@ -180,6 +202,8 @@ src/sec_graph/
     cycles.py
     boundaries.py
     judgments.py
+    grouped_bidders.py
+    anonymous_actors.py
   validate/
     __init__.py
     integrity.py
@@ -188,7 +212,14 @@ src/sec_graph/
     __init__.py
     bidder_rows.py
     summaries.py
-  cli.py                  # python -m sec_graph {subcommand} ...
+  cli/                    # per-track subcommand files (avoids merge conflicts)
+    __init__.py
+    ingest_cmd.py
+    extract_cmd.py
+    reconcile_cmd.py
+    validate_cmd.py
+    project_cmd.py
+  cli.py                  # thin dispatcher: python -m sec_graph {subcommand} ...
 
 scripts/
   fetch_filings.py        # existing thin shim, kept for back-compat
@@ -214,7 +245,9 @@ tests/
   test_<module>.py        # unit tests per module
   fixtures/
     smoke_filing.md       # synthetic filing for CI smoke test
+    smoke_canonical.json  # hand-authored canonical walkthrough
     canonical/{slug}.json # golden canonical outputs per example
+    extract/smoke_candidates.json
   integration/
     test_pipeline.py      # full-pipeline tests against 4 examples
   test_determinism.py     # rerun-equivalence test
@@ -274,13 +307,22 @@ Justification: raw filings are the source of truth and are immutable on disk. Th
 
 Every canonical row must reference at least one `evidence_id` resolving to a `SourceSpan` whose `quote_hash` matches the bytes at the recorded `(filing_id, char_start, char_end)`. `validate` enforces this. `schema` provides helpers for span construction and quote-hash verification.
 
+**`SourceSpan` shape — non-negotiables (see §17.2):**
+
+- `span_basis: Literal["raw_md", "clean_text"]` declares which coordinate system `char_start`/`char_end` reference.
+- `span_kind: Literal["paragraph_seed", "sentence", "clause", "phrase"]` distinguishes ingest seeds from extract-time tighter spans.
+- `parent_evidence_id: str | None` — narrower spans reference their paragraph parent.
+- `created_by_stage: Literal["ingest", "extract"]` — stage provenance.
+
+Without these, narrower extract-time evidence cannot be distinguished from ingest seeds, and quote-hash mismatches across raw vs cleaned coordinates become unreviewable.
+
 ### 10.2 Append-only judgments + reviewer-override chain
 
 Stage 9 (reviewer workflow) is **out of build scope** for this roadmap. But the schema must accommodate it on Day 1 to avoid retrofit cost.
 
 Schema rule: `judgments` rows are append-only. A reviewer override is a *new* judgment row whose `supersedes_judgment_id` points to the prior judgment. Projections select the latest non-superseded row in the chain. This is cheap to bake into the schema now and expensive to retrofit later.
 
-**Reviewer-override persistence across reruns (Stage 9 problem, flagged here).** The Run Model (§8) rewrites `pipeline.duckdb` on every rerun. Reviewer-added judgment rows would be lost unless they're persisted outside the pipeline-rewritten tables. Stage 9's design must answer: are reviewer overrides stored in a sidecar table or file (`reviewer_overrides.jsonl`?) that gets re-applied at the end of every pipeline run, or are they kept in a separate non-pipeline-rewritten DuckDB table? We do not solve this here, but Stage 1's schema work must leave room for either approach (e.g., do not declare `judgments` as exclusively rewritten by `reconcile`).
+**Reviewer-override persistence across reruns (Stage 9 problem, flagged here).** The Run Model (§8) rewrites `pipeline.duckdb` on every rerun. Reviewer-added judgment rows would be lost unless they're persisted outside the pipeline-rewritten tables. Stage 9's design must answer: are reviewer overrides stored in a sidecar table or file (`reviewer_overrides.jsonl`?) that gets re-applied at the end of every pipeline run, or are they kept in a separate non-pipeline-rewritten DuckDB table? We do not solve this here, but Phase 1 schema work must leave room for either approach (e.g., do not declare `judgments` as exclusively rewritten by `reconcile`).
 
 ### 10.3 `run_id` discriminator on canonical tables
 
@@ -308,11 +350,12 @@ Each stage produces a runnable, testable artifact. Stages are completed in order
 | Stage | Module(s) touched | Goal | Acceptance |
 |---|---|---|---|
 | **0** (done) | — | `fetch` works; 4 examples on disk; existing tests pass. | ✓ |
-| **1** | `schema` | Pydantic models + DuckDB DDL + ID helpers + evidence utilities + `run_metadata` scaffolding. | All tables creatable; round-trip Pydantic ↔ DB; ID helpers stable; smoke filing fixture written. |
+| **1A** | `schema` (evidence) | Pydantic models + DuckDB DDL for `filings`/`paragraphs`/`spans`/`run_metadata` + ID helpers + evidence utilities + smoke filing fixture. | All four evidence tables creatable; round-trip Pydantic ↔ DB; ID helpers stable; smoke filing fixture written; rerun-determinism test green. |
+| **1B** | `schema` (canonical skeleton) | `Deal`, `ProcessCycle`, `Actor`, `Event`, `EventActorLink`, `Judgment`, `ParticipationCount` + hand-authored smoke canonical fixture. Auxiliaries deferred. | 13 tables creatable; smoke canonical FK-clean; module-table-ownership doc committed. |
 | **2** | `ingest` | Markdown → `filings`, `paragraphs`, `spans` rows in DuckDB. | All 4 examples ingest deterministically; reruns produce identical IDs and hashes; section/page-marker preservation matches §3.3. |
 | **3** | `reconcile` (skeleton) | Hand-author one filing's canonical records as a fixture. Walk the schema end-to-end. | One filing has complete canonical record set; all FKs resolve; all evidence_ids point to valid spans. |
 | **4** | `validate` | Hard-failure + soft-flag separation; ambiguity-queue export. | Stage-3 hand-authored fixture passes all hard checks; an intentionally-broken fixture fails with the right error class. |
-| **5** | `project` | Adapt `derive_views.py`; wire to DuckDB; export bidder-cycle rows + companion views. | Stage-3 hand-authored canonical produces an expected `bidder_rows.jsonl` and `run_memo.md`. |
+| **5** | `project` | Wire to DuckDB; export bidder-cycle rows + companion views per §3.7. | Stage-3 hand-authored canonical produces an expected `bidder_rows.jsonl` and `run_memo.md`. |
 | **6** | `extract/rules` | Deterministic patterns for actor mentions, dated events, bid values on the 4 examples. | Candidate output matches a hand-curated golden set on PetSmart and Saks; every candidate has at least one evidence_id. |
 | **7** | `reconcile` (real) | Replace Stage 3 manual fixtures with rule-extracted candidates → canonical. Add judgments. | All 4 examples produce canonical records; bidder-cycle rows match a hand-curated expected set. |
 | **8** | `extract/llm` (gated) | Provider-isolated LLM pass for events/aliases that rules miss. **Begins with its own brainstorm.** No provider SDK in dependencies until that brainstorm produces an approved interface spec. | Behind a feature flag; deterministic outputs unchanged when flag off. |
@@ -320,7 +363,7 @@ Each stage produces a runnable, testable artifact. Stages are completed in order
 
 ## 13. Parallelization and Critical Path
 
-After Stage 1 lands, the remaining build splits into three parallel tracks that converge at Stage 7. Stage 1 is sequential because every other module depends on the schema; once it is stable (with the smoke filing fixture and a hand-authored canonical fixture verifying the contract end-to-end), three streams advance independently.
+After Stages 1A and 1B land, the remaining build splits into three parallel tracks that converge at Stage 7. Stage 1 is sequential because every other module depends on the schema; once it is stable (with the smoke filing fixture and a hand-authored canonical fixture verifying the contract end-to-end), three streams advance independently.
 
 ### 13.1 Tracks
 
@@ -340,33 +383,36 @@ Stage 8 (`extract/llm`) is downstream of Stage 7 and gated on its own brainstorm
 
 ### 13.3 Critical Path
 
-The expected critical path is **Stage 1 → Stage 2 → Stage 6 → Stage 7**, driven by extraction rules being the largest single piece of work and depending on real ingested data. Track B (Stages 3 → 4 → 5) typically finishes inside the shadow of Track C and does not extend total duration.
+The expected critical path is **Stage 1A → Stage 1B → Stage 2 → Stage 6 → Stage 7**, driven by extraction rules being the largest single piece of work and depending on real ingested data. Track B (Stages 3 → 4 → 5) typically finishes inside the shadow of Track C and does not extend total duration.
 
 ```
-Stage 1 ──► Stage 2 ──► Stage 6 ──► Stage 7        (critical path)
-   │                                   ▲
-   └──► Stage 3 ──► Stage 4 ──► Stage 5┘            (Track B, parallel)
+Stage 1A ─► Stage 1B ─► Stage 2 ──► Stage 6 ──► Stage 7        (critical path)
+                │                                   ▲
+                └─► Stage 3 ──► Stage 4 ──► Stage 5┘            (Track B, parallel)
 ```
 
 ### 13.4 Risks and Mitigations
 
-- **Schema iteration risk.** A schema gap discovered mid-track invalidates parallel work. Mitigation: Stage 1's deliverable includes both the type definitions *and* a hand-authored canonical example on the smoke filing, so the schema is exercised end-to-end before fan-out.
-- **Coordination cost.** Each module has a declared input/output via the DuckDB schema (§3 + §4). As long as schema changes route through Stage 1 with a version bump (§9), parallel tracks do not step on each other.
+- **Schema iteration risk.** A schema gap discovered mid-track invalidates parallel work. Mitigation: Phase 0/1 deliverables include both the type definitions *and* a hand-authored canonical example on the smoke filing, so the schema is exercised end-to-end before fan-out. The non-negotiables in §10.1 and §17.2 land in Phase 0.
+- **Coordination cost.** Each module has a declared input/output via the DuckDB schema (§3 + §4). As long as schema changes route through Phase 0/1 with a version bump (§9), parallel tracks do not step on each other.
 - **Solo-contributor reality.** Parallelism is most valuable with multiple contributors / agents. A solo developer can still benefit from interleaving Track B with Track C while Track A runs first, because Track B unblocks early end-to-end validation feedback before extraction is complete.
 - **Track C partial dependence.** Stage 6's smoke-filing milestone ships independently; its real-filing acceptance waits on Stage 2. Track C is therefore planned as two explicit milestones: (a) smoke-only, (b) all-four-examples.
 
 ### 13.5 Recommended Sequencing
 
-1. Stage 1 alone (schema + smoke filing fixture + hand-authored canonical fixture on the smoke filing). Land it.
-2. Fan out: Track A (Stage 2), Track B (Stages 3 → 4 → 5), Track C (Stage 6) in parallel.
-3. Sync at Stage 7.
-4. Optionally Stage 8, beginning with its own brainstorm.
+1. Stage 1A alone (evidence-store schema + corrections + smoke filing fixture). Land it.
+2. Stage 1B alone (canonical skeleton + hand-authored smoke canonical fixture). Land it.
+3. Fan out: Track A (Stage 2), Track B (Stages 3 → 4 → 5), Track C (Stage 6) in parallel.
+4. Sync at Stage 7.
+5. Optionally Stage 8, beginning with its own brainstorm.
+
+The execution-level mechanics (worktree mapping, agent assignments, sync gates) live in the plan: `quality_reports/plans/2026-05-02_parallel-execution-plan.md`.
 
 ## 14. What's Explicitly Out of Scope (For This Roadmap)
 
 - **LLM extraction implementation.** The interface for how an LLM is called, what it sees, and what it returns is designed in a separate Stage-8 brainstorm before any code is written. The `extract/llm/` directory is empty until then.
 - **Reviewer workflow UI.** Stage 9 is acknowledged but not built; the schema accommodates it (§10.2).
-- **Whole-corpus runs.** Stages 1-7 target the 4 examples. Running across all ~400 deals in `seeds.csv` happens only after Stage 7 acceptance.
+- **Whole-corpus runs.** Stages 1A-7 target the 4 examples. Running across all ~400 deals in `seeds.csv` happens only after Stage 7 acceptance.
 - **External-metadata enrichment.** Bidder domicile, advisor rankings, public/private status, industry codes, etc., require external datasets the trimmed filings don't supply. The schema has fields for them; population is future work.
 - **CVR / non-cash consideration normalization.** Stored faithfully (raw text + flag); converting to per-share cash equivalents for `r_23` requires policy outside the filing — deferred.
 
@@ -378,17 +424,108 @@ These are unresolved and will be revisited at the relevant stage:
 - **Cleaning patterns.** The exact regex set for printer-command lines, ZEQ banners, and folio-number stripping is enumerated and reviewed in Stage 2 before any stripping happens.
 - **`cycle_relation` value set.** Whether go-shops are encoded as same-cycle tails, separate cycles, or both (configurable per projection). Decided in Stage 4 / Stage 7.
 - **Dropout-mechanism evidence rules.** The text patterns / linked events that justify `target-rejected` vs `voluntarily-withdrew` vs `ambiguous` are codified in Stage 7.
-- **Anonymous aggregate-bidder policy.** When `participation_counts` reports N IOIs without naming each, do we always create N anonymous actors, or only when projection requires row-level completeness? Decided in Stage 7.
+- **Anonymous aggregate-bidder policy.** When `participation_counts` reports N IOIs without naming each, do we always create N anonymous actors, or only when projection requires row-level completeness? Decided in Stage 7. The schema's `actor_creation_required` discriminator (§17.2) leaves the decision deferrable.
 - **LLM provider interface.** Designed in Stage 8 brainstorm. Constraints recorded here: provider-neutral, deterministic-output-respecting, evidence-emitting (quote text + location hints), feature-flagged.
 - **Reviewer UI shape.** Out of scope for this roadmap. The schema affordance (§10.2) is what we commit to today.
 
 ## 16. Related Documents
 
-- [docs/design.md](../../design.md) — local design contract (live).
-- [AGENTS.md](../../../AGENTS.md) — repository contract for working agents.
-- [docs/references/gptpro_v2/plan/](../../references/gptpro_v2/plan/) — reference architecture from the GPT-Pro v2 packet. Material, not binding.
-- [docs/references/gptpro_v2/derive_views.py](../../references/gptpro_v2/derive_views.py) — reference projection from canonical DuckDB to bidder-cycle views.
+- [`quality_reports/plans/2026-05-02_parallel-execution-plan.md`](../quality_reports/plans/2026-05-02_parallel-execution-plan.md) — sole source of truth for execution.
+- [`docs/prior-pipeline-lessons.md`](./prior-pipeline-lessons.md) — failure-mode postmortem from the previous extraction attempt; informs §17 invariants.
+- [`AGENTS.md`](../AGENTS.md) — repository contract for agents.
+- [`CLAUDE.md`](../CLAUDE.md) — Claude Code orientation.
 
-## 17. Acceptance of This Spec
+## 17. Stage 1 Slicing (Approved Addendum)
 
-Approval is the user's; written confirmation in conversation suffices. After approval, the next action is to invoke the `superpowers:writing-plans` skill to produce an implementation plan for **Stage 1 (`schema` scaffolding)**, which is the first buildable stage.
+The original Stage 1 plan was overbroad. It implemented the entire 21-table canonical universe up front. Per the construction-advice review (now folded into this section), Stage 1 splits into two sub-stages with clear acceptance gates.
+
+### 17.1 Stage 1A — Evidence Store
+
+**Goal.** Prove the database foundation (DuckDB + Pydantic + ID helpers + evidence utilities) on the smallest table set that exercises the hardest invariant: evidence must point back to exact filing text.
+
+**Implements only:** `filings`, `paragraphs`, `spans`, `run_metadata`. Deterministic ID helpers. Quote/hash utilities. Schema/version constants. Smoke filing fixture. DuckDB create/insert/fetch tests. Rerun-determinism test over the smoke fixture.
+
+**Does NOT implement in 1A:** Any canonical table. `ExtractionCandidate`. Auxiliary tables. Reconciliation, validation, projection, LLM. Rich auxiliary tables.
+
+**Acceptance:** see Stage 1A row in §12 + the parallel plan §3.
+
+### 17.2 Stage 1A Non-Negotiables (the corrections that prevent retrofit)
+
+These four schema details are not optional. Without them, downstream modules will silently corrupt evidence:
+
+1. **Span coordinate basis.** `SourceSpan.span_basis: Literal["raw_md", "clean_text"]`. If cleaning changes offsets, both raw and clean coordinates can be stored, but every span must declare which system it uses. Without this, quote hashes become decorations.
+2. **Span parentage.** `SourceSpan.parent_evidence_id: str | None` plus `span_kind: Literal["paragraph_seed", "sentence", "clause", "phrase"]`. Ingest creates paragraph seeds; extract creates tighter spans inside them. Mixing them as if equivalent is the failure mode.
+3. **Span stage provenance.** `SourceSpan.created_by_stage: Literal["ingest", "extract"]`. Distinguishes ingest evidence from rule/model-created evidence at audit time.
+4. **Participation-count actor-creation discriminator.** `ParticipationCount.actor_creation_required: Literal["required", "deferred", "projection_only"]`. Lets the schema represent "15 financial buyers signed CAs" without forcing 15 actor rows when the filing does not name them.
+
+### 17.3 Stage 1B — Minimal Canonical Skeleton
+
+**Goal.** A canonical-table walkthrough on the smoke filing that exercises the *core* lessons (actors ≠ events, counts ≠ actors, judgments ≠ facts) without trying to be the whole research ontology.
+
+**Implements:** `Deal`, `ProcessCycle`, `Actor`, `Event`, `EventActorLink`, `Judgment` (with `supersedes_judgment_id`), `ParticipationCount`. Module-table-ownership doc. Hand-authored smoke canonical fixture covering: one target, two bidders, one process cycle, two bid events, one boundary judgment, one dropout judgment, one unnamed cohort participation count.
+
+**Does NOT implement in 1B:** Auxiliary tables (advisor, counsel, board, terms, group, prior, bid-norm, cycle-phase). `ExtractionCandidate`.
+
+**Acceptance:** see Stage 1B row in §12 + the parallel plan §4.
+
+### 17.4 Defer Until A Fixture Demands Them
+
+These tables are named in the schema but have no immediate implementation, no DDL, no round-trip test, until a concrete fixture exercises them:
+
+- `advisor_engagements`
+- `legal_counsel_engagements`
+- `board_committees`
+- `deal_terms`
+- `group_memberships` (beyond what `Actor` + `EventActorLink` covers)
+- `prior_relationships`
+- `bid_normalizations` (beyond one minimal numeric bid)
+- `cycle_phase_assignments` (beyond the first projection test)
+
+When an extraction or reconciliation fixture cannot avoid one of these, the table lands at that moment with: a fixture row, a model, DDL, a round-trip test, and a documented `created_by_stage` provenance for any new spans it requires. Until then the schema names the concept but does not allocate storage.
+
+## 18. Construction Principles (Approved Patterns)
+
+These principles bind the implementation regardless of which module a contributor or agent is in.
+
+### 18.1 Avoid these traps
+
+- **Schema theater.** "All tables create successfully" is necessary but weak. The strong test is a fixture that writes rows, reads them back, verifies evidence hashes, and reruns deterministically.
+- **Premature auxiliary tables.** See §17.4. Adding tables before paragraph/span evidence is solid distracts from the foundation.
+- **Rebuilding the old flat row inside DuckDB.** Do not create one giant canonical event row that owns actor identity, bidder lifecycle, bid value, formal-stage admission, dropout, and projection status. Keep these separate: event facts; actor identity; actor-event links; participation counts; group relationships; judgments; projection rows.
+- **Implicit cross-module SQL ownership.** A shared DuckDB can become a hidden monolith. Each module has explicit read/write ownership (see plan §9). If a module needs another module's internals, change the schema contract rather than reaching around it.
+- **Treating projection code as canonical truth.** Whether a bidder is `admitted` is a canonical decision that lives in `judgments`, not a SELECT-side inference from "post-boundary proposal exists."
+
+### 18.2 When adding a table, ask:
+
+1. What filing fact or construction fact does this table preserve?
+2. Which fixture will create at least one row?
+3. Which later module consumes it?
+4. What invariant would fail if this table were wrong?
+
+If the answers are vague, defer the table.
+
+### 18.3 When adding a field, ask:
+
+1. Is it factual, interpretive, or runtime metadata?
+2. Does it need evidence?
+3. Is null ambiguous? If yes, where is the null reason stored?
+4. Does it belong in a judgment instead?
+
+If the answer is "maybe," prefer a judgment or a later fixture-driven addition.
+
+### 18.4 Build principles for future agents
+
+1. Start every module from its input and output contract.
+2. Preserve source evidence before normalizing it.
+3. Make uncertainty a record, not a prose note.
+4. Keep provider behavior outside the canonical schema.
+5. Prefer rebuilds from raw filings over migrations of derived artifacts.
+6. Treat reviewer overrides as append-only judgments.
+7. Make every export reproducible from a run snapshot.
+8. Keep estimator rows downstream of canonical truth.
+
+The right goal is not a complete ontology on day one. The right goal is a small database that cannot lie about where its evidence came from. Once that exists, the rest of the pipeline can grow without repeating the old flat-row mistakes.
+
+---
+
+**End of spec.**

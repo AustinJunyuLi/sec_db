@@ -1,12 +1,12 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository. Build from first principle instead of add patches. Allow no fallbacks and build nothing around backward compatibility. I want to watch things fail loudly.
 
 ## Project Status
 
-`sec_graph` is in early scaffolding. Today the package contains only the EDGAR fetcher (`src/sec_graph/edgar.py`). The full architecture (7-module pipeline, DuckDB canonical store, evidence-bound graph schema) is specified but **not yet implemented** — see "Living design contracts" below.
+`sec_graph` is in early scaffolding. Today the package contains only the EDGAR fetcher (`src/sec_graph/edgar.py`). The full architecture (7-module pipeline, DuckDB canonical store, evidence-bound graph schema) is specified but **not yet implemented** — see "Sources of truth" below.
 
-When asked to add code, check whether you are working inside the active stage. Stage 1 (schema scaffolding) is the current critical-path work.
+When asked to add code, check whether you are working inside the active phase per the executing plan. Phase 0 (Stage 1A — evidence store) is the current critical-path work.
 
 ## Common Commands
 
@@ -31,12 +31,14 @@ python scripts/fetch_filings.py --all --force
 
 ## Architecture: Big Picture
 
-### Living design contracts
+### Sources of truth
 
-The architecture is governed by two documents — read these before making non-trivial changes:
+Two documents govern this project. Read them before any non-trivial change:
 
-- `docs/design.md` — Live local design contract. Defines canonical objects (`CleanFiling`, `SourceSpan`, `Actor`, `ProcessCycle`, `Event`, `EventActorLink`, `Judgment`, `ParticipationCount`), data flow, evidence policy, and first-milestone scope.
-- `docs/superpowers/specs/2026-05-02-sec-graph-modular-architecture.md` — Full modular architecture spec (7 modules, storage substrate, run model, parallelization tracks, build order Stages 0-9). The current implementation plan is `docs/superpowers/plans/2026-05-02-stage-1-schema-scaffolding.md`.
+- **`docs/spec.md`** — sole source of truth for design. Canonical objects, schema invariants, module catalog, storage substrate, determinism contract, build order, Stage 1A/1B slicing, construction principles. Approved 2026-05-02.
+- **`quality_reports/plans/2026-05-02_parallel-execution-plan.md`** — sole source of truth for execution. Phases, parallel tracks, worktree mechanics, sync gates G0-G5.
+
+Companion (read-only): **`docs/prior-pipeline-lessons.md`** — failure-mode postmortem from the previous extraction attempt. Informs the spec's non-negotiable invariants.
 
 `AGENTS.md` defines repository boundaries and working rules.
 
@@ -44,7 +46,7 @@ The architecture is governed by two documents — read these before making non-t
 
 Filing → 7 sequential layers, each with its own module under `src/sec_graph/`:
 
-1. **fetch** — EDGAR HTML download + sec2md conversion (currently `edgar.py`; will move to `src/sec_graph/fetch/edgar.py` in Stage 1 Task 1).
+1. **fetch** — EDGAR HTML download + sec2md conversion (currently `edgar.py`; will move to `src/sec_graph/fetch/edgar.py` in Phase 0).
 2. **ingest** — markdown → `CleanFiling` + paragraphs + page markers + source-span seeds.
 3. **extract** — deterministic patterns first; LLM later (Stage 8) behind a provider interface.
 4. **reconcile** — extraction candidates → canonical records (deals, cycles, actors, events, links, judgments) with deterministic IDs and alias resolution.
@@ -66,7 +68,7 @@ Hybrid: raw text artifacts as files, all structured tables in a single DuckDB fi
 
 - **Deterministic IDs**: form `{slug}_{type}_{sequence}` (helpers in the planned `schema/ids.py`). Tests must demonstrate stable reruns.
 - **Evidence binding**: any canonical fact must reference one or more `SourceSpan` ids whose `quote_hash` resolves to exact filing text. Python code owns offsets and quote hashing — never trust span text from an LLM without re-resolving.
-- **Append-only judgments**: reviewer overrides chain via `supersedes_judgment_id`. Cross-run persistence is an open Stage 9 problem flagged in the spec — Stage 1 schema must accommodate either resolution.
+- **Append-only judgments**: reviewer overrides chain via `supersedes_judgment_id`. Cross-run persistence is an open Stage 9 problem flagged in the spec — Phase 1 schema must accommodate either resolution.
 - **Per-stage version counters**: PARSER / INGEST / EXTRACT / RECONCILE / VALIDATE / PROJECT versions stamp every artifact. Bump them when changing the corresponding layer's behavior.
 
 ### Fetch module conventions
@@ -81,16 +83,15 @@ Hybrid: raw text artifacts as files, all structured tables in a single DuckDB fi
 ## Working Rules (project-specific)
 
 - **Generated outputs stay outside source dirs.** Use `runs/`, `artifacts/`, `tmp/` (all gitignored).
-- **Architecture/schema decisions go in docs/**, not in code comments. Update `docs/design.md` or write a versioned note under `docs/`.
+- **Architecture/schema decisions go in `docs/spec.md`**, not in code comments. Plan-level changes go in `quality_reports/plans/`.
 - **Preserve quotes and provenance exactly.** Treat filing text as research data.
 - **Tests before extraction logic.** Add tests for parsers, schema transforms, and projection rules as they land.
 - **Do not add LLM provider code** until the provider interface is designed in docs (Stage 8 territory).
 - **No external repo edits.** Keep all source, state, and artifacts inside this project unless explicitly asked.
 
-## Reference Material (read-only)
 
-- `docs/references/gptpro_v2/plan/` — original GPT-Pro greenfield proposal. Reference, not contract.
-- `docs/references/gptpro_v2/derive_views.py` — bidder-cycle projection reference; the planned `project` layer should align with it.
-- `docs/architecture/lessons-from-prior-extraction-pipeline.md` — postmortem context.
+## Local Reference Data (read-only)
+
+- `docs/prior-pipeline-lessons.md` — postmortem context from the prior extraction attempt.
 - `data/examples/` — four trimmed example filings (petsmart, providence-worcester, saks, zep).
 - `seeds.csv` — 401 filing rows with `deal_slug,target_name,acquirer,date_announced,primary_url,is_reference`.

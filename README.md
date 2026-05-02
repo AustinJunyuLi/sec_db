@@ -5,16 +5,16 @@ SEC merger filing narratives.
 
 ## Current Status
 
-This repo currently contains the design source material, example filings, and a
-local EDGAR/sec2md ingestion path for downloading raw filing artifacts.
+This repo currently contains the binding spec, example filings, and a local
+EDGAR/sec2md ingestion path for downloading raw filing artifacts.
 
 Primary references:
 
-- `docs/design.md` - live project design for agents working here.
-- `docs/references/gptpro_v2/plan/` - GPT-Pro greenfield architecture proposal.
-- `docs/references/gptpro_v2/derive_views.py` - estimator-view reference from the packet.
-- `data/examples/` - four trimmed SEC merger-filing examples.
-- `scripts/fetch_filings.py` - EDGAR downloader and sec2md converter for `seeds.csv`.
+- `docs/spec.md` — sole source of truth for design.
+- `quality_reports/plans/2026-05-02_parallel-execution-plan.md` — sole source of truth for execution.
+- `docs/prior-pipeline-lessons.md` — failure-mode postmortem from the prior attempt.
+- `data/examples/` — four trimmed SEC merger-filing examples.
+- `scripts/fetch_filings.py` — EDGAR downloader and sec2md converter for `seeds.csv`.
 
 ## Goal
 
@@ -53,7 +53,7 @@ Fetched artifacts are written under `data/filings/{deal_slug}/`:
 
 ## Suggested First Work
 
-1. Read `AGENTS.md` and `docs/design.md`.
-2. Read `docs/references/gptpro_v2/plan/00_README.md`.
-3. Build ingestion and provenance for the four files in `data/examples/`.
-4. Add tests before adding extraction or reconciliation logic.
+1. Read `AGENTS.md`, `docs/spec.md`, and the parallel execution plan.
+2. Skim `docs/prior-pipeline-lessons.md` for failure-mode context.
+3. Begin Phase 0 (Stage 1A — evidence store) per the plan.
+4. Add tests before any extraction or reconciliation logic.

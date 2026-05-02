@@ -7,7 +7,7 @@ schema contracts, and deterministic module boundaries. The prior pipeline is
 useful evidence about failure modes, not a codebase to preserve.
 
 **Audience.** Future agents and humans implementing the modular architecture in
-`docs/superpowers/specs/2026-05-02-sec-graph-modular-architecture.md`.
+`docs/spec.md`.
 
 ## Executive Summary
 

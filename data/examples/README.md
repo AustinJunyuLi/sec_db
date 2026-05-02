@@ -1,10 +1,8 @@
 # Example Filings
 
 These markdown files are trimmed SEC merger-filing examples used to develop
-`sec_graph` ingestion, provenance, and canonical-schema tests.
-
-They came from the GPT-Pro v2 packet and include page markers such as
-`<!-- PAGE n -->`.
+`sec_graph` ingestion, provenance, and canonical-schema tests. They include
+page markers such as `<!-- PAGE n -->`.
 
 Current examples:
 
