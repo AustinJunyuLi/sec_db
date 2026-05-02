@@ -1,78 +1,110 @@
-# Stage 8 LLM Extraction Interface
+# LLM Extraction Interface
 
-**Status:** Stage 8 design contract.
+**Status:** Binding contract. Currently being repaired from paragraph-local
+requests to within-deal narrative windows under
+`quality_reports/plans/2026-05-02_stale-scaffold-hard-cleanse-repair-plan.md`,
+Phase 7. The window-based contract below is binding; any remaining
+paragraph-only request paths in source are being replaced.
 **Date:** 2026-05-02
-**Binding with:** `docs/spec.md`, `docs/prior-pipeline-lessons.md`, `quality_reports/plans/2026-05-02_parallel-execution-plan.md`.
+**Binding with:** `docs/spec.md`, `docs/prior-pipeline-lessons.md`,
+`quality_reports/plans/2026-05-02_stale-scaffold-hard-cleanse-repair-plan.md`,
+`quality_reports/plans/2026-05-02_deployable-canonical-pipeline-goal.md`.
 
 ## Purpose
 
-Stage 8 adds an optional LLM-assisted extraction pass without changing the
-canonical-store contract. The LLM is a candidate producer only. It must never
-write `deals`, `process_cycles`, `actors`, `events`, `event_actor_links`,
-`judgments`, `participation_counts`, or projection artifacts directly.
+The LLM is an opt-in candidate producer. It is never the canonical writer. It
+may emit candidate payloads only; Python validates those payloads and then
+writes normal `ExtractionCandidate` rows plus extract-stage `SourceSpan` rows.
 
-The deterministic rules-only pipeline remains the default and must be bit-stable
-when LLM mode is disabled.
+The default pipeline remains deterministic and rules-only. When LLM flags are
+absent, extraction output must stay byte-stable against the rules-only golden
+hashes.
 
-## Design Choice
+## Non-Negotiables
 
-Three approaches were considered:
+- Zero fallbacks of any flavor: model selection, provider, transport,
+  reasoning effort, schema, and payload shape are each fixed at call time.
+- Old LLM payload shapes are not read by current code; there is no shim.
+- No whole-filing repair loop and no canonical-row emission by the model.
+- No provider-specific fields in canonical tables.
+- No secret-bearing request headers, API keys, or raw provider bodies in
+  tracked files.
+- No cross-deal context. The window memory model is within-one-deal only.
 
-1. **Provider-neutral interface plus Linkflow adapter.** Define a small internal
-   request/response contract, then implement Linkflow behind it. This is the
-   chosen approach because it lets provider constraints live outside canonical
-   schema and outside deterministic reconciliation.
-2. **Linkflow-first implementation.** Faster to test live, but it would encode
-   provider behavior directly into extraction semantics. Rejected.
-3. **Offline/mock-only interface.** Safest for default tests, but it would not
-   satisfy the Stage 8 live-provider gate. Rejected as incomplete.
+Any violation is a hard `LLMContractError` or a failing test.
 
-## Scope
+## Request Contract: Within-Deal Narrative Windows
 
-Stage 8 implements:
+The request contract is being moved from single-paragraph requests to
+within-deal narrative windows. A window is built from ordered paragraphs
+inside a single filing so that earlier paragraphs can inform interpretation of
+later paragraphs. The model never sees more than one filing's content per
+window, and never sees content from another deal.
 
-- `src/sec_graph/extract/llm/` as an opt-in candidate producer.
-- Provider-neutral dataclasses or Pydantic models for request, response, and
-  candidate payloads.
-- A Linkflow adapter that is used only when explicitly enabled.
-- Offline tests proving that disabled LLM mode leaves rules-only candidates
-  unchanged.
-- Live tests gated by environment variables and excluded from default pytest.
-- Sanitized live artifacts under `artifacts/linkflow/`.
+`LLMExtractionRequest` for a within-deal window contains:
 
-Stage 8 does not implement:
-
-- canonical row writing by the LLM;
-- provider-specific fields in canonical tables;
-- silent model/provider fallback;
-- backward-compatible readers for older LLM payload shapes;
-- prompt repair loops that rewrite whole canonical outputs.
-
-## Interface Contract
-
-### Request
-
-An `LLMExtractionRequest` contains:
-
-- `request_id`: deterministic ID, `{slug}_llmrequest_{sequence}`;
+- `request_id`: deterministic `{slug}_llmrequest_{sequence}`;
+- `deal_id`;
 - `filing_id`;
-- `deal_slug`;
-- `paragraph_id`;
-- `parent_evidence_id`: the paragraph seed span;
-- `section`;
-- `paragraph_text`;
-- `char_start`;
-- `char_end`;
-- `allowed_candidate_types`: bounded list of candidate families;
-- `schema_version` and `extract_version`.
+- `window_id`: deterministic per-(filing, window-kind, sequence);
+- `window_kind`: closed enum identifying the window-construction policy
+  (e.g., `section_block`, `bid_thread`, `cycle_segment`);
+- `ordered_paragraph_refs`: an ordered list of paragraph references, each
+  with `paragraph_id`, `source_span_id`, `char_start`, `char_end`, and the
+  paragraph text payload assembled from the source spans;
+- `prior_deal_memory`: a compact summary inside the same deal of resolved
+  actor aliases, prior events, active cycle candidates, and unresolved
+  references — produced by Python from earlier windows in the same filing,
+  not by the model;
+- `extraction_task_list`: the closed set of candidate types this window may
+  emit;
+- `schema_version`;
+- `extract_version`.
 
-The request is paragraph-scoped. Stage 8 does not send the whole filing as a
-single provider input. This keeps provider failures local and avoids the repair
-collapse pattern described in `docs/prior-pipeline-lessons.md`.
+Python owns source coordinates. The provider never produces or echoes
+`char_start` / `char_end`. Python derives offsets from a unique exact
+`quote_text` substring match against the assembled window text, then
+re-resolves the span back to the underlying paragraph source span before
+insertion.
 
-### Response
+Old paragraph-only request fields (`paragraph_id`-only requests,
+`paragraph_text` as the only payload, model-emitted `quote_start`/`quote_end`)
+are no longer accepted.
 
-An `LLMExtractionResponse` contains:
+## Candidate Payload Contract
+
+`LLMCandidatePayload` contains exactly:
+
+- `candidate_type`;
+- `raw_value`;
+- `normalized_value`;
+- `confidence`;
+- `quote_text`;
+- `dependencies`.
+
+The Pydantic model forbids extra fields. In particular, `quote_start` and
+`quote_end` fields are invalid and must be rejected by both provider-side
+strict schema and local validation.
+
+`quote_text` must be an exact, unique substring of the assembled window text.
+Python owns offset derivation:
+
+1. If the quote is absent, fail.
+2. If the quote appears more than once in the window, fail.
+3. Otherwise derive `(quote_start, quote_end)` locally and create the span
+   under the underlying paragraph source-span parent.
+
+This keeps evidence coordinates under local deterministic control instead of
+trusting a model to count characters.
+
+`actor_relation` is not a flat candidate payload. It must either be removed
+entirely from `candidate_type` or be expressed as a first-class typed relation
+payload. JSON-in-string relation payloads are forbidden as a hidden legacy
+surface.
+
+## Response Contract
+
+`LLMExtractionResponse` contains:
 
 - `request_id`;
 - `provider_name`;
@@ -82,112 +114,85 @@ An `LLMExtractionResponse` contains:
 - `raw_response_sha256`;
 - `finish_status`.
 
-`finish_status` is provider-neutral and one of:
+`finish_status` is one of:
 
 - `completed`;
 - `provider_rejected`;
 - `provider_incomplete`;
 - `contract_invalid`.
 
-Any status other than `completed` is a hard failure for live tests. The adapter
-does not salvage partial output into active candidates.
+Only `completed` responses can be inserted. All other statuses are hard
+failures.
 
-### Candidate Payload
+A provider response without an explicit `response.completed` event must not
+be promoted to `finish_status="completed"`. Streamed transport that loses the
+`response.completed` event fails loudly under the current no-fallback policy
+unless the provider-status proves completion through another explicit
+provider signal.
 
-An `LLMCandidatePayload` contains:
+## Linkflow Adapter
 
-- `candidate_type`: one of the existing `ExtractionCandidate` candidate types;
-- `raw_value`;
-- `normalized_value`;
-- `confidence`: `low`, `medium`, or `high`;
-- `quote_text`: exact substring from the paragraph;
-- `quote_start`: paragraph-local start offset;
-- `quote_end`: paragraph-local end offset;
-- `dependencies`: list of candidate IDs, usually empty at Stage 8.
+`src/sec_graph/extract/llm/linkflow.py` is the only Linkflow-specific module.
+It calls Linkflow through the OpenAI Python SDK:
 
-The adapter converts payloads to normal `ExtractionCandidate` rows plus
-extract-stage `SourceSpan` rows. It must validate:
+- client: `AsyncOpenAI`;
+- `base_url`: `https://www.linkflow.run/v1` by default;
+- endpoint: `responses.stream`;
+- model: explicit caller-provided model, currently `gpt-5.5`;
+- reasoning: explicit caller-provided `low`, `medium`, `high`, or `xhigh`.
 
-- candidate type is allowed;
-- quote offsets are inside the paragraph;
-- quote text exactly equals the paragraph substring;
-- quote hash matches the emitted span;
-- every candidate has at least one evidence ID;
-- every extract span has `parent_evidence_id` set to the paragraph seed.
+The request uses provider-side strict JSON schema with a tiny schema shape:
 
-Contract violations fail loudly and write a sanitized failure artifact.
+- no `oneOf`;
+- no dynamic schema-valued `additionalProperties`;
+- no nested provider-hostile schema tricks;
+- candidate objects have `additionalProperties: false`.
 
-## Provider Isolation
+The adapter has no non-streaming HTTP branch and no prompt-only JSON branch.
+Transient transport errors may retry the same exact request. They must not
+downgrade model, provider, reasoning effort, schema strictness, or payload
+shape.
 
-Provider adapters implement one interface:
+Default request timeout is 240 seconds. Timeout changes are transport tuning
+only; they do not change provider, model, reasoning effort, schema, or payload
+shape.
 
-```text
-extract(request: LLMExtractionRequest, config: LLMProviderConfig) -> LLMExtractionResponse
+## Streaming Completion Policy
+
+If the stream emits output text but the SDK raises a missing
+`response.completed` event, the adapter must not emit
+`finish_status="completed"`. Under the current no-fallback policy the
+preferred behavior is a hard `LLMContractError`. If recovery from already
+streamed text is ever permitted, the resulting response must carry an
+explicit non-completed finish status, every other strict check (Pydantic,
+quote-text validation, span insertion) must still pass, and the change must
+be reflected here in writing first.
+
+## Runtime Flags
+
+LLM extraction is disabled unless the caller supplies LLM flags.
+
+Examples:
+
+```bash
+python -m sec_graph extract --all
+python -m sec_graph extract --all --llm-provider linkflow --llm-model gpt-5.5 --llm-reasoning-effort high
+python -m sec_graph run --all --llm-provider linkflow --llm-model gpt-5.5 --llm-reasoning-effort high
 ```
-
-Provider config is runtime-only:
-
-- `provider_name`;
-- `model`;
-- `reasoning_effort`;
-- `base_url`;
-- `api_key_env`;
-- timeout / retry limit.
-
-No API keys are stored in tracked files, run logs, or artifacts. Missing keys
-are hard failures when live mode is requested. Default offline tests must not
-require a key.
-
-Linkflow-specific behavior is confined to `extract/llm/linkflow.py`.
-The Linkflow adapter uses prompt-only JSON and local validation instead of
-provider-enforced structured output. Provider schema support is not part of the
-canonical contract because prior and current probes show provider-side schema
-shape can fail while plain Responses calls succeed.
-
-## Feature Flags
-
-LLM mode is disabled by default.
-
-CLI behavior:
-
-- `python -m sec_graph extract --all` remains rules-only.
-- `python -m sec_graph extract --all --llm-provider linkflow --llm-model gpt-5.5 --llm-reasoning-effort high` enables LLM extraction.
-- `python -m sec_graph run --all` remains rules-only.
-- `python -m sec_graph run --all --llm-provider linkflow ...` enables LLM during the extract stage.
 
 Environment variables:
 
-- `LINKFLOW_API_KEY`: required only for live Linkflow calls.
-- `LINKFLOW_BASE_URL`: optional; defaults to `https://www.linkflow.run/v1`.
+- `LINKFLOW_API_KEY`: required for live Linkflow calls.
+- `LINKFLOW_BASE_URL`: optional, defaults to Linkflow's OpenAI-compatible base URL.
 - `SEC_GRAPH_LIVE_LINKFLOW=1`: required by live tests.
+- `SEC_GRAPH_LINKFLOW_EFFORTS`: optional comma-separated live-test matrix.
 
-If LLM flags are absent, the candidate table and spans produced by extraction
-must match the rules-only golden hashes.
+Missing live credentials are a hard failure for live calls and a skip
+condition for default tests.
 
-## Live Linkflow Gate
+## Artifact Contract
 
-The live gate probes GPT-5.5 through Linkflow using at least:
-
-- `low`;
-- `high`.
-
-It should also try:
-
-- `medium`;
-- `xhigh`.
-
-If Linkflow rejects GPT-5.5 or any requested reasoning control, the run stops
-and records a hard failure. It does not downgrade model, provider, or reasoning
-effort.
-
-The live pytest gate uses the shortest real PetSmart paragraph that mentions
-the Buyer Group and narrows `allowed_candidate_types` to `actor_mention`. That
-keeps the live release proof focused on provider transport, reasoning controls,
-strict JSON payloads, exact quote offsets, and local source-span insertion.
-Broader LLM extraction remains opt-in and may fail loudly on any paragraph whose
-provider payload violates the same local contract.
-
-Live artifacts are written under:
+Sanitized artifacts are written under:
 
 ```text
 artifacts/linkflow/YYYY-MM-DD_stage8_live/
@@ -195,41 +200,57 @@ artifacts/linkflow/YYYY-MM-DD_stage8_live/
 
 Artifacts may include:
 
-- sanitized request metadata;
-- response metadata;
-- candidate projection hashes;
-- per-effort success/failure manifests;
-- sanitized error class and status.
+- request ID;
+- provider name;
+- model;
+- reasoning effort;
+- finish status;
+- response digest;
+- candidate count;
+- attempt count;
+- latency;
+- sanitized error class/status.
 
-Artifacts must not include API keys. They may include paragraph text and quote
-text because filing text is research data already inside this repository.
+Artifacts must not include API keys, authorization headers, raw provider body,
+window text, paragraph text, or quote text.
+
+Old paragraph-scoped Linkflow proof artifacts are obsolete and must stay
+deleted. New proof artifacts are regenerated under the within-deal-window
+contract.
 
 ## Testing Contract
 
-Default offline tests:
+Default tests must prove:
 
-- validate request/response models;
-- validate payload-to-candidate conversion;
-- prove invalid quote offsets fail loudly;
-- prove LLM-disabled extract output matches rules-only output exactly;
-- prove CLI help exposes LLM flags without requiring live credentials.
+- prompt and provider schema do not mention `quote_start` or `quote_end`;
+- old offset payloads are rejected as extra fields;
+- non-exact quote text fails;
+- ambiguous quote text fails;
+- streamed Linkflow responses use strict schema and requested reasoning
+  effort;
+- missing `response.completed` cannot produce `finish_status="completed"`;
+- LLM-disabled extraction equals rules-only extraction;
+- request payloads are within-deal narrative windows with ordered paragraph
+  refs and Python-owned source coordinates;
+- no cross-deal context appears in any window.
 
-Live tests:
+Live tests must:
 
-- skipped unless `SEC_GRAPH_LIVE_LINKFLOW=1` and `LINKFLOW_API_KEY` are set;
-- call Linkflow GPT-5.5 for each requested reasoning effort;
-- fail if provider/model/reasoning is unavailable;
-- write sanitized artifacts under `artifacts/linkflow/`.
+- skip unless `SEC_GRAPH_LIVE_LINKFLOW=1` and `LINKFLOW_API_KEY` are set;
+- call Linkflow GPT-5.5 for at least `low` and `high`;
+- fail if a requested model or reasoning effort is unavailable;
+- insert at least one valid candidate for each requested effort;
+- write sanitized artifacts only.
 
 ## Acceptance
 
-Stage 8 passes only when:
+The LLM extraction interface is valid only when:
 
-1. `docs/spec.md` references this interface as the Stage 8 binding contract.
-2. Offline pytest passes with no live credentials.
-3. Rules-only extraction hashes remain unchanged with LLM mode off.
-4. LLM-enabled extraction writes only `candidates` and extract-stage `spans`.
-5. Live Linkflow GPT-5.5 tests pass for at least `low` and `high`, or stop with
-   an explicit hard-failure artifact if Linkflow does not support the requested
-   contract.
-6. Session logs record exact commands and outcomes without secrets.
+1. `docs/spec.md` points to this file as the binding LLM contract.
+2. Offline tests pass without live credentials.
+3. Rules-only extraction remains unchanged with LLM mode off.
+4. Live Linkflow GPT-5.5 passes for at least `low` and `high`, or fails
+   loudly with a sanitized hard-failure artifact.
+5. Session logs record exact commands and outcomes without secrets.
+6. Every accepted candidate has exact local source-span proof against the
+   underlying paragraph source span.

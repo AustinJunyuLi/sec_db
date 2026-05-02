@@ -2,18 +2,318 @@
 
 **Status:** APPROVED (2026-05-02). Sole source of truth for design and contracts.
 **Scope:** Repository-wide architecture, schema-shape commitments, build order, slicing rules, and non-negotiable invariants.
-**Companion document:** `quality_reports/plans/2026-05-02_parallel-execution-plan.md` is the sole source of truth for executing this spec. Historical context lives in `docs/prior-pipeline-lessons.md`.
-**Out of scope:** Per-module implementation prose (each module gets its own brainstorm → spec → plan → implementation cycle when its track activates).
+**Companion documents:** `quality_reports/plans/2026-05-02_stale-scaffold-hard-cleanse-repair-plan.md` is the executing cleanup-and-repair plan and is in force until every phase inside it is complete. `quality_reports/plans/2026-05-02_deployable-canonical-pipeline-goal.md` is the goal-handoff document for live deployable proof, paired with `quality_reports/plans/2026-05-02_deployable-canonical-pipeline-plan.md`. Historical failure context lives in `docs/prior-pipeline-lessons.md`.
+**Out of scope:** Per-module implementation prose (each module gets its own brainstorm -> spec -> plan -> implementation cycle when its track activates).
 
 ---
 
 ## 1. Purpose
 
-`sec_graph` turns SEC merger-proxy narratives into a canonical structured representation of takeover sale processes (`deals`, `process_cycles`, `actors`, `events`, `event_actor_links`, `judgments`, evidence-bound source spans, plus auxiliary tables for advisors, counsel, terms, group memberships, prior relationships, and participation counts). Bidder-cycle estimator rows are produced as **deterministic projections** over the canonical store, not as the primary extraction format.
+`sec_graph` turns SEC merger-proxy narratives into a canonical structured representation of takeover sale processes (`deals`, `process_cycles`, `actors`, `actor_relations`, `events`, `event_actor_links`, `participation_counts`, `judgments`, evidence-bound source spans). Bidder-cycle estimator rows are produced as **deterministic projections** over the canonical store, not as the primary extraction format.
 
-The canonical store must support future views over advisors, counsel, board committees, go-shops, deal terms, process restarts, prior relationships, consortia, and ambiguity judgments without re-extracting the filing text.
+The canonical store must support future views over advisors, counsel, board committees, go-shops, deal terms, process restarts, prior relationships, consortia, and ambiguity judgments without re-extracting the filing text. The first representation for these should be generic actor/event/relation/count/judgment facts; specialized auxiliary tables are deferred until a fixture makes them unavoidable.
 
 This document is the architecture-level contract for **how** the pipeline is decomposed, what each module owns, where data lives, how runs are versioned, and in what order modules are built. It does not prescribe implementation details inside any single module — those belong in per-module specs.
+
+## 1A. Deployable Canonical Schema Contract
+
+This section is the current binding schema contract for the deployable
+canonical-pipeline goal. It supersedes any older examples in this repository
+that contain row-first actor identity, free-form judgment categories,
+downstream-estimator naming, or fallback enum values such as `unknown` and
+`other`.
+
+### Closed-Enum Discipline
+
+Every enum below is closed. Do not add `unknown`, `other`, miscellaneous
+catch-all values, provider-owned categories, or backward-compatible aliases. If
+the pipeline cannot classify a source fact into a closed value, it must not
+write that row; it should preserve the evidence as a candidate, validation
+failure, or reviewer-facing ambiguity instead.
+
+### Actors
+
+`actors` represent source-backed entities, not bidder rows:
+
+```python
+actor_kind: Literal[
+    "organization",
+    "person",
+    "group",
+    "vehicle",
+    "cohort",
+    "committee",
+]
+observability: Literal[
+    "named",
+    "anonymous_handle",
+    "count_only",
+]
+lead_arranger_label: str | None
+member_count_known: int | None
+has_strategic_member: bool | None
+has_sovereign_wealth_member: bool | None
+```
+
+`actor_type`, `bidder_subtype`, and `is_anonymous` are not part of the
+deployable schema. Group-only fields are `NULL` unless `actor_kind == "group"`.
+
+### Actor Relations
+
+`actor_relations` is the generic structure for group membership, affiliate and
+control structure, acquisition vehicles, advisors, financing, support holders,
+and rollover holders:
+
+```python
+relation_type: Literal[
+    "member_of",
+    "affiliate_of",
+    "controls",
+    "acquisition_vehicle_of",
+    "advises",
+    "finances",
+    "supports",
+    "rollover_holder_of",
+]
+cycle_id_first_observed: str | None
+cycle_id_last_observed: str | None
+effective_date_first: date | None
+effective_date_last: date | None
+confidence: Literal["low", "medium", "high"] | None
+```
+
+Validation must enforce:
+
+```sql
+cycle_id_first_observed IS NOT NULL OR effective_date_first IS NOT NULL
+```
+
+Do not add separate `guarantees` or `voting_support_for` relation values unless
+a filing-grounded review first changes this spec. Use `supports` plus
+`role_detail` for support/voting-support facts and `finances` plus
+`role_detail` for guaranty/financing structure when the evidence supports it.
+
+### Events
+
+`events.event_type` remains a coarse grouping. `events.event_subtype` carries
+the closed source verb:
+
+```python
+event_subtype: Literal[
+    "contact_initial",
+    "nda_signed",
+    "ioi_submitted",
+    "first_round_bid",
+    "final_round_bid",
+    "exclusivity_grant",
+    "merger_agreement_executed",
+    "withdrawn_by_bidder",
+    "excluded_by_target",
+    "non_responsive",
+    "cohort_closure",
+    "advancement_admitted",
+    "advancement_declined",
+    "rollover_executed",
+    "financing_committed",
+]
+```
+
+Withdrawal, exclusion, cohort closure, and advancement are event subtypes, not
+event-actor roles or judgment categories.
+
+### Event Actor Links
+
+`event_actor_links.role` is the actor's role in one event:
+
+```python
+role: Literal[
+    "target",
+    "bid_submitter",
+    "potential_buyer",
+    "group_vehicle",
+    "group_member",
+    "advisor_for_target",
+    "advisor_for_bidder",
+    "equity_financing_source",
+    "debt_financing_source",
+    "support_shareholder",
+    "rollover_holder",
+    "offeror",
+    "acquisition_sub",
+    "sender",
+    "recipient",
+]
+```
+
+Rare legal details belong in `role_detail`; they do not justify an open enum.
+
+### Participation Counts
+
+`participation_counts` preserves aggregate cohort observations without
+creating actors:
+
+```python
+process_stage: Literal[
+    "contacted",
+    "nda_signed",
+    "ioi_submitted",
+    "first_round",
+    "final_round",
+    "exclusivity",
+]
+actor_class: Literal["financial", "strategic", "mixed"]
+count_min: int
+count_max: int | None
+count_qualifier: Literal[
+    "exact",
+    "approximate",
+    "lower_bound",
+    "upper_bound",
+    "range",
+]
+named_subset_actor_ids: list[str]
+anonymous_remainder_count: int
+```
+
+`actor_creation_required`, `potential_buyer`, `shareholder`, and `unknown` are
+not participation-count fields or enum values in the deployable schema.
+
+### Filings
+
+`filings.process_scope` is required:
+
+```python
+process_scope: Literal[
+    "target_full_proxy",
+    "bidder_partial_schedule_to",
+    "amendment_only",
+    "go_shop_only",
+]
+```
+
+Target-side projections must refuse or hard-flag source scopes that are not
+`target_full_proxy`.
+
+### Judgments
+
+Judgments are a two-axis append-only surface:
+
+```python
+judgment_kind: Literal["fact_correction", "projection_eligibility"]
+
+# fact_correction only
+target_table: str | None
+target_id: str | None
+target_column: str | None
+prior_value: str | None
+new_value: str | None
+
+# projection_eligibility only
+projection_name: str | None
+actor_id: str | None
+included: bool | None
+rule_id: str | None
+
+# both
+evidence_ids: list[str]
+supersedes_judgment_id: str | None
+created_at: datetime
+created_by: str
+```
+
+The deployable schema does not use `judgment_type`, `judgment_value`,
+`alternative_value`, or free-form categories such as `formal_boundary`,
+`cycle_visibility`, `admission`, `dropout_mechanism`, `scope_validity`, or
+`valuation_comparability`. Those become typed canonical facts or named
+`rule_id` values under `projection_eligibility`.
+
+Initial `bidder_cycle_baseline_v1` rule IDs:
+
+```text
+bidder_cycle_baseline_v1.formal_boundary
+bidder_cycle_baseline_v1.cycle_visibility
+bidder_cycle_baseline_v1.admission
+bidder_cycle_baseline_v1.valuation_comparability
+bidder_cycle_baseline_v1.scope_validity
+bidder_cycle_baseline_v1.consortium_collapse
+```
+
+### Run-State Safety
+
+No pipeline stage may delete `data/pipeline.duckdb` or `runs/{run_id}/` except
+under an explicit fresh-run flag whose exact behavior is documented here and in
+the CLI help. No stage may delete or wipe `judgments`, since judgments are
+append-only and may carry reviewer overrides that pre-date the current pipeline
+run. No command may overwrite an existing `runs/{run_id}/` directory unless
+the caller passes the explicit fresh-run flag and the docs name the exact
+behavior. Reviewer overrides and proof snapshots must fail loudly rather than
+disappear.
+
+### Stale-Doc Policy
+
+Active docs and active code must reference exactly one current authority chain.
+
+- Active docs may not reference superseded plans as execution authority. If a
+  plan has been retired, active docs must not point to it as the executing
+  plan; the document is either deleted or rewritten as a one-page historical
+  note whose status banner explicitly disclaims authority.
+- Proof logs are point-in-time evidence only. They record what passed at a
+  given hour against a then-current command surface. They are not current
+  authority and must not be treated as instructions.
+- Historical notes may not contain executable next steps unless the header
+  says they are rejected historical instructions. A historical note with
+  active-looking commands is a contract violation.
+- The current authority chain is `docs/spec.md` plus the executing
+  cleanup-and-repair plan named in the §16 references; no other document
+  speaks for the spec.
+
+### Within-Deal Narrative Memory
+
+LLM extraction operates on within-deal narrative windows, not on isolated
+paragraphs.
+
+- A window is built from ordered paragraphs inside one filing. Earlier
+  paragraphs in the window inform interpretation of later paragraphs in the
+  same window.
+- No cross-deal memory is allowed. A window must never include content from
+  another deal, and prior-deal memory summaries must be derived from the same
+  filing only.
+- Every quote emitted from a window must still map back to exact source
+  coordinates against the underlying paragraph source span. Python owns
+  source coordinate derivation; the provider never produces or echoes
+  `char_start` / `char_end`.
+- Window construction policy and prior-deal memory shape are defined in
+  `docs/llm-interface.md`.
+
+### Fetch Fail-Loud Contract
+
+Tender-offer filings (`SC TO-T`, including amendments) MUST fail loudly if no
+`EX-99.(A)(1)(A)` "Offer to Purchase" exhibit is selected. No fallback to the
+cover form is allowed. The fetcher raises a hard error rather than recording
+the cover form as the substantive document.
+
+This contract is in addition to the form-type whitelist
+(`PRIMARY_FORM_TYPES = {DEFM14A, PREM14A, SC TO-T, S-4}` plus amendments) and
+the `EXCLUDED_FORM_TYPES` rejection of 425.
+
+### CLI Dispatch Contract
+
+`python -m sec_graph` is the single top-level entry point. Subcommands include
+at least `ingest`, `extract`, `reconcile`, `validate`, `project`, `run`, and
+`snapshot`.
+
+- The top-level dispatcher MUST forward `--fresh` to the `ingest` subcommand.
+  The form
+  `python -m sec_graph ingest --input data/examples --db data/pipeline.duckdb --fresh`
+  is supported and forwarded by top-level dispatch.
+- `python -m sec_graph run` accepts `--run-id` and `--run-dir`; the run
+  directory is immutable per the Run-State Safety rule above.
+- `python -m sec_graph project` accepts `--projection` and selects rows under
+  the named projection rule (e.g., `bidder_cycle_baseline_v1`).
+- `scripts/fetch_filings.py`, if retained, is a deliberate root convenience
+  command for EDGAR downloads. It is not retained for backward compatibility;
+  if a full `python -m sec_graph fetch` command supersedes it, the script is
+  deleted rather than maintained as a duplicate command surface.
 
 ## 2. Architectural Approach
 
@@ -37,7 +337,7 @@ Each module is a Python subpackage under `src/sec_graph/`. Each owns one stage o
 
 **Owns:** Canonical type definitions, deterministic-ID helpers, evidence-binding utilities, DuckDB DDL.
 
-**Outputs:** Pydantic / dataclass models for `CleanFiling`, `Paragraph`, `SourceSpan`, `ExtractionCandidate`, `Deal`, `ProcessCycle`, `Actor`, `Event`, `EventActorLink`, `Judgment`, `AdvisorEngagement`, `LegalCounselEngagement`, `BoardCommittee`, `DealTerm`, `GroupMembership`, `PriorRelationship`, `ParticipationCount`, `BidNormalization`, `CyclePhaseAssignment`, `RunMetadata`. Plus a `ddl.sql` (or generated DDL) and `ids.py` for deterministic ID construction.
+**Outputs:** Pydantic / dataclass models for `CleanFiling`, `Paragraph`, `SourceSpan`, `ExtractionCandidate`, `Deal`, `ProcessCycle`, `Actor`, `ActorRelation`, `Event`, `EventActorLink`, `ParticipationCount`, `Judgment`, `RunMetadata`. Plus a `ddl.sql` (or generated DDL) and `ids.py` for deterministic ID construction. Deferred auxiliary models are listed in §17.4 and do not become implementation obligations until fixture-demanded.
 
 **Consumed by:** Every other module.
 
@@ -86,7 +386,7 @@ Each module is a Python subpackage under `src/sec_graph/`. Each owns one stage o
 
 **Subpackages:**
 - `extract/rules/` — deterministic regex / pattern passes. Stage 6 implements these.
-- `extract/llm/` — empty until Stage 8. Provider-neutral interface to be designed in its own brainstorm before any code.
+- `extract/llm/` — opt-in provider-neutral LLM candidate producer. Stage 8 is implemented behind explicit flags and bound by `docs/llm-interface.md`.
 
 **Inputs:** Reads `paragraphs` and `spans` (paragraph-level seeds) from DuckDB.
 
@@ -98,11 +398,11 @@ Each module is a Python subpackage under `src/sec_graph/`. Each owns one stage o
 
 ### 3.5 `reconcile`
 
-**Owns:** Conversion of candidates into canonical records. Owns the hard architectural decisions: alias merging, cycle assignment, formal-boundary judgment construction (including null boundaries with marker events), grouped-bidder representation, anonymous-actor creation when projection requires row-level completeness, dropout-mechanism classification.
+**Owns:** Conversion of candidates into canonical records. Owns the hard architectural decisions: alias merging, cycle assignment, formal-boundary judgment construction (including null boundaries with marker events), grouped-bidder representation, cohort-count representation, relation construction, and dropout-mechanism classification.
 
 **Inputs:** Reads `candidates` and `spans` from DuckDB.
 
-**Outputs:** Writes the canonical tables to DuckDB: `deals`, `process_cycles`, `actors`, `events`, `event_actor_links`, `judgments`, plus auxiliaries (`advisor_engagements`, `legal_counsel_engagements`, `board_committees`, `deal_terms`, `group_memberships`, `prior_relationships`, `participation_counts`, `bid_normalizations`, `cycle_phase_assignments`).
+**Outputs:** Writes the canonical tables to DuckDB: `deals`, `process_cycles`, `actors`, `actor_relations`, `events`, `event_actor_links`, `participation_counts`, `judgments`. Rich auxiliary tables remain deferred under §17.4.
 
 **Determinism:** Given a fixed candidate set + fixed reconciliation config, output is bit-stable.
 
@@ -114,7 +414,7 @@ Each module is a Python subpackage under `src/sec_graph/`. Each owns one stage o
 
 **Hard checks:** Referential integrity (every FK resolves), evidence binding (every canonical row has a valid `evidence_id`, every span has a valid `paragraph_id`, every quote_hash matches the actual quote bytes), date sanity (no negative durations, no events before `cycle_start_date`), bid bounds (`bid_value_lower ≤ bid_value ≤ bid_value_upper` when all present), required judgments per cycle, deterministic-ID format conformance.
 
-**Soft flags:** Low-confidence judgments, judgments with `alternative_value` populated, no-boundary cycles, hidden individual bid values behind aggregate counts, alias-resolution ambiguity, unknown bidder subtypes.
+**Soft flags:** Low-confidence projection-eligibility judgments, fact corrections with disputed values, no-boundary cycles, count-only cohorts that cannot enter baseline bidder rows, alias-resolution ambiguity, and candidate facts that could not be classified into closed enum values.
 
 **Inputs:** Reads canonical tables from DuckDB.
 
@@ -137,12 +437,22 @@ Each module is a Python subpackage under `src/sec_graph/`. Each owns one stage o
 **Acceptance:** Every exported `bidder_rows.jsonl` row populates all fields from the projection schema (`deal_slug`, `cycle_id`, `actor_id`, `actor_label`, `bI`, `bI_lo`, `bI_hi`, `w_logwidth`, `bF`, `admitted`, `T`, `bid_value_unit`, `consideration_type`, `boundary_event_id`, `boundary_quality`, `formal_boundary`, `dropout_mechanism`, `dropout_has_alternative`, `cycle_visibility`, `scope_validity`, `valuation_comparability`, `confidence_min`); nulls are present only where a corresponding scope flag explains them.
 
 **Projection-construction rules:**
-- `bI` = bidder's most recent proposal **before** the cycle's `formal_boundary` event date.
-- `bF` = bidder's highest proposal **at or after** the `formal_boundary` event date.
-- `admitted` = TRUE iff a non-null `bF` exists. Do **not** infer admission only from "post-boundary proposal exists" without checking the explicit `judgments.judgment_type = 'admission'` row when present.
+- Projection first selects the latest non-superseded
+  `judgment_kind='projection_eligibility'` row for the requested projection.
+  No actor-cycle row is emitted without an included current judgment.
+- `bI` = the actor's most recent source-backed proposal **before** the cycle's
+  projection boundary event date.
+- `bF` = the actor's highest source-backed proposal **at or after** the cycle's
+  projection boundary event date.
+- `admitted` must be justified by canonical event facts plus the current
+  projection rule; do not infer admission only from a post-boundary proposal.
 - `w_logwidth` = `log(bI_hi / bI_lo)` when both bounds are positive; null otherwise.
-- `T` = 0 when `bidder_subtype = 'financial'`, 1 when `'strategic'`, null otherwise.
-- `confidence_min` = lowest of `boundary_quality`, `dropout_confidence`, `valuation_comparability.confidence`, `scope_validity.confidence` on the rank `low < medium < high`.
+- `T` is populated only when source-backed actor classification supports the
+  strategic/financial distinction for the projection; otherwise it is null with
+  an explicit scope/ambiguity flag.
+- `confidence_min` = the lowest confidence across the current projection
+  eligibility rule and any source-backed canonical facts used to populate the
+  row.
 
 ### 3.8 Module Table Ownership
 
@@ -152,7 +462,7 @@ Shared DuckDB tables are not shared write surfaces. Each module owns the tables 
 |---|---|---|
 | `ingest` | `filings`, `paragraphs`, `spans` (`paragraph_seed` only) | raw filing artifacts |
 | `extract` | `spans` (`sentence`, `clause`, `phrase` only), `candidates` | `filings`, `paragraphs`, `spans` |
-| `reconcile` | `deals`, `process_cycles`, `actors`, `events`, `event_actor_links`, `judgments`, `participation_counts` | `candidates`, `spans`, evidence tables |
+| `reconcile` | `deals`, `process_cycles`, `actors`, `actor_relations`, `events`, `event_actor_links`, `participation_counts`, `judgments` | `candidates`, `spans`, evidence tables |
 | `validate` | `runs/{run_id}/validation_report.json`, `runs/{run_id}/ambiguity_queue.csv` | all canonical and evidence tables |
 | `project` | `runs/{run_id}/*.jsonl`, `runs/{run_id}/*.csv`, `runs/{run_id}/run_memo.md` | all canonical and evidence tables |
 
@@ -161,7 +471,7 @@ Shared DuckDB tables are not shared write surfaces. Each module owns the tables 
 **Hybrid: files for blobs, DuckDB for everything structured.**
 
 - **Files** under `data/filings/{slug}/`: `raw.htm`, `raw.md`, `pages.json`, `manifest.json`. Bulk filing text stays on disk because it is read whole, not queried.
-- **DuckDB** at `data/pipeline.duckdb`: a single embedded database file holding **every** structured table — `filings`, `paragraphs`, `spans`, `candidates`, all canonical tables, all auxiliary tables, `run_metadata`. Paragraph text and quote text are duplicated into rows (cheap; ~1-5 KB per paragraph) so SQL queries can search them.
+- **DuckDB** at `data/pipeline.duckdb`: a single embedded database file holding **every** structured table — `filings`, `paragraphs`, `spans`, `candidates`, all implemented canonical tables, any fixture-demanded auxiliary tables, `run_metadata`. Paragraph text and quote text are duplicated into rows (cheap; ~1-5 KB per paragraph) so SQL queries can search them.
 - **Run snapshots** under `runs/{run_id}/`: a frozen copy of `pipeline.duckdb` plus exported reports/views.
 
 **Why not files-everywhere:** Cross-filing queries ("every paragraph mentioning 'standstill' with no candidate yet") become brittle Python crawls. SQL is the right tool for the job at the structured layer, and DuckDB is single-file, embedded, no-server, columnar.
@@ -178,10 +488,10 @@ src/sec_graph/
     models/
       __init__.py
       filings.py          # CleanFiling, Section, Paragraph, SourceSpan
-      canonical.py        # Deal, ProcessCycle, Actor, Event, EventActorLink
+      canonical.py        # Deal, ProcessCycle, Actor, ActorRelation, Event, EventActorLink
       judgments.py        # Judgment (with supersedes chain)
       participation_counts.py
-      auxiliary.py        # advisor / counsel / board / terms / group / prior / bid-norm / cycle-phase (deferred until fixture-demanded)
+      auxiliary.py        # advisor / counsel / board / terms / prior / bid-norm / cycle-phase (deferred until fixture-demanded)
       runtime.py          # RunMetadata
       extraction.py       # ExtractionCandidate (Stage 6+)
     ids.py
@@ -206,7 +516,7 @@ src/sec_graph/
       actors.py
       events.py
       bids.py
-    llm/                  # empty until Stage 8 (own brainstorm first)
+    llm/                  # opt-in provider-neutral LLM candidate producer
       __init__.py
   reconcile/
     __init__.py
@@ -282,7 +592,10 @@ python -m sec_graph snapshot [--run-id Y]  # freeze pipeline.duckdb to runs/{Y}/
 
 `run` invokes `snapshot` automatically with a generated `run_id` (timestamp + short hash). The standalone `snapshot` command is for cases where you want to override the auto-generated id (e.g., a memorable name like `baseline-2026-05-02`); if `--run-id` is omitted, a fresh id is generated.
 
-`scripts/fetch_filings.py` remains as a thin compatibility shim into `python -m sec_graph fetch`. The existing test invocation continues to work.
+`scripts/fetch_filings.py` is a deliberate root convenience command for EDGAR
+downloads. It is not retained for backward compatibility; if a full
+`python -m sec_graph fetch` command supersedes it, the script is deleted
+rather than maintained as a duplicate command surface.
 
 ## 7. Determinism Contract
 
@@ -370,7 +683,7 @@ Each stage produces a runnable, testable artifact. Stages are completed in order
 | **5** | `project` | Wire to DuckDB; export bidder-cycle rows + companion views per §3.7. | Stage-3 hand-authored canonical produces an expected `bidder_rows.jsonl` and `run_memo.md`. |
 | **6** | `extract/rules` | Deterministic patterns for actor mentions, dated events, bid values on the 4 examples. | Candidate output matches a hand-curated golden set on PetSmart and Saks; every candidate has at least one evidence_id. |
 | **7** | `reconcile` (real) | Replace Stage 3 manual fixtures with rule-extracted candidates → canonical. Add judgments. | All 4 examples produce canonical records; bidder-cycle rows match a hand-curated expected set. |
-| **8** | `extract/llm` (gated) | Provider-isolated LLM pass for events/aliases that rules miss. **Begins with its own brainstorm.** No provider SDK in dependencies until that brainstorm produces an approved interface spec. | Behind a feature flag; deterministic outputs unchanged when flag off. |
+| **8** | `extract/llm` | Provider-isolated LLM candidate producer for events/aliases that rules miss. Bound by `docs/llm-interface.md`: streaming Linkflow transport, strict provider JSON schema, Python-owned quote offsets, no fallback, no backward compatibility. | Behind explicit flags; deterministic outputs unchanged when flag off. |
 | **9** (out of roadmap) | reviewer workflow | Reviewer triages ambiguity queue; overrides emit new judgments referencing prior. | Out of build scope. Schema accommodates per §10.2. |
 
 ## 13. Parallelization and Critical Path
@@ -391,7 +704,7 @@ All three tracks merge at **Stage 7** (`reconcile` real). Stage 7:
 - Replaces Stage 3's hand-authored fixtures with rule-extracted candidates from Track C, against Track A's ingested paragraphs/spans.
 - Validates the result through Track B's `validate` and `project` modules.
 
-Stage 8 (`extract/llm`) is downstream of Stage 7 and gated on its own brainstorm. Stage 9 (reviewer workflow) is out of build scope.
+Stage 8 (`extract/llm`) is downstream of Stage 7 and now implemented as an opt-in candidate producer. Stage 9 (reviewer workflow) is out of build scope.
 
 ### 13.3 Critical Path
 
@@ -416,13 +729,19 @@ Stage 1A ─► Stage 1B ─► Stage 2 ──► Stage 6 ──► Stage 7     
 2. Stage 1B alone (canonical skeleton + hand-authored smoke canonical fixture). Land it.
 3. Fan out: Track A (Stage 2), Track B (Stages 3 → 4 → 5), Track C (Stage 6) in parallel.
 4. Sync at Stage 7.
-5. Optionally Stage 8, beginning with its own brainstorm.
+5. Optionally run Stage 8 through explicit LLM flags.
 
-The execution-level mechanics (worktree mapping, agent assignments, sync gates) live in the plan: `quality_reports/plans/2026-05-02_parallel-execution-plan.md`.
+The current deployable canonical-pipeline `/goal` is described in
+`quality_reports/plans/2026-05-02_deployable-canonical-pipeline-goal.md` and
+implemented through
+`quality_reports/plans/2026-05-02_deployable-canonical-pipeline-plan.md`. The
+hard-cleanse-and-repair work that bridges to this goal is the executing plan
+`quality_reports/plans/2026-05-02_stale-scaffold-hard-cleanse-repair-plan.md`.
+Older parallelization or stage-overlay plans are no longer execution authority.
 
 ## 14. What's Explicitly Out of Scope (For This Roadmap)
 
-- **LLM extraction implementation.** The interface for how an LLM is called, what it sees, and what it returns is designed in a separate Stage-8 brainstorm before any code is written. The `extract/llm/` directory is empty until then.
+- **LLM canonical writing.** Stage 8 is a candidate producer only. LLM output never writes canonical rows, projection rows, reviewer judgments, or provider-specific schema fields.
 - **Reviewer workflow UI.** Stage 9 is acknowledged but not built; the schema accommodates it (§10.2).
 - **Whole-corpus runs.** Stages 1A-7 target the 4 examples. Running across all ~400 deals in `seeds.csv` happens only after Stage 7 acceptance.
 - **External-metadata enrichment.** Bidder domicile, advisor rankings, public/private status, industry codes, etc., require external datasets the trimmed filings don't supply. The schema has fields for them; population is future work.
@@ -436,17 +755,20 @@ These are unresolved and will be revisited at the relevant stage:
 - **Cleaning patterns.** The exact regex set for printer-command lines, ZEQ banners, and folio-number stripping is enumerated and reviewed in Stage 2 before any stripping happens.
 - **`cycle_relation` value set.** Whether go-shops are encoded as same-cycle tails, separate cycles, or both (configurable per projection). Decided in Stage 4 / Stage 7.
 - **Dropout-mechanism evidence rules.** The text patterns / linked events that justify `target-rejected` vs `voluntarily-withdrew` vs `ambiguous` are codified in Stage 7.
-- **Anonymous aggregate-bidder policy.** When `participation_counts` reports N IOIs without naming each, do we always create N anonymous actors, or only when projection requires row-level completeness? Decided in Stage 7. The schema's `actor_creation_required` discriminator (§17.2) leaves the decision deferrable.
-- **LLM provider interface.** Stage 8 is bound by [`docs/llm-interface.md`](./llm-interface.md): provider-neutral, deterministic-output-respecting, evidence-emitting (quote text + location hints), feature-flagged, and candidate-only.
+- **Anonymous aggregate-bidder policy.** Count-only `participation_counts` do not create baseline bidder rows. Open projection work may later decide whether a named sensitivity view includes synthetic count-derived rows, but that must be explicit and judgment-backed, not a canonical default.
+- **LLM provider interface.** Stage 8 is bound by [`docs/llm-interface.md`](./llm-interface.md): provider-neutral, deterministic-output-respecting, evidence-emitting by exact quote text only, feature-flagged, candidate-only, and locally span-resolved.
 - **Reviewer UI shape.** Out of scope for this roadmap. The schema affordance (§10.2) is what we commit to today.
 
 ## 16. Related Documents
 
-- [`quality_reports/plans/2026-05-02_parallel-execution-plan.md`](../quality_reports/plans/2026-05-02_parallel-execution-plan.md) — sole source of truth for execution.
-- [`docs/llm-interface.md`](./llm-interface.md) — Stage 8 provider-neutral LLM extraction interface.
+- [`quality_reports/plans/2026-05-02_stale-scaffold-hard-cleanse-repair-plan.md`](../quality_reports/plans/2026-05-02_stale-scaffold-hard-cleanse-repair-plan.md) — executing cleanup-and-repair plan, in force until every phase inside it is complete.
+- [`quality_reports/plans/2026-05-02_deployable-canonical-pipeline-goal.md`](../quality_reports/plans/2026-05-02_deployable-canonical-pipeline-goal.md) — goal handoff for the live deployable proof.
+- [`quality_reports/plans/2026-05-02_deployable-canonical-pipeline-plan.md`](../quality_reports/plans/2026-05-02_deployable-canonical-pipeline-plan.md) — implementation plan paired with the goal handoff.
+- [`docs/llm-interface.md`](./llm-interface.md) — provider-neutral LLM extraction interface.
 - [`docs/prior-pipeline-lessons.md`](./prior-pipeline-lessons.md) — failure-mode postmortem from the previous extraction attempt; informs §17 invariants.
 - [`AGENTS.md`](../AGENTS.md) — repository contract for agents.
 - [`CLAUDE.md`](../CLAUDE.md) — Claude Code orientation.
+- [`quality_reports/session_logs/README.md`](../quality_reports/session_logs/README.md) — point-in-time proof-log index.
 
 ## 17. Stage 1 Slicing (Approved Addendum)
 
@@ -464,18 +786,17 @@ The original Stage 1 plan was overbroad. It implemented the entire 21-table cano
 
 ### 17.2 Stage 1A Non-Negotiables (the corrections that prevent retrofit)
 
-These four schema details are not optional. Without them, downstream modules will silently corrupt evidence:
+These three schema details are not optional. Without them, downstream modules will silently corrupt evidence:
 
 1. **Span coordinate basis.** `SourceSpan.span_basis: Literal["raw_md", "clean_text"]`. If cleaning changes offsets, both raw and clean coordinates can be stored, but every span must declare which system it uses. Without this, quote hashes become decorations.
 2. **Span parentage.** `SourceSpan.parent_evidence_id: str | None` plus `span_kind: Literal["paragraph_seed", "sentence", "clause", "phrase"]`. Ingest creates paragraph seeds; extract creates tighter spans inside them. Mixing them as if equivalent is the failure mode.
 3. **Span stage provenance.** `SourceSpan.created_by_stage: Literal["ingest", "extract"]`. Distinguishes ingest evidence from rule/model-created evidence at audit time.
-4. **Participation-count actor-creation discriminator.** `ParticipationCount.actor_creation_required: Literal["required", "deferred", "projection_only"]`. Lets the schema represent "15 financial buyers signed CAs" without forcing 15 actor rows when the filing does not name them.
 
 ### 17.3 Stage 1B — Minimal Canonical Skeleton
 
 **Goal.** A canonical-table walkthrough on the smoke filing that exercises the *core* lessons (actors ≠ events, counts ≠ actors, judgments ≠ facts) without trying to be the whole research ontology.
 
-**Implements:** `Deal`, `ProcessCycle`, `Actor`, `Event`, `EventActorLink`, `Judgment` (with `supersedes_judgment_id`), `ParticipationCount`. Module-table-ownership doc. Hand-authored smoke canonical fixture covering: one target, two bidders, one process cycle, two bid events, one boundary judgment, one dropout judgment, one unnamed cohort participation count.
+**Implements:** `Deal`, `ProcessCycle`, `Actor`, `ActorRelation`, `Event`, `EventActorLink`, `Judgment` (with `supersedes_judgment_id`), `ParticipationCount`. Module-table-ownership doc. Hand-authored smoke canonical fixture covering: one target, two bidders, one process cycle, two bid events, one boundary judgment, one dropout judgment, one unnamed cohort participation count, and one relation row when a fixture supplies relationship evidence.
 
 **Does NOT implement in 1B:** Auxiliary tables (advisor, counsel, board, terms, group, prior, bid-norm, cycle-phase). `ExtractionCandidate`.
 
@@ -489,7 +810,7 @@ These tables are named in the schema but have no immediate implementation, no DD
 - `legal_counsel_engagements`
 - `board_committees`
 - `deal_terms`
-- `group_memberships` (beyond what `Actor` + `EventActorLink` covers)
+- rich group-specific membership tables beyond generic `actor_relations`
 - `prior_relationships`
 - `bid_normalizations` (beyond one minimal numeric bid)
 - `cycle_phase_assignments` (beyond the first projection test)
@@ -538,6 +859,24 @@ If the answer is "maybe," prefer a judgment or a later fixture-driven addition.
 8. Keep estimator rows downstream of canonical truth.
 
 The right goal is not a complete ontology on day one. The right goal is a small database that cannot lie about where its evidence came from. Once that exists, the rest of the pipeline can grow without repeating the old flat-row mistakes.
+
+### 18.5 Atomization and Relation Doctrine
+
+The governing schema rule is:
+
+> Store source facts at the level the filing supports. Atomize only in a named projection, with a judgment explaining why that actor is eligible for that projection.
+
+Extraction must not decide buyer-group atomization by row shape. PetSmart-style buyer groups should be decomposed canonically when the filing supplies member, vehicle, financing, rollover, or support-holder evidence, but the baseline bidder-cycle projection should treat a group bid vehicle as one bidder row when the bid is source-described as group-level. Member-split projections are sensitivity views unless a current `projection_eligibility` judgment supports each member as a distinct projection decision unit.
+
+Generic `actor_relations` is the first-class relation surface for buyer-group membership, affiliate structures, financing participation, rollover participation, support agreements, acquisition vehicles, and advisor-client relationships. It is not optional and not deferred. Do not add a narrow relation table until a fixture proves that `actor_relations` plus `events`, `event_actor_links`, `participation_counts`, and `judgments` cannot represent the source fact without loss.
+
+`ParticipationCount` rows are cohort observations, not actor-creation instructions. Count-only anonymous cohorts may support process summaries, ambiguity queues, or future first-stage/covariate analyses. They do not enter the baseline bidder-row projection unless named actor evidence and projection eligibility judgments justify the row.
+
+No fallback enum values are permitted anywhere in the canonical schema. `unknown`, `other`, miscellaneous catch-all values, provider-owned categories, and backward-compatible aliases are forbidden. Closed enums are listed in §1A; if a source fact cannot be classified into a closed value, the pipeline must not write the row, and must instead preserve the evidence as a candidate, a validation failure, or a reviewer-facing ambiguity.
+
+No row-shaped downstream bidder identity is permitted in canonical tables. `Actor` is the source-backed identity surface; bidder-cycle decision units are produced only as deterministic projection rows justified by current `projection_eligibility` judgments. Old-pipeline names that fused identity, bidder lifecycle, bid value, formal-stage admission, dropout, and projection status into one row are explicitly rejected.
+
+No deal-specific or PetSmart-only schema surface is permitted. Schema fields, table shapes, and enum values must generalize across all reference deals listed in `quality_reports/plans/2026-05-02_deployable-canonical-pipeline-goal.md`. PetSmart-style buyer-group facts (BC Partners, CDPQ, GIC, StepStone, Longview, late-Longview rollover/support, acquisition vehicles, financing) must be representable through generic `actor_relations`, `events`, `event_actor_links`, `participation_counts`, and `judgments`. They must not require a PetSmart-only table or PetSmart-only field.
 
 ---
 

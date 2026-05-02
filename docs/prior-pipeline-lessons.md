@@ -9,6 +9,10 @@ useful evidence about failure modes, not a codebase to preserve.
 **Audience.** Future agents and humans implementing the modular architecture in
 `docs/spec.md`.
 
+> **Execution authority:** For the deployable canonical-pipeline goal,
+> `docs/spec.md` §1A is binding. This memo is failure-mode context only and
+> must not be used to preserve older schema shapes when it conflicts with §1A.
+
 ## Executive Summary
 
 The prior pipeline eventually learned that row-per-event JSON is a weak primary
@@ -53,9 +57,9 @@ created recurring friction:
   canonical actor layer or a participation-count layer.
 
 The new canonical model should avoid this compression. `ExtractionCandidate`,
-`Actor`, `Event`, `EventActorLink`, `Judgment`, `ParticipationCount`, and
-`GroupMembership` should be separate records because the filing supports them
-with different evidence and different uncertainty.
+`Actor`, `actor_relations`, `Event`, `EventActorLink`, `Judgment`, and
+`ParticipationCount` should be separate records because the filing supports
+them with different evidence and different uncertainty.
 
 ### 2. Prompt-only semantics were not durable enough
 
@@ -119,7 +123,7 @@ between aggregation and atomization at extraction time.
 The new pipeline should model this as structure:
 
 - `Actor` for individuals, firms, groups, and anonymous placeholders.
-- `GroupMembership` for membership intervals and evidence.
+- `actor_relations` for membership intervals and evidence.
 - `EventActorLink` for each actor's role in each event.
 - `ParticipationCount` for filing-level counts that treat a group as one party.
 - `Judgment` for policy choices such as whether a projection needs constituent
@@ -228,7 +232,7 @@ the new architecture, many of them deserve schema support:
 - inherited NDA or consortium agreement event.
 
 Some should become `ExtractionCandidate` rows first, then
-`ParticipationCount`, `GroupMembership`, `Event`, or `Judgment` rows during
+`ParticipationCount`, `actor_relations`, `Event`, or `Judgment` rows during
 reconciliation.
 
 ### Projections should absorb estimator-specific compromises
