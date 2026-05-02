@@ -6,6 +6,7 @@ from sec_graph.extract.rules import run_rules
 from sec_graph.extract.rules.actors import actor_matches
 from sec_graph.extract.rules.bids import bid_matches
 from sec_graph.extract.rules.events import dated_event_matches
+from sec_graph.extract.rules.relations import relation_matches
 from sec_graph.ingest.pipeline import ingest_examples
 from sec_graph.schema import connect, init_schema, validate_quote
 
@@ -54,6 +55,63 @@ def test_bid_rules_capture_ranges_without_duplicate_upper_endpoint() -> None:
         ("$15.25 per share", "15.25"),
         ("$14.50\u2013$15.50 per share", "14.5-15.5"),
         ("$80.00 per share to $85.00 per share", "80.0-85.0"),
+    ]
+
+
+def test_generic_merger_sub_relations_do_not_manufacture_petsmart_vehicle_labels() -> None:
+    text = (
+        "Merger Sub will merge with and into the Company, with the Company "
+        "surviving the merger as a wholly owned subsidiary of Parent."
+    )
+
+    payloads = [json.loads(match.normalized_value) for match in relation_matches(text)]
+
+    assert payloads == [
+        {
+            "effective_date_first": None,
+            "object_label": "Parent",
+            "relation_type": "acquisition_vehicle_of",
+            "role_detail": "merger subsidiary owned by parent",
+            "subject_label": "Merger Sub",
+        }
+    ]
+
+
+def test_defined_parent_and_merger_sub_aliases_use_clean_company_labels() -> None:
+    text = (
+        "The merger agreement was entered into by and among the Company, Argos Holdings Inc., "
+        "a Delaware corporation (\u201cParent\u201d), and Argos Merger Sub Inc., a Delaware corporation "
+        "and wholly owned subsidiary of Parent (\u201cMerger Sub\u201d). Merger Sub is a wholly owned "
+        "subsidiary of Parent."
+    )
+
+    payloads = [json.loads(match.normalized_value) for match in relation_matches(text)]
+
+    assert {
+        "effective_date_first": None,
+        "object_label": "Argos Holdings Inc.",
+        "relation_type": "acquisition_vehicle_of",
+        "role_detail": "merger subsidiary owned by parent",
+        "subject_label": "Argos Merger Sub Inc.",
+    } in payloads
+
+
+def test_document_level_aliases_apply_to_later_generic_vehicle_clauses() -> None:
+    text = "Merger Sub is a wholly owned subsidiary of Parent."
+
+    payloads = [
+        json.loads(match.normalized_value)
+        for match in relation_matches(text, {"Parent": "Argos Holdings Inc.", "Merger Sub": "Argos Merger Sub Inc."})
+    ]
+
+    assert payloads == [
+        {
+            "effective_date_first": None,
+            "object_label": "Argos Holdings Inc.",
+            "relation_type": "acquisition_vehicle_of",
+            "role_detail": "merger subsidiary owned by parent",
+            "subject_label": "Argos Merger Sub Inc.",
+        }
     ]
 
 

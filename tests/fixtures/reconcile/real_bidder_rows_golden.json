@@ -1,6 +1,6 @@
 {
-  "row_count": 15,
-  "projection_sha256": "0123b0f860b7a515866fd19b9a4d3f693e1a6ce5576e427a4e3eae529431ff9a",
+  "row_count": 8,
+  "projection_sha256": "7aba26cd8510230e44c060de6e35090e676062ba11e4e74187d8976811ff82b0",
   "required_rows": [
     {
       "deal_slug": "petsmart-inc",
@@ -8,7 +8,7 @@
       "bI": 82.0,
       "bF": 83.0,
       "admitted": true,
-      "T": 0
+      "formal_boundary": "advancement_admitted"
     },
     {
       "deal_slug": "providence-worcester",
@@ -16,23 +16,15 @@
       "bI": 22.15,
       "bF": 25.0,
       "admitted": true,
-      "T": 1
+      "formal_boundary": "advancement_admitted"
     },
     {
       "deal_slug": "saks",
-      "actor_label": "Hudson\u2019s Bay",
+      "actor_label": "Hudson’s Bay",
       "bI": 15.5,
       "bF": 16.0,
       "admitted": true,
-      "T": 1
-    },
-    {
-      "deal_slug": "zep",
-      "actor_label": "Party X",
-      "bI": 22.25,
-      "bF": null,
-      "admitted": false,
-      "dropout_mechanism": "ambiguous"
+      "formal_boundary": "advancement_admitted"
     },
     {
       "deal_slug": "zep",
@@ -40,7 +32,7 @@
       "bI": null,
       "bF": 20.05,
       "admitted": true,
-      "T": 0
+      "formal_boundary": "advancement_admitted"
     }
   ]
 }

@@ -24,8 +24,9 @@ def _seed_smoke_paragraphs(conn) -> None:
         parser_version=versions.PARSER_VERSION,
         page_count=2,
         section_count=1,
+        process_scope="target_full_proxy",
     )
-    conn.execute("INSERT INTO filings VALUES (?, ?, ?, ?, ?, ?, ?)", tuple(filing.model_dump().values()))
+    conn.execute("INSERT INTO filings VALUES (?, ?, ?, ?, ?, ?, ?, ?)", tuple(filing.model_dump().values()))
     paragraph_texts = [
         "On January 5, 2024, Party A submitted an indication of interest.",
         "On January 12, 2024, Party B proposed $12.50 per share in cash.",
@@ -62,7 +63,7 @@ def _seed_smoke_paragraphs(conn) -> None:
         conn.execute("INSERT INTO paragraphs VALUES (?, ?, ?, ?, ?, ?, ?, ?)", tuple(paragraph.model_dump().values()))
         conn.execute("INSERT INTO spans VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", tuple(span.model_dump().values()))
     metadata = RunMetadata(
-        run_id="extract-smoke",
+        run_id="2026-05-02T150000Z_unit_smoke",
         schema_version=versions.SCHEMA_VERSION,
         parser_version=versions.PARSER_VERSION,
         ingest_version=versions.INGEST_VERSION,

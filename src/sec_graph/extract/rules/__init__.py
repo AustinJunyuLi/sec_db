@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import datetime as dt
+
 import duckdb
 
 from sec_graph.schema import ExtractionCandidate, SourceSpan, make_id, quote_hash
@@ -10,6 +12,18 @@ from .actors import Match, actor_matches
 from .bids import bid_matches
 from .counts import count_matches
 from .events import dated_event_matches
+from .relations import relation_aliases, relation_matches
+
+
+def _utc_run_id(prefix: str) -> str:
+    """Generic UTC timestamp run id used when the caller does not pass one.
+
+    Format: `{prefix}_{YYYYMMDDTHHMMSSZ}`. The prefix names the stage so a
+    pipeline grep can locate the call site without overloading any single
+    historical bring-up name like `extract-smoke`.
+    """
+    timestamp = dt.datetime.now(dt.UTC).strftime("%Y%m%dT%H%M%SZ")
+    return f"{prefix}_{timestamp}"
 
 
 def _slug_for_filing(conn: duckdb.DuckDBPyConnection, filing_id: str) -> str:
@@ -29,7 +43,7 @@ def _paragraph_rows(conn: duckdb.DuckDBPyConnection, filing_id: str) -> list[dic
           ON spans.paragraph_id = paragraphs.paragraph_id
          AND spans.span_kind = 'paragraph_seed'
         WHERE paragraphs.filing_id = ?
-          AND paragraphs.section IN ('Background of the Merger', 'unknown_section')
+          AND paragraphs.section IN ('Background of the Merger', 'Financing', 'unknown_section')
         ORDER BY paragraphs.char_start, paragraphs.paragraph_id
         """,
         [filing_id],
@@ -45,25 +59,49 @@ def _paragraph_rows(conn: duckdb.DuckDBPyConnection, filing_id: str) -> list[dic
     ]
 
 
-def _matches_for_text(text: str) -> list[Match]:
+def _matches_for_text(text: str, aliases: dict[str, str] | None = None) -> list[Match]:
     matches: list[Match] = []
     matches.extend(actor_matches(text))
     matches.extend(dated_event_matches(text))
     matches.extend(bid_matches(text))
     matches.extend(count_matches(text))
+    matches.extend(relation_matches(text, aliases))
     return matches
 
 
-def run_rules(conn: duckdb.DuckDBPyConnection, filing_id: str, run_id: str = "extract-smoke") -> list[ExtractionCandidate]:
+def _document_aliases(paragraphs: list[dict[str, object]]) -> dict[str, str]:
+    aliases: dict[str, str] = {}
+    for paragraph in paragraphs:
+        aliases.update(relation_aliases(str(paragraph["paragraph_text"])))
+    return aliases
+
+
+def run_rules(
+    conn: duckdb.DuckDBPyConnection,
+    filing_id: str,
+    run_id: str | None = None,
+) -> list[ExtractionCandidate]:
+    """Execute deterministic rule extraction for one filing.
+
+    `run_id` is OPTIONAL. When omitted, a UTC-timestamped id is generated
+    on the spot so the produced candidates carry a plainly-generic stamp
+    (`extract_YYYYMMDDTHHMMSSZ`) rather than the previous historical
+    scaffold name `extract-smoke`. Callers that need a stable id should
+    pass one explicitly.
+    """
+    if run_id is None:
+        run_id = _utc_run_id("extract")
     slug = _slug_for_filing(conn, filing_id)
     conn.execute("DELETE FROM candidates WHERE filing_id = ?", [filing_id])
     conn.execute("DELETE FROM spans WHERE filing_id = ? AND created_by_stage = 'extract'", [filing_id])
     candidates: list[ExtractionCandidate] = []
     sequence = 1
-    for paragraph in _paragraph_rows(conn, filing_id):
+    paragraphs = _paragraph_rows(conn, filing_id)
+    aliases = _document_aliases(paragraphs)
+    for paragraph in paragraphs:
         text = str(paragraph["paragraph_text"])
         paragraph_start = int(paragraph["char_start"])
-        for match in _matches_for_text(text):
+        for match in _matches_for_text(text, aliases):
             span_id = make_id(slug, "extractspan", sequence)
             candidate_id = make_id(slug, "candidate", sequence)
             char_start = paragraph_start + match.start

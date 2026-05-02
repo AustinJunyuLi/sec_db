@@ -1,7 +1,7 @@
 {
   "petsmart-inc": {
-    "row_count": 55,
-    "projection_sha256": "17007c7803e62465cdabad5cc5b32bad94db7dfa9f25f10479f7f017d0528a46",
+    "row_count": 107,
+    "projection_sha256": "fb3c8e4db63d1c0863271e23bedb41ecc94a06a9b34de684ae2f206e508a9303",
     "required_rows": [
       {
         "candidate_type": "actor_mention",
@@ -36,13 +36,13 @@
     ]
   },
   "saks": {
-    "row_count": 153,
-    "projection_sha256": "ba44fd1299920906f497943ca7dfa2f6b480638065f83368e0a7c401b2b9040c",
+    "row_count": 194,
+    "projection_sha256": "d22400350f9a8226f852ba834242a2466027548ffab4de78ae751206ecc1b188",
     "required_rows": [
       {
         "candidate_type": "actor_mention",
-        "raw_value": "Hudson\u2019s Bay",
-        "normalized_value": "Hudson\u2019s Bay"
+        "raw_value": "Hudson’s Bay",
+        "normalized_value": "Hudson’s Bay"
       },
       {
         "candidate_type": "actor_mention",
@@ -66,17 +66,17 @@
       },
       {
         "candidate_type": "dated_event",
-        "raw_value": "On July 11, 2013, each of Hudson\u2019s Bay, on the one hand, and Sponsor E, together with Sponsor G, on the other hand, submitted proposals expressing their continued interest in an acquisition of Saks.",
+        "raw_value": "On July 11, 2013, each of Hudson’s Bay, on the one hand, and Sponsor E, together with Sponsor G, on the other hand, submitted proposals expressing their continued interest in an acquisition of Saks.",
         "normalized_value": "2013-07-11"
       },
       {
         "candidate_type": "bid_value",
-        "raw_value": "$14.50\u2013$15.50 per share",
+        "raw_value": "$14.50–$15.50 per share",
         "normalized_value": "14.5-15.5"
       },
       {
         "candidate_type": "dated_event",
-        "raw_value": "On July 29, 2013, Saks and Hudson\u2019s Bay issued a joint press release announcing entry into the transaction.",
+        "raw_value": "On July 29, 2013, Saks and Hudson’s Bay issued a joint press release announcing entry into the transaction.",
         "normalized_value": "2013-07-29"
       }
     ]

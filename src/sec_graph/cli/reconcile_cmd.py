@@ -12,7 +12,14 @@ from sec_graph.schema import DEFAULT_DB_PATH, connect
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--db", type=Path, default=DEFAULT_DB_PATH, help="DuckDB input/output path")
-    parser.add_argument("--run-id", default="reconcile-real", help="run_id for canonical rows")
+    # `--run-id` defaults to `None`; `reconcile_all` then generates a generic
+    # UTC-timestamped id. Passing an explicit value is preferred for any
+    # provenance-bearing run.
+    parser.add_argument(
+        "--run-id",
+        default=None,
+        help="explicit run_id for canonical rows (default: UTC timestamp)",
+    )
     return parser
 
 
