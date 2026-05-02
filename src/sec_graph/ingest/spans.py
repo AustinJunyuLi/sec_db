@@ -1,4 +1,15 @@
-"""Source-span construction for ingested paragraph seeds."""
+"""Source-span construction for ingested paragraph seeds.
+
+Paragraph seed spans are the only span_kind allowed to have
+``parent_evidence_id is None``. Every downstream extract span (sentence,
+clause, phrase, llm_extract) MUST chain to a seed via ``parent_evidence_id``;
+this is enforced both by the ``SourceSpan`` Pydantic model
+(``schema/models/filings.py``) and by the ``spans`` table CHECK constraint
+(``FILINGS_DDL``). Coordinates here are raw-source coordinates: the
+``ParagraphBlock`` invariant set by ``split_paragraphs`` guarantees that
+``raw_text[block.char_start:block.char_end] == block.text``, so the seed
+span passes the Phase 4 source-truth validation.
+"""
 
 from __future__ import annotations
 

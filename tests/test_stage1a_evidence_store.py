@@ -52,6 +52,7 @@ def _insert_smoke_evidence(conn) -> dict[str, list[object]]:
         parser_version=versions.PARSER_VERSION,
         page_count=2,
         section_count=1,
+        process_scope="target_full_proxy",
     )
     section = Section(
         section_id="smoke_section_001",
@@ -112,7 +113,7 @@ def _insert_smoke_evidence(conn) -> dict[str, list[object]]:
     )
 
     conn.execute(
-        "INSERT INTO filings VALUES (?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO filings VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
         tuple(filing.model_dump().values()),
     )
     for paragraph in paragraphs:

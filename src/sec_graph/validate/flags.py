@@ -17,56 +17,37 @@ class SoftFlag:
 
 def soft_flags(conn: duckdb.DuckDBPyConnection) -> list[SoftFlag]:
     flags: list[SoftFlag] = []
-    for row in conn.execute(
+    for judgment_id, projection_name, actor_id, included in conn.execute(
         """
-        SELECT judgment_id, judgment_type, confidence, alternative_value, judgment_value
+        SELECT judgment_id, projection_name, actor_id, included
         FROM judgments
+        WHERE judgment_kind = 'projection_eligibility'
         ORDER BY judgment_id
         """
     ).fetchall():
-        judgment_id, judgment_type, confidence, alternative_value, judgment_value = row
-        if confidence == "low":
+        if included is False:
             flags.append(
                 SoftFlag(
-                    flag_type="low_confidence_judgment",
+                    flag_type="projection_exclusion",
                     table_name="judgments",
                     row_id=judgment_id,
-                    detail=f"{judgment_type} confidence is low",
+                    detail=f"{projection_name} excludes actor_id={actor_id}",
                 )
             )
-        if alternative_value is not None:
-            flags.append(
-                SoftFlag(
-                    flag_type="alternative_value",
-                    table_name="judgments",
-                    row_id=judgment_id,
-                    detail=f"{judgment_type} alternative={alternative_value}",
-                )
-            )
-        if judgment_type == "formal_boundary" and judgment_value in {"none_observed", "null", ""}:
-            flags.append(
-                SoftFlag(
-                    flag_type="no_boundary_cycle",
-                    table_name="judgments",
-                    row_id=judgment_id,
-                    detail="formal boundary is not observed",
-                )
-            )
-    for row in conn.execute(
+    for count_id, anonymous_remainder_count in conn.execute(
         """
-        SELECT participation_count_id, actor_creation_required
+        SELECT participation_count_id, anonymous_remainder_count
         FROM participation_counts
         ORDER BY participation_count_id
         """
     ).fetchall():
-        count_id, actor_creation_required = row
-        if actor_creation_required != "required":
+        if anonymous_remainder_count:
             flags.append(
                 SoftFlag(
-                    flag_type="hidden_individual_bids",
+                    flag_type="count_only_cohort",
                     table_name="participation_counts",
                     row_id=count_id,
-                    detail=f"actor creation is {actor_creation_required}",
+                    detail=f"{anonymous_remainder_count} anonymous participant(s) remain aggregate only",
                 )
             )
     return flags

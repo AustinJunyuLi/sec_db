@@ -5,6 +5,7 @@ from .evidence import quote_hash, validate_quote
 from .ids import SequenceAllocator, make_id
 from .models import (
     Actor,
+    ActorRelation,
     CleanFiling,
     Deal,
     Event,
@@ -17,11 +18,13 @@ from .models import (
     RunMetadata,
     Section,
     SourceSpan,
+    latest_judgments,
 )
 from .schema_init import init_schema
 
 __all__ = [
     "Actor",
+    "ActorRelation",
     "CleanFiling",
     "DEFAULT_DB_PATH",
     "Deal",
@@ -42,4 +45,5 @@ __all__ = [
     "make_id",
     "quote_hash",
     "validate_quote",
+    "latest_judgments",
 ]

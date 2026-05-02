@@ -35,6 +35,32 @@ def example_sources(examples_dir: Path = DEFAULT_EXAMPLES_DIR) -> list[IngestSou
     return [IngestSource(slug=path.stem, source_path=path) for path in paths if path.name != "README.md"]
 
 
+def filing_sources(slugs: list[str], filings_dir: Path | None = None) -> list[IngestSource]:
+    base_dir = filings_dir or REPO_ROOT / "data" / "filings"
+    sources: list[IngestSource] = []
+    for slug in slugs:
+        source_path = base_dir / slug / "raw.md"
+        manifest_path = base_dir / slug / "manifest.json"
+        if not source_path.exists() or not manifest_path.exists():
+            raise FileNotFoundError(f"missing fetched filing artifacts for {slug} under {base_dir / slug}")
+        sources.append(IngestSource(slug=slug, source_path=source_path, manifest_path=manifest_path))
+    return sources
+
+
+def _process_scope(source: IngestSource) -> str:
+    if source.manifest_path is None:
+        return "target_full_proxy"
+    manifest = json.loads(source.manifest_path.read_text(encoding="utf-8"))
+    form_type = str(manifest.get("source", {}).get("form_type", "")).upper()
+    if form_type in {"DEFM14A", "PREM14A"}:
+        return "target_full_proxy"
+    if form_type.startswith("SC TO") or form_type.startswith("EX-99"):
+        return "bidder_partial_schedule_to"
+    if form_type.startswith("DEFA14A"):
+        return "amendment_only"
+    raise ValueError(f"cannot map form_type {form_type!r} to process_scope for {source.slug}")
+
+
 def _insert_metadata(conn: duckdb.DuckDBPyConnection, run_id: str, input_hashes: dict[str, str]) -> None:
     metadata = RunMetadata(
         run_id=run_id,
@@ -69,11 +95,12 @@ def ingest_source(conn: duckdb.DuckDBPyConnection, source: IngestSource) -> Clea
         parser_version=versions.PARSER_VERSION,
         page_count=page_count,
         section_count=len({section for section in sections if section != "unknown_section"}),
+        process_scope=_process_scope(source),
     )
     conn.execute("DELETE FROM spans WHERE filing_id = ?", [filing_id])
     conn.execute("DELETE FROM paragraphs WHERE filing_id = ?", [filing_id])
     conn.execute("DELETE FROM filings WHERE filing_id = ?", [filing_id])
-    conn.execute("INSERT INTO filings VALUES (?, ?, ?, ?, ?, ?, ?)", tuple(filing.model_dump().values()))
+    conn.execute("INSERT INTO filings VALUES (?, ?, ?, ?, ?, ?, ?, ?)", tuple(filing.model_dump().values()))
     for idx, (block, section) in enumerate(zip(blocks, sections, strict=True), start=1):
         paragraph = Paragraph(
             paragraph_id=make_id(source.slug, "para", idx),
@@ -93,16 +120,28 @@ def ingest_source(conn: duckdb.DuckDBPyConnection, source: IngestSource) -> Clea
 
 def ingest_examples(conn: duckdb.DuckDBPyConnection, examples_dir: Path = DEFAULT_EXAMPLES_DIR) -> list[CleanFiling]:
     sources = example_sources(examples_dir)
+    return ingest_sources(conn, sources, run_id="ingest-examples")
+
+
+def ingest_sources(
+    conn: duckdb.DuckDBPyConnection,
+    sources: list[IngestSource],
+    *,
+    run_id: str = "ingest-sources",
+) -> list[CleanFiling]:
     filings = [ingest_source(conn, source) for source in sources]
-    conn.execute("DELETE FROM run_metadata WHERE run_id = ?", ["ingest-examples"])
-    _insert_metadata(conn, "ingest-examples", {filing.deal_slug: filing.raw_sha256 for filing in filings})
+    conn.execute("DELETE FROM run_metadata WHERE run_id = ?", [run_id])
+    _insert_metadata(conn, run_id, {filing.deal_slug: filing.raw_sha256 for filing in filings})
     return filings
 
 
-def ingest_examples_to_db(db_path: Path, examples_dir: Path = DEFAULT_EXAMPLES_DIR) -> list[CleanFiling]:
+def ingest_examples_to_db(db_path: Path, examples_dir: Path = DEFAULT_EXAMPLES_DIR, *, fresh: bool = False) -> list[CleanFiling]:
     if db_path.exists():
+        if not fresh:
+            raise FileExistsError(f"{db_path} exists; pass fresh=True to replace it")
         db_path.unlink()
+    sources = example_sources(examples_dir)
     db_path.parent.mkdir(parents=True, exist_ok=True)
     conn = connect(db_path)
     init_schema(conn)
-    return ingest_examples(conn, examples_dir=examples_dir)
+    return ingest_sources(conn, sources, run_id="ingest-examples")
