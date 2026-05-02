@@ -13,7 +13,7 @@ class ExtractionCandidate(BaseModel):
     candidate_id: str
     run_id: str
     filing_id: str
-    candidate_type: Literal["actor_mention", "dated_event", "bid_value", "participation_count"]
+    candidate_type: Literal["actor_mention", "dated_event", "bid_value", "participation_count", "actor_relation"]
     raw_value: str
     normalized_value: str
     confidence: Literal["low", "medium", "high"]
@@ -27,7 +27,7 @@ CREATE TABLE candidates (
   candidate_id VARCHAR PRIMARY KEY,
   run_id VARCHAR NOT NULL,
   filing_id VARCHAR NOT NULL,
-  candidate_type VARCHAR NOT NULL CHECK (candidate_type IN ('actor_mention', 'dated_event', 'bid_value', 'participation_count')),
+  candidate_type VARCHAR NOT NULL CHECK (candidate_type IN ('actor_mention', 'dated_event', 'bid_value', 'participation_count', 'actor_relation')),
   raw_value VARCHAR NOT NULL,
   normalized_value VARCHAR NOT NULL,
   confidence VARCHAR NOT NULL CHECK (confidence IN ('low', 'medium', 'high')),
