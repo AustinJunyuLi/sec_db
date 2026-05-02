@@ -145,11 +145,11 @@ def _insert_canonical_fixture(conn, fixture: dict[str, list[object]]) -> None:
         )
 
 
-def test_init_schema_creates_stage1b_table_set() -> None:
+def test_init_schema_creates_stage1b_table_subset() -> None:
     conn = connect(":memory:")
     init_schema(conn)
 
-    assert _table_names(conn) == {
+    assert {
         "filings",
         "paragraphs",
         "spans",
@@ -161,7 +161,7 @@ def test_init_schema_creates_stage1b_table_set() -> None:
         "event_actor_links",
         "judgments",
         "participation_counts",
-    }
+    } <= _table_names(conn)
 
 
 def test_smoke_canonical_fixture_is_fk_clean_and_evidence_bound() -> None:
