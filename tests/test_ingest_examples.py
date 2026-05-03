@@ -4,6 +4,7 @@ from pathlib import Path
 
 from sec_graph.ingest.cleaning import clean_markdown
 from sec_graph.ingest.pipeline import ingest_examples
+from sec_graph.ingest.sections import assign_sections
 from sec_graph.schema import connect, init_schema
 
 
@@ -110,6 +111,15 @@ def test_section_detection_does_not_promote_body_mentions_to_headings() -> None:
         """
     ).fetchone()[0]
     assert section == "Background of the Merger"
+
+
+def test_styled_zep_background_heading_is_detected() -> None:
+    heading = '**COMMAND=STYLE_ADDED,"margin-left:10.0pt;text-indent:-10.0pt;" Background of the Merger**'
+
+    assert assign_sections([heading, "The Company contacted potential buyers."]) == [
+        "Background of the Merger",
+        "Background of the Merger",
+    ]
 
 
 def test_ingest_cli_writes_duckdb_to_explicit_path(tmp_path) -> None:

@@ -1,16 +1,8 @@
-"""Linkflow adapter for the within-deal narrative window LLM contract.
-
-Stream completion policy:
-- A response without an explicit response.completed event MUST raise
-  LinkflowProviderContractError.
-- Salvage that promotes incomplete streams to finish_status='completed' is
-  forbidden.
-"""
+"""Linkflow adapter for typed semantic claims."""
 
 from __future__ import annotations
 
 import asyncio
-import datetime as dt
 import hashlib
 import json
 import os
@@ -23,14 +15,15 @@ from pydantic import ValidationError
 
 from sec_graph.extract.llm.convert import insert_llm_response
 from sec_graph.extract.llm.models import (
-    LinkflowProviderContractError,
-    LLMCandidatePayload,
     LLMContractError,
     LLMExtractionResponse,
     LLMProviderConfig,
     LLMWindowRequest,
+    LinkflowProviderContractError,
+    ProviderUsage,
+    SemanticClaimsPayload,
 )
-from sec_graph.extract.llm.prompt import build_window_prompt
+from sec_graph.extract.llm.prompt import build_window_messages
 from sec_graph.extract.llm.requests import build_llm_windows
 
 _ARTIFACT_ROOT = Path("artifacts/linkflow")
@@ -38,87 +31,117 @@ _MAX_ATTEMPTS = 3
 _BACKOFF_SECONDS = (5.0, 15.0)
 
 
-def _candidate_schema() -> dict[str, Any]:
-    return {
-        "type": "object",
-        "additionalProperties": False,
-        "required": ["candidates"],
-        "properties": {
-            "candidates": {
-                "type": "array",
-                "items": {
-                    "type": "object",
-                    "additionalProperties": False,
-                    "required": [
-                        "candidate_type",
-                        "raw_value",
-                        "normalized_value",
-                        "confidence",
-                        "quote_text",
-                        "dependencies",
-                    ],
-                    "properties": {
-                        "candidate_type": {
-                            "type": "string",
-                            "enum": [
-                                "actor_mention",
-                                "dated_event",
-                                "bid_value",
-                                "participation_count",
-                            ],
-                        },
-                        "raw_value": {"type": "string"},
-                        "normalized_value": {"type": "string"},
-                        "confidence": {
-                            "type": "string",
-                            "enum": ["low", "medium", "high"],
-                        },
-                        "quote_text": {"type": "string"},
-                        "dependencies": {
-                            "type": "array",
-                            "items": {"type": "string"},
-                        },
-                    },
-                },
-            }
-        },
-    }
+def _semantic_claim_schema() -> dict[str, Any]:
+    schema = SemanticClaimsPayload.model_json_schema()
+    _inline_refs(schema)
+    _strictify(schema)
+    return schema
 
 
-def _response_payload(
-    request: LLMWindowRequest, config: LLMProviderConfig
-) -> dict[str, Any]:
+def _inline_refs(schema: dict[str, Any]) -> None:
+    defs = schema.pop("$defs", {})
+
+    def resolve(node: Any) -> Any:
+        if isinstance(node, dict):
+            ref = node.get("$ref")
+            if isinstance(ref, str) and ref.startswith("#/$defs/"):
+                key = ref.rsplit("/", maxsplit=1)[1]
+                return resolve(json.loads(json.dumps(defs[key])))
+            return {key: resolve(value) for key, value in node.items()}
+        if isinstance(node, list):
+            return [resolve(item) for item in node]
+        return node
+
+    resolved = resolve({"type": "object", **schema})
+    schema.clear()
+    schema.update(resolved)
+
+
+def _strictify(node: Any) -> None:
+    if isinstance(node, dict):
+        _normalize_nullable_union(node)
+        for keyword in (
+            "default",
+            "examples",
+            "format",
+            "maximum",
+            "maxLength",
+            "minimum",
+            "minItems",
+            "minLength",
+            "pattern",
+            "title",
+        ):
+            node.pop(keyword, None)
+        if node.get("type") == "object":
+            node["additionalProperties"] = False
+            properties = node.get("properties")
+            if isinstance(properties, dict):
+                node["required"] = list(properties.keys())
+        for value in node.values():
+            _strictify(value)
+    elif isinstance(node, list):
+        for value in node:
+            _strictify(value)
+
+
+def _normalize_nullable_union(node: dict[str, Any]) -> None:
+    any_of = node.get("anyOf")
+    if not isinstance(any_of, list) or len(any_of) != 2:
+        return
+    null_nodes = [item for item in any_of if isinstance(item, dict) and item.get("type") == "null"]
+    value_nodes = [item for item in any_of if isinstance(item, dict) and item.get("type") != "null"]
+    if len(null_nodes) != 1 or len(value_nodes) != 1:
+        return
+    value_node = value_nodes[0]
+    if not _is_scalar_schema(value_node):
+        return
+    node.pop("anyOf")
+    node.update(value_node)
+    value_type = node.get("type")
+    if isinstance(value_type, str):
+        node["type"] = [value_type, "null"]
+    enum = node.get("enum")
+    if isinstance(enum, list) and None not in enum:
+        node["enum"] = [*enum, None]
+
+
+def _is_scalar_schema(node: dict[str, Any]) -> bool:
+    value_type = node.get("type")
+    if isinstance(value_type, str) and value_type in {"string", "number", "integer", "boolean"}:
+        return True
+    return isinstance(node.get("enum"), list)
+
+
+def _response_payload(request: LLMWindowRequest, config: LLMProviderConfig) -> dict[str, Any]:
     return {
         "model": config.model,
         "reasoning": {"effort": config.reasoning_effort},
-        "input": [
-            {
-                "role": "user",
-                "content": build_window_prompt(request),
-            }
-        ],
+        "input": build_window_messages(request),
         "text": {
             "format": {
                 "type": "json_schema",
-                "name": "sec_graph_llm_candidates",
+                "name": "sec_graph_semantic_claims",
                 "strict": True,
-                "schema": _candidate_schema(),
+                "schema": _semantic_claim_schema(),
             }
         },
     }
 
 
-def _artifact_dir() -> Path:
-    return _ARTIFACT_ROOT / f"{dt.date.today().isoformat()}_stage8_live"
+def _artifact_dir(run_id: str) -> Path:
+    return _ARTIFACT_ROOT / run_id
 
 
-def _write_artifact(name: str, payload: dict[str, Any]) -> Path:
-    path = _artifact_dir() / name
+def _write_artifact(path: Path, payload: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
-        json.dumps(payload, indent=2, sort_keys=True), encoding="utf-8"
-    )
-    return path
+    encoded = json.dumps(payload, indent=2, sort_keys=True)
+    tmp = path.with_name(f".{path.name}.tmp")
+    with tmp.open("w", encoding="utf-8") as handle:
+        handle.write(encoded)
+        handle.flush()
+        os.fsync(handle.fileno())
+    os.replace(tmp, path)
 
 
 def _response_value(response: Any, name: str) -> Any:
@@ -150,66 +173,40 @@ def _extract_output_text(response_json: Any) -> str:
     raise LLMContractError("provider response did not include output text")
 
 
-def _parse_candidates(text: str) -> list[LLMCandidatePayload]:
+def _parse_payload(text: str) -> SemanticClaimsPayload:
     try:
         payload = json.loads(text)
     except json.JSONDecodeError as exc:
-        raise LLMContractError(
-            f"provider output is not valid JSON: {exc.msg}"
-        ) from exc
-    if not isinstance(payload, dict) or not isinstance(
-        payload.get("candidates"), list
-    ):
-        raise LLMContractError("provider output must contain a candidates array")
+        raise LLMContractError(f"provider output is not valid JSON: {exc.msg}") from exc
     try:
-        return [
-            LLMCandidatePayload.model_validate(candidate)
-            for candidate in payload["candidates"]
-        ]
+        return SemanticClaimsPayload.model_validate(payload)
     except ValidationError as exc:
+        errors = [
+            {
+                "loc": ".".join(str(part) for part in error.get("loc", ())),
+                "type": error.get("type"),
+                "msg": error.get("msg"),
+            }
+            for error in exc.errors(include_input=False, include_context=False)
+        ][:25]
         raise LLMContractError(
-            "provider candidate payload failed validation"
+            "provider semantic claim payload failed validation: "
+            + json.dumps(errors, sort_keys=True, separators=(",", ":"))
         ) from exc
-
-
-def _write_contract_failure(
-    request: LLMWindowRequest,
-    config: LLMProviderConfig,
-    digest: str,
-    message: str,
-) -> None:
-    _write_artifact(
-        f"{request.request_id}_{config.reasoning_effort}_failure.json",
-        {
-            "request_id": request.request_id,
-            "provider_name": config.provider_name,
-            "provider_model": config.model,
-            "reasoning_effort": config.reasoning_effort,
-            "finish_status": "contract_invalid",
-            "raw_response_sha256": digest,
-            "contract_error": message,
-        },
-    )
 
 
 def _make_openai_client(*, api_key: str, base_url: str):
     try:
         from openai import AsyncOpenAI
     except ImportError as exc:
-        raise LLMContractError(
-            "openai is required for live Linkflow calls"
-        ) from exc
+        raise LLMContractError("openai is required for live Linkflow calls") from exc
     return AsyncOpenAI(api_key=api_key, base_url=base_url, max_retries=0)
 
 
 def _event_delta(event: Any) -> str:
     if isinstance(event, dict):
-        if event.get("type") == "response.output_text.delta":
-            return str(event.get("delta") or "")
-        return ""
-    if getattr(event, "type", "") == "response.output_text.delta":
-        return str(getattr(event, "delta", "") or "")
-    return ""
+        return str(event.get("delta") or "") if event.get("type") == "response.output_text.delta" else ""
+    return str(getattr(event, "delta", "") or "") if getattr(event, "type", "") == "response.output_text.delta" else ""
 
 
 def _is_missing_completed_event(exc: BaseException) -> bool:
@@ -227,7 +224,6 @@ def _status_code(exc: BaseException) -> int | None:
 
 def _is_retryable(exc: BaseException) -> bool:
     if isinstance(exc, LinkflowProviderContractError):
-        # Provider contract failures are NOT retryable - they are fail-loud.
         return False
     if isinstance(exc, (asyncio.TimeoutError, TimeoutError)):
         return True
@@ -236,30 +232,14 @@ def _is_retryable(exc: BaseException) -> bool:
     status = _status_code(exc)
     if status is not None:
         return status in {408, 409, 425, 429} or status >= 500
-    return type(exc).__name__ in {
-        "APITimeoutError",
-        "APIConnectionError",
-        "RateLimitError",
-        "InternalServerError",
-    }
+    return type(exc).__name__ in {"APITimeoutError", "APIConnectionError", "RateLimitError", "InternalServerError"}
 
 
-async def _stream_once(
-    request: LLMWindowRequest, config: LLMProviderConfig, client: Any
-) -> tuple[str, str]:
-    """Stream a single Linkflow request to completion.
-
-    Fail-loud policy: if the SDK raises a missing response.completed error or
-    the stream finishes without a completed status, raise
-    LinkflowProviderContractError. No salvage to finish_status='completed'.
-    """
-
+async def _stream_once(request: LLMWindowRequest, config: LLMProviderConfig, client: Any) -> tuple[str, str, Any]:
     text_parts: list[str] = []
     final_response = None
     try:
-        async with client.responses.stream(
-            **_response_payload(request, config)
-        ) as stream:
+        async with client.responses.stream(**_response_payload(request, config)) as stream:
             async for event in stream:
                 delta = _event_delta(event)
                 if delta:
@@ -268,53 +248,36 @@ async def _stream_once(
                 final_response = await stream.get_final_response()
     except RuntimeError as exc:
         if _is_missing_completed_event(exc):
-            # Per docs/llm-interface.md and docs/spec.md, a stream that loses
-            # response.completed is a hard provider contract failure. We do
-            # not promote streamed text to finish_status='completed'.
-            raise LinkflowProviderContractError(
-                "Linkflow stream did not deliver response.completed event"
-            ) from exc
+            raise LinkflowProviderContractError("Linkflow stream did not deliver response.completed event") from exc
         raise
-
     if final_response is None:
-        raise LinkflowProviderContractError(
-            "Linkflow stream produced no final response"
-        )
+        raise LinkflowProviderContractError("Linkflow stream produced no final response")
     status = str(_response_value(final_response, "status") or "")
     if status != "completed":
-        raise LinkflowProviderContractError(
-            f"Linkflow stream finished with non-completed status {status!r}"
-        )
+        raise LinkflowProviderContractError(f"Linkflow stream finished with non-completed status {status!r}")
     if not text_parts:
         text_parts.append(_extract_output_text(final_response))
-    if not text_parts:
-        raise LLMContractError("provider stream did not include output text")
-    return "".join(text_parts), status
+    return "".join(text_parts), status, final_response
 
 
-async def _stream_with_retry(
-    request: LLMWindowRequest, config: LLMProviderConfig, client: Any
-) -> tuple[str, str, int]:
+async def _stream_with_retry(request: LLMWindowRequest, config: LLMProviderConfig, client: Any) -> tuple[str, str, int, Any, int]:
     attempts = 0
+    start = time.monotonic()
     while True:
         attempts += 1
         try:
-            output_text, finish_reason = await asyncio.wait_for(
+            output_text, finish_reason, final_response = await asyncio.wait_for(
                 _stream_once(request, config, client),
                 timeout=config.timeout_seconds,
             )
-            return output_text, finish_reason, attempts
+            return output_text, finish_reason, attempts, final_response, int((time.monotonic() - start) * 1000)
         except BaseException as exc:
             if not _is_retryable(exc) or attempts >= _MAX_ATTEMPTS:
                 raise
-            await asyncio.sleep(
-                _BACKOFF_SECONDS[min(attempts - 1, len(_BACKOFF_SECONDS) - 1)]
-            )
+            await asyncio.sleep(_BACKOFF_SECONDS[min(attempts - 1, len(_BACKOFF_SECONDS) - 1)])
 
 
-async def _stream_with_client(
-    request: LLMWindowRequest, config: LLMProviderConfig, api_key: str
-) -> tuple[str, str, int]:
+async def _stream_with_client(request: LLMWindowRequest, config: LLMProviderConfig, api_key: str) -> tuple[str, str, int, Any, int]:
     client = _make_openai_client(api_key=api_key, base_url=config.base_url)
     try:
         return await _stream_with_retry(request, config, client)
@@ -324,122 +287,179 @@ async def _stream_with_client(
             await close()
 
 
-def extract(
-    request: LLMWindowRequest, config: LLMProviderConfig
-) -> LLMExtractionResponse:
+def extract(request: LLMWindowRequest, config: LLMProviderConfig, *, run_id: str) -> LLMExtractionResponse:
     api_key = os.environ.get(config.api_key_env)
     if not api_key:
-        raise LLMContractError(
-            f"{config.api_key_env} is required for live Linkflow calls"
-        )
+        raise LLMContractError(f"{config.api_key_env} is required for live Linkflow calls")
     try:
-        output_text, finish_reason, attempts = asyncio.run(
+        output_text, _finish_reason, attempts, final_response, latency_ms = asyncio.run(
             _stream_with_client(request, config, api_key)
         )
-    except LinkflowProviderContractError as exc:
-        digest = hashlib.sha256(str(exc).encode("utf-8")).hexdigest()
-        _write_artifact(
-            f"{request.request_id}_{config.reasoning_effort}_failure.json",
-            {
-                "request_id": request.request_id,
-                "provider_name": config.provider_name,
-                "provider_model": config.model,
-                "reasoning_effort": config.reasoning_effort,
-                "finish_status": "provider_incomplete",
-                "raw_response_sha256": digest,
-                "error_type": type(exc).__name__,
-            },
-        )
-        raise
     except BaseException as exc:
-        status = _status_code(exc)
-        digest = hashlib.sha256(str(exc).encode("utf-8")).hexdigest()
-        finish_status = (
-            "provider_rejected"
-            if status is not None
-            and 400 <= status < 500
-            and status not in {408, 409, 425, 429}
-            else "provider_incomplete"
-        )
-        _write_artifact(
-            f"{request.request_id}_{config.reasoning_effort}_failure.json",
-            {
-                "request_id": request.request_id,
-                "provider_name": config.provider_name,
-                "provider_model": config.model,
-                "reasoning_effort": config.reasoning_effort,
-                "finish_status": finish_status,
-                "http_status": status,
-                "error_type": type(exc).__name__,
-                "raw_response_sha256": digest,
-            },
-        )
-        detail = (
-            f"Linkflow HTTP error {status}"
-            if status is not None
-            else "Linkflow request failed"
-        )
-        raise LLMContractError(detail) from exc
+        _write_failure_artifact(request, config, run_id, exc)
+        if isinstance(exc, LLMContractError):
+            raise
+        raise LLMContractError("Linkflow request failed") from exc
 
     digest = hashlib.sha256(output_text.encode("utf-8")).hexdigest()
     try:
-        candidates = _parse_candidates(output_text)
+        payload = _parse_payload(output_text)
     except LLMContractError as exc:
-        _write_contract_failure(request, config, digest, str(exc))
+        _write_contract_failure(request, config, run_id, digest, str(exc))
         raise
-    response = LLMExtractionResponse(
+    return LLMExtractionResponse(
         request_id=request.request_id,
         provider_name=config.provider_name,
         provider_model=config.model,
         reasoning_effort=config.reasoning_effort,
-        candidates=candidates,
+        payload=payload,
         raw_response_sha256=digest,
         finish_status="completed",
+        latency_ms=latency_ms,
+        attempt_count=attempts,
+        usage=_usage(final_response),
     )
-    return response
 
 
-def _write_success_artifact(
-    request: LLMWindowRequest,
-    config: LLMProviderConfig,
-    response: LLMExtractionResponse,
-    inserted_count: int,
-) -> None:
+def _usage(final_response: Any) -> ProviderUsage:
+    usage = _response_value(final_response, "usage")
+    if usage is None:
+        return ProviderUsage()
+    input_tokens = _response_value(usage, "input_tokens")
+    output_tokens = _response_value(usage, "output_tokens")
+    if isinstance(input_tokens, int) and isinstance(output_tokens, int):
+        return ProviderUsage(input_tokens=input_tokens, output_tokens=output_tokens, token_source="actual")
+    return ProviderUsage()
+
+
+def _write_failure_artifact(request: LLMWindowRequest, config: LLMProviderConfig, run_id: str, exc: BaseException) -> None:
+    status = _status_code(exc)
+    finish_status = "provider_incomplete"
+    if status is not None and 400 <= status < 500 and status not in {408, 409, 425, 429}:
+        finish_status = "provider_rejected"
+    if isinstance(exc, LLMContractError):
+        finish_status = "contract_invalid"
     _write_artifact(
-        f"{request.request_id}_{config.reasoning_effort}_success.json",
+        _artifact_dir(run_id) / f"{request.request_id}_{config.reasoning_effort}_failure.json",
         {
+            "run_id": run_id,
             "request_id": request.request_id,
+            "deal_slug": request.deal_slug,
+            "window_id": request.window_id,
+            "provider_name": config.provider_name,
+            "provider_model": config.model,
+            "reasoning_effort": config.reasoning_effort,
+            "finish_status": finish_status,
+            "http_status": status,
+            "error_type": type(exc).__name__,
+            "response_digest": hashlib.sha256(str(exc).encode("utf-8")).hexdigest(),
+        },
+    )
+
+
+def _write_contract_failure(request: LLMWindowRequest, config: LLMProviderConfig, run_id: str, digest: str, message: str) -> None:
+    _write_artifact(
+        _artifact_dir(run_id) / f"{request.request_id}_{config.reasoning_effort}_failure.json",
+        {
+            "run_id": run_id,
+            "request_id": request.request_id,
+            "deal_slug": request.deal_slug,
+            "window_id": request.window_id,
+            "provider_name": config.provider_name,
+            "provider_model": config.model,
+            "reasoning_effort": config.reasoning_effort,
+            "finish_status": "contract_invalid",
+            "response_digest": digest,
+            "error_type": "LLMContractError",
+            "contract_error": message,
+        },
+    )
+
+
+def _write_success_artifact(request: LLMWindowRequest, config: LLMProviderConfig, run_id: str, response: LLMExtractionResponse, inserted_count: int) -> None:
+    claim_count = sum(
+        len(items)
+        for items in (
+            response.payload.actor_claims,
+            response.payload.event_claims,
+            response.payload.bid_claims,
+            response.payload.participation_count_claims,
+            response.payload.actor_relation_claims,
+        )
+    )
+    _write_artifact(
+        _artifact_dir(run_id) / f"{request.request_id}_{config.reasoning_effort}_success.json",
+        {
+            "run_id": run_id,
+            "request_id": request.request_id,
+            "deal_slug": request.deal_slug,
+            "window_id": request.window_id,
             "provider_name": config.provider_name,
             "provider_model": config.model,
             "reasoning_effort": config.reasoning_effort,
             "finish_status": response.finish_status,
-            "raw_response_sha256": response.raw_response_sha256,
-            "candidate_count": len(response.candidates),
-            "inserted_candidate_count": inserted_count,
+            "attempt_count": response.attempt_count,
+            "latency_ms": response.latency_ms,
+            "token_usage": response.usage.model_dump(),
+            "response_digest": response.raw_response_sha256,
+            "claim_count": claim_count,
+            "inserted_claim_count": inserted_count,
+            "coverage_result_count": len(response.payload.coverage_results),
         },
     )
 
 
 def run_linkflow_requests(
     conn: duckdb.DuckDBPyConnection,
+    *,
     filing_id: str,
     run_id: str,
     config: LLMProviderConfig,
-    limit: int | None = None,
-):
-    """Drive LLM extraction for a filing, one within-deal window at a time."""
-
-    inserted = []
-    windows = build_llm_windows(conn, filing_id=filing_id)
-    if limit is not None:
-        windows = windows[:limit]
-    for request in windows:
-        response = extract(request, config)
-        try:
-            window_inserted = insert_llm_response(conn, request, response, run_id=run_id)
-        except LLMContractError as exc:
-            _write_contract_failure(request, config, response.raw_response_sha256, str(exc))
-            raise
-        _write_success_artifact(request, config, response, len(window_inserted))
-        inserted.extend(window_inserted)
+    request_mode: str = "semantic_claims_v1",
+) -> list[str]:
+    inserted: list[str] = []
+    for request in build_llm_windows(conn, filing_id=filing_id, request_mode=request_mode):
+        response = extract(request, config, run_id=run_id)
+        claim_ids = insert_llm_response(conn, request, response, run_id=run_id)
+        _write_success_artifact(request, config, run_id, response, len(claim_ids))
+        _insert_cost_record(conn, request, run_id, config, response)
+        inserted.extend(claim_ids)
     return inserted
+
+
+def _insert_cost_record(
+    conn: duckdb.DuckDBPyConnection,
+    request: LLMWindowRequest,
+    run_id: str,
+    config: LLMProviderConfig,
+    response: LLMExtractionResponse,
+) -> None:
+    record_id = f"{request.window_id}_cost_1"
+    input_tokens = response.usage.input_tokens
+    output_tokens = response.usage.output_tokens
+    token_source = response.usage.token_source
+    if input_tokens is None:
+        prompt_text = "".join(message["content"] for message in build_window_messages(request))
+        input_tokens = max(1, len(prompt_text) // 4)
+        token_source = "estimated"
+    if output_tokens is None:
+        output_tokens = max(1, len(response.payload.model_dump_json()) // 4)
+        token_source = "estimated"
+    conn.execute(
+        "INSERT INTO cost_runtime_records VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+            record_id,
+            run_id,
+            request.deal_slug,
+            request.window_id,
+            config.provider_name,
+            config.model,
+            config.reasoning_effort,
+            input_tokens,
+            output_tokens,
+            token_source,
+            response.latency_ms,
+            response.attempt_count - 1,
+            None,
+        ],
+    )

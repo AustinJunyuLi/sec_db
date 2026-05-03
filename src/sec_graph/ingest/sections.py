@@ -8,8 +8,9 @@ from .section_vocabulary import SECTION_HEADINGS
 
 
 def _normalize(text: str) -> str:
+    text = re.sub(r"COMMAND=STYLE_ADDED,\"[^\"]*\"\s*", " ", text)
+    text = re.sub(r"COMMAND=[^\s*]+", " ", text)
     text = re.sub(r"[*_`#]", " ", text)
-    text = re.sub(r"COMMAND=[^ ]+", " ", text)
     return re.sub(r"\s+", " ", text).strip().casefold()
 
 
