@@ -12,6 +12,7 @@ coordinated evidence machine:
 
 ```text
 SEC filing
+-> run kernel initializes a locked, resumable run
 -> exact text ingest and paragraph spans
 -> Python evidence map
 -> Linkflow GPT-5.5 typed semantic claims
@@ -21,6 +22,7 @@ SEC filing
 -> semantic validation
 -> bidder-cycle projection
 -> proof artifacts
+-> cost/runtime envelope
 -> corpus manifest/shard skeleton
 ```
 
@@ -35,6 +37,7 @@ Python scans for coverage.
 GPT proposes meaning.
 Python proves or rejects.
 DuckDB stores the auditable graph.
+The run kernel makes the long run deterministic and resumable.
 ```
 
 ## 2. Non-Negotiables
@@ -50,6 +53,18 @@ DuckDB stores the auditable graph.
 - No canonical or projection row may exist without explainable source evidence.
 - No claim may disappear silently; every claim gets a current disposition.
 - No many-process concurrent writes to the same DuckDB file.
+- No proof run may invent an implicit run id inside a stage.
+- There is exactly one run id factory and one run clock per run.
+- Pipeline-generated timestamps come from the run clock, not hardcoded literals
+  or scattered wall-clock calls.
+- Ordering and sequence allocation come from source coordinates, explicit
+  sequence tables, or append-only ledgers; missing text positions are hard
+  failures, not sortable values.
+- Evidence identity includes filing id, coordinates, and quote text hash.
+  A text-only quote hash is not sufficient evidence identity.
+- Durable artifacts are written atomically.
+- Long corpus runs have per-deal progress, explicit resume semantics, and a
+  lock that prevents accidental concurrent writers.
 
 ## 3. Current Pipeline Failures This Replaces
 
@@ -68,14 +83,98 @@ resolution, but it is still built around the wrong extraction shape:
 - Projection eligibility is actor-global instead of actor-cycle scoped.
 - Proof can look valid while live extraction is thin, incomplete, or
   zero-candidate.
+- Pipeline-generated judgments have used hardcoded `created_at` values.
+- Multiple stage-local run-id helpers can drift and produce inconsistent run
+  identity.
+- Some ordering paths depend on string search results that can be `-1`.
+- Quote hashes are text-only, so common phrases collide across filings and
+  locations.
+- Artifact writes are not specified as atomic.
+- Long runs lack a lock, per-deal progress ledger, and `--resume` contract;
+  a killed process late in a corpus run can lose too much work.
 
 This design replaces those surfaces rather than patching around them.
 
 ## 4. Target Architecture
 
-The pipeline has eight conceptual stages.
+The pipeline has nine conceptual stages.
 
-### 4.1 Ingest
+### 4.1 Run Kernel
+
+The run kernel is the operational spine of the hard reset. It is part of the
+pipeline, not optional wrapper code.
+
+The run kernel owns:
+
+- run id creation and validation;
+- a single run clock;
+- run manifest creation;
+- run directory locking;
+- atomic artifact writes;
+- stage and per-deal progress ledgers;
+- sequence allocation policy;
+- resume validation;
+- finalization of proof artifacts.
+
+Proof runs require an explicit run id created by the top-level run command or
+corpus runner. Stage-level helpers must not silently create proof run ids.
+Developer-only commands may create clearly marked non-proof run ids, but those
+runs cannot produce a `SOUND` verdict.
+
+Pipeline-generated `created_at` fields use the run clock, such as
+`run_manifest.started_at`, or another deterministic timestamp assigned by the
+run kernel. Hardcoded timestamps and scattered `now()` calls are forbidden for
+pipeline-generated rows. Human/reviewer actions may use real wall-clock time
+when a reviewer workflow is later designed.
+
+Sequence numbers and ordering derive from explicit sequences or validated
+source coordinates:
+
+```text
+filing_id
+paragraph_sequence
+char_start
+char_end
+claim_sequence
+stage_sequence
+```
+
+No ordering path may sort on a missing string-search position. If a text search
+needed for ordering returns "not found", the stage must fail or create an
+ambiguity disposition.
+
+Durable artifacts are written by atomic write:
+
+```text
+write temporary file
+fsync temporary file
+rename into place
+fsync parent directory when supported
+```
+
+The run directory has a lock file. A second process attempting to write the
+same run fails loudly unless it is an explicit validated resume.
+
+Per-deal progress is append-only and stage-scoped:
+
+```text
+queued
+ingested
+evidence_mapped
+llm_artifacts_written
+claims_imported
+reconciled
+validated
+projected
+blocked
+```
+
+`--resume` is explicit and conservative. It reads the progress ledger, verifies
+artifact hashes, refuses changed schema/provider/run configuration unless a new
+run is created, and reruns only incomplete or invalid stages. It never
+overwrites completed immutable artifacts.
+
+### 4.2 Ingest
 
 Ingest preserves exact filing text, paragraph order, filing metadata, and
 source spans. Python remains the only owner of source coordinates.
@@ -87,7 +186,7 @@ Ingest writes:
 - paragraph-level source spans;
 - run metadata.
 
-### 4.2 Evidence Map
+### 4.3 Evidence Map
 
 Python performs a high-recall scan over the filing. This scan is not canonical
 truth. It identifies regions that should be inspected by the model.
@@ -121,7 +220,7 @@ and counts, but only as structured claims that go through the same disposition
 ledger as model claims. Python does not use these scans to silently fill
 semantic gaps around GPT.
 
-### 4.3 Semantic Windows
+### 4.4 Semantic Windows
 
 Semantic windows are built from the evidence map, not from a fixed stride.
 
@@ -141,7 +240,7 @@ If Linkflow cannot support one large mixed-claim schema, the pipeline may use
 explicit request modes by claim family. Those modes are fixed at launch and
 documented in the run manifest. They are not fallback behavior.
 
-### 4.4 Linkflow GPT-5.5 Typed Claims
+### 4.5 Linkflow GPT-5.5 Typed Claims
 
 Linkflow remains the primary live provider. Official OpenAI GPT-5.5 capacity
 and Responses API features inform the design, but the implementation target is
@@ -186,7 +285,7 @@ Actor relation claims are first-class. They cover:
 - supports;
 - rollover holder of.
 
-### 4.5 Quote Validation and Claim Insertion
+### 4.6 Quote Validation and Claim Insertion
 
 Python validates every claim before insertion:
 
@@ -200,7 +299,7 @@ Python validates every claim before insertion:
 Absent or ambiguous quotes are rejected. They are not salvaged into canonical
 rows.
 
-### 4.6 Claim Disposition
+### 4.7 Claim Disposition
 
 Every claim must have exactly one current disposition:
 
@@ -224,7 +323,7 @@ Disposition rows record:
 This ledger is the core anti-underextraction and anti-silent-loss mechanism.
 It must be possible to answer: "What happened to every source-backed claim?"
 
-### 4.7 Canonical Graph
+### 4.8 Canonical Graph
 
 Canonical rows are written only after disposition. The canonical graph remains
 compact and generic:
@@ -243,7 +342,7 @@ No PetSmart-only or deal-specific tables are allowed. Buyer groups, merger
 subs, financing, support agreements, rollover facts, advisors, and committees
 must be represented through the generic graph.
 
-### 4.8 Projection and Proof
+### 4.9 Projection and Proof
 
 Projection is generated from canonical graph rows and actor-cycle projection
 units. A bidder row means:
@@ -276,6 +375,17 @@ The schema reset is full and breaking.
 ### 5.1 Evidence Links
 
 Replace array-backed evidence ownership with relational link tables.
+
+Evidence spans keep both a text hash and a location-aware fingerprint:
+
+```text
+quote_text_hash = sha256(quote_text)
+evidence_fingerprint = sha256(filing_id + char_start + char_end + quote_text_hash)
+```
+
+The text hash helps validate the bytes. The fingerprint identifies a specific
+piece of evidence in a specific filing at specific coordinates. Canonical proof
+uses the fingerprint, not a text-only hash.
 
 Required link surfaces:
 
@@ -376,6 +486,52 @@ bidder_rows
 
 `bidder_rows` are deterministic exports, not source truth.
 
+### 5.6 Run Kernel and Operational Tables
+
+The schema and artifact layout must include run-kernel state. The exact split
+between DuckDB tables and JSONL artifacts is an implementation choice, but the
+following surfaces are required and must be queryable in proof:
+
+```text
+run_manifest
+run_lock
+progress_ledger
+stage_artifacts
+resume_report
+cost_runtime_records
+```
+
+The manifest records:
+
+- run id;
+- run type;
+- source manifest hash;
+- schema version;
+- extract/reconcile/validate/project versions;
+- provider;
+- model;
+- reasoning effort;
+- request modes;
+- started_at from the run clock;
+- code identity when available;
+- input hashes.
+
+The progress ledger is append-only and keyed by deal, stage, attempt, and run
+id. It records state transitions, artifact digests, and failure reasons.
+
+The stage artifact ledger records every durable artifact with:
+
+- artifact path;
+- artifact kind;
+- owning stage;
+- deal slug when applicable;
+- digest;
+- created_by stage;
+- finalized status.
+
+The resume report records what was reused, what was recomputed, and what was
+refused.
+
 ## 6. Rules and Offline Mode
 
 Rules-only/offline mode remains for local development and unit tests.
@@ -406,11 +562,18 @@ Validation checks:
 - every coverage obligation has a current coverage result;
 - every canonical row has relational source evidence;
 - every source span resolves to exact filing text;
+- every source span has a location-aware evidence fingerprint;
 - actor relation evidence supports subject, object, and relation type;
 - bid evidence contains bidder/date/context, not only a dollar number;
 - participation count evidence contains stage, actor class, count, and context;
 - event-actor links are supported by the event and actor evidence;
 - projection rows trace to actor-cycle facts and projection judgments;
+- pipeline-generated timestamps match the run clock policy;
+- proof runs use the single top-level run id;
+- sequence and ordering fields do not depend on missing text-search positions;
+- durable artifacts listed in the stage artifact ledger exist and match their
+  recorded digest;
+- progress ledger transitions are complete for every deal;
 - rules-only runs cannot be marked `SOUND`;
 - zero-claim or thin-claim live windows downgrade proof.
 
@@ -431,7 +594,55 @@ Verdicts:
 
 Green validation alone is not success.
 
-## 9. Acceptance Gate
+## 9. Cost and Runtime Envelope
+
+Cost and runtime are part of proof, not an external spreadsheet.
+
+Every live proof, pilot, and corpus run must report:
+
+- deals planned;
+- deals completed;
+- deals blocked;
+- windows per deal;
+- input tokens per window;
+- output tokens per window;
+- claims per window;
+- coverage obligations per deal;
+- p50, p95, and max latency per Linkflow call;
+- retry counts;
+- provider failures;
+- quote-validation rejection rate;
+- disposition mix;
+- estimated cost;
+- actual token usage if Linkflow exposes it;
+- whether cost numbers are actual, estimated, or mixed.
+
+Pricing is not hardcoded in source. A run may use a versioned pricing config or
+write token usage only. If Linkflow does not expose token usage, the run records
+estimated tokens and marks cost as estimated.
+
+Required envelope artifacts:
+
+```text
+cost_runtime_summary.json
+cost_runtime_summary.csv
+provider_usage_ledger.jsonl
+latency_ledger.jsonl
+```
+
+The implementation plan must require envelopes for:
+
+- the three-deal live proof;
+- a 9-deal reference-batch estimate;
+- a 30-deal pilot estimate;
+- a 400-deal projected run;
+- an 800-deal projected run.
+
+The 9-deal, 30-deal, 400-deal, and 800-deal envelopes may be projections during
+the first acceptance gate. They must be computed from observed three-deal
+metrics plus explicit assumptions, not hand-waved prose.
+
+## 10. Acceptance Gate
 
 The implementation acceptance gate is:
 
@@ -451,10 +662,14 @@ The implementation acceptance gate is:
 3. Proof artifacts explain remaining limitations.
 4. Rules-only proof is not accepted as `SOUND`.
 5. Offline tests pass with the repository's cache-free pytest command.
-6. The corpus skeleton exists, but a full 30-deal or 400-deal run is not
+6. The cost/runtime envelope exists for the three-deal proof and projected
+   9/30/400/800-deal scales.
+7. The run kernel proves atomic artifacts, per-deal progress, and explicit
+   resume behavior.
+8. The corpus skeleton exists, but a full 30-deal or 400-deal run is not
    required for this gate.
 
-## 10. Corpus Skeleton
+## 11. Corpus Skeleton
 
 The hard reset must include a corpus runner skeleton for future 400-800 deal
 extraction. It does not need to run the full corpus during this acceptance
@@ -467,8 +682,12 @@ corpus_manifest.jsonl
 shard_plan.jsonl
 attempt_ledger.jsonl
 failure_ledger.jsonl
+progress_ledger.jsonl
+stage_artifacts.jsonl
 cost_runtime_summary.csv
+cost_runtime_summary.json
 aggregate_proof_summary.json
+resume_report.json
 ```
 
 The safe scale shape is:
@@ -481,7 +700,7 @@ single reconcile/validate/project pass writes canonical snapshot
 
 No many-process writer pattern is allowed for the same DuckDB file.
 
-## 11. Linkflow Artifacts and Secret Hygiene
+## 12. Linkflow Artifacts and Secret Hygiene
 
 Sanitized Linkflow artifacts may contain:
 
@@ -496,6 +715,7 @@ Sanitized Linkflow artifacts may contain:
 - attempt count;
 - latency;
 - token usage if available;
+- estimated token usage when actual usage is unavailable;
 - response digest;
 - claim count;
 - inserted claim count;
@@ -511,7 +731,7 @@ Artifacts must not contain:
 - quote text;
 - secrets from environment variables.
 
-## 12. Stop Conditions
+## 13. Stop Conditions
 
 The execution agent must stop and report if:
 
@@ -520,12 +740,16 @@ The execution agent must stop and report if:
 - Linkflow cannot support the declared claim schema or request modes;
 - a required acceptance fact cannot be represented by the generic graph;
 - semantic validation proves the output is misleading;
+- run-kernel invariants fail, including lock violations, non-atomic artifact
+  writes, inconsistent run ids, invalid resume state, or progress-ledger
+  corruption;
+- cost/runtime artifacts cannot distinguish actual metrics from estimates;
 - secret material appears in any tracked or generated artifact.
 
 The agent must not stop merely because tests fail during the implementation.
 Those are ordinary repair work.
 
-## 13. Out of Scope
+## 14. Out of Scope
 
 The hard reset does not require:
 
@@ -541,15 +765,16 @@ The hard reset does not require:
 Provider-explicit direct OpenAI support can be designed later if Linkflow
 blocks required GPT-5.5 behavior.
 
-## 14. Handoff Summary for `/goal`
+## 15. Handoff Summary for `/goal`
 
 The implementation objective is to replace the current `sec_graph` extraction
 pipeline with the hard-reset architecture in this document. The execution
 agent should treat this as the new full-pipeline authority: no fallbacks, no
 backward compatibility, no preservation of old LLM payloads, no array-backed
-evidence authority, no actor-global projection eligibility, and no green-but-
-thin proof.
+evidence authority, no actor-global projection eligibility, no scattered
+run-id or timestamp helpers, no text-only evidence identity, no non-atomic
+artifacts, no non-resumable corpus run, and no green-but-thin proof.
 
 The first successful proof is a meaningful live Linkflow GPT-5.5 run over the
-three acceptance deals plus a corpus skeleton ready for future 400-800 deal
-sharding.
+three acceptance deals plus a deterministic run kernel, cost/runtime envelope,
+and corpus skeleton ready for future 400-800 deal sharding.
