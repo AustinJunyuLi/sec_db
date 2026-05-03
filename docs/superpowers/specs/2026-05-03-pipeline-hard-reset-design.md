@@ -731,7 +731,55 @@ Artifacts must not contain:
 - quote text;
 - secrets from environment variables.
 
-## 13. Stop Conditions
+## 13. Subagent Development Model
+
+The `/goal` execution must use subagents as a core development method. The
+coordinator owns integration, final decisions, and proof, but must not attempt
+to hold the entire hard reset in one context.
+
+Subagents should be deployed with explicit ownership boundaries. At minimum,
+the execution should create focused lanes for:
+
+- schema reset and relational evidence links;
+- run kernel, atomic artifacts, locking, progress, and resume;
+- evidence map and semantic window planning;
+- Linkflow typed-claim schema and provider contract;
+- quote validation, claim insertion, and disposition ledger;
+- reconcile/canonical graph construction;
+- semantic validation and proof verdicts;
+- projection units and bidder-cycle rows;
+- corpus skeleton, sharding, and cost/runtime envelope;
+- stale-code/stale-doc cleanup and final review.
+
+Subagents may inspect overlapping context, but implementation ownership must
+avoid conflicting write scopes. When code changes are delegated, each subagent
+must receive:
+
+- owned files or owned subsystem;
+- explicit no-fallback/no-compatibility constraints;
+- expected tests or proof artifacts;
+- instruction not to revert unrelated user or peer edits;
+- requirement to report changed paths and remaining risks.
+
+The coordinator must integrate subagent work through the design authority in
+this document. If subagent recommendations conflict, the coordinator resolves
+the conflict by preserving the hard-reset invariants: source proof,
+disposition completeness, deterministic operations, Linkflow strictness, and
+corpus-scale survivability.
+
+Subagents are also required for review. Before final handoff, at least one
+read-only review lane must inspect:
+
+- schema/provenance correctness;
+- live-provider contract and secret hygiene;
+- run-kernel resumability and atomicity;
+- validation/proof soundness;
+- stale surfaces left behind by the hard reset.
+
+The `/goal` prompt should make this subagent model mandatory. A single-agent
+implementation attempt is not acceptable for this reset.
+
+## 14. Stop Conditions
 
 The execution agent must stop and report if:
 
@@ -749,7 +797,7 @@ The execution agent must stop and report if:
 The agent must not stop merely because tests fail during the implementation.
 Those are ordinary repair work.
 
-## 14. Out of Scope
+## 15. Out of Scope
 
 The hard reset does not require:
 
@@ -765,7 +813,7 @@ The hard reset does not require:
 Provider-explicit direct OpenAI support can be designed later if Linkflow
 blocks required GPT-5.5 behavior.
 
-## 15. Handoff Summary for `/goal`
+## 16. Handoff Summary for `/goal`
 
 The implementation objective is to replace the current `sec_graph` extraction
 pipeline with the hard-reset architecture in this document. The execution
@@ -778,3 +826,7 @@ artifacts, no non-resumable corpus run, and no green-but-thin proof.
 The first successful proof is a meaningful live Linkflow GPT-5.5 run over the
 three acceptance deals plus a deterministic run kernel, cost/runtime envelope,
 and corpus skeleton ready for future 400-800 deal sharding.
+
+The `/goal` execution must deploy subagents with explicit subsystem ownership
+and review lanes. The coordinator remains responsible for integration and final
+proof, but a single-agent implementation attempt does not satisfy this design.
