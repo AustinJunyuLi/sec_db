@@ -1,0 +1,79 @@
+{
+  "estimated_input_tokens": 10527,
+  "finish_status": "ok",
+  "finished_at": "2026-05-03T17:59:41Z",
+  "input": {
+    "char_count": 39311,
+    "end_line": 911,
+    "scope": "background",
+    "sha256": "3d63a7733000700bbc3c3901bfec4a97709bcb492a11c927b389a07f8ec09a11",
+    "slug": "zep",
+    "source_path": "data/filings/zep/raw.md",
+    "start_line": 744
+  },
+  "latency_ms": 95721,
+  "model": "gpt-5.5",
+  "output": {
+    "claim_count": 48,
+    "claim_counts": {
+      "actor_claims": 7,
+      "actor_relation_claims": 3,
+      "bid_claims": 6,
+      "event_claims": 21,
+      "participation_count_claims": 11
+    },
+    "coverage_complete": true,
+    "coverage_count": 10,
+    "duplicate_quotes_within_response": 12,
+    "empty_string_date_count": 0,
+    "iso_date_count": 28,
+    "nonempty_date_count": 28,
+    "output_chars": 25770,
+    "output_sha256": "7ec036266afbb68a25ad9f4fb02399beda37de6516165ce501d76592a2f4da07",
+    "parsed_json": true,
+    "pydantic_ok": true,
+    "quote_ambiguous_count": 0,
+    "quote_count": 48,
+    "quote_match_count": 48,
+    "quote_match_rate": 1.0,
+    "quote_miss_count": 0,
+    "top_level_keys": [
+      "actor_claims",
+      "actor_relation_claims",
+      "bid_claims",
+      "coverage_results",
+      "event_claims",
+      "participation_count_claims"
+    ],
+    "validation_error_count": 0,
+    "validation_error_digest": null
+  },
+  "prompt_chars": {
+    "system": 1792,
+    "total": 42109,
+    "user": 40317
+  },
+  "prompt_sha256": "1c2a75f7fae1bfacf96129a81609687f80a9aaa04e5662f046cecbc0defaf75c",
+  "provider_host": "www.linkflow.run",
+  "reasoning_effort": "medium",
+  "run_id": "2026-05-03T175805Z_linkflow-p7-matrix_c7a97707aa798218c1bb6ab6204002f87f0955bc6ba14f4fee4864894795f35c",
+  "schema_name": "sec_graph_semantic_claims_p7_matrix",
+  "schema_profile": {
+    "forbidden_keywords": [],
+    "max_depth": 8,
+    "object_nodes": 7,
+    "objects_missing_additional_properties_false": 0,
+    "objects_with_required_mismatch": 0,
+    "schema_valued_additional_properties": 0
+  },
+  "schema_sha256": "19eb4a8a9b617c106051ee126c7aea9c2403cded136cfbd816add4db83287db3",
+  "scope": "background",
+  "slug": "zep",
+  "stream_status": "completed",
+  "usage": {
+    "input_tokens": 9245,
+    "output_tokens": 7039,
+    "reasoning_tokens": 1509,
+    "token_source": "actual"
+  }
+}

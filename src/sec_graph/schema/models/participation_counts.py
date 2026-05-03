@@ -1,4 +1,4 @@
-"""Closed cohort participation-count model and DDL."""
+"""Closed cohort participation-count canonical model and DDL."""
 
 from __future__ import annotations
 
@@ -24,9 +24,8 @@ class ParticipationCount(BaseModel):
     count_min: int = Field(ge=0)
     count_max: int | None = Field(default=None, ge=0)
     count_qualifier: CountQualifier
-    named_subset_actor_ids: list[str]
+    named_subset_actor_ids_json: str
     anonymous_remainder_count: int = Field(ge=0)
-    evidence_ids: list[str]
 
     @model_validator(mode="after")
     def _count_range_is_ordered(self) -> "ParticipationCount":
@@ -47,9 +46,8 @@ CREATE TABLE participation_counts (
   count_min INTEGER NOT NULL,
   count_max INTEGER,
   count_qualifier VARCHAR NOT NULL CHECK (count_qualifier IN ('exact', 'approximate', 'lower_bound', 'upper_bound', 'range')),
-  named_subset_actor_ids VARCHAR[] NOT NULL,
+  named_subset_actor_ids_json VARCHAR NOT NULL,
   anonymous_remainder_count INTEGER NOT NULL,
-  evidence_ids VARCHAR[] NOT NULL,
   CHECK (count_min >= 0),
   CHECK (count_max IS NULL OR count_max >= count_min),
   CHECK (anonymous_remainder_count >= 0),

@@ -1,0 +1,79 @@
+{
+  "estimated_input_tokens": 173126,
+  "finish_status": "ok",
+  "finished_at": "2026-05-03T18:04:52Z",
+  "input": {
+    "char_count": 689693,
+    "end_line": 4882,
+    "scope": "raw",
+    "sha256": "9d9e00a48aab72ac3b0bf6cdb4de16672371ea1f54726105fb1a2798d9eefe61",
+    "slug": "petsmart-inc",
+    "source_path": "data/filings/petsmart-inc/raw.md",
+    "start_line": 1
+  },
+  "latency_ms": 111040,
+  "model": "gpt-5.5",
+  "output": {
+    "claim_count": 68,
+    "claim_counts": {
+      "actor_claims": 17,
+      "actor_relation_claims": 11,
+      "bid_claims": 10,
+      "event_claims": 24,
+      "participation_count_claims": 6
+    },
+    "coverage_complete": true,
+    "coverage_count": 10,
+    "duplicate_quotes_within_response": 15,
+    "empty_string_date_count": 0,
+    "iso_date_count": 34,
+    "nonempty_date_count": 34,
+    "output_chars": 36923,
+    "output_sha256": "fd81cf1276deeade244eebeff01bd471ad39af558b8e81ab3cb4022f2c19eef4",
+    "parsed_json": true,
+    "pydantic_ok": true,
+    "quote_ambiguous_count": 3,
+    "quote_count": 68,
+    "quote_match_count": 67,
+    "quote_match_rate": 0.9853,
+    "quote_miss_count": 1,
+    "top_level_keys": [
+      "actor_claims",
+      "actor_relation_claims",
+      "bid_claims",
+      "coverage_results",
+      "event_claims",
+      "participation_count_claims"
+    ],
+    "validation_error_count": 0,
+    "validation_error_digest": null
+  },
+  "prompt_chars": {
+    "system": 1792,
+    "total": 692504,
+    "user": 690712
+  },
+  "prompt_sha256": "ae57a6263ae20d3d72d8ed79adefa442a52a14d60c5a3241c1bf92f2d92606a2",
+  "provider_host": "www.linkflow.run",
+  "reasoning_effort": "medium",
+  "run_id": "2026-05-03T175805Z_linkflow-p7-matrix_c7a97707aa798218c1bb6ab6204002f87f0955bc6ba14f4fee4864894795f35c",
+  "schema_name": "sec_graph_semantic_claims_p7_matrix",
+  "schema_profile": {
+    "forbidden_keywords": [],
+    "max_depth": 8,
+    "object_nodes": 7,
+    "objects_missing_additional_properties_false": 0,
+    "objects_with_required_mismatch": 0,
+    "schema_valued_additional_properties": 0
+  },
+  "schema_sha256": "19eb4a8a9b617c106051ee126c7aea9c2403cded136cfbd816add4db83287db3",
+  "scope": "raw",
+  "slug": "petsmart-inc",
+  "stream_status": "completed",
+  "usage": {
+    "input_tokens": 145636,
+    "output_tokens": 9552,
+    "reasoning_tokens": 1522,
+    "token_source": "actual"
+  }
+}

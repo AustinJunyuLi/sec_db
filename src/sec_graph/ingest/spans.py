@@ -13,12 +13,13 @@ span passes the Phase 4 source-truth validation.
 
 from __future__ import annotations
 
-from sec_graph.schema import SourceSpan, make_id, quote_hash
+from sec_graph.schema import SourceSpan, evidence_fingerprint, make_id, quote_hash
 
 from .paragraphs import ParagraphBlock
 
 
 def paragraph_seed_span(slug: str, filing_id: str, paragraph_id: str, sequence: int, block: ParagraphBlock) -> SourceSpan:
+    text_hash = quote_hash(block.text)
     return SourceSpan(
         evidence_id=make_id(slug, "evidence", sequence),
         filing_id=filing_id,
@@ -30,5 +31,8 @@ def paragraph_seed_span(slug: str, filing_id: str, paragraph_id: str, sequence: 
         char_start=block.char_start,
         char_end=block.char_end,
         quote_text=block.text,
-        quote_hash=quote_hash(block.text),
+        quote_text_hash=text_hash,
+        evidence_fingerprint=evidence_fingerprint(
+            filing_id, block.char_start, block.char_end, text_hash
+        ),
     )

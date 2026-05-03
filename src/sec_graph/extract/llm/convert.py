@@ -1,29 +1,198 @@
-"""Convert validated LLM payloads to local candidate rows.
-
-Quote resolution policy: providers emit quote_text only. Python finds the
-unique exact match against the underlying paragraph source-span text within
-the window, derives char_start/char_end against the underlying paragraph
-seed coordinates, and rejects the candidate if no unique match exists.
-"""
+"""Convert validated Linkflow semantic payloads into claim tables."""
 
 from __future__ import annotations
 
-import datetime as dt
-import re
+from typing import Iterable
 
 import duckdb
 
 from sec_graph.extract.llm.models import (
-    LLMCandidatePayload,
+    ActorClaimPayload,
+    ActorRelationClaimPayload,
+    BidClaimPayload,
+    CoverageResultPayload,
+    EventClaimPayload,
     LLMContractError,
     LLMExtractionResponse,
     LLMWindowRequest,
+    ParticipationCountClaimPayload,
+    WindowObligation,
     WindowParagraph,
 )
-from sec_graph.schema import ExtractionCandidate, SourceSpan, make_id, quote_hash
+from sec_graph.schema import SourceSpan, evidence_fingerprint, make_id, quote_hash
 
-_BID_NORMALIZED_RE = re.compile(r"^\d+(?:\.\d+)?(?:-\d+(?:\.\d+)?)?$")
-_COUNT_NORMALIZED_RE = re.compile(r"^[1-9]\d*$")
+ClaimPayload = (
+    ActorClaimPayload
+    | EventClaimPayload
+    | BidClaimPayload
+    | ParticipationCountClaimPayload
+    | ActorRelationClaimPayload
+)
+
+
+def insert_llm_response(
+    conn: duckdb.DuckDBPyConnection,
+    request: LLMWindowRequest,
+    response: LLMExtractionResponse,
+    run_id: str,
+) -> list[str]:
+    if response.finish_status != "completed":
+        raise LLMContractError(f"LLM response status is {response.finish_status}")
+    if response.request_id != request.request_id:
+        raise LLMContractError("response request_id does not match request")
+
+    payloads = list(_iter_claim_payloads(response.payload))
+    span_sequence = _next_sequence(conn, "spans", "evidence_id", request.deal_slug, "llmspan")
+    claim_sequence = _next_sequence(conn, "claims", "claim_id", request.deal_slug, "claim")
+    coverage_sequence = _next_sequence(conn, "coverage_results", "coverage_result_id", request.deal_slug, "coverage")
+    inserted_claim_ids: list[str] = []
+    obligations_by_id = {obligation.obligation_id: obligation for obligation in request.coverage_obligations}
+    if len(obligations_by_id) != len(request.coverage_obligations):
+        raise LLMContractError("request contains duplicate coverage obligation ids")
+    provider_results = _provider_coverage_results_by_obligation(response, obligations_by_id)
+    coverage_claim_counts = {obligation_id: 0 for obligation_id in obligations_by_id}
+
+    for payload in payloads:
+        if payload.claim_type not in request.allowed_claim_types:
+            raise LLMContractError(f"claim_type {payload.claim_type} is not allowed for request")
+        _validate_claim_obligation_links(payload, obligations_by_id)
+        for obligation_id in payload.coverage_obligation_ids:
+            coverage_claim_counts[obligation_id] += 1
+        paragraph, quote_start, quote_end = _resolve_quote(request, payload.quote_text)
+        quote_text_hash = quote_hash(payload.quote_text)
+        span = SourceSpan(
+            evidence_id=make_id(request.deal_slug, "llmspan", span_sequence),
+            filing_id=request.filing_id,
+            paragraph_id=paragraph.paragraph_id,
+            span_basis="raw_md",
+            span_kind="llm_extract",
+            parent_evidence_id=paragraph.source_span_id,
+            created_by_stage="extract",
+            char_start=paragraph.char_start + quote_start,
+            char_end=paragraph.char_start + quote_end,
+            quote_text=payload.quote_text,
+            quote_text_hash=quote_text_hash,
+            evidence_fingerprint=evidence_fingerprint(
+                request.filing_id,
+                paragraph.char_start + quote_start,
+                paragraph.char_start + quote_end,
+                quote_text_hash,
+            ),
+        )
+        claim_id = make_id(request.deal_slug, "claim", claim_sequence)
+        span_sequence += 1
+        claim_sequence += 1
+        conn.execute(
+            "INSERT INTO spans VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            tuple(span.model_dump().values()),
+        )
+        conn.execute(
+            "INSERT INTO claims VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            [
+                claim_id,
+                run_id,
+                request.filing_id,
+                request.deal_slug,
+                request.region_id,
+                "linkflow",
+                payload.claim_type,
+                payload.confidence,
+                _raw_value(payload),
+                _normalized_value(payload),
+                payload.quote_text,
+                quote_text_hash,
+                "validated",
+                claim_sequence - 1,
+            ],
+        )
+        conn.execute("INSERT INTO claim_evidence VALUES (?, ?, ?)", [claim_id, span.evidence_id, 1])
+        _insert_typed_claim(conn, claim_id, payload)
+        inserted_claim_ids.append(claim_id)
+
+    for obligation in request.coverage_obligations:
+        count = coverage_claim_counts[obligation.obligation_id]
+        if count:
+            if obligation.obligation_id in provider_results:
+                raise LLMContractError(
+                    f"coverage obligation {obligation.obligation_id} has both linked claims and a provider coverage result"
+                )
+            result = "claims_emitted"
+            reason_code = "linkflow_claims_linked"
+            reason = "Linkflow emitted at least one validated claim explicitly linked to this obligation."
+        else:
+            provider_result = provider_results.get(obligation.obligation_id)
+            if provider_result is None:
+                result = "missed"
+                reason_code = "provider_failed_to_account"
+                reason = "Python marked this obligation missed because Linkflow returned no linked claim and no coverage result."
+            else:
+                result = provider_result.result
+                reason_code = provider_result.reason_code
+                reason = provider_result.reason
+        coverage_result_id = make_id(request.deal_slug, "coverage", coverage_sequence)
+        coverage_sequence += 1
+        conn.execute(
+            "INSERT INTO coverage_results VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            [coverage_result_id, run_id, obligation.obligation_id, result, reason_code, reason, count, True],
+        )
+    return inserted_claim_ids
+
+
+def _provider_coverage_results_by_obligation(
+    response: LLMExtractionResponse,
+    obligations_by_id: dict[str, WindowObligation],
+) -> dict[str, CoverageResultPayload]:
+    provider_results: dict[str, CoverageResultPayload] = {}
+    for item in response.payload.coverage_results:
+        if item.obligation_id not in obligations_by_id:
+            raise LLMContractError(f"provider returned coverage result for unknown obligation {item.obligation_id}")
+        if item.obligation_id in provider_results:
+            raise LLMContractError(f"provider returned duplicate coverage result for obligation {item.obligation_id}")
+        provider_results[item.obligation_id] = item
+    return provider_results
+
+
+def _validate_claim_obligation_links(payload: ClaimPayload, obligations_by_id: dict[str, WindowObligation]) -> None:
+    obligation_ids = payload.coverage_obligation_ids
+    if len(set(obligation_ids)) != len(obligation_ids):
+        raise LLMContractError("claim contains duplicate coverage obligation ids")
+    for obligation_id in obligation_ids:
+        obligation = obligations_by_id.get(obligation_id)
+        if obligation is None:
+            raise LLMContractError(f"claim references unknown coverage obligation {obligation_id}")
+        if obligation.expected_claim_type != payload.claim_type:
+            raise LLMContractError(
+                f"claim_type {payload.claim_type} does not match expected_claim_type "
+                f"{obligation.expected_claim_type} for obligation {obligation_id}"
+            )
+
+
+def _iter_claim_payloads(payload) -> Iterable[ClaimPayload]:
+    yield from payload.actor_claims
+    yield from payload.event_claims
+    yield from payload.bid_claims
+    yield from payload.participation_count_claims
+    yield from payload.actor_relation_claims
+
+
+def _resolve_quote(
+    window: LLMWindowRequest,
+    quote_text: str,
+) -> tuple[WindowParagraph, int, int]:
+    if not quote_text:
+        raise LLMContractError("quote_text is empty")
+    matches: list[tuple[WindowParagraph, int]] = []
+    for paragraph in window.ordered_paragraphs:
+        start = paragraph.paragraph_text.find(quote_text)
+        while start != -1:
+            matches.append((paragraph, start))
+            start = paragraph.paragraph_text.find(quote_text, start + 1)
+    if not matches:
+        raise LLMContractError("quote_text is not an exact window substring")
+    if len(matches) > 1:
+        raise LLMContractError("quote_text is ambiguous within window")
+    paragraph, start = matches[0]
+    return paragraph, start, start + len(quote_text)
 
 
 def _next_sequence(
@@ -34,165 +203,95 @@ def _next_sequence(
     type_name: str,
 ) -> int:
     prefix = f"{slug}_{type_name}_"
-    rows = conn.execute(
-        f"SELECT {id_col} FROM {table_name} WHERE {id_col} LIKE ?",
-        [f"{prefix}%"],
-    ).fetchall()
+    rows = conn.execute(f"SELECT {id_col} FROM {table_name} WHERE {id_col} LIKE ?", [f"{prefix}%"]).fetchall()
     if not rows:
         return 1
     return max(int(row[0].rsplit("_", maxsplit=1)[1]) for row in rows) + 1
 
 
-def _validate_response(
-    request: LLMWindowRequest, response: LLMExtractionResponse
-) -> None:
-    if response.finish_status != "completed":
-        raise LLMContractError(
-            f"LLM response status is {response.finish_status}"
-        )
-    if response.request_id != request.request_id:
-        raise LLMContractError(
-            f"response request_id {response.request_id} does not match {request.request_id}"
-        )
+def _raw_value(payload: ClaimPayload) -> str:
+    if isinstance(payload, ActorClaimPayload):
+        return payload.actor_label
+    if isinstance(payload, EventClaimPayload):
+        return payload.description
+    if isinstance(payload, BidClaimPayload):
+        value = payload.bid_value if payload.bid_value is not None else payload.bid_value_lower
+        return f"{payload.bidder_label}:{value}"
+    if isinstance(payload, ParticipationCountClaimPayload):
+        return f"{payload.process_stage}:{payload.actor_class}:{payload.count_min}"
+    return f"{payload.subject_label}:{payload.relation_type}:{payload.object_label}"
 
 
-def _resolve_quote(
-    window: LLMWindowRequest, quote_text: str
-) -> tuple[WindowParagraph, int, int]:
-    """Resolve a provider quote to the unique paragraph and offsets.
-
-    Re-derives offsets against the underlying paragraph source-span text.
-    """
-
-    if not quote_text:
-        raise LLMContractError("quote_text is empty")
-
-    matches: list[tuple[WindowParagraph, int]] = []
-    for paragraph in window.ordered_paragraphs:
-        text = paragraph.paragraph_text
-        start = text.find(quote_text)
-        while start != -1:
-            matches.append((paragraph, start))
-            start = text.find(quote_text, start + 1)
-    if not matches:
-        raise LLMContractError("quote_text is not an exact window substring")
-    if len(matches) > 1:
-        raise LLMContractError("quote_text is ambiguous within window")
-
-    paragraph, paragraph_offset = matches[0]
-    return (
-        paragraph,
-        paragraph_offset,
-        paragraph_offset + len(quote_text),
-    )
+def _normalized_value(payload: ClaimPayload) -> str | None:
+    if isinstance(payload, EventClaimPayload) and payload.event_date is not None:
+        return payload.event_date.isoformat()
+    if isinstance(payload, BidClaimPayload):
+        if payload.bid_value is not None:
+            return str(payload.bid_value)
+        if payload.bid_value_lower is not None or payload.bid_value_upper is not None:
+            return f"{payload.bid_value_lower}-{payload.bid_value_upper}"
+    if isinstance(payload, ParticipationCountClaimPayload):
+        return str(payload.count_min)
+    return None
 
 
-def _validate_payload_type_allowed(
-    request: LLMWindowRequest, candidate_type: str
-) -> None:
-    if candidate_type not in request.allowed_candidate_types:
-        raise LLMContractError(
-            f"candidate_type {candidate_type} is not allowed"
-        )
-
-
-def _validate_normalized_value(payload: LLMCandidatePayload) -> None:
-    if payload.candidate_type == "dated_event":
-        try:
-            parsed = dt.date.fromisoformat(payload.normalized_value)
-        except ValueError as exc:
-            raise LLMContractError(
-                "dated_event normalized_value must be YYYY-MM-DD"
-            ) from exc
-        if payload.normalized_value != parsed.isoformat():
-            raise LLMContractError(
-                "dated_event normalized_value must be canonical YYYY-MM-DD"
-            )
-    elif payload.candidate_type == "bid_value":
-        if not _BID_NORMALIZED_RE.match(payload.normalized_value):
-            raise LLMContractError(
-                "bid_value normalized_value must be a numeric amount or lower-upper range"
-            )
-        if "-" in payload.normalized_value:
-            lower, upper = (
-                float(part)
-                for part in payload.normalized_value.split("-", maxsplit=1)
-            )
-            if lower > upper:
-                raise LLMContractError(
-                    "bid_value normalized range lower bound exceeds upper bound"
-                )
-    elif payload.candidate_type == "participation_count":
-        if not _COUNT_NORMALIZED_RE.match(payload.normalized_value):
-            raise LLMContractError(
-                "participation_count normalized_value must be a positive integer"
-            )
-    # actor_mention: normalized_value is opaque label.
-
-
-def insert_llm_response(
-    conn: duckdb.DuckDBPyConnection,
-    request: LLMWindowRequest,
-    response: LLMExtractionResponse,
-    run_id: str,
-) -> list[ExtractionCandidate]:
-    _validate_response(request, response)
-
-    slug = request.deal_id
-    span_sequence = _next_sequence(conn, "spans", "evidence_id", slug, "llmspan")
-    candidate_sequence = _next_sequence(
-        conn, "candidates", "candidate_id", slug, "llmcandidate"
-    )
-
-    validated: list[
-        tuple[LLMCandidatePayload, WindowParagraph, int, int]
-    ] = []
-    for payload in response.candidates:
-        _validate_payload_type_allowed(request, payload.candidate_type)
-        _validate_normalized_value(payload)
-        paragraph, quote_start, quote_end = _resolve_quote(
-            request, payload.quote_text
-        )
-        validated.append((payload, paragraph, quote_start, quote_end))
-
-    inserted: list[ExtractionCandidate] = []
-    for payload, paragraph, quote_start, quote_end in validated:
-        evidence_id = make_id(slug, "llmspan", span_sequence)
-        candidate_id = make_id(slug, "llmcandidate", candidate_sequence)
-        span_sequence += 1
-        candidate_sequence += 1
-        span = SourceSpan(
-            evidence_id=evidence_id,
-            filing_id=request.filing_id,
-            paragraph_id=paragraph.paragraph_id,
-            span_basis="raw_md",
-            span_kind="phrase",
-            parent_evidence_id=paragraph.source_span_id,
-            created_by_stage="extract",
-            char_start=paragraph.char_start + quote_start,
-            char_end=paragraph.char_start + quote_end,
-            quote_text=payload.quote_text,
-            quote_hash=quote_hash(payload.quote_text),
-        )
-        candidate = ExtractionCandidate(
-            candidate_id=candidate_id,
-            run_id=run_id,
-            filing_id=request.filing_id,
-            candidate_type=payload.candidate_type,
-            raw_value=payload.raw_value,
-            normalized_value=payload.normalized_value,
-            confidence=payload.confidence,
-            evidence_ids=[span.evidence_id],
-            dependencies=payload.dependencies,
-            status="active",
-        )
+def _insert_typed_claim(conn: duckdb.DuckDBPyConnection, claim_id: str, payload: ClaimPayload) -> None:
+    if isinstance(payload, ActorClaimPayload):
         conn.execute(
-            "INSERT INTO spans VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            tuple(span.model_dump().values()),
+            "INSERT INTO actor_claims VALUES (?, ?, ?, ?)",
+            [claim_id, payload.actor_label, payload.actor_kind, payload.observability],
         )
+    elif isinstance(payload, EventClaimPayload):
         conn.execute(
-            "INSERT INTO candidates VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            tuple(candidate.model_dump().values()),
+            "INSERT INTO event_claims VALUES (?, ?, ?, ?, ?, ?, ?)",
+            [
+                claim_id,
+                payload.event_type,
+                payload.event_subtype,
+                payload.event_date,
+                payload.description,
+                payload.actor_label,
+                payload.actor_role,
+            ],
         )
-        inserted.append(candidate)
-    return inserted
+    elif isinstance(payload, BidClaimPayload):
+        conn.execute(
+            "INSERT INTO bid_claims VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            [
+                claim_id,
+                payload.bidder_label,
+                payload.bid_date,
+                payload.bid_value,
+                payload.bid_value_lower,
+                payload.bid_value_upper,
+                payload.bid_value_unit,
+                payload.consideration_type,
+                payload.bid_stage,
+            ],
+        )
+    elif isinstance(payload, ParticipationCountClaimPayload):
+        conn.execute(
+            "INSERT INTO participation_count_claims VALUES (?, ?, ?, ?, ?, ?)",
+            [
+                claim_id,
+                payload.process_stage,
+                payload.actor_class,
+                payload.count_min,
+                payload.count_max,
+                payload.count_qualifier,
+            ],
+        )
+    elif isinstance(payload, ActorRelationClaimPayload):
+        conn.execute(
+            "INSERT INTO actor_relation_claims VALUES (?, ?, ?, ?, ?, ?)",
+            [
+                claim_id,
+                payload.subject_label,
+                payload.object_label,
+                payload.relation_type,
+                payload.role_detail,
+                payload.effective_date_first,
+            ],
+        )
+    else:
+        raise TypeError(f"unsupported claim payload {type(payload).__name__}")

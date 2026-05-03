@@ -1,4 +1,4 @@
-"""Deployable canonical models and DDL."""
+"""Hard-reset canonical graph and projection schema."""
 
 from __future__ import annotations
 
@@ -65,7 +65,6 @@ class Deal(BaseModel):
     deal_slug: str
     target_actor_id: str
     announcement_date: dt.date | None
-    evidence_ids: list[str]
 
 
 class ProcessCycle(BaseModel):
@@ -78,7 +77,6 @@ class ProcessCycle(BaseModel):
     cycle_label: str
     start_date: dt.date | None
     end_date: dt.date | None
-    evidence_ids: list[str]
 
 
 class Actor(BaseModel):
@@ -90,7 +88,6 @@ class Actor(BaseModel):
     actor_label: str
     actor_kind: ActorKind
     observability: ActorObservability
-    evidence_ids: list[str]
     lead_arranger_label: str | None
     member_count_known: int | None = Field(default=None, ge=0)
     has_strategic_member: bool | None
@@ -126,7 +123,6 @@ class ActorRelation(BaseModel):
     effective_date_first: dt.date | None
     effective_date_last: dt.date | None
     confidence: Confidence | None
-    evidence_ids: list[str]
 
     @model_validator(mode="after")
     def _temporal_frame_is_present(self) -> "ActorRelation":
@@ -157,7 +153,6 @@ class Event(BaseModel):
     bid_value_upper: float | None
     bid_value_unit: str | None
     consideration_type: str | None
-    evidence_ids: list[str]
 
 
 class EventActorLink(BaseModel):
@@ -169,7 +164,54 @@ class EventActorLink(BaseModel):
     actor_id: str
     role: EventActorRole
     role_detail: str | None
-    evidence_ids: list[str]
+
+
+class RowEvidence(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    row_table: str
+    row_id: str
+    evidence_id: str
+    ordinal: int = Field(ge=1)
+
+
+class ProjectionUnit(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    projection_unit_id: str
+    run_id: str
+    projection_name: str
+    deal_id: str
+    cycle_id: str
+    actor_id: str
+
+
+class ProjectionJudgment(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    projection_judgment_id: str
+    run_id: str
+    projection_unit_id: str
+    rule_id: str
+    included: bool
+    reason: str
+
+
+class BidderRow(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    bidder_row_id: str
+    run_id: str
+    projection_unit_id: str
+    deal_slug: str
+    cycle_id: str
+    actor_id: str
+    actor_label: str
+    b_i: float | None
+    b_i_lower: float | None
+    b_i_upper: float | None
+    b_f: float | None
+    admitted: bool
 
 
 CANONICAL_DDL = """
@@ -178,8 +220,7 @@ CREATE TABLE deals (
   run_id VARCHAR NOT NULL,
   deal_slug VARCHAR NOT NULL,
   target_actor_id VARCHAR NOT NULL,
-  announcement_date DATE,
-  evidence_ids VARCHAR[] NOT NULL
+  announcement_date DATE
 );
 
 CREATE TABLE actors (
@@ -189,7 +230,6 @@ CREATE TABLE actors (
   actor_label VARCHAR NOT NULL,
   actor_kind VARCHAR NOT NULL CHECK (actor_kind IN ('organization', 'person', 'group', 'vehicle', 'cohort', 'committee')),
   observability VARCHAR NOT NULL CHECK (observability IN ('named', 'anonymous_handle', 'count_only')),
-  evidence_ids VARCHAR[] NOT NULL,
   lead_arranger_label VARCHAR,
   member_count_known INTEGER,
   has_strategic_member BOOLEAN,
@@ -215,7 +255,6 @@ CREATE TABLE process_cycles (
   cycle_label VARCHAR NOT NULL,
   start_date DATE,
   end_date DATE,
-  evidence_ids VARCHAR[] NOT NULL,
   CHECK (cycle_sequence >= 1),
   CHECK (end_date IS NULL OR start_date IS NULL OR end_date >= start_date),
   FOREIGN KEY (deal_id) REFERENCES deals(deal_id)
@@ -234,7 +273,6 @@ CREATE TABLE actor_relations (
   effective_date_first DATE,
   effective_date_last DATE,
   confidence VARCHAR CHECK (confidence IS NULL OR confidence IN ('low', 'medium', 'high')),
-  evidence_ids VARCHAR[] NOT NULL,
   CHECK (cycle_id_first_observed IS NOT NULL OR effective_date_first IS NOT NULL),
   CHECK (effective_date_last IS NULL OR effective_date_first IS NULL OR effective_date_last >= effective_date_first),
   FOREIGN KEY (deal_id) REFERENCES deals(deal_id),
@@ -258,7 +296,6 @@ CREATE TABLE events (
   bid_value_upper DOUBLE,
   bid_value_unit VARCHAR,
   consideration_type VARCHAR,
-  evidence_ids VARCHAR[] NOT NULL,
   CHECK (bid_value_upper IS NULL OR bid_value_lower IS NULL OR bid_value_upper >= bid_value_lower),
   FOREIGN KEY (deal_id) REFERENCES deals(deal_id),
   FOREIGN KEY (cycle_id) REFERENCES process_cycles(cycle_id)
@@ -271,8 +308,58 @@ CREATE TABLE event_actor_links (
   actor_id VARCHAR NOT NULL,
   role VARCHAR NOT NULL CHECK (role IN ('target', 'bid_submitter', 'potential_buyer', 'group_vehicle', 'group_member', 'advisor_for_target', 'advisor_for_bidder', 'equity_financing_source', 'debt_financing_source', 'support_shareholder', 'rollover_holder', 'offeror', 'acquisition_sub', 'sender', 'recipient')),
   role_detail VARCHAR,
-  evidence_ids VARCHAR[] NOT NULL,
   FOREIGN KEY (event_id) REFERENCES events(event_id),
+  FOREIGN KEY (actor_id) REFERENCES actors(actor_id)
+);
+
+CREATE TABLE row_evidence (
+  row_table VARCHAR NOT NULL,
+  row_id VARCHAR NOT NULL,
+  evidence_id VARCHAR NOT NULL,
+  ordinal INTEGER NOT NULL,
+  PRIMARY KEY (row_table, row_id, evidence_id, ordinal),
+  CHECK (ordinal >= 1),
+  FOREIGN KEY (evidence_id) REFERENCES spans(evidence_id)
+);
+
+CREATE TABLE projection_units (
+  projection_unit_id VARCHAR PRIMARY KEY,
+  run_id VARCHAR NOT NULL,
+  projection_name VARCHAR NOT NULL,
+  deal_id VARCHAR NOT NULL,
+  cycle_id VARCHAR NOT NULL,
+  actor_id VARCHAR NOT NULL,
+  UNIQUE (projection_name, cycle_id, actor_id),
+  FOREIGN KEY (deal_id) REFERENCES deals(deal_id),
+  FOREIGN KEY (cycle_id) REFERENCES process_cycles(cycle_id),
+  FOREIGN KEY (actor_id) REFERENCES actors(actor_id)
+);
+
+CREATE TABLE projection_judgments (
+  projection_judgment_id VARCHAR PRIMARY KEY,
+  run_id VARCHAR NOT NULL,
+  projection_unit_id VARCHAR NOT NULL,
+  rule_id VARCHAR NOT NULL,
+  included BOOLEAN NOT NULL,
+  reason VARCHAR NOT NULL,
+  FOREIGN KEY (projection_unit_id) REFERENCES projection_units(projection_unit_id)
+);
+
+CREATE TABLE bidder_rows (
+  bidder_row_id VARCHAR PRIMARY KEY,
+  run_id VARCHAR NOT NULL,
+  projection_unit_id VARCHAR NOT NULL,
+  deal_slug VARCHAR NOT NULL,
+  cycle_id VARCHAR NOT NULL,
+  actor_id VARCHAR NOT NULL,
+  actor_label VARCHAR NOT NULL,
+  b_i DOUBLE,
+  b_i_lower DOUBLE,
+  b_i_upper DOUBLE,
+  b_f DOUBLE,
+  admitted BOOLEAN NOT NULL,
+  FOREIGN KEY (projection_unit_id) REFERENCES projection_units(projection_unit_id),
+  FOREIGN KEY (cycle_id) REFERENCES process_cycles(cycle_id),
   FOREIGN KEY (actor_id) REFERENCES actors(actor_id)
 );
 """

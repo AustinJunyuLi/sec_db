@@ -1,32 +1,36 @@
-"""Provider-neutral LLM extraction interface (within-deal narrative windows)."""
+"""Provider-neutral typed semantic claim extraction interface."""
 
 from .convert import insert_llm_response
 from .models import (
+    ActorClaimPayload,
+    ActorRelationClaimPayload,
+    BidClaimPayload,
+    EventClaimPayload,
     LinkflowProviderContractError,
-    LLMCandidatePayload,
     LLMContractError,
     LLMExtractionResponse,
     LLMProviderConfig,
     LLMWindowRequest,
-    PriorActorAlias,
-    PriorDealMemory,
-    PriorEvent,
-    WindowKind,
+    ParticipationCountClaimPayload,
+    SemanticClaimsPayload,
+    WindowObligation,
     WindowParagraph,
 )
 from .requests import build_llm_windows
 
 __all__ = [
-    "LLMCandidatePayload",
+    "ActorClaimPayload",
+    "ActorRelationClaimPayload",
+    "BidClaimPayload",
+    "EventClaimPayload",
     "LLMContractError",
     "LLMExtractionResponse",
     "LLMProviderConfig",
     "LLMWindowRequest",
     "LinkflowProviderContractError",
-    "PriorActorAlias",
-    "PriorDealMemory",
-    "PriorEvent",
-    "WindowKind",
+    "ParticipationCountClaimPayload",
+    "SemanticClaimsPayload",
+    "WindowObligation",
     "WindowParagraph",
     "build_llm_windows",
     "insert_llm_response",

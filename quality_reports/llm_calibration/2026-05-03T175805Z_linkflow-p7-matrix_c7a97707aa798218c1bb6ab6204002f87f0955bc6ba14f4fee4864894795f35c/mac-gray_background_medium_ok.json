@@ -1,0 +1,79 @@
+{
+  "estimated_input_tokens": 18388,
+  "finish_status": "ok",
+  "finished_at": "2026-05-03T17:59:48Z",
+  "input": {
+    "char_count": 70742,
+    "end_line": 995,
+    "scope": "background",
+    "sha256": "08e102ff8c744ed9afafda1c481af5ed728735bd3aeb3cd2442635f05c4f0d03",
+    "slug": "mac-gray",
+    "source_path": "data/filings/mac-gray/raw.md",
+    "start_line": 726
+  },
+  "latency_ms": 103420,
+  "model": "gpt-5.5",
+  "output": {
+    "claim_count": 70,
+    "claim_counts": {
+      "actor_claims": 15,
+      "actor_relation_claims": 7,
+      "bid_claims": 13,
+      "event_claims": 26,
+      "participation_count_claims": 9
+    },
+    "coverage_complete": true,
+    "coverage_count": 10,
+    "duplicate_quotes_within_response": 17,
+    "empty_string_date_count": 0,
+    "iso_date_count": 39,
+    "nonempty_date_count": 39,
+    "output_chars": 34362,
+    "output_sha256": "8d5f6625b5faee8c61165938468c396279cee43290b4e9f8d08e896e57af453a",
+    "parsed_json": true,
+    "pydantic_ok": true,
+    "quote_ambiguous_count": 0,
+    "quote_count": 70,
+    "quote_match_count": 69,
+    "quote_match_rate": 0.9857,
+    "quote_miss_count": 1,
+    "top_level_keys": [
+      "actor_claims",
+      "actor_relation_claims",
+      "bid_claims",
+      "coverage_results",
+      "event_claims",
+      "participation_count_claims"
+    ],
+    "validation_error_count": 0,
+    "validation_error_digest": null
+  },
+  "prompt_chars": {
+    "system": 1792,
+    "total": 73555,
+    "user": 71763
+  },
+  "prompt_sha256": "2d82155afb552c1167c1fef3844d637c4979b7e45d68c52e1b78fa76854d69bf",
+  "provider_host": "www.linkflow.run",
+  "reasoning_effort": "medium",
+  "run_id": "2026-05-03T175805Z_linkflow-p7-matrix_c7a97707aa798218c1bb6ab6204002f87f0955bc6ba14f4fee4864894795f35c",
+  "schema_name": "sec_graph_semantic_claims_p7_matrix",
+  "schema_profile": {
+    "forbidden_keywords": [],
+    "max_depth": 8,
+    "object_nodes": 7,
+    "objects_missing_additional_properties_false": 0,
+    "objects_with_required_mismatch": 0,
+    "schema_valued_additional_properties": 0
+  },
+  "schema_sha256": "19eb4a8a9b617c106051ee126c7aea9c2403cded136cfbd816add4db83287db3",
+  "scope": "background",
+  "slug": "mac-gray",
+  "stream_status": "completed",
+  "usage": {
+    "input_tokens": 16441,
+    "output_tokens": 8878,
+    "reasoning_tokens": 841,
+    "token_source": "actual"
+  }
+}

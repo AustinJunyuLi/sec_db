@@ -6,6 +6,8 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from sec_graph.schema.evidence import evidence_fingerprint, quote_hash
+
 
 _NON_PARAGRAPH_SPAN_KINDS: frozenset[str] = frozenset(
     {"sentence", "clause", "phrase", "llm_extract"}
@@ -68,10 +70,15 @@ class SourceSpan(BaseModel):
     char_start: int = Field(ge=0)
     char_end: int = Field(ge=0)
     quote_text: str
-    quote_hash: str = Field(min_length=64, max_length=64)
+    quote_text_hash: str = Field(min_length=64, max_length=64)
+    evidence_fingerprint: str = Field(min_length=64, max_length=64)
+
+    @property
+    def quote_hash(self) -> str:
+        return self.quote_text_hash
 
     @model_validator(mode="after")
-    def _non_paragraph_spans_require_parent(self) -> "SourceSpan":
+    def _source_span_contract(self) -> "SourceSpan":
         if (
             self.span_kind in _NON_PARAGRAPH_SPAN_KINDS
             and self.parent_evidence_id is None
@@ -80,6 +87,21 @@ class SourceSpan(BaseModel):
                 "parent_evidence_id is required when span_kind is one of "
                 f"{sorted(_NON_PARAGRAPH_SPAN_KINDS)}; "
                 f"got span_kind={self.span_kind!r} for evidence_id={self.evidence_id!r}"
+            )
+        expected_hash = quote_hash(self.quote_text)
+        if self.quote_text_hash != expected_hash:
+            raise ValueError(
+                f"quote_text_hash mismatch for evidence_id={self.evidence_id!r}"
+            )
+        expected_fingerprint = evidence_fingerprint(
+            self.filing_id,
+            self.char_start,
+            self.char_end,
+            self.quote_text_hash,
+        )
+        if self.evidence_fingerprint != expected_fingerprint:
+            raise ValueError(
+                f"evidence_fingerprint mismatch for evidence_id={self.evidence_id!r}"
             )
         return self
 
@@ -120,7 +142,8 @@ CREATE TABLE spans (
   char_start INTEGER NOT NULL,
   char_end INTEGER NOT NULL,
   quote_text VARCHAR NOT NULL,
-  quote_hash VARCHAR NOT NULL,
+  quote_text_hash VARCHAR NOT NULL,
+  evidence_fingerprint VARCHAR NOT NULL,
   CHECK (char_end >= char_start),
   CHECK (
     span_kind = 'paragraph_seed'

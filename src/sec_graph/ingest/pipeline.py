@@ -2,14 +2,13 @@
 
 from __future__ import annotations
 
-import datetime as dt
 import json
 from dataclasses import dataclass
 from pathlib import Path
 
 import duckdb
 
-from sec_graph.schema import CleanFiling, Paragraph, RunMetadata, connect, init_schema, make_id, quote_hash
+from sec_graph.schema import CleanFiling, Paragraph, connect, init_schema, make_id, quote_hash
 from sec_graph.schema import versions
 
 from .cleaning import clean_markdown
@@ -64,25 +63,6 @@ def _process_scope(source: IngestSource) -> str:
     raise ValueError(f"cannot map form_type {form_type!r} to process_scope for {source.slug}")
 
 
-def _insert_metadata(conn: duckdb.DuckDBPyConnection, run_id: str, input_hashes: dict[str, str]) -> None:
-    metadata = RunMetadata(
-        run_id=run_id,
-        schema_version=versions.SCHEMA_VERSION,
-        parser_version=versions.PARSER_VERSION,
-        ingest_version=versions.INGEST_VERSION,
-        extract_version=versions.EXTRACT_VERSION,
-        reconcile_version=versions.RECONCILE_VERSION,
-        validate_version=versions.VALIDATE_VERSION,
-        project_version=versions.PROJECT_VERSION,
-        input_hashes=input_hashes,
-        created_at=dt.datetime.now(dt.UTC),
-    )
-    payload = metadata.model_dump()
-    payload["input_hashes"] = json.dumps(payload["input_hashes"], sort_keys=True)
-    payload["created_at"] = payload["created_at"].isoformat()
-    conn.execute("INSERT INTO run_metadata VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", tuple(payload.values()))
-
-
 def ingest_source(conn: duckdb.DuckDBPyConnection, source: IngestSource) -> CleanFiling:
     raw_text = source.source_path.read_text(encoding="utf-8")
     cleaned = clean_markdown(raw_text)
@@ -117,7 +97,7 @@ def ingest_source(conn: duckdb.DuckDBPyConnection, source: IngestSource) -> Clea
         )
         span = paragraph_seed_span(source.slug, filing_id, paragraph.paragraph_id, idx, block)
         conn.execute("INSERT INTO paragraphs VALUES (?, ?, ?, ?, ?, ?, ?, ?)", tuple(paragraph.model_dump().values()))
-        conn.execute("INSERT INTO spans VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", tuple(span.model_dump().values()))
+        conn.execute("INSERT INTO spans VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", tuple(span.model_dump().values()))
     return filing
 
 
@@ -132,9 +112,8 @@ def ingest_sources(
     *,
     run_id: str = "ingest-sources",
 ) -> list[CleanFiling]:
+    del run_id
     filings = [ingest_source(conn, source) for source in sources]
-    conn.execute("DELETE FROM run_metadata WHERE run_id = ?", [run_id])
-    _insert_metadata(conn, run_id, {filing.deal_slug: filing.raw_sha256 for filing in filings})
     return filings
 
 

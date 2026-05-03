@@ -1,170 +1,202 @@
-"""Provider-neutral LLM extraction contracts.
-
-Within-deal narrative window contract:
-- requests are LLMWindowRequest payloads (ordered paragraphs from one filing);
-- candidates emit quote_text only — Python owns char_start/char_end resolution;
-- relation extraction is not exposed through the current LLM response schema.
-"""
+"""Provider-neutral typed semantic claim contracts."""
 
 from __future__ import annotations
 
+import datetime as dt
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
-# Flat candidate types deliberately exclude actor_relation.
-CandidateType = Literal[
-    "actor_mention",
-    "dated_event",
-    "bid_value",
-    "participation_count",
-]
-Confidence = Literal["low", "medium", "high"]
-FinishStatus = Literal[
-    "completed",
-    "provider_rejected",
-    "provider_incomplete",
-    "contract_invalid",
-]
+from sec_graph.schema.models.extraction import (
+    ActorClass,
+    ActorKind,
+    ActorObservability,
+    ClaimType,
+    Confidence,
+    CountQualifier,
+    EventActorRole,
+    EventSubtype,
+    EventType,
+    ProcessStage,
+    RegionKind,
+    RelationType,
+)
+
 ReasoningEffort = Literal["low", "medium", "high", "xhigh"]
-WindowKind = Literal[
-    "narrative_arc",
-    "process_step_cluster",
-    "actor_introduction",
-]
-ExtractionTask = Literal[
-    "actor_aliases",
-    "events",
-    "participation_counts",
-]
+FinishStatus = Literal["completed", "provider_rejected", "provider_incomplete", "contract_invalid"]
+CoverageResultKind = Literal["claims_emitted", "no_supported_claim", "ambiguous", "missed"]
 
 
 class LLMContractError(RuntimeError):
-    """Raised when provider output violates the local candidate contract."""
+    """Raised when provider output violates the local semantic claim contract."""
 
 
 class LinkflowProviderContractError(LLMContractError):
-    """Raised when the Linkflow stream violates the provider completion policy.
-
-    Distinct subclass so callers can react to provider-side contract failures
-    (e.g., missing response.completed) separately from local payload contract
-    violations, while still being caught by handlers that match LLMContractError.
-    """
+    """Raised when Linkflow violates the explicit Responses completion policy."""
 
 
 class WindowParagraph(BaseModel):
-    """One ordered paragraph reference inside a within-deal window."""
-
     model_config = ConfigDict(frozen=True, extra="forbid")
 
     paragraph_id: str
-    source_span_id: str  # the paragraph_seed evidence_id
+    source_span_id: str
     char_start: int = Field(ge=0)
     char_end: int = Field(ge=0)
     paragraph_text: str
 
 
-class PriorActorAlias(BaseModel):
+class WindowObligation(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
-    alias: str
-    canonical_label: str
-    source_paragraph_id: str
-
-
-class PriorEvent(BaseModel):
-    model_config = ConfigDict(frozen=True, extra="forbid")
-
-    event_kind: str
-    normalized_value: str  # e.g. ISO date or short phrase
-    quote_text: str
-    source_paragraph_id: str
-
-
-class ActiveCycleCandidate(BaseModel):
-    model_config = ConfigDict(frozen=True, extra="forbid")
-
-    cycle_label: str
-    source_paragraph_id: str
-
-
-class UnresolvedReference(BaseModel):
-    model_config = ConfigDict(frozen=True, extra="forbid")
-
-    reference_text: str
-    source_paragraph_id: str
-
-
-class PriorDealMemory(BaseModel):
-    """Compact within-filing memory carried into a window prompt.
-
-    All entries are derived by Python from earlier paragraphs in the SAME
-    filing. No cross-deal content. Empty lists are valid.
-    """
-
-    model_config = ConfigDict(frozen=True, extra="forbid")
-
-    actor_aliases: list[PriorActorAlias] = Field(default_factory=list)
-    prior_events: list[PriorEvent] = Field(default_factory=list)
-    active_cycle_candidates: list[ActiveCycleCandidate] = Field(default_factory=list)
-    unresolved_references: list[UnresolvedReference] = Field(default_factory=list)
+    obligation_id: str
+    expected_claim_type: ClaimType
+    obligation_label: str
+    importance: Literal["required", "important", "optional"]
 
 
 class LLMWindowRequest(BaseModel):
-    """A within-deal narrative window request to the LLM extractor.
-
-    Construction strategy: deterministic ordered-paragraph stride within one
-    filing (see requests.build_llm_windows). No cross-deal content.
-    """
-
     model_config = ConfigDict(frozen=True, extra="forbid")
 
-    request_id: str  # deterministic {slug}_llmrequest_{sequence}
+    request_id: str
+    deal_slug: str
     deal_id: str
     filing_id: str
-    window_id: str  # deterministic {slug}_window_{sequence}
-    window_kind: WindowKind
+    region_id: str
+    window_id: str
+    region_kind: RegionKind
     ordered_paragraphs: list[WindowParagraph] = Field(min_length=1)
-    prior_deal_memory: PriorDealMemory
-    extraction_tasks: list[ExtractionTask] = Field(min_length=1)
-    allowed_candidate_types: list[CandidateType] = Field(default_factory=list)
+    coverage_obligations: list[WindowObligation] = Field(min_length=1)
+    allowed_claim_types: list[ClaimType] = Field(min_length=1)
     schema_version: int
     extract_version: int
+    request_mode: str
 
 
-class LLMCandidatePayload(BaseModel):
-    """Flat candidate payload. Used for actor_mention, dated_event, bid_value,
-    participation_count. Relation extraction is not part of the current LLM
-    response schema."""
-
+class ClaimAttribution(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
-    candidate_type: CandidateType
-    raw_value: str
-    normalized_value: str
+    coverage_obligation_ids: list[str] = Field(
+        min_length=1,
+        description="Exact coverage obligation ids this claim supports.",
+    )
+
+
+class ActorClaimPayload(ClaimAttribution):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    claim_type: Literal["actor"]
+    actor_label: str
+    actor_kind: ActorKind
+    observability: ActorObservability
     confidence: Confidence
     quote_text: str
-    dependencies: list[str]
+
+
+class EventClaimPayload(ClaimAttribution):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    claim_type: Literal["event"]
+    event_type: EventType
+    event_subtype: EventSubtype
+    event_date: dt.date | None
+    description: str
+    actor_label: str | None
+    actor_role: EventActorRole | None
+    confidence: Confidence
+    quote_text: str
+
+
+class BidClaimPayload(ClaimAttribution):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    claim_type: Literal["bid"]
+    bidder_label: str
+    bid_date: dt.date | None
+    bid_value: float | None
+    bid_value_lower: float | None
+    bid_value_upper: float | None
+    bid_value_unit: str | None
+    consideration_type: str | None
+    bid_stage: Literal["initial", "revised", "final", "unspecified"]
+    confidence: Confidence
+    quote_text: str
+
+
+class ParticipationCountClaimPayload(ClaimAttribution):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    claim_type: Literal["participation_count"]
+    process_stage: ProcessStage
+    actor_class: ActorClass
+    count_min: int = Field(ge=0)
+    count_max: int | None = Field(default=None, ge=0)
+    count_qualifier: CountQualifier
+    confidence: Confidence
+    quote_text: str
+
+
+class ActorRelationClaimPayload(ClaimAttribution):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    claim_type: Literal["actor_relation"]
+    subject_label: str
+    object_label: str
+    relation_type: RelationType
+    role_detail: str | None
+    effective_date_first: dt.date | None
+    confidence: Confidence
+    quote_text: str
+
+
+class CoverageResultPayload(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    obligation_id: str
+    result: Literal["claims_emitted", "no_supported_claim", "ambiguous"]
+    reason_code: str
+    reason: str
+
+
+class SemanticClaimsPayload(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    actor_claims: list[ActorClaimPayload] = Field(default_factory=list)
+    event_claims: list[EventClaimPayload] = Field(default_factory=list)
+    bid_claims: list[BidClaimPayload] = Field(default_factory=list)
+    participation_count_claims: list[ParticipationCountClaimPayload] = Field(default_factory=list)
+    actor_relation_claims: list[ActorRelationClaimPayload] = Field(default_factory=list)
+    coverage_results: list[CoverageResultPayload] = Field(default_factory=list)
+
+
+class ProviderUsage(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    input_tokens: int | None = None
+    output_tokens: int | None = None
+    token_source: Literal["actual", "estimated"] = "estimated"
 
 
 class LLMExtractionResponse(BaseModel):
-    model_config = ConfigDict(frozen=True)
+    model_config = ConfigDict(frozen=True, extra="forbid")
 
     request_id: str
     provider_name: str
     provider_model: str
     reasoning_effort: ReasoningEffort
-    candidates: list[LLMCandidatePayload]
+    payload: SemanticClaimsPayload
     raw_response_sha256: str
     finish_status: FinishStatus
+    latency_ms: int | None = None
+    attempt_count: int = Field(default=1, ge=1)
+    usage: ProviderUsage = Field(default_factory=ProviderUsage)
 
 
 class LLMProviderConfig(BaseModel):
-    model_config = ConfigDict(frozen=True)
+    model_config = ConfigDict(frozen=True, extra="forbid")
 
     provider_name: Literal["linkflow"]
-    model: str
-    reasoning_effort: ReasoningEffort
+    model: str = "gpt-5.5"
+    reasoning_effort: ReasoningEffort = "high"
     base_url: str = "https://www.linkflow.run/v1"
     api_key_env: str = "LINKFLOW_API_KEY"
-    timeout_seconds: int = 240
+    timeout_seconds: int = 3600

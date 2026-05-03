@@ -1,0 +1,66 @@
+{
+  "estimated_input_tokens": 153274,
+  "finish_status": "provider_incomplete_salvaged",
+  "finished_at": "2026-05-03T18:05:04Z",
+  "input": {
+    "char_count": 610297,
+    "end_line": 3524,
+    "scope": "raw",
+    "sha256": "2878e9d10814feb10721461e050958926fbd903a85ca0889677661bcaa351ec8",
+    "slug": "mac-gray",
+    "source_path": "data/filings/mac-gray/raw.md",
+    "start_line": 1
+  },
+  "latency_ms": 29443,
+  "model": "gpt-5.5",
+  "output": {
+    "claim_count": null,
+    "claim_counts": {},
+    "coverage_complete": false,
+    "coverage_count": null,
+    "duplicate_quotes_within_response": null,
+    "empty_string_date_count": null,
+    "iso_date_count": null,
+    "nonempty_date_count": null,
+    "output_chars": 1832,
+    "output_sha256": "4ac24d1d9c5ad184c5dc4feab55aefe088fbac0bd9520de9ec469cc4395c0762",
+    "parsed_json": false,
+    "pydantic_ok": false,
+    "quote_ambiguous_count": null,
+    "quote_count": null,
+    "quote_match_count": null,
+    "quote_match_rate": null,
+    "quote_miss_count": null,
+    "top_level_keys": [],
+    "validation_error_count": 1,
+    "validation_error_digest": "0f4039fffc819e7c78badaa0dd8e7b77a4eb18b9c3eae4e4cb1671ae2f3ca212"
+  },
+  "prompt_chars": {
+    "system": 1792,
+    "total": 613096,
+    "user": 611304
+  },
+  "prompt_sha256": "cb51ed23e0efee89b898b22e483303d5fdec975c5c538bd6f3ea63c94fe39f65",
+  "provider_host": "www.linkflow.run",
+  "reasoning_effort": "medium",
+  "run_id": "2026-05-03T175805Z_linkflow-p7-matrix_c7a97707aa798218c1bb6ab6204002f87f0955bc6ba14f4fee4864894795f35c",
+  "schema_name": "sec_graph_semantic_claims_p7_matrix",
+  "schema_profile": {
+    "forbidden_keywords": [],
+    "max_depth": 8,
+    "object_nodes": 7,
+    "objects_missing_additional_properties_false": 0,
+    "objects_with_required_mismatch": 0,
+    "schema_valued_additional_properties": 0
+  },
+  "schema_sha256": "19eb4a8a9b617c106051ee126c7aea9c2403cded136cfbd816add4db83287db3",
+  "scope": "raw",
+  "slug": "mac-gray",
+  "stream_status": "missing_response_completed",
+  "usage": {
+    "input_tokens": null,
+    "output_tokens": null,
+    "reasoning_tokens": null,
+    "token_source": "missing"
+  }
+}

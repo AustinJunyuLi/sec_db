@@ -1,31 +1,32 @@
-"""Run ingest, extract, reconcile, validate, project, and snapshot."""
+"""Run the hard-reset evidence/claim/canonical/proof pipeline."""
 
 from __future__ import annotations
 
 import argparse
 import hashlib
 import json
-import re
+import os
 import shutil
 from pathlib import Path
 
 from sec_graph.cli.extract_cmd import llm_config_from_args
+from sec_graph.corpus import create_corpus_skeleton
 from sec_graph.extract.llm.models import LLMProviderConfig
 from sec_graph.extract.pipeline import run_extract
-from sec_graph.ingest.pipeline import (
-    DEFAULT_EXAMPLES_DIR,
-    IngestSource,
-    example_sources,
-    filing_sources,
-    ingest_sources,
-)
-from sec_graph.project.summaries import write_projection_outputs
+from sec_graph.ingest.pipeline import DEFAULT_EXAMPLES_DIR, IngestSource, example_sources, filing_sources, ingest_sources
+from sec_graph.project.summaries import default_cost_envelope_assumptions, observed_deal_metrics, write_projection_outputs
 from sec_graph.reconcile.pipeline import reconcile_all
-from sec_graph.schema import connect, init_schema
-from sec_graph.schema import versions
+from sec_graph.run import (
+    RunClock,
+    RunLock,
+    append_progress,
+    atomic_write_json,
+    config_hash,
+    record_artifact,
+    validate_run_id,
+)
+from sec_graph.schema import connect, init_schema, versions
 from sec_graph.validate.integrity import write_validation_outputs
-
-_RUN_ID_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{6}Z_[a-z0-9-]+_[0-9a-f]{8}$")
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -34,16 +35,141 @@ def build_parser() -> argparse.ArgumentParser:
     group.add_argument("--all", action="store_true", help="run all available filings for the selected source")
     group.add_argument("--slugs", nargs="+", help="deal slugs to run in order")
     parser.add_argument("--source", choices=["examples", "filings"], default="examples", help="input source")
-    parser.add_argument("--db", type=Path, help="optional new working DuckDB path")
+    parser.add_argument("--db", type=Path, help="optional working DuckDB path")
     parser.add_argument("--examples-dir", type=Path, default=DEFAULT_EXAMPLES_DIR, help="example markdown directory")
-    parser.add_argument("--run-dir", type=Path, required=True, help="immutable run artifact directory")
-    parser.add_argument("--run-id", required=True, help="explicit run_id for canonical rows")
+    parser.add_argument("--run-dir", type=Path, required=True, help="run artifact directory")
+    parser.add_argument("--run-id", required=True, help="explicit top-level run id")
+    parser.add_argument("--resume", action="store_true", help="explicit conservative resume")
     parser.add_argument("--projection", default="bidder_cycle_baseline_v1", help="projection name")
-    parser.add_argument("--llm-provider", choices=["linkflow"], help="optional LLM candidate provider")
+    parser.add_argument("--llm-provider", choices=["linkflow"], help="optional LLM typed-claim provider")
     parser.add_argument("--llm-model", default="gpt-5.5", help="LLM model name")
     parser.add_argument("--llm-reasoning-effort", choices=["low", "medium", "high", "xhigh"], default="high")
-    parser.add_argument("--llm-limit", type=int, help="maximum paragraph requests per filing")
+    parser.add_argument("--request-mode", choices=["semantic_claims_v1"], default="semantic_claims_v1")
     return parser
+
+
+def run_pipeline(
+    *,
+    run_id: str,
+    run_dir: Path,
+    source: str,
+    slugs: list[str] | None,
+    projection_name: str,
+    examples_dir: Path = DEFAULT_EXAMPLES_DIR,
+    db_path: Path | None = None,
+    llm_config: LLMProviderConfig | None = None,
+    request_mode: str = "semantic_claims_v1",
+    resume: bool = False,
+) -> dict[str, object]:
+    validate_run_id(run_id)
+    selected_sources = _sources(source, slugs, all_selected=slugs is None, examples_dir=examples_dir)
+    clock = RunClock(run_id)
+    manifest = _manifest_payload(
+        run_id=run_id,
+        source=source,
+        sources=selected_sources,
+        projection_name=projection_name,
+        llm_config=llm_config,
+        request_mode=request_mode,
+        clock=clock,
+    )
+    _validate_resume(run_dir, manifest, resume)
+    with RunLock(run_dir, run_id):
+        manifest_path = run_dir / "run_manifest.json"
+        if not manifest_path.exists():
+            atomic_write_json(manifest_path, manifest)
+            record_artifact(run_dir, run_id=run_id, path=manifest_path, artifact_kind="json_manifest", owning_stage="run_kernel", deal_slug=None, created_by="run_pipeline")
+        working_db = db_path or run_dir / "working.duckdb"
+        if working_db.exists() and not resume:
+            raise FileExistsError(f"{working_db} already exists; pass --resume or choose a new run")
+        if working_db.exists() and resume:
+            working_db.unlink()
+        conn = connect(working_db)
+        init_schema(conn)
+        _insert_manifest(conn, manifest)
+        for source_item in selected_sources:
+            append_progress(run_dir, run_id=run_id, deal_slug=source_item.slug, stage="run", state="queued", attempt=1, recorded_at=clock.timestamp("run", sequence=1))
+        filings = ingest_sources(conn, selected_sources, run_id=run_id)
+        for filing in filings:
+            append_progress(run_dir, run_id=run_id, deal_slug=filing.deal_slug, stage="ingest", state="ingested", attempt=1, recorded_at=clock.timestamp("ingest", sequence=1))
+            claim_ids = run_extract(
+                conn,
+                filing_id=filing.filing_id,
+                run_id=run_id,
+                llm_config=llm_config,
+                request_mode=request_mode,
+            )
+            append_progress(run_dir, run_id=run_id, deal_slug=filing.deal_slug, stage="extract", state="claims_imported", attempt=1, recorded_at=clock.timestamp("extract", sequence=1), artifact_digest=str(len(claim_ids)))
+        reconcile_all(conn, run_id=run_id)
+        for filing in filings:
+            append_progress(run_dir, run_id=run_id, deal_slug=filing.deal_slug, stage="reconcile", state="reconciled", attempt=1, recorded_at=clock.timestamp("reconcile", sequence=1))
+        report = write_validation_outputs(conn, run_dir, allow_existing=True)
+        record_artifact(run_dir, run_id=run_id, path=run_dir / "validation_report.json", artifact_kind="json_report", owning_stage="validate", deal_slug=None, created_by="write_validation_outputs")
+        if not report["passed"]:
+            raise RuntimeError(f"run failed validation; artifacts: {run_dir}")
+        proof = write_projection_outputs(conn, run_dir, run_id=run_id, projection_name=projection_name, allow_existing=True)
+        for artifact in (
+            "proof_summary.json",
+            "bidder_rows.jsonl",
+            "bidder_summary.csv",
+            "coverage_results.csv",
+            "claim_dispositions.csv",
+            "cost_runtime_summary.json",
+            "cost_runtime_summary.csv",
+            "provider_usage_ledger.jsonl",
+            "latency_ledger.jsonl",
+            "run_memo.md",
+        ):
+            record_artifact(run_dir, run_id=run_id, path=run_dir / artifact, artifact_kind="proof_artifact", owning_stage="project", deal_slug=None, created_by="write_projection_outputs")
+        metrics = observed_deal_metrics(conn, run_id)
+        if len(metrics) == 3:
+            corpus_result = create_corpus_skeleton(
+                run_dir=run_dir / "corpus_skeleton",
+                run_id=run_id,
+                deal_slugs=[item.slug for item in selected_sources],
+                observed_metrics=metrics,
+                assumptions=default_cost_envelope_assumptions(),
+            )
+            for path in corpus_result.artifact_paths:
+                record_artifact(
+                    run_dir,
+                    run_id=run_id,
+                    path=path,
+                    artifact_kind="corpus_skeleton_artifact",
+                    owning_stage="corpus",
+                    deal_slug=None,
+                    created_by="create_corpus_skeleton",
+                )
+        for filing in filings:
+            append_progress(run_dir, run_id=run_id, deal_slug=filing.deal_slug, stage="project", state="projected", attempt=1, recorded_at=clock.timestamp("project", sequence=1))
+        conn.close()
+        _atomic_copy(working_db, run_dir / "canonical.duckdb")
+        record_artifact(run_dir, run_id=run_id, path=run_dir / "canonical.duckdb", artifact_kind="duckdb_snapshot", owning_stage="run_kernel", deal_slug=None, created_by="run_pipeline")
+        atomic_write_json(run_dir / "resume_report.json", {"run_id": run_id, "resume": bool(resume), "reused": [], "recomputed": [item.slug for item in selected_sources], "refused": []})
+        return proof
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = build_parser().parse_args(argv)
+    llm_config = llm_config_from_args(args)
+    try:
+        run_pipeline(
+            run_id=args.run_id,
+            run_dir=args.run_dir,
+            source=args.source,
+            slugs=args.slugs if not args.all else None,
+            projection_name=args.projection,
+            examples_dir=args.examples_dir,
+            db_path=args.db,
+            llm_config=llm_config,
+            request_mode=args.request_mode,
+            resume=args.resume,
+        )
+    except Exception as exc:
+        print(str(exc))
+        return 1
+    print(f"run complete; artifacts: {args.run_dir}")
+    return 0
 
 
 def _sources(source: str, slugs: list[str] | None, all_selected: bool, examples_dir: Path) -> list[IngestSource]:
@@ -64,130 +190,87 @@ def _sources(source: str, slugs: list[str] | None, all_selected: bool, examples_
     return filing_sources(slugs)
 
 
-def _run_scope(sources: list[IngestSource]) -> str:
-    if len(sources) == 1:
-        return sources[0].slug
-    return f"{len(sources)}-deals"
-
-
-def _short_input_hash(sources: list[IngestSource]) -> str:
-    digest = hashlib.sha256()
-    for source in sorted(sources, key=lambda item: item.slug):
-        digest.update(source.slug.encode("utf-8"))
-        digest.update(b"\0")
-        digest.update(hashlib.sha256(source.source_path.read_bytes()).hexdigest().encode("ascii"))
-        digest.update(b"\n")
-    return digest.hexdigest()[:8]
-
-
-def _validate_run_id(run_id: str, sources: list[IngestSource]) -> None:
-    if not _RUN_ID_RE.match(run_id):
-        raise ValueError(
-            "run_id must match YYYY-MM-DDTHHMMSSZ_<slug-or-scope>_<short-input-hash>"
-        )
-    expected_suffix = f"_{_run_scope(sources)}_{_short_input_hash(sources)}"
-    if not run_id.endswith(expected_suffix):
-        raise ValueError(
-            f"run_id suffix must be {expected_suffix!r} for the selected inputs"
-        )
-
-
-def _write_manifest(
-    run_dir: Path,
+def _manifest_payload(
     *,
     run_id: str,
     source: str,
-    filings: list[object],
+    sources: list[IngestSource],
     projection_name: str,
     llm_config: LLMProviderConfig | None,
-) -> None:
-    manifest = {
+    request_mode: str,
+    clock: RunClock,
+) -> dict[str, object]:
+    input_hashes = {item.slug: hashlib.sha256(item.source_path.read_bytes()).hexdigest() for item in sources}
+    payload = {
         "run_id": run_id,
+        "run_type": "proof",
         "source": source,
-        "slugs": [getattr(filing, "deal_slug") for filing in filings],
-        "input_hashes": {getattr(filing, "deal_slug"): getattr(filing, "raw_sha256") for filing in filings},
-        "source_paths": {getattr(filing, "deal_slug"): getattr(filing, "source_path") for filing in filings},
+        "slugs": [item.slug for item in sources],
+        "source_manifest_hash": config_hash(input_hashes),
         "projection_name": projection_name,
         "schema_version": versions.SCHEMA_VERSION,
-        "parser_version": versions.PARSER_VERSION,
-        "ingest_version": versions.INGEST_VERSION,
         "extract_version": versions.EXTRACT_VERSION,
         "reconcile_version": versions.RECONCILE_VERSION,
         "validate_version": versions.VALIDATE_VERSION,
         "project_version": versions.PROJECT_VERSION,
-        "llm": None
-        if llm_config is None
-        else {
-            "provider": llm_config.provider_name,
-            "model": llm_config.model,
-            "reasoning_effort": llm_config.reasoning_effort,
-            "base_url": llm_config.base_url,
-        },
+        "provider": llm_config.provider_name if llm_config else None,
+        "model": llm_config.model if llm_config else None,
+        "reasoning_effort": llm_config.reasoning_effort if llm_config else None,
+        "request_modes": [request_mode],
+        "started_at": clock.started_at,
+        "code_identity": _git_head(),
+        "input_hashes": input_hashes,
     }
-    (run_dir / "run_manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True), encoding="utf-8")
+    payload["config_hash"] = config_hash(payload)
+    return payload
 
 
-def run_pipeline(
-    *,
-    run_id: str,
-    run_dir: Path,
-    source: str,
-    slugs: list[str] | None,
-    projection_name: str,
-    examples_dir: Path = DEFAULT_EXAMPLES_DIR,
-    db_path: Path | None = None,
-    llm_config: LLMProviderConfig | None = None,
-    llm_limit: int | None = None,
-) -> dict[str, object]:
-    selected_sources = _sources(source, slugs, all_selected=slugs is None, examples_dir=examples_dir)
-    _validate_run_id(run_id, selected_sources)
-    if run_dir.exists():
-        raise FileExistsError(f"{run_dir} already exists")
-    run_dir.mkdir(parents=True)
-    working_db = db_path or run_dir / "working.duckdb"
-    if working_db.exists():
-        raise FileExistsError(f"{working_db} already exists")
-
-    conn = connect(working_db)
-    init_schema(conn)
-    filings = ingest_sources(conn, selected_sources, run_id=run_id)
-    for filing in filings:
-        run_extract(conn, filing_id=filing.filing_id, run_id=run_id, llm_config=llm_config, llm_limit=llm_limit)
-    reconcile_all(conn, run_id=run_id)
-    _write_manifest(
-        run_dir,
-        run_id=run_id,
-        source=source,
-        filings=filings,
-        projection_name=projection_name,
-        llm_config=llm_config,
+def _insert_manifest(conn, manifest: dict[str, object]) -> None:
+    conn.execute(
+        "INSERT INTO run_manifest VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+            manifest["run_id"],
+            manifest["run_type"],
+            manifest["source_manifest_hash"],
+            manifest["schema_version"],
+            manifest["extract_version"],
+            manifest["reconcile_version"],
+            manifest["validate_version"],
+            manifest["project_version"],
+            manifest["provider"],
+            manifest["model"],
+            manifest["reasoning_effort"],
+            json.dumps(manifest["request_modes"], sort_keys=True),
+            manifest["started_at"],
+            manifest["code_identity"],
+            json.dumps(manifest["input_hashes"], sort_keys=True),
+            manifest["config_hash"],
+        ],
     )
-    report = write_validation_outputs(conn, run_dir, allow_existing=True)
-    if not report["passed"]:
-        raise RuntimeError(f"run failed validation; artifacts: {run_dir}")
-    write_projection_outputs(conn, run_dir, projection_name=projection_name, allow_existing=True)
-    conn.close()
-    shutil.copy2(working_db, run_dir / "canonical.duckdb")
-    return report
 
 
-def main(argv: list[str] | None = None) -> int:
-    args = build_parser().parse_args(argv)
-    llm_config = llm_config_from_args(args)
-    try:
-        run_pipeline(
-            run_id=args.run_id,
-            run_dir=args.run_dir,
-            source=args.source,
-            slugs=args.slugs if not args.all else None,
-            projection_name=args.projection,
-            examples_dir=args.examples_dir,
-            db_path=args.db,
-            llm_config=llm_config,
-            llm_limit=args.llm_limit,
-        )
-    except Exception as exc:
-        print(str(exc))
-        return 1
-    print(f"run complete; artifacts: {args.run_dir}")
-    return 0
+def _validate_resume(run_dir: Path, manifest: dict[str, object], resume: bool) -> None:
+    manifest_path = run_dir / "run_manifest.json"
+    if not run_dir.exists():
+        return
+    if not resume:
+        raise FileExistsError(f"{run_dir} already exists; pass --resume for conservative resume")
+    if not manifest_path.exists():
+        raise RuntimeError("cannot resume run without run_manifest.json")
+    existing = json.loads(manifest_path.read_text(encoding="utf-8"))
+    if existing.get("config_hash") != manifest["config_hash"]:
+        raise RuntimeError("cannot resume run because run configuration or inputs changed")
+
+
+def _atomic_copy(src: Path, dst: Path) -> None:
+    tmp = dst.with_name(f".{dst.name}.tmp")
+    shutil.copy2(src, tmp)
+    os.replace(tmp, dst)
+
+
+def _git_head() -> str | None:
+    git_dir = Path(".git")
+    if not git_dir.exists():
+        return None
+    head = git_dir / "HEAD"
+    return head.read_text(encoding="utf-8").strip() if head.exists() else None

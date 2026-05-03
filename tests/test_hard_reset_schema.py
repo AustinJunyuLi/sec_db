@@ -109,6 +109,56 @@ def test_typed_claims_reconcile_to_source_backed_projection(tmp_path: Path) -> N
     assert (run_dir / "latency_ledger.jsonl").exists()
 
 
+def test_generic_bid_claim_labels_do_not_project_as_named_bidders(tmp_path: Path) -> None:
+    conn = connect(":memory:")
+    init_schema(conn)
+    _insert_generic_bidder_filing(conn, tmp_path)
+
+    build_evidence_map(conn, filing_id="generic-bidder-deal_filing_1", run_id=RUN_ID)
+    window = build_llm_windows(conn, filing_id="generic-bidder-deal_filing_1")[0]
+    insert_llm_response(conn, window, _generic_bidder_response(window), run_id=RUN_ID)
+
+    reconcile_all(conn, run_id=RUN_ID)
+    _insert_projection_leak_candidate(conn)
+    proof = write_projection_outputs(
+        conn,
+        tmp_path / "run",
+        run_id=RUN_ID,
+        projection_name="bidder_cycle_baseline_v1",
+    )
+
+    projected_labels = {
+        row[0]
+        for row in conn.execute(
+            "SELECT actor_label FROM bidder_rows WHERE deal_slug = ?",
+            ["generic-bidder-deal"],
+        ).fetchall()
+    }
+    assert projected_labels == {"Party A"}
+    assert {
+        "five parties",
+        "six of the potentially interested parties",
+        "potential bidders",
+    }.isdisjoint(projected_labels)
+    assert proof["row_counts"]["participation_counts"] >= 2
+
+    disposed_generic_bids = conn.execute(
+        """
+        SELECT bid_claims.bidder_label, claim_dispositions.disposition,
+               claim_dispositions.reason_code
+        FROM bid_claims
+        JOIN claim_dispositions USING (claim_id)
+        WHERE bid_claims.bidder_label <> 'Party A'
+        ORDER BY bid_claims.bidder_label
+        """
+    ).fetchall()
+    assert disposed_generic_bids == [
+        ("five parties", "rejected", "generic_bidder_label_not_projectable"),
+        ("potential bidders", "rejected", "generic_bidder_label_not_projectable"),
+        ("six of the potentially interested parties", "rejected", "generic_bidder_label_not_projectable"),
+    ]
+
+
 def test_location_aware_fingerprint_distinguishes_repeated_text() -> None:
     quote = "same words"
     text_hash = quote_hash(quote)
@@ -331,6 +381,86 @@ def _insert_filing(conn, tmp_path: Path) -> Path:
     return source_path
 
 
+def _insert_generic_bidder_filing(conn, tmp_path: Path) -> Path:
+    text = (
+        "Background of the Merger\n\n"
+        "On January 1, 2020, Party A submitted a final proposal of $10.00 per share. "
+        "On January 2, 2020, five parties submitted preliminary proposals. "
+        "On January 3, 2020, six of the potentially interested parties submitted revised bids. "
+        "Potential bidders were asked to improve proposals. "
+        "The parties executed the merger agreement on January 5, 2020.\n"
+    )
+    source_path = tmp_path / "generic-bidder-deal.md"
+    source_path.write_text(text, encoding="utf-8")
+    filing = CleanFiling(
+        filing_id=make_id("generic-bidder-deal", "filing", 1),
+        deal_slug="generic-bidder-deal",
+        source_path=str(source_path),
+        raw_sha256=quote_hash(text),
+        parser_version=1,
+        page_count=None,
+        section_count=1,
+        process_scope="target_full_proxy",
+    )
+    paragraph = Paragraph(
+        paragraph_id=make_id("generic-bidder-deal", "para", 1),
+        filing_id=filing.filing_id,
+        section="Background of the Merger",
+        page_hint=None,
+        char_start=0,
+        char_end=len(text),
+        paragraph_text=text,
+        paragraph_hash=quote_hash(text),
+    )
+    text_hash = quote_hash(text)
+    span = SourceSpan(
+        evidence_id=make_id("generic-bidder-deal", "evidence", 1),
+        filing_id=filing.filing_id,
+        paragraph_id=paragraph.paragraph_id,
+        span_basis="raw_md",
+        span_kind="paragraph_seed",
+        parent_evidence_id=None,
+        created_by_stage="ingest",
+        char_start=0,
+        char_end=len(text),
+        quote_text=text,
+        quote_text_hash=text_hash,
+        evidence_fingerprint=evidence_fingerprint(filing.filing_id, 0, len(text), text_hash),
+    )
+    conn.execute("INSERT INTO filings VALUES (?, ?, ?, ?, ?, ?, ?, ?)", tuple(filing.model_dump().values()))
+    conn.execute("INSERT INTO paragraphs VALUES (?, ?, ?, ?, ?, ?, ?, ?)", tuple(paragraph.model_dump().values()))
+    conn.execute("INSERT INTO spans VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", tuple(span.model_dump().values()))
+    return source_path
+
+
+def _insert_projection_leak_candidate(conn) -> None:
+    deal_id, cycle_id = conn.execute(
+        """
+        SELECT deals.deal_id, process_cycles.cycle_id
+        FROM deals
+        JOIN process_cycles USING (deal_id)
+        WHERE deals.deal_slug = ?
+        """,
+        ["generic-bidder-deal"],
+    ).fetchone()
+    evidence_id = conn.execute("SELECT evidence_id FROM claim_evidence ORDER BY claim_id LIMIT 1").fetchone()[0]
+    actor_id = make_id("generic-bidder-deal", "actor", 90)
+    event_id = make_id("generic-bidder-deal", "event", 90)
+    link_id = make_id("generic-bidder-deal", "link", 90)
+    conn.execute(
+        "INSERT INTO actors VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [actor_id, RUN_ID, deal_id, "potential bidders", "organization", "named", None, None, None, None],
+    )
+    conn.execute(
+        "INSERT INTO events VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [event_id, RUN_ID, deal_id, cycle_id, "bid", "first_round_bid", None, "generic cohort bid leak", None, None, None, None, None],
+    )
+    conn.execute("INSERT INTO event_actor_links VALUES (?, ?, ?, ?, ?, ?)", [link_id, RUN_ID, event_id, actor_id, "bid_submitter", None])
+    conn.execute("INSERT INTO row_evidence VALUES (?, ?, ?, ?)", ["actors", actor_id, evidence_id, 1])
+    conn.execute("INSERT INTO row_evidence VALUES (?, ?, ?, ?)", ["events", event_id, evidence_id, 1])
+    conn.execute("INSERT INTO row_evidence VALUES (?, ?, ?, ?)", ["event_actor_links", link_id, evidence_id, 1])
+
+
 def _insert_sectioned_filing(conn, sectioned_texts: list[tuple[str, str]]) -> str:
     slug = "sectioned-deal"
     filing_id = make_id(slug, "filing", 1)
@@ -386,6 +516,7 @@ def _response_for_window(window) -> LLMExtractionResponse:
     payload = SemanticClaimsPayload(
         actor_claims=[
             ActorClaimPayload(
+                coverage_obligation_ids=[_first_obligation_id(window, "actor")],
                 claim_type="actor",
                 actor_label="Party A",
                 actor_kind="organization",
@@ -398,6 +529,7 @@ def _response_for_window(window) -> LLMExtractionResponse:
         else [],
         event_claims=[
             EventClaimPayload(
+                coverage_obligation_ids=[_first_obligation_id(window, "event")],
                 claim_type="event",
                 event_type="transaction",
                 event_subtype="merger_agreement_executed",
@@ -413,6 +545,7 @@ def _response_for_window(window) -> LLMExtractionResponse:
         else [],
         bid_claims=[
             BidClaimPayload(
+                coverage_obligation_ids=[_first_obligation_id(window, "bid")],
                 claim_type="bid",
                 bidder_label="Party A",
                 bid_date="2020-01-01",
@@ -423,13 +556,14 @@ def _response_for_window(window) -> LLMExtractionResponse:
                 consideration_type="cash",
                 bid_stage="final",
                 confidence="high",
-                quote_text="$10.00 per share",
+                quote_text="On January 1, 2020, Party A submitted a final proposal of $10.00 per share",
             )
         ]
         if "bid" in allowed
         else [],
         participation_count_claims=[
             ParticipationCountClaimPayload(
+                coverage_obligation_ids=[_first_obligation_id(window, "participation_count")],
                 claim_type="participation_count",
                 process_stage="contacted",
                 actor_class="financial",
@@ -444,6 +578,7 @@ def _response_for_window(window) -> LLMExtractionResponse:
         else [],
         actor_relation_claims=[
             ActorRelationClaimPayload(
+                coverage_obligation_ids=[_first_obligation_id(window, "actor_relation")],
                 claim_type="actor_relation",
                 subject_label="Parent",
                 object_label="Buyer Group",
@@ -466,3 +601,125 @@ def _response_for_window(window) -> LLMExtractionResponse:
         raw_response_sha256=quote_hash(json.dumps(payload.model_dump(mode="json"), sort_keys=True)),
         finish_status="completed",
     )
+
+
+def _generic_bidder_response(window) -> LLMExtractionResponse:
+    event_obligation_id = _first_obligation_id(window, "event")
+    bid_obligation_id = _first_obligation_id(window, "bid")
+    count_obligation_id = _first_obligation_id(window, "participation_count")
+    payload = SemanticClaimsPayload(
+        actor_claims=[],
+        event_claims=[
+            EventClaimPayload(
+                coverage_obligation_ids=[event_obligation_id],
+                claim_type="event",
+                event_type="transaction",
+                event_subtype="merger_agreement_executed",
+                event_date="2020-01-05",
+                description="The parties executed the merger agreement.",
+                actor_label="Party A",
+                actor_role="bid_submitter",
+                confidence="high",
+                quote_text="executed the merger agreement on January 5, 2020",
+            )
+        ],
+        bid_claims=[
+            BidClaimPayload(
+                coverage_obligation_ids=[bid_obligation_id],
+                claim_type="bid",
+                bidder_label="Party A",
+                bid_date="2020-01-01",
+                bid_value=10.0,
+                bid_value_lower=None,
+                bid_value_upper=None,
+                bid_value_unit="per_share",
+                consideration_type="cash",
+                bid_stage="final",
+                confidence="high",
+                quote_text="Party A submitted a final proposal of $10.00 per share",
+            ),
+            BidClaimPayload(
+                coverage_obligation_ids=[bid_obligation_id],
+                claim_type="bid",
+                bidder_label="five parties",
+                bid_date="2020-01-02",
+                bid_value=None,
+                bid_value_lower=None,
+                bid_value_upper=None,
+                bid_value_unit=None,
+                consideration_type=None,
+                bid_stage="initial",
+                confidence="high",
+                quote_text="five parties submitted preliminary proposals",
+            ),
+            BidClaimPayload(
+                coverage_obligation_ids=[bid_obligation_id],
+                claim_type="bid",
+                bidder_label="six of the potentially interested parties",
+                bid_date="2020-01-03",
+                bid_value=None,
+                bid_value_lower=None,
+                bid_value_upper=None,
+                bid_value_unit=None,
+                consideration_type=None,
+                bid_stage="revised",
+                confidence="high",
+                quote_text="six of the potentially interested parties submitted revised bids",
+            ),
+            BidClaimPayload(
+                coverage_obligation_ids=[bid_obligation_id],
+                claim_type="bid",
+                bidder_label="potential bidders",
+                bid_date=None,
+                bid_value=None,
+                bid_value_lower=None,
+                bid_value_upper=None,
+                bid_value_unit=None,
+                consideration_type=None,
+                bid_stage="unspecified",
+                confidence="medium",
+                quote_text="Potential bidders were asked to improve proposals",
+            ),
+        ],
+        participation_count_claims=[
+            ParticipationCountClaimPayload(
+                coverage_obligation_ids=[count_obligation_id],
+                claim_type="participation_count",
+                process_stage="first_round",
+                actor_class="mixed",
+                count_min=5,
+                count_max=None,
+                count_qualifier="exact",
+                confidence="high",
+                quote_text="five parties submitted preliminary proposals",
+            ),
+            ParticipationCountClaimPayload(
+                coverage_obligation_ids=[count_obligation_id],
+                claim_type="participation_count",
+                process_stage="first_round",
+                actor_class="mixed",
+                count_min=6,
+                count_max=None,
+                count_qualifier="exact",
+                confidence="high",
+                quote_text="six of the potentially interested parties submitted revised bids",
+            ),
+        ],
+        actor_relation_claims=[],
+    )
+    return LLMExtractionResponse(
+        request_id=window.request_id,
+        provider_name="linkflow",
+        provider_model="gpt-5.5",
+        reasoning_effort="high",
+        payload=payload,
+        raw_response_sha256=quote_hash(json.dumps(payload.model_dump(mode="json"), sort_keys=True)),
+        finish_status="completed",
+    )
+
+
+def _first_obligation_id(window, claim_type: str) -> str:
+    for obligation in window.coverage_obligations:
+        if obligation.expected_claim_type == claim_type:
+            return obligation.obligation_id
+    raise AssertionError(f"window has no {claim_type} obligation")

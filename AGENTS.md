@@ -16,22 +16,14 @@ projection views.
 
 ## Current Authority Chain
 
-These three documents form the active authority chain. Read them before any
+These documents form the active authority chain. Read them before any
 non-trivial change:
 
+- `docs/superpowers/specs/2026-05-03-pipeline-hard-reset-design.md` is the
+  full-pipeline authority for the hard reset.
 - `docs/spec.md` is the binding design and schema contract. §1A is the
   deployable-schema authority.
-- `quality_reports/plans/2026-05-02_stale-scaffold-hard-cleanse-repair-plan.md`
-  is the executing cleanup-and-repair plan. It is in force until every phase
-  inside it is complete.
-- `quality_reports/plans/2026-05-02_deployable-canonical-pipeline-goal.md` is
-  the goal-handoff document for the live deployable proof.
-
-The companion implementation plan
-`quality_reports/plans/2026-05-02_deployable-canonical-pipeline-plan.md`
-is read alongside the goal handoff. The earlier
-`quality_reports/plans/2026-05-02_parallel-execution-plan.md` is no longer
-execution authority and is being deleted as part of the hard-cleanse.
+- `docs/llm-interface.md` is the Linkflow typed-claim interface contract.
 
 `docs/prior-pipeline-lessons.md` is failure-mode context from the previous
 attempt and informs spec invariants but is not execution authority.
@@ -40,9 +32,7 @@ attempt and informs spec invariants but is not execution authority.
 
 - `docs/spec.md` — binding design, schema invariants, build order, slicing
   rules, fail-loud contracts.
-- `docs/llm-interface.md` — Linkflow/LLM interface contract. The LLM interface
-  exists but is being repaired from paragraph-local requests to within-deal
-  narrative windows.
+- `docs/llm-interface.md` — Linkflow/LLM typed-claim interface contract.
 - `data/examples/` contains four trimmed example filings used for unit-level
   fixtures, not as pipeline proof.
 - `data/filings/` contains downloaded EDGAR artifacts produced by the local

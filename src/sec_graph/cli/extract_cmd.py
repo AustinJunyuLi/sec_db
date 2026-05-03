@@ -17,10 +17,16 @@ def build_parser() -> argparse.ArgumentParser:
     group.add_argument("--filing-id", help="extract one filing by filing_id")
     group.add_argument("--all", action="store_true", help="extract every filing in the DB")
     parser.add_argument("--db", type=Path, default=DEFAULT_DB_PATH, help="DuckDB input/output path")
-    parser.add_argument("--llm-provider", choices=["linkflow"], help="optional LLM candidate provider")
+    parser.add_argument("--run-id", required=True, help="explicit top-level run id")
+    parser.add_argument("--llm-provider", choices=["linkflow"], help="optional LLM typed-claim provider")
     parser.add_argument("--llm-model", default="gpt-5.5", help="LLM model name")
     parser.add_argument("--llm-reasoning-effort", choices=["low", "medium", "high", "xhigh"], default="high")
-    parser.add_argument("--llm-limit", type=int, help="maximum paragraph requests per filing")
+    parser.add_argument(
+        "--request-mode",
+        choices=["semantic_claims_v1"],
+        default="semantic_claims_v1",
+        help="fixed semantic claim request mode",
+    )
     return parser
 
 
@@ -45,6 +51,12 @@ def main(argv: list[str] | None = None) -> int:
     )
     llm_config = llm_config_from_args(args)
     for filing_id in filing_ids:
-        run_extract(conn, filing_id=filing_id, llm_config=llm_config, llm_limit=args.llm_limit)
-    print(f"extracted candidates for {len(filing_ids)} filing(s)")
+        run_extract(
+            conn,
+            filing_id=filing_id,
+            run_id=args.run_id,
+            llm_config=llm_config,
+            request_mode=args.request_mode,
+        )
+    print(f"extracted typed claims for {len(filing_ids)} filing(s)")
     return 0

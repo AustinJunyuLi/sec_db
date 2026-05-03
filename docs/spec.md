@@ -33,9 +33,10 @@ obligations for supported sale-process claims.
 Single-paragraph request surfaces and bounded snippets are not production LLM
 extraction scope. Whole filing extraction is also not production mode and
 must not be used as a fallback. Python owns source coordinates: Linkflow returns
-typed claims with exact quote text only, and Python rejects absent, mismatched,
-or ambiguous quote binding before any claim can become canonical source proof.
-The V0 binder accepts contiguous quote text copied from one ordered paragraph.
+typed claims with exact quote text and explicit `coverage_obligation_ids`; Python
+rejects absent, mismatched, ambiguous, or wrongly attributed quote binding before
+any claim can become canonical source proof. The V0 binder accepts contiguous
+quote text copied from one ordered paragraph.
 
 ## Schema Authority
 
@@ -90,6 +91,8 @@ missed
 ```
 
 Python assigns `missed` when Linkflow fails to account for an obligation.
+`claims_emitted` is assigned only when a validated claim explicitly names that
+specific obligation id. A broad claim-type match is not coverage proof.
 
 ## Canonical Graph
 

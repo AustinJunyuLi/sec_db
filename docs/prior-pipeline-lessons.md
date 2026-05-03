@@ -352,29 +352,29 @@ does not exist, validation should flag the missing prerequisite upstream.
 
 ## Appendix: Forensic Evidence From The Prior Pipeline
 
-This appendix names the prior project explicitly so future maintainers can audit
-where the lessons came from. The main body above is the transfer lesson; this
-section is the evidence ledger.
+This appendix summarizes the prior implementation areas that produced the
+lessons above. It intentionally avoids external repository paths so this project
+remains self-contained; the main body above is the transferable lesson, and
+this section is the evidence ledger.
 
 ### Prior files that carried the burden
 
-- `/Users/austinli/bids_try/pipeline/core.py`: deterministic preparation,
-  validation, bidder-registry rebuilding, finalization, state writes, and many
-  schema invariants.
-- `/Users/austinli/bids_try/pipeline/llm/extract.py`: prompt construction,
-  strict Responses calls, tool replay, repair loop control, and repair context
-  assembly.
-- `/Users/austinli/bids_try/pipeline/obligations.py`: deterministic
-  filing-derived obligations for exact counts, final-round counts, buyer-group
-  constituents, and late-member inherited NDA requirements.
-- `/Users/austinli/bids_try/pipeline/repair_conservation.py`: protection
-  against repair outputs deleting unrelated valid chronology.
-- `/Users/austinli/bids_try/pipeline/stability.py`: immutable archive analysis
-  and target-gate proof construction.
-- `/Users/austinli/bids_try/pipeline/reconcile.py`: read-only consistency check
-  across progress, latest output, flags, and audit archives.
-- `/Users/austinli/bids_try/scoring/diff.py`: human-review comparison aid
-  between AI output and Alex reference rows.
+- Prior pipeline core module: deterministic preparation, validation,
+  bidder-registry rebuilding, finalization, state writes, and many schema
+  invariants.
+- Prior LLM extraction module: prompt construction, strict provider calls, tool
+  replay, repair loop control, and repair context assembly.
+- Prior obligation module: deterministic filing-derived obligations for exact
+  counts, final-round counts, buyer-group constituents, and late-member
+  inherited NDA requirements.
+- Prior repair-conservation module: protection against repair outputs deleting
+  unrelated valid chronology.
+- Prior stability module: immutable archive analysis and target-gate proof
+  construction.
+- Prior reconcile module: read-only consistency checks across progress, latest
+  output, flags, and audit archives.
+- Prior scoring/diff module: human-review comparison aid between AI output and
+  reference rows.
 
 ### Commit evidence
 

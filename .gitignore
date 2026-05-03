@@ -3,6 +3,7 @@
 .venv/
 .worktrees/
 data/pipeline.duckdb
+data/filings/
 __pycache__/
 .pytest_cache/
 .ruff_cache/

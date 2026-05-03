@@ -41,10 +41,11 @@ The model returns strict JSON with typed families:
 - `actor_relation_claims`;
 - `coverage_results`.
 
-Every claim includes exact `quote_text`. The model never returns source
-coordinates, canonical ids, projection rows, or provider-specific canonical
-fields. V0 quote binding accepts contiguous quote text copied from one ordered
-paragraph.
+Every claim includes exact `quote_text` and one or more
+`coverage_obligation_ids` naming the specific obligations supported by that
+claim. The model never returns source coordinates, canonical ids, projection
+rows, or provider-specific canonical fields. V0 quote binding accepts contiguous
+quote text copied from one ordered paragraph.
 
 ## Python Proof
 
@@ -55,7 +56,14 @@ Python validates every provider result before insertion:
 3. Each `quote_text` resolves uniquely in the assembled source window.
 4. The quote resolves to source spans owned by Python.
 5. Closed enums validate.
-6. The claim is inserted with relational `claim_evidence`.
+6. Each claim's `coverage_obligation_ids` exist in the request and match the
+   claim's type.
+7. The claim is inserted with relational `claim_evidence`.
+
+Coverage proof is obligation-specific. Python assigns `claims_emitted` only
+from validated claim-to-obligation links, never from broad `claim_type` counts.
+Provider `coverage_results` may account for unsupported or ambiguous obligations
+only when no validated claim links to that obligation.
 
 The same quote may support multiple distinct claims when the source text
 warrants that reuse. Quote reuse across claims is valid only when the quote

@@ -1,43 +1,37 @@
-"""Extraction orchestration with optional within-deal LLM augmentation."""
+"""Hard-reset extraction orchestration."""
 
 from __future__ import annotations
 
 import duckdb
 
+from sec_graph.extract.evidence_map import build_evidence_map
 from sec_graph.extract.llm.models import LLMProviderConfig
-from sec_graph.extract.rules import _utc_run_id, run_rules
 
 
 def run_extract(
     conn: duckdb.DuckDBPyConnection,
+    *,
     filing_id: str,
-    run_id: str | None = None,
+    run_id: str,
     llm_config: LLMProviderConfig | None = None,
-    llm_limit: int | None = None,
-):
-    """Run rule extraction, optionally augmented by within-deal LLM windows.
+    request_mode: str = "semantic_claims_v1",
+) -> list[str]:
+    """Build evidence map and import typed claims.
 
-    The LLM path uses build_llm_windows: one provider request per ordered
-    within-deal narrative window, with quotes locally resolved against the
-    underlying paragraph source spans.
-
-    `run_id` is optional. When absent, this function synthesizes one generic
-    stage id and uses it for both rules and LLM candidates.
+    Rules-only mode records evidence-map obligations only. It is allowed for
+    offline tests but cannot produce a SOUND proof verdict.
     """
 
-    if run_id is None:
-        run_id = _utc_run_id("extract")
-    candidates = run_rules(conn, filing_id=filing_id, run_id=run_id)
+    build_evidence_map(conn, filing_id=filing_id, run_id=run_id)
     if llm_config is None:
-        return candidates
+        return []
 
     from sec_graph.extract.llm.linkflow import run_linkflow_requests
 
-    llm_candidates = run_linkflow_requests(
+    return run_linkflow_requests(
         conn,
         filing_id=filing_id,
         run_id=run_id,
         config=llm_config,
-        limit=llm_limit,
+        request_mode=request_mode,
     )
-    return [*candidates, *llm_candidates]
