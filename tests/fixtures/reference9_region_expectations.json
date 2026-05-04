@@ -4,56 +4,56 @@
   "deals": {
     "providence-worcester": {
       "regions": [
-        {"section": "Background of the Merger", "min_paragraphs": 20, "max_paragraphs": 80}
+        {"section": "Background of the Merger", "region_kind": "sale_process_narrative", "min_paragraphs": 20, "max_paragraphs": 80}
       ],
       "process_scope": "target_full_proxy"
     },
     "medivation": {
       "regions": [
-        {"section": "Background of the Offer", "min_paragraphs": 20, "max_paragraphs": 80},
-        {"section": "Past Contacts, Transactions, Negotiations and Agreements", "min_paragraphs": 2, "max_paragraphs": 30}
+        {"section": "Background of the Offer", "region_kind": "sale_process_narrative", "min_paragraphs": 20, "max_paragraphs": 80},
+        {"section": "Past Contacts, Transactions, Negotiations and Agreements", "region_kind": "sale_process_narrative", "min_paragraphs": 2, "max_paragraphs": 30}
       ],
       "process_scope": "bidder_partial_schedule_to"
     },
     "imprivata": {
       "regions": [
-        {"section": "Background of the Merger", "min_paragraphs": 30, "max_paragraphs": 200}
+        {"section": "Background of the Merger", "region_kind": "sale_process_narrative", "min_paragraphs": 30, "max_paragraphs": 200}
       ],
       "process_scope": "target_full_proxy"
     },
     "zep": {
       "regions": [
-        {"section": "Background of the Merger", "min_paragraphs": 30, "max_paragraphs": 200}
+        {"section": "Background of the Merger", "region_kind": "sale_process_narrative", "min_paragraphs": 30, "max_paragraphs": 200}
       ],
       "process_scope": "target_full_proxy"
     },
     "petsmart-inc": {
       "regions": [
-        {"section": "Background of the Merger", "min_paragraphs": 20, "max_paragraphs": 200}
+        {"section": "Background of the Merger", "region_kind": "sale_process_narrative", "min_paragraphs": 20, "max_paragraphs": 200}
       ],
       "process_scope": "target_full_proxy"
     },
     "penford": {
       "regions": [
-        {"section": "Background of the Merger", "min_paragraphs": 30, "max_paragraphs": 200}
+        {"section": "Background of the Merger", "region_kind": "sale_process_narrative", "min_paragraphs": 30, "max_paragraphs": 200}
       ],
       "process_scope": "target_full_proxy"
     },
     "mac-gray": {
       "regions": [
-        {"section": "Background of the Merger", "min_paragraphs": 30, "max_paragraphs": 200}
+        {"section": "Background of the Merger", "region_kind": "sale_process_narrative", "min_paragraphs": 30, "max_paragraphs": 200}
       ],
       "process_scope": "target_full_proxy"
     },
     "saks": {
       "regions": [
-        {"section": "Background of the Merger", "min_paragraphs": 30, "max_paragraphs": 200}
+        {"section": "Background of the Merger", "region_kind": "sale_process_narrative", "min_paragraphs": 30, "max_paragraphs": 200}
       ],
       "process_scope": "target_full_proxy"
     },
     "stec": {
       "regions": [
-        {"section": "Background of the Merger", "min_paragraphs": 30, "max_paragraphs": 200}
+        {"section": "Background of the Merger", "region_kind": "sale_process_narrative", "min_paragraphs": 30, "max_paragraphs": 200}
       ],
       "process_scope": "target_full_proxy"
     }

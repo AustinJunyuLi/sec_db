@@ -140,6 +140,39 @@ def test_inapplicable_obligations_are_recorded_and_excluded_from_window() -> Non
     assert len(window_kinds) == len(applicable)
 
 
+def test_window_allowed_claim_types_are_derived_from_applicable_obligations() -> None:
+    conn = connect(":memory:")
+    init_schema(conn)
+    filing_id = _insert_minimal_filing(conn)
+    build_evidence_map(conn, filing_id=filing_id, run_id=RUN_ID)
+
+    conn.execute(
+        """
+        UPDATE evidence_regions
+        SET expected_claim_types_json = ?
+        WHERE filing_id = ?
+        """,
+        [json.dumps(["actor_relation"]), filing_id],
+    )
+    conn.execute(
+        """
+        UPDATE coverage_obligations
+        SET applicability = 'not_applicable'
+        WHERE filing_id = ? AND expected_claim_type = 'actor_relation'
+        """,
+        [filing_id],
+    )
+
+    [window] = build_llm_windows(conn, filing_id=filing_id)
+
+    assert "actor_relation" not in window.allowed_claim_types
+    assert window.allowed_claim_types == [
+        "event",
+        "actor",
+        "bid",
+    ]
+
+
 def test_medivation_tender_offer_scope_drives_applicability() -> None:
     """The tender-offer-only obligation applies to medivation but no others.
 

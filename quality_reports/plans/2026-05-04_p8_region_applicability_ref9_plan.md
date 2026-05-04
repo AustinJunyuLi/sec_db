@@ -319,7 +319,8 @@ Required behavior:
 - `allowed_claim_types` is derived from the obligations in that window.
 - Actor-relation obligations are generated when source signals justify them,
   especially:
-  - `buyer_group_member_of`
+  - buyer-group composition relations using the active enum values
+    `member_of`, `affiliate_of`, `controls`, and `acquisition_vehicle_of`
   - `rollover_holder_for`
   - `voting_support_for`
   - `committee_member_of`

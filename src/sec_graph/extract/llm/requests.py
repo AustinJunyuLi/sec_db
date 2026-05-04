@@ -20,8 +20,7 @@ def build_llm_windows(
         raise ValueError(f"unsupported LLM request_mode {request_mode!r}; expected {DEFAULT_REQUEST_MODE!r}")
     rows = conn.execute(
         """
-        SELECT region_id, run_id, deal_slug, region_kind, paragraph_ids_json,
-               expected_claim_types_json
+        SELECT region_id, run_id, deal_slug, region_kind, paragraph_ids_json
         FROM evidence_regions
         WHERE filing_id = ?
         ORDER BY priority, region_id
@@ -29,11 +28,13 @@ def build_llm_windows(
         [filing_id],
     ).fetchall()
     windows: list[LLMWindowRequest] = []
-    for sequence, (region_id, _run_id, deal_slug, region_kind, paragraph_ids_json, expected_claim_types_json) in enumerate(rows, start=1):
+    for sequence, (region_id, _run_id, deal_slug, region_kind, paragraph_ids_json) in enumerate(rows, start=1):
         paragraph_ids = json.loads(paragraph_ids_json)
         paragraphs = _window_paragraphs(conn, paragraph_ids)
         obligations = _window_obligations(conn, region_id)
-        allowed_claim_types = json.loads(expected_claim_types_json)
+        allowed_claim_types = _ordered_unique(
+            obligation.expected_claim_type for obligation in obligations
+        )
         windows.append(
             LLMWindowRequest(
                 request_id=f"{deal_slug}_llmrequest_{sequence}",
@@ -106,3 +107,11 @@ def _window_obligations(
         )
         for row in rows
     ]
+
+
+def _ordered_unique(values) -> list[str]:
+    seen: list[str] = []
+    for value in values:
+        if value not in seen:
+            seen.append(value)
+    return seen

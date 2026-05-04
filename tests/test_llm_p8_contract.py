@@ -1,7 +1,10 @@
-from sec_graph.extract.llm.linkflow import _response_payload
+import json
+
+from sec_graph.extract.llm.linkflow import _parse_payload, _response_payload
 from sec_graph.extract.llm.models import (
     ActorRelationClaimPayload,
     DEFAULT_REQUEST_MODE,
+    LLMContractError,
     LLMProviderConfig,
     LLMWindowRequest,
     WindowObligation,
@@ -109,7 +112,7 @@ def _all_claim_type_window_request() -> LLMWindowRequest:
     )
 
 
-def _all_relation_enum_window_request() -> LLMWindowRequest:
+def _committee_recusal_relation_window_request() -> LLMWindowRequest:
     return LLMWindowRequest(
         request_id="smoke_llmrequest_relation_1",
         deal_slug="smoke-deal",
@@ -131,8 +134,89 @@ def _all_relation_enum_window_request() -> LLMWindowRequest:
             WindowObligation(
                 obligation_id="obl_relation_1",
                 expected_claim_type="actor_relation",
-                obligation_label="Voting support relation",
+                obligation_label="Special committee membership",
                 importance="required",
+            ),
+            WindowObligation(
+                obligation_id="obl_relation_2",
+                expected_claim_type="actor_relation",
+                obligation_label="Recusal from sale process",
+                importance="required",
+            ),
+        ],
+        allowed_claim_types=["actor_relation"],
+        schema_version=1,
+        extract_version=1,
+        request_mode=DEFAULT_REQUEST_MODE,
+    )
+
+
+def _specific_relation_window_request() -> LLMWindowRequest:
+    return LLMWindowRequest(
+        request_id="smoke_llmrequest_relation_specific_1",
+        deal_slug="smoke-deal",
+        deal_id="smoke-deal",
+        filing_id="smoke-deal_filing_1",
+        region_id="smoke-deal_region_1",
+        window_id="smoke-deal_window_relation_specific_1",
+        region_kind="sale_process_narrative",
+        ordered_paragraphs=[
+            WindowParagraph(
+                paragraph_id="p1",
+                source_span_id="span1",
+                char_start=0,
+                char_end=180,
+                paragraph_text=(
+                    "Shareholder agreed to vote for the merger and Holder agreed "
+                    "to rollover equity in Parent."
+                ),
+            )
+        ],
+        coverage_obligations=[
+            WindowObligation(
+                obligation_id="obl_relation_1",
+                expected_claim_type="actor_relation",
+                obligation_label="Voting support agreement",
+                importance="important",
+            ),
+            WindowObligation(
+                obligation_id="obl_relation_2",
+                expected_claim_type="actor_relation",
+                obligation_label="Rollover holder",
+                importance="important",
+            ),
+        ],
+        allowed_claim_types=["actor_relation"],
+        schema_version=1,
+        extract_version=1,
+        request_mode=DEFAULT_REQUEST_MODE,
+    )
+
+
+def _unknown_relation_window_request() -> LLMWindowRequest:
+    return LLMWindowRequest(
+        request_id="smoke_llmrequest_relation_unknown_1",
+        deal_slug="smoke-deal",
+        deal_id="smoke-deal",
+        filing_id="smoke-deal_filing_1",
+        region_id="smoke-deal_region_1",
+        window_id="smoke-deal_window_relation_unknown_1",
+        region_kind="sale_process_narrative",
+        ordered_paragraphs=[
+            WindowParagraph(
+                paragraph_id="p1",
+                source_span_id="span1",
+                char_start=0,
+                char_end=120,
+                paragraph_text="Shareholder agreed to vote shares for the merger.",
+            )
+        ],
+        coverage_obligations=[
+            WindowObligation(
+                obligation_id="obl_relation_1",
+                expected_claim_type="actor_relation",
+                obligation_label="Voting support relation",
+                importance="important",
             ),
         ],
         allowed_claim_types=["actor_relation"],
@@ -205,24 +289,43 @@ def test_linkflow_payload_constrains_obligation_id_by_claim_family() -> None:
     assert schema["properties"]["bid_claims"]["items"]["properties"]["bid_stage"]["enum"] == ["final"]
 
 
-def test_linkflow_payload_full_actor_relation_enum_for_general_relation_requests() -> None:
-    payload = _response_payload(_all_relation_enum_window_request(), LLMProviderConfig(provider_name="linkflow"))
+def test_linkflow_payload_constrains_committee_and_recusal_relation_enums() -> None:
+    payload = _response_payload(
+        _committee_recusal_relation_window_request(),
+        LLMProviderConfig(provider_name="linkflow"),
+    )
     relation_enum = payload["text"]["format"]["schema"]["properties"]["actor_relation_claims"]["items"]["properties"][
         "relation_type"
     ]["enum"]
 
     assert relation_enum == [
-        "member_of",
-        "affiliate_of",
-        "controls",
-        "acquisition_vehicle_of",
-        "advises",
-        "finances",
-        "supports",
-        "voting_support_for",
-        "rollover_holder_for",
         "committee_member_of",
         "recused_from",
+    ]
+
+
+def test_unmapped_relation_obligation_label_fails_loudly() -> None:
+    try:
+        _response_payload(
+            _unknown_relation_window_request(),
+            LLMProviderConfig(provider_name="linkflow"),
+        )
+    except LLMContractError as exc:
+        assert "unmapped actor-relation obligation label" in str(exc)
+        assert "Voting support relation" in str(exc)
+    else:
+        raise AssertionError("unmapped actor-relation obligation labels must not widen the schema")
+
+
+def test_linkflow_payload_constrains_relation_enum_from_relation_obligations() -> None:
+    payload = _response_payload(_specific_relation_window_request(), LLMProviderConfig(provider_name="linkflow"))
+    relation_enum = payload["text"]["format"]["schema"]["properties"]["actor_relation_claims"]["items"]["properties"][
+        "relation_type"
+    ]["enum"]
+
+    assert relation_enum == [
+        "voting_support_for",
+        "rollover_holder_for",
     ]
 
 
@@ -263,6 +366,88 @@ def test_claim_payload_requires_scalar_coverage_obligation_id() -> None:
         assert "coverage_obligation_id" in str(exc)
     else:
         raise AssertionError("legacy coverage_obligation_ids list must be rejected")
+
+
+def test_parse_payload_rejects_provider_coverage_results() -> None:
+    payload = {
+        "actor_claims": [],
+        "event_claims": [],
+        "bid_claims": [],
+        "participation_count_claims": [],
+        "actor_relation_claims": [],
+        "coverage_results": [],
+    }
+
+    try:
+        _parse_payload(json.dumps(payload))
+    except LLMContractError as exc:
+        assert "coverage_results" in str(exc)
+    else:
+        raise AssertionError("provider-owned coverage_results must be rejected")
+
+
+def test_parse_payload_rejects_legacy_scalar_research_fields() -> None:
+    payload = {
+        "actor_claims": [
+            {
+                "coverage_obligation_id": "obl_actor_1",
+                "claim_type": "actor",
+                "actor_label": "Party A",
+                "actor_kind": "organization",
+                "observability": "named",
+                "confidence": "high",
+                "quote_text": "Party A submitted a proposal.",
+                "actor_class": "financial",
+            }
+        ],
+        "event_claims": [
+            {
+                "coverage_obligation_id": "obl_event_1",
+                "claim_type": "event",
+                "event_type": "process",
+                "event_subtype": "contact_initial",
+                "event_date": None,
+                "description": "The process began.",
+                "actor_label": None,
+                "actor_role": None,
+                "confidence": "high",
+                "quote_text": "The process began.",
+                "drop_agency": "bidder",
+                "drop_reason": "price",
+                "initiation_side": "target",
+            }
+        ],
+        "bid_claims": [
+            {
+                "coverage_obligation_id": "obl_bid_1",
+                "claim_type": "bid",
+                "bidder_label": "Party A",
+                "bid_date": None,
+                "bid_value": 10.0,
+                "bid_value_lower": None,
+                "bid_value_upper": None,
+                "bid_value_unit": "per_share",
+                "consideration_type": "cash",
+                "bid_stage": "final",
+                "confidence": "high",
+                "quote_text": "$10.00 per share",
+                "bid_formality": "formal",
+                "proposal_scope": "whole_company",
+            }
+        ],
+        "participation_count_claims": [],
+        "actor_relation_claims": [],
+    }
+
+    try:
+        _parse_payload(json.dumps(payload))
+    except LLMContractError as exc:
+        message = str(exc)
+        assert "actor_class" in message
+        assert "drop_agency" in message
+        assert "bid_formality" in message
+    else:
+        raise AssertionError("legacy scalar research fields must be rejected")
 
 
 def test_prompt_limits_claims_to_listed_obligations() -> None:

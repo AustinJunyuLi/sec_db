@@ -283,6 +283,8 @@ def test_new_actor_relation_labels_insert_reconcile_validate_and_canonicalize(tm
         """
         SELECT disposition, reason_code
         FROM claim_dispositions
+        JOIN claims USING (claim_id)
+        WHERE claims.claim_type = 'actor_relation'
         ORDER BY claim_id
         """
     ).fetchall()
@@ -527,6 +529,8 @@ def _insert_generic_bidder_filing(conn, tmp_path: Path) -> Path:
 def _insert_relation_label_filing(conn, tmp_path: Path) -> Path:
     text = (
         "Background of the Merger\n\n"
+        "On January 1, 2020, Party A submitted a final proposal of $10.00 per share. "
+        "The parties executed the merger agreement on January 5, 2020. "
         "Shareholder A entered into a voting agreement in support of Parent. "
         "Rollover Holder agreed to rollover equity into Parent. "
         "Director B was appointed to the special committee. "
@@ -654,85 +658,32 @@ def _insert_sectioned_filing(conn, sectioned_texts: list[tuple[str, str]]) -> st
 
 
 def _response_for_window(window) -> LLMExtractionResponse:
-    allowed = set(window.allowed_claim_types)
     payload = SemanticClaimsPayload(
         actor_claims=[
-            ActorClaimPayload(
-                coverage_obligation_id=_first_obligation_id(window, "actor"),
-                claim_type="actor",
-                actor_label="Party A",
-                actor_kind="organization",
-                observability="named",
-                confidence="high",
-                quote_text="Party A submitted a final proposal",
-            )
-        ]
-        if "actor" in allowed
-        else [],
+            _actor_claim_for_obligation(obligation)
+            for obligation in window.coverage_obligations
+            if obligation.expected_claim_type == "actor"
+        ],
         event_claims=[
-            EventClaimPayload(
-                coverage_obligation_id=_first_obligation_id(window, "event"),
-                claim_type="event",
-                event_type="transaction",
-                event_subtype="merger_agreement_executed",
-                event_date="2020-01-05",
-                description="The parties executed the merger agreement.",
-                actor_label="Party A",
-                actor_role="bid_submitter",
-                confidence="high",
-                quote_text="executed the merger agreement on January 5, 2020",
-            )
-        ]
-        if "event" in allowed
-        else [],
+            _event_claim_for_obligation(obligation)
+            for obligation in window.coverage_obligations
+            if obligation.expected_claim_type == "event"
+        ],
         bid_claims=[
-            BidClaimPayload(
-                coverage_obligation_id=_first_obligation_id(window, "bid"),
-                claim_type="bid",
-                bidder_label="Party A",
-                bid_date="2020-01-01",
-                bid_value=10.0,
-                bid_value_lower=None,
-                bid_value_upper=None,
-                bid_value_unit="per_share",
-                consideration_type="cash",
-                bid_stage="final",
-                confidence="high",
-                quote_text="On January 1, 2020, Party A submitted a final proposal of $10.00 per share",
-            )
-        ]
-        if "bid" in allowed
-        else [],
+            _bid_claim_for_obligation(obligation)
+            for obligation in window.coverage_obligations
+            if obligation.expected_claim_type == "bid"
+        ],
         participation_count_claims=[
-            ParticipationCountClaimPayload(
-                coverage_obligation_id=_first_obligation_id(window, "participation_count"),
-                claim_type="participation_count",
-                process_stage="contacted",
-                actor_class="financial",
-                count_min=10,
-                count_max=None,
-                count_qualifier="exact",
-                confidence="high",
-                quote_text="contacted 10 financial buyers",
-            )
-        ]
-        if "participation_count" in allowed
-        else [],
+            _participation_count_claim_for_obligation(obligation)
+            for obligation in window.coverage_obligations
+            if obligation.expected_claim_type == "participation_count"
+        ],
         actor_relation_claims=[
-            ActorRelationClaimPayload(
-                coverage_obligation_id=_first_obligation_id(window, "actor_relation"),
-                claim_type="actor_relation",
-                subject_label="Parent",
-                object_label="Buyer Group",
-                relation_type="acquisition_vehicle_of",
-                role_detail="acquisition vehicle",
-                effective_date_first=None,
-                confidence="high",
-                quote_text="Parent was an acquisition vehicle of Buyer Group",
-            )
-        ]
-        if "actor_relation" in allowed
-        else [],
+            _buyer_group_relation_claim_for_obligation(obligation)
+            for obligation in window.coverage_obligations
+            if obligation.expected_claim_type == "actor_relation"
+        ],
     )
     return LLMExtractionResponse(
         request_id=window.request_id,
@@ -746,11 +697,25 @@ def _response_for_window(window) -> LLMExtractionResponse:
 
 
 def _relation_label_response(window) -> LLMExtractionResponse:
-    obligation_id = _first_obligation_id(window, "actor_relation")
     payload = SemanticClaimsPayload(
+        actor_claims=[
+            _actor_claim_for_obligation(obligation)
+            for obligation in window.coverage_obligations
+            if obligation.expected_claim_type == "actor"
+        ],
+        event_claims=[
+            _event_claim_for_obligation(obligation)
+            for obligation in window.coverage_obligations
+            if obligation.expected_claim_type == "event"
+        ],
+        bid_claims=[
+            _bid_claim_for_obligation(obligation)
+            for obligation in window.coverage_obligations
+            if obligation.expected_claim_type == "bid"
+        ],
         actor_relation_claims=[
             ActorRelationClaimPayload(
-                coverage_obligation_id=obligation_id,
+                coverage_obligation_id=_obligation_id_by_label(window, "Voting support agreement"),
                 claim_type="actor_relation",
                 subject_label="Shareholder A",
                 object_label="Parent",
@@ -761,7 +726,7 @@ def _relation_label_response(window) -> LLMExtractionResponse:
                 quote_text="Shareholder A entered into a voting agreement in support of Parent",
             ),
             ActorRelationClaimPayload(
-                coverage_obligation_id=obligation_id,
+                coverage_obligation_id=_obligation_id_by_label(window, "Rollover holder"),
                 claim_type="actor_relation",
                 subject_label="Rollover Holder",
                 object_label="Parent",
@@ -772,7 +737,7 @@ def _relation_label_response(window) -> LLMExtractionResponse:
                 quote_text="Rollover Holder agreed to rollover equity into Parent",
             ),
             ActorRelationClaimPayload(
-                coverage_obligation_id=obligation_id,
+                coverage_obligation_id=_obligation_id_by_label(window, "Special committee membership"),
                 claim_type="actor_relation",
                 subject_label="Director B",
                 object_label="special committee",
@@ -783,7 +748,7 @@ def _relation_label_response(window) -> LLMExtractionResponse:
                 quote_text="Director B was appointed to the special committee",
             ),
             ActorRelationClaimPayload(
-                coverage_obligation_id=obligation_id,
+                coverage_obligation_id=_obligation_id_by_label(window, "Recusal from sale process"),
                 claim_type="actor_relation",
                 subject_label="Director C",
                 object_label="Board's evaluation",
@@ -926,3 +891,95 @@ def _first_obligation_id(window, claim_type: str) -> str:
         if obligation.expected_claim_type == claim_type:
             return obligation.obligation_id
     raise AssertionError(f"window has no {claim_type} obligation")
+
+
+def _obligation_id_by_label(window, label: str) -> str:
+    for obligation in window.coverage_obligations:
+        if obligation.obligation_label == label:
+            return obligation.obligation_id
+    raise AssertionError(f"window has no obligation label {label!r}")
+
+
+def _actor_claim_for_obligation(obligation) -> ActorClaimPayload:
+    return ActorClaimPayload(
+        coverage_obligation_id=obligation.obligation_id,
+        claim_type="actor",
+        actor_label="Party A",
+        actor_kind="organization",
+        observability="named",
+        confidence="high",
+        quote_text="Party A submitted a final proposal",
+    )
+
+
+def _event_claim_for_obligation(obligation) -> EventClaimPayload:
+    if obligation.obligation_label == "Final approval or signing event":
+        return EventClaimPayload(
+            coverage_obligation_id=obligation.obligation_id,
+            claim_type="event",
+            event_type="transaction",
+            event_subtype="merger_agreement_executed",
+            event_date="2020-01-05",
+            description="The parties executed the merger agreement.",
+            actor_label="Party A",
+            actor_role="bid_submitter",
+            confidence="high",
+            quote_text="executed the merger agreement on January 5, 2020",
+        )
+    return EventClaimPayload(
+        coverage_obligation_id=obligation.obligation_id,
+        claim_type="event",
+        event_type="process",
+        event_subtype="contact_initial",
+        event_date="2020-01-01",
+        description="Party A submitted a final proposal.",
+        actor_label="Party A",
+        actor_role="bid_submitter",
+        confidence="high",
+        quote_text="Party A submitted a final proposal",
+    )
+
+
+def _bid_claim_for_obligation(obligation) -> BidClaimPayload:
+    return BidClaimPayload(
+        coverage_obligation_id=obligation.obligation_id,
+        claim_type="bid",
+        bidder_label="Party A",
+        bid_date="2020-01-01",
+        bid_value=10.0,
+        bid_value_lower=None,
+        bid_value_upper=None,
+        bid_value_unit="per_share",
+        consideration_type="cash",
+        bid_stage="final",
+        confidence="high",
+        quote_text="On January 1, 2020, Party A submitted a final proposal of $10.00 per share",
+    )
+
+
+def _participation_count_claim_for_obligation(obligation) -> ParticipationCountClaimPayload:
+    return ParticipationCountClaimPayload(
+        coverage_obligation_id=obligation.obligation_id,
+        claim_type="participation_count",
+        process_stage="contacted",
+        actor_class="financial",
+        count_min=10,
+        count_max=None,
+        count_qualifier="exact",
+        confidence="high",
+        quote_text="contacted 10 financial buyers",
+    )
+
+
+def _buyer_group_relation_claim_for_obligation(obligation) -> ActorRelationClaimPayload:
+    return ActorRelationClaimPayload(
+        coverage_obligation_id=obligation.obligation_id,
+        claim_type="actor_relation",
+        subject_label="Parent",
+        object_label="Buyer Group",
+        relation_type="acquisition_vehicle_of",
+        role_detail="acquisition vehicle",
+        effective_date_first=None,
+        confidence="high",
+        quote_text="Parent was an acquisition vehicle of Buyer Group",
+    )

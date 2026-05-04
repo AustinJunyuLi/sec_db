@@ -125,10 +125,13 @@ Python validates every provider result before insertion:
 
 Coverage proof is obligation-specific. Python assigns `claims_emitted` only
 from validated claim-to-obligation links, never from broad `claim_type` counts.
-Python assigns `missed` when Linkflow returns no validated claim linked to an
-obligation. Linkflow does not return coverage results; Python alone writes the
-`coverage_results` table after quote binding and claim-to-obligation
-validation.
+Python assigns `missed` when the applicable request window contains source
+support but Linkflow returns no validated claim linked to the obligation.
+Python assigns `no_supported_claim` when the window is relevant but contains no
+source support for the applicable obligation, and `ambiguous` when Python cannot
+safely classify source support after region and applicability review. Linkflow
+does not return coverage results; Python alone writes the `coverage_results`
+table after quote binding and claim-to-obligation validation.
 
 The same quote may support multiple distinct claims when the source text
 warrants that reuse. Quote reuse across claims is valid only when the quote

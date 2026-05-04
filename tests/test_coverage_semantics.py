@@ -214,6 +214,142 @@ def test_rejected_claim_obligation_link_rolls_back_partial_inserts(tmp_path: Pat
         assert conn.execute(f"SELECT count(*) FROM {table}").fetchone()[0] == 0
 
 
+def test_unlinked_applicable_obligations_get_all_python_coverage_states(tmp_path: Path) -> None:
+    conn = connect(":memory:")
+    init_schema(conn)
+    _insert_window_source(conn, tmp_path)
+
+    _replace_obligations(
+        conn,
+        [
+            (
+                "process_initiation",
+                "event",
+                "Sales process initiation",
+                "required",
+                "universal_sale_process",
+                [],
+            ),
+            (
+                "exclusivity_grant",
+                "event",
+                "Exclusivity grant",
+                "important",
+                "trigger_phrase_match",
+                ["exclusivity"],
+            ),
+            (
+                "target_legal_advisor",
+                "actor",
+                "Legal advisor for target",
+                "required",
+                "universal_sale_process",
+                [],
+            ),
+            (
+                "tender_offer_prior_contacts",
+                "event",
+                "Tender-offer prior contacts",
+                "important",
+                "process_scope:bidder_partial_schedule_to",
+                ["bidder_partial_schedule_to"],
+            ),
+        ],
+    )
+    window = LLMWindowRequest(
+        request_id="coverage-deal_llmrequest_1",
+        deal_slug="coverage-deal",
+        deal_id="coverage-deal",
+        filing_id="coverage-deal_filing_1",
+        region_id="coverage-deal_region_1",
+        window_id="coverage-deal_window_1",
+        region_kind="sale_process_narrative",
+        ordered_paragraphs=[
+            WindowParagraph(
+                paragraph_id="coverage-deal_para_1",
+                source_span_id="coverage-deal_evidence_1",
+                char_start=0,
+                char_end=89,
+                paragraph_text=(
+                    "The Board began a sale process. "
+                    "The Board later granted exclusivity to Buyer A."
+                ),
+            )
+        ],
+        coverage_obligations=[
+            WindowObligation(
+                obligation_id="coverage-deal_obligation_1",
+                expected_claim_type="event",
+                obligation_label="Sales process initiation",
+                importance="required",
+            ),
+            WindowObligation(
+                obligation_id="coverage-deal_obligation_2",
+                expected_claim_type="event",
+                obligation_label="Exclusivity grant",
+                importance="important",
+            ),
+            WindowObligation(
+                obligation_id="coverage-deal_obligation_3",
+                expected_claim_type="actor",
+                obligation_label="Legal advisor for target",
+                importance="required",
+            ),
+            WindowObligation(
+                obligation_id="coverage-deal_obligation_4",
+                expected_claim_type="event",
+                obligation_label="Tender-offer prior contacts",
+                importance="important",
+            ),
+        ],
+        allowed_claim_types=["event", "actor"],
+        schema_version=1,
+        extract_version=1,
+        request_mode=DEFAULT_REQUEST_MODE,
+    )
+    payload = SemanticClaimsPayload(
+        event_claims=[
+            EventClaimPayload(
+                claim_type="event",
+                coverage_obligation_id="coverage-deal_obligation_1",
+                event_type="process",
+                event_subtype="contact_initial",
+                event_date=None,
+                description="The Board began a sale process.",
+                actor_label=None,
+                actor_role=None,
+                confidence="high",
+                quote_text="The Board began a sale process.",
+            )
+        ]
+    )
+    response = LLMExtractionResponse(
+        request_id=window.request_id,
+        provider_name="linkflow",
+        provider_model="gpt-5.5",
+        reasoning_effort="medium",
+        payload=payload,
+        raw_response_sha256=quote_hash(json.dumps(payload.model_dump(mode="json"), sort_keys=True)),
+        finish_status="completed",
+    )
+
+    insert_llm_response(conn, window, response, run_id=RUN_ID)
+
+    rows = conn.execute(
+        """
+        SELECT obligation_id, result, reason_code, claim_count
+        FROM coverage_results
+        ORDER BY obligation_id
+        """
+    ).fetchall()
+    assert rows == [
+        ("coverage-deal_obligation_1", "claims_emitted", "linkflow_claims_linked", 1),
+        ("coverage-deal_obligation_2", "missed", "linkflow_no_linked_claim", 0),
+        ("coverage-deal_obligation_3", "no_supported_claim", "python_no_source_support", 0),
+        ("coverage-deal_obligation_4", "ambiguous", "python_support_ambiguous", 0),
+    ]
+
+
 def _insert_window_source(conn, tmp_path: Path) -> None:
     text = "The Board began a sale process. The Board later granted exclusivity to Buyer A."
     source_path = tmp_path / "coverage-deal.md"
@@ -274,7 +410,7 @@ def _insert_window_source(conn, tmp_path: Path) -> None:
     )
     obligation_kinds = (
         ("process_initiation", "Sales process initiation"),
-        ("final_approval_event", "Exclusivity grant"),
+        ("exclusivity_grant", "Exclusivity grant"),
     )
     for sequence, (kind, label) in enumerate(obligation_kinds, start=1):
         conn.execute(
@@ -292,6 +428,30 @@ def _insert_window_source(conn, tmp_path: Path) -> None:
                 "applicable",
                 "universal_sale_process",
                 "[]",
+                True,
+            ],
+        )
+
+
+def _replace_obligations(conn, rows: list[tuple[str, str, str, str, str, list[str]]]) -> None:
+    conn.execute("DELETE FROM coverage_results")
+    conn.execute("DELETE FROM coverage_obligations")
+    for sequence, (kind, claim_type, label, importance, reason_code, basis) in enumerate(rows, start=1):
+        conn.execute(
+            "INSERT INTO coverage_obligations VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            [
+                make_id("coverage-deal", "obligation", sequence),
+                RUN_ID,
+                make_id("coverage-deal", "region", 1),
+                make_id("coverage-deal", "filing", 1),
+                "coverage-deal",
+                claim_type,
+                kind,
+                label,
+                importance,
+                "applicable",
+                reason_code,
+                json.dumps(basis),
                 True,
             ],
         )

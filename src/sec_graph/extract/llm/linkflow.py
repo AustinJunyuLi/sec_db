@@ -40,6 +40,33 @@ _CLAIM_ARRAY_BY_TYPE = {
     "actor_relation": "actor_relation_claims",
 }
 
+_RELATION_TYPE_ORDER = [
+    "member_of",
+    "affiliate_of",
+    "controls",
+    "acquisition_vehicle_of",
+    "advises",
+    "finances",
+    "supports",
+    "voting_support_for",
+    "rollover_holder_for",
+    "committee_member_of",
+    "recused_from",
+]
+
+_RELATION_ENUMS_BY_OBLIGATION_LABEL = {
+    "Buyer group composition": [
+        "member_of",
+        "affiliate_of",
+        "controls",
+        "acquisition_vehicle_of",
+    ],
+    "Voting support agreement": ["voting_support_for"],
+    "Rollover holder": ["rollover_holder_for"],
+    "Special committee membership": ["committee_member_of"],
+    "Recusal from sale process": ["recused_from"],
+}
+
 
 def _semantic_claim_schema(request: LLMWindowRequest | None = None) -> dict[str, Any]:
     schema = SemanticClaimsPayload.model_json_schema()
@@ -65,12 +92,10 @@ def _constrain_coverage_obligations(schema: dict[str, Any], request: LLMWindowRe
         coverage_schema["enum"] = ids
     if _only_obligation_label(request, "bid", "Final transaction price"):
         schema["properties"]["bid_claims"]["items"]["properties"]["bid_stage"]["enum"] = ["final"]
-    if _only_obligation_label(request, "actor_relation", "Buyer group composition"):
+    relation_enum = _actor_relation_enum_for_request(request)
+    if relation_enum is not None:
         schema["properties"]["actor_relation_claims"]["items"]["properties"]["relation_type"]["enum"] = [
-            "member_of",
-            "affiliate_of",
-            "controls",
-            "acquisition_vehicle_of",
+            *relation_enum,
         ]
 
 
@@ -81,6 +106,26 @@ def _only_obligation_label(request: LLMWindowRequest, claim_type: str, label: st
         if obligation.expected_claim_type == claim_type
     ]
     return bool(matching) and all(obligation.obligation_label == label for obligation in matching)
+
+
+def _actor_relation_enum_for_request(request: LLMWindowRequest) -> list[str] | None:
+    relation_obligations = [
+        obligation
+        for obligation in request.coverage_obligations
+        if obligation.expected_claim_type == "actor_relation"
+    ]
+    if not relation_obligations:
+        return None
+    relation_values: set[str] = set()
+    for obligation in relation_obligations:
+        mapped = _RELATION_ENUMS_BY_OBLIGATION_LABEL.get(obligation.obligation_label)
+        if mapped is None:
+            raise LLMContractError(
+                "unmapped actor-relation obligation label "
+                f"{obligation.obligation_label!r}; refusing to widen relation_type enum"
+            )
+        relation_values.update(mapped)
+    return [value for value in _RELATION_TYPE_ORDER if value in relation_values]
 
 
 def _inline_refs(schema: dict[str, Any]) -> None:

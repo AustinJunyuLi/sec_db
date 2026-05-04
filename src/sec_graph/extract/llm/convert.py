@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from typing import Iterable
 
 import duckdb
@@ -31,6 +32,14 @@ ClaimPayload = (
 _NO_LINKED_CLAIM_REASON = (
     "Python marked this obligation missed because Linkflow returned no validated "
     "claim linked to this obligation."
+)
+_NO_SUPPORTED_CLAIM_REASON = (
+    "Python found no source support for this applicable obligation in the "
+    "request window after applicability review."
+)
+_AMBIGUOUS_SUPPORT_REASON = (
+    "Python could not safely classify source support for this applicable "
+    "obligation after region and applicability review."
 )
 
 
@@ -69,6 +78,7 @@ def _insert_llm_response_rows(
     obligations_by_id = {obligation.obligation_id: obligation for obligation in request.coverage_obligations}
     if len(obligations_by_id) != len(request.coverage_obligations):
         raise LLMContractError("request contains duplicate coverage obligation ids")
+    obligation_metadata = _obligation_metadata(conn, obligations_by_id.keys())
     coverage_claim_counts = {obligation_id: 0 for obligation_id in obligations_by_id}
 
     for payload in payloads:
@@ -134,9 +144,11 @@ def _insert_llm_response_rows(
             reason_code = "linkflow_claims_linked"
             reason = "Linkflow emitted at least one validated claim explicitly linked to this obligation."
         else:
-            result = "missed"
-            reason_code = "linkflow_no_linked_claim"
-            reason = _NO_LINKED_CLAIM_REASON
+            result, reason_code, reason = _classify_unlinked_obligation(
+                obligation,
+                obligation_metadata[obligation.obligation_id],
+                request,
+            )
         coverage_result_id = make_id(request.deal_slug, "coverage", coverage_sequence)
         coverage_sequence += 1
         conn.execute(
@@ -144,6 +156,108 @@ def _insert_llm_response_rows(
             [coverage_result_id, run_id, obligation.obligation_id, result, reason_code, reason, count, True],
         )
     return inserted_claim_ids
+
+
+def _obligation_metadata(
+    conn: duckdb.DuckDBPyConnection,
+    obligation_ids: Iterable[str],
+) -> dict[str, dict[str, str]]:
+    ids = list(obligation_ids)
+    if not ids:
+        return {}
+    placeholders = ", ".join("?" for _ in ids)
+    rows = conn.execute(
+        f"""
+        SELECT obligation_id, obligation_kind, applicability_reason_code,
+               applicability_basis_json
+        FROM coverage_obligations
+        WHERE obligation_id IN ({placeholders})
+        """,
+        ids,
+    ).fetchall()
+    metadata = {
+        obligation_id: {
+            "obligation_kind": obligation_kind,
+            "applicability_reason_code": applicability_reason_code,
+            "applicability_basis_json": applicability_basis_json,
+        }
+        for obligation_id, obligation_kind, applicability_reason_code, applicability_basis_json in rows
+    }
+    missing = sorted(set(ids) - set(metadata))
+    if missing:
+        raise LLMContractError(
+            "request references coverage obligations absent from DuckDB: "
+            + ", ".join(missing)
+        )
+    return metadata
+
+
+def _classify_unlinked_obligation(
+    obligation: WindowObligation,
+    metadata: dict[str, str],
+    request: LLMWindowRequest,
+) -> tuple[str, str, str]:
+    reason_code = metadata["applicability_reason_code"]
+    if reason_code.startswith("process_scope:"):
+        return "ambiguous", "python_support_ambiguous", _AMBIGUOUS_SUPPORT_REASON
+    if _window_supports_obligation(obligation, metadata, request):
+        return "missed", "linkflow_no_linked_claim", _NO_LINKED_CLAIM_REASON
+    return "no_supported_claim", "python_no_source_support", _NO_SUPPORTED_CLAIM_REASON
+
+
+def _window_supports_obligation(
+    obligation: WindowObligation,
+    metadata: dict[str, str],
+    request: LLMWindowRequest,
+) -> bool:
+    text = _folded_window_text(request)
+    for basis in _metadata_basis(metadata):
+        if basis.casefold() in text:
+            return True
+    kind = metadata["obligation_kind"]
+    label = obligation.obligation_label.casefold()
+    support_terms = {
+        "process_initiation": ("sale process", "strategic alternatives", "initiated", "began"),
+        "target_board": ("board", "directors"),
+        "target_financial_advisor": ("financial advisor", "financial adviser", "advisor", "adviser"),
+        "target_legal_advisor": ("legal advisor", "legal adviser", "counsel", "law firm"),
+        "final_consideration": ("per share", "$", "consideration", "purchase price"),
+        "final_approval_event": ("merger agreement", "approved", "executed", "signed"),
+        "contacted_count": ("contacted", "potential buyers", "potential bidders", "potential parties"),
+        "ioi_count": ("indication of interest", "indications of interest", "ioi", "proposal"),
+        "first_round_count": ("first round", "first-round", "first phase"),
+        "final_round_count": ("final round", "final-round", "best and final"),
+        "final_round_bid_event": ("final bid", "final proposal", "best and final"),
+        "exclusivity_grant": ("exclusivity", "exclusive negotiations"),
+        "go_shop_period": ("go-shop", "go shop"),
+        "buyer_group_composition": ("buyer group", "consortium", "acquisition vehicle"),
+        "rollover_holder": ("rollover", "roll-over", "rolled over", "retain equity"),
+        "voting_support": ("voting agreement", "support agreement", "agreed to vote"),
+        "special_committee": ("special committee", "transaction committee"),
+        "recusal": ("recused", "did not participate", "abstained"),
+        "financing_committed": ("debt commitment", "equity commitment", "financing commitment"),
+        "amendment": ("amendment", "amended merger agreement"),
+    }.get(kind, ())
+    if any(term in text for term in support_terms):
+        return True
+    return label and label in text
+
+
+def _metadata_basis(metadata: dict[str, str]) -> tuple[str, ...]:
+    raw = metadata["applicability_basis_json"]
+    try:
+        parsed = json.loads(raw)
+    except json.JSONDecodeError as exc:
+        raise LLMContractError("coverage obligation applicability_basis_json is invalid JSON") from exc
+    if not isinstance(parsed, list) or not all(isinstance(item, str) for item in parsed):
+        raise LLMContractError("coverage obligation applicability_basis_json must be a JSON string list")
+    return tuple(parsed)
+
+
+def _folded_window_text(request: LLMWindowRequest) -> str:
+    return "\n".join(
+        paragraph.paragraph_text for paragraph in request.ordered_paragraphs
+    ).casefold()
 
 
 def _validate_claim_obligation_links(payload: ClaimPayload, obligations_by_id: dict[str, WindowObligation]) -> None:

@@ -112,7 +112,7 @@ def _check_coverage_results(conn: duckdb.DuckDBPyConnection) -> list[ValidationF
     coverage_result; the LLM never sees them and Python never invents a
     ``missed`` outcome from their absence.
     """
-    rows = conn.execute(
+    count_rows = conn.execute(
         """
         SELECT coverage_obligations.obligation_id, count(coverage_results.coverage_result_id)
         FROM coverage_obligations
@@ -125,10 +125,35 @@ def _check_coverage_results(conn: duckdb.DuckDBPyConnection) -> list[ValidationF
         HAVING count(coverage_results.coverage_result_id) <> 1
         """
     ).fetchall()
-    return [
+    failures = [
         ValidationFailure(HardCheck.COVERAGE_RESULT, "coverage_obligations", obligation_id, f"current coverage result count is {count}")
-        for obligation_id, count in rows
+        for obligation_id, count in count_rows
     ]
+    unresolved_rows = conn.execute(
+        """
+        SELECT coverage_obligations.obligation_id, coverage_obligations.importance,
+               coverage_results.result
+        FROM coverage_obligations
+        JOIN coverage_results
+          ON coverage_results.obligation_id = coverage_obligations.obligation_id
+         AND coverage_results.current = true
+        WHERE coverage_obligations.current = true
+          AND coverage_obligations.applicability = 'applicable'
+          AND coverage_obligations.importance IN ('required', 'important')
+          AND coverage_results.result <> 'claims_emitted'
+        ORDER BY coverage_obligations.obligation_id
+        """
+    ).fetchall()
+    failures.extend(
+        ValidationFailure(
+            HardCheck.COVERAGE_RESULT,
+            "coverage_obligations",
+            obligation_id,
+            f"{importance} applicable coverage is unresolved with result {result}",
+        )
+        for obligation_id, importance, result in unresolved_rows
+    )
+    return failures
 
 
 def _check_claim_evidence(conn: duckdb.DuckDBPyConnection) -> list[ValidationFailure]:

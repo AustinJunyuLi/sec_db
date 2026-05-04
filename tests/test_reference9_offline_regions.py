@@ -24,7 +24,11 @@ FILINGS_DIR = REPO_ROOT / "data" / "filings"
 EXPECTATIONS_PATH = (
     REPO_ROOT / "tests" / "fixtures" / "reference9_region_expectations.json"
 )
+APPLICABILITY_EXPECTATIONS_PATH = (
+    REPO_ROOT / "tests" / "fixtures" / "reference9_applicability_expectations.json"
+)
 RUN_ID = "2026-05-04T000000Z_reference9-offline_offline0"
+FETCH_COMMAND = "UV_CACHE_DIR=/private/tmp/uv-cache PYTHONDONTWRITEBYTECODE=1 uv run python scripts/fetch_filings.py --slug {slug}"
 
 REFERENCE9_SLUGS = (
     "providence-worcester",
@@ -43,9 +47,20 @@ def _load_expectations() -> dict[str, dict]:
     return json.loads(EXPECTATIONS_PATH.read_text(encoding="utf-8"))["deals"]
 
 
+def _load_applicability_expectations() -> dict[str, dict]:
+    return json.loads(APPLICABILITY_EXPECTATIONS_PATH.read_text(encoding="utf-8"))[
+        "deals"
+    ]
+
+
 @pytest.fixture(scope="module")
 def expectations() -> dict[str, dict]:
     return _load_expectations()
+
+
+@pytest.fixture(scope="module")
+def applicability_expectations() -> dict[str, dict]:
+    return _load_applicability_expectations()
 
 
 def _missing_filings() -> list[str]:
@@ -54,24 +69,26 @@ def _missing_filings() -> list[str]:
 
 def test_reference9_filings_are_present_locally() -> None:
     missing = _missing_filings()
+    commands = [FETCH_COMMAND.format(slug=slug) for slug in missing]
     assert not missing, (
         "Reference-9 offline gate requires local filings under data/filings/. "
         "Missing slugs: "
-        f"{missing}. Re-run the EDGAR fetcher for these slugs (see scripts/fetch_filings.py)."
+        f"{missing}. Fetch commands: {commands}"
     )
 
 
 @pytest.mark.parametrize("slug", REFERENCE9_SLUGS)
 def test_reference9_slug_builds_validated_sale_process_regions(
-    slug: str, expectations: dict[str, dict]
+    slug: str, expectations: dict[str, dict], applicability_expectations: dict[str, dict]
 ) -> None:
     if slug in _missing_filings():
         pytest.fail(
             f"Reference-9 slug {slug!r} has no data/filings/{slug}/raw.md; "
-            "fetch the filing before running the offline gate."
+            f"fetch it with: {FETCH_COMMAND.format(slug=slug)}"
         )
 
     deal_expectation = expectations[slug]
+    applicability_expectation = applicability_expectations[slug]
     expected_regions = deal_expectation["regions"]
     expected_sections = [region["section"] for region in expected_regions]
 
@@ -81,6 +98,11 @@ def test_reference9_slug_builds_validated_sale_process_regions(
     filing = ingest_source(conn, source)
     assert filing.process_scope == deal_expectation["process_scope"], (
         f"{slug}: expected process_scope={deal_expectation['process_scope']!r} "
+        f"but ingest produced {filing.process_scope!r}"
+    )
+    assert filing.process_scope == applicability_expectation["process_scope"], (
+        f"{slug}: applicability fixture expected "
+        f"process_scope={applicability_expectation['process_scope']!r} "
         f"but ingest produced {filing.process_scope!r}"
     )
 
@@ -106,8 +128,10 @@ def test_reference9_slug_builds_validated_sale_process_regions(
     actual_sections: list[str] = []
     for index, row in enumerate(rows):
         region_kind, priority, paragraph_ids_json, trigger_json, claim_types_json, _start, _end = row
-        assert region_kind == "sale_process_narrative", (
-            f"{slug}[{index}]: expected sale_process_narrative kind, got {region_kind!r}"
+        expected_region = expected_regions[index]
+        expected_applicability = applicability_expectation["regions"][index]
+        assert region_kind == expected_region["region_kind"], (
+            f"{slug}[{index}]: expected {expected_region['region_kind']!r} kind, got {region_kind!r}"
         )
         assert priority == index + 1, f"{slug}[{index}]: priority {priority} != {index + 1}"
 
@@ -121,10 +145,15 @@ def test_reference9_slug_builds_validated_sale_process_regions(
             "sale-process section heading"
         )
         actual_sections.append(trigger)
+        assert trigger == expected_applicability["section"], (
+            f"{slug}[{index}]: applicability fixture section "
+            f"{expected_applicability['section']!r} does not match selected "
+            f"section {trigger!r}"
+        )
 
         paragraph_ids = json.loads(paragraph_ids_json)
-        expected_min = expected_regions[index]["min_paragraphs"]
-        expected_max = expected_regions[index]["max_paragraphs"]
+        expected_min = expected_region["min_paragraphs"]
+        expected_max = expected_region["max_paragraphs"]
         assert expected_min <= len(paragraph_ids) <= expected_max, (
             f"{slug}[{index}] section={trigger!r}: paragraph count "
             f"{len(paragraph_ids)} outside expected band [{expected_min}, "
@@ -164,6 +193,17 @@ def test_reference9_slug_builds_validated_sale_process_regions(
             f"{slug}[{index}]: expected_claim_types_json {actual_claim_types} "
             "is missing universal sale-process claim types"
         )
+        actual_applicability = _applicability_summary(conn, index=index)
+        assert actual_applicability == {
+            "applicable_count": expected_applicability["applicable_count"],
+            "applicable_kinds": expected_applicability["applicable_kinds"],
+            "claim_types": expected_applicability["claim_types"],
+            "important_or_required_kinds": expected_applicability[
+                "important_or_required_kinds"
+            ],
+            "reason_codes": expected_applicability["reason_codes"],
+            "trigger_basis": expected_applicability["trigger_basis"],
+        }, f"{slug}[{index}]: applicability summary drifted"
 
     assert actual_sections == expected_sections, (
         f"{slug}: expected sections {expected_sections} in order but got "
@@ -188,6 +228,66 @@ def test_reference9_slug_builds_validated_sale_process_regions(
         assert {"event", "actor", "bid"} <= allowed, (
             f"{slug}: window {window.window_id} is missing universal claim types"
         )
+
+
+def test_medivation_reference9_uses_offer_to_purchase_exhibit() -> None:
+    manifest_path = FILINGS_DIR / "medivation" / "manifest.json"
+    if not manifest_path.exists():
+        pytest.fail(
+            "Reference-9 slug 'medivation' has no data/filings/medivation/manifest.json; "
+            f"fetch it with: {FETCH_COMMAND.format(slug='medivation')}"
+        )
+
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    source = manifest["source"]
+    selected_form_type = source.get("selected_document_form_type") or source.get("form_type")
+
+    assert source["seed_url"].endswith("-index.htm")
+    assert selected_form_type == "EX-99.(A)(1)(A)"
+    assert source["primary_document_name"].lower().endswith("ex99a1a.htm")
+    assert "dex99a1a" in source["primary_document_url"].lower()
+
+
+def _applicability_summary(conn, *, index: int) -> dict[str, object]:
+    region_id = conn.execute(
+        """
+        SELECT region_id
+        FROM evidence_regions
+        ORDER BY priority
+        LIMIT 1 OFFSET ?
+        """,
+        [index],
+    ).fetchone()[0]
+    app_rows = conn.execute(
+        """
+        SELECT obligation_kind, expected_claim_type, importance,
+               applicability_reason_code, applicability_basis_json
+        FROM coverage_obligations
+        WHERE region_id = ?
+          AND current = true
+          AND applicability = 'applicable'
+        ORDER BY CAST(regexp_extract(obligation_id, '_(\\d+)$', 1) AS INTEGER),
+                 obligation_id
+        """,
+        [region_id],
+    ).fetchall()
+    return {
+        "applicable_count": len(app_rows),
+        "applicable_kinds": [row[0] for row in app_rows],
+        "claim_types": sorted({row[1] for row in app_rows}),
+        "important_or_required_kinds": [
+            row[0] for row in app_rows if row[2] in {"required", "important"}
+        ],
+        "reason_codes": sorted({row[3] for row in app_rows}),
+        "trigger_basis": sorted(
+            {
+                item
+                for row in app_rows
+                for item in json.loads(row[4])
+                if row[3] == "trigger_phrase_match"
+            }
+        ),
+    }
 
 
 def test_reference9_filing_without_sale_process_section_fails_loudly(tmp_path: Path) -> None:

@@ -451,8 +451,11 @@ coverage_obligations
 coverage_results
 ```
 
-`coverage_results` is Python-owned. Each obligation must have one current
-coverage result:
+`coverage_results` is Python-owned. The deployable P8 update in
+`docs/spec.md` narrows this invariant to current applicable obligations:
+inapplicable obligations remain in `coverage_obligations` as audit rows and do
+not require current coverage results. Each current applicable obligation must
+have one current coverage result:
 
 - `claims_emitted`;
 - `no_supported_claim`;
@@ -570,7 +573,9 @@ Validation must prove source meaning, not only source presence.
 Validation checks:
 
 - every claim has a current disposition;
-- every coverage obligation has a current coverage result;
+- every current applicable coverage obligation has a current coverage result;
+- every current applicable required or important obligation has a
+  `claims_emitted` result before validation can pass;
 - every canonical row has relational source evidence;
 - every source span resolves to exact filing text;
 - every source span has a location-aware evidence fingerprint;

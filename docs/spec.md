@@ -132,11 +132,15 @@ ambiguous
 missed
 ```
 
-Python assigns `missed` when Linkflow fails to account for an obligation.
-`claims_emitted` is assigned only when a validated claim explicitly names that
-specific same-type obligation id. A broad claim-type match is not coverage
-proof. Python alone writes coverage results after P8 quote binding and
-claim-to-obligation validation.
+Python assigns `missed` when the applicable request window contains source
+support but Linkflow fails to account for an obligation. Python assigns
+`no_supported_claim` when the applicable window is relevant but contains no
+source support for the obligation, and `ambiguous` when Python cannot safely
+classify support after region and applicability review. `claims_emitted` is
+assigned only when a validated claim explicitly names that specific same-type
+obligation id. A broad claim-type match is not coverage proof. Python alone
+writes coverage results after P8 quote binding and claim-to-obligation
+validation.
 
 ## Actor Relation Enum And Directions
 
@@ -239,6 +243,9 @@ timestamps come from the run clock.
 Validation checks source truth, claim disposition completeness, coverage result
 completeness, relational source proof, evidence fingerprints, projection unit
 traceability, and stage artifact digest integrity.
+Current applicable required or important obligations whose coverage result is
+`missed`, `no_supported_claim`, or `ambiguous` are hard validation failures;
+they may not be treated as complete merely because a coverage row exists.
 
 Verdicts:
 

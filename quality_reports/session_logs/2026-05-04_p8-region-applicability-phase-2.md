@@ -173,14 +173,15 @@ UV_CACHE_DIR=/private/tmp/uv-cache PYTHONDONTWRITEBYTECODE=1 uv run pytest \
   were tuned against Reference-9 text. They are intentionally short and
   will need a calibration pass when the corpus expands; false-positive
   triggers can over-apply obligations and produce extra `missed` rows.
-- Phase 3's relation-aware windows can now build per-region
-  `allowed_claim_types` from `expected_claim_types_json`, which already
-  reflects the applicable-only subset. The plan's Phase 3 work
-  (relation-aware obligations + per-window obligation generation) sits
-  cleanly on top of this.
+- Phase 3 should derive per-window `allowed_claim_types` directly from the
+  filtered applicable obligations, not from the region's stored
+  `expected_claim_types_json`, so request construction cannot drift from
+  Python-owned applicability.
 - The `coverage_results.csv` projection continues to LEFT JOIN obligations
   to results. Inapplicable rows now show as null result; downstream
   consumers that filter on `applicability = 'applicable'` get the same
   view as Linkflow.
-- No live Linkflow run was attempted; Phase 6 remains gated on the
-  Phase 5 offline gate (already green in Phase 1) plus credentials.
+- No live Linkflow run was attempted; Phase 6 remains gated on the full Phase 5
+  offline gate. Phase 1 proved all-nine region selection, but the durable
+  all-nine applicability fixture still needed to be added after this Phase 2
+  log.

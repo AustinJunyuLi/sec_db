@@ -146,6 +146,16 @@ def test_required_important_ambiguous_or_no_supported_coverage_blocks_sound(tmp_
     conn.execute("UPDATE coverage_results SET result = 'ambiguous', claim_count = 0 WHERE obligation_id = ?", [required_id])
     conn.execute("UPDATE coverage_results SET result = 'no_supported_claim', claim_count = 0 WHERE obligation_id = ?", [important_id])
 
+    validation = validate_database(conn)
+    unresolved_failures = [
+        failure
+        for failure in validation.hard_failures
+        if failure.check == HardCheck.COVERAGE_RESULT
+        and failure.row_id in {required_id, important_id}
+        and "unresolved" in failure.detail
+    ]
+    assert {failure.row_id for failure in unresolved_failures} == {required_id, important_id}
+
     proof = write_projection_outputs(
         conn,
         tmp_path / "coverage-proof",

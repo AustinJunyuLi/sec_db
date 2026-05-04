@@ -29,6 +29,9 @@ conflicts with the three documents above, the current authority chain wins.
 | `2026-05-02_g5-stage-8-linkflow.md` | Stage 8 gate: opt-in Linkflow GPT-5.5 extraction adapter passing offline tests under the strict streaming + Python-owned-offset contract. |
 | `2026-05-02_reference9_offline-proof.md` | Offline reference-nine proof: nine reference filings ingested and rule-extracted without live Linkflow calls. |
 | `2026-05-03_taxonomy-classification-design.md` | Historical taxonomy design log; not binding schema authority. |
+| `2026-05-04_p8-region-applicability-phase-0-1.md` | P8 Phase 0-1 gate: preflight plus all-nine sale-process region selection. |
+| `2026-05-04_p8-region-applicability-phase-2.md` | P8 Phase 2 gate: Python-owned applicability engine and applicable-only Linkflow windows. |
+| `2026-05-04_p8-region-applicability-phase-3-6.md` | P8 Phase 3-6 gate: relation-aware windows, four-state coverage, all-nine offline applicability, and parallel live Linkflow proof that fails loudly at validation. |
 
 ## Warning
 
