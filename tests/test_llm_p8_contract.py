@@ -86,7 +86,7 @@ def _all_claim_type_window_request() -> LLMWindowRequest:
             WindowObligation(
                 obligation_id="obl_bid_1",
                 expected_claim_type="bid",
-                obligation_label="Final bid price",
+                obligation_label="Final transaction price",
                 importance="required",
             ),
             WindowObligation(
@@ -269,6 +269,6 @@ def test_prompt_limits_claims_to_listed_obligations() -> None:
     text = build_system_prompt() + "\n" + build_window_prompt(_all_claim_type_window_request())
 
     assert "that answers one listed coverage obligation" in text
-    assert "Final bid price" in text
+    assert "Final transaction price" in text
     assert "not preliminary, rejected, superseded, financing, or advisory facts" in text
     assert "Buyer group composition" in text

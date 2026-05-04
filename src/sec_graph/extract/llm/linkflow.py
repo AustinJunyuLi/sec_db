@@ -63,7 +63,7 @@ def _constrain_coverage_obligations(schema: dict[str, Any], request: LLMWindowRe
         ids = obligations_by_type[claim_type] or [f"__no_{claim_type}_coverage_obligation__"]
         coverage_schema = schema["properties"][array_name]["items"]["properties"]["coverage_obligation_id"]
         coverage_schema["enum"] = ids
-    if _only_obligation_label(request, "bid", "Final bid price"):
+    if _only_obligation_label(request, "bid", "Final transaction price"):
         schema["properties"]["bid_claims"]["items"]["properties"]["bid_stage"]["enum"] = ["final"]
     if _only_obligation_label(request, "actor_relation", "Buyer group composition"):
         schema["properties"]["actor_relation_claims"]["items"]["properties"]["relation_type"]["enum"] = [

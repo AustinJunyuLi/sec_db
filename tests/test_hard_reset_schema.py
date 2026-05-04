@@ -1,3 +1,4 @@
+import csv
 import json
 from pathlib import Path
 
@@ -110,6 +111,14 @@ def test_typed_claims_reconcile_to_source_backed_projection(tmp_path: Path) -> N
     assert (run_dir / "cost_runtime_summary.csv").exists()
     assert (run_dir / "provider_usage_ledger.jsonl").exists()
     assert (run_dir / "latency_ledger.jsonl").exists()
+    with (run_dir / "coverage_results.csv").open(newline="", encoding="utf-8") as handle:
+        coverage_header = next(csv.reader(handle))
+    assert {
+        "obligation_kind",
+        "applicability",
+        "applicability_reason_code",
+        "applicability_basis_json",
+    } <= set(coverage_header)
 
 
 def test_generic_bid_claim_labels_do_not_project_as_named_bidders(tmp_path: Path) -> None:

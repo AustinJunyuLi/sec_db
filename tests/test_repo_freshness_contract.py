@@ -47,6 +47,13 @@ def test_active_docs_do_not_preserve_deleted_pipeline_contracts() -> None:
     assert not violations, "stale active-doc contract references:\n  " + "\n  ".join(violations)
 
 
+def test_spec_coverage_result_invariant_is_applicability_aware() -> None:
+    text = (REPO_ROOT / "docs" / "spec.md").read_text(encoding="utf-8")
+
+    assert "Every current coverage obligation must have exactly one current result" not in text
+    assert "Every current applicable coverage obligation must have exactly one current result" in text
+
+
 def test_tracked_existing_files_do_not_contain_secrets_or_raw_provider_payloads() -> None:
     result = subprocess.run(["git", "ls-files"], cwd=REPO_ROOT, capture_output=True, text=True, check=True)
     patterns = {

@@ -123,7 +123,7 @@ queued_ambiguity
 out_of_scope
 ```
 
-Every current coverage obligation must have exactly one current result:
+Every current applicable coverage obligation must have exactly one current result:
 
 ```text
 claims_emitted

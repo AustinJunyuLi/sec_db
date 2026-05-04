@@ -35,7 +35,23 @@ def write_projection_outputs(
     _write_json(run_dir / "proof_summary.json", proof)
     _write_jsonl(run_dir / "bidder_rows.jsonl", rows)
     _write_csv(run_dir / "bidder_summary.csv", rows, ["deal_slug", "cycle_id", "actor_id", "actor_label", "bF", "admitted"])
-    _write_csv(run_dir / "coverage_results.csv", _coverage_rows(conn), ["deal_slug", "obligation_id", "expected_claim_type", "importance", "result", "claim_count", "reason_code"])
+    _write_csv(
+        run_dir / "coverage_results.csv",
+        _coverage_rows(conn),
+        [
+            "deal_slug",
+            "obligation_id",
+            "obligation_kind",
+            "expected_claim_type",
+            "importance",
+            "applicability",
+            "applicability_reason_code",
+            "applicability_basis_json",
+            "result",
+            "claim_count",
+            "reason_code",
+        ],
+    )
     _write_csv(run_dir / "claim_dispositions.csv", _disposition_rows(conn), ["deal_slug", "claim_id", "claim_type", "disposition", "canonical_table", "canonical_id", "reason_code"])
     cost_summary = _cost_summary(conn, run_id)
     _write_json(run_dir / "cost_runtime_summary.json", cost_summary)
@@ -191,11 +207,25 @@ def _deal_summaries(conn: duckdb.DuckDBPyConnection) -> dict[str, dict[str, int]
 
 
 def _coverage_rows(conn: duckdb.DuckDBPyConnection) -> list[dict[str, Any]]:
-    columns = ["deal_slug", "obligation_id", "expected_claim_type", "importance", "result", "claim_count", "reason_code"]
+    columns = [
+        "deal_slug",
+        "obligation_id",
+        "obligation_kind",
+        "expected_claim_type",
+        "importance",
+        "applicability",
+        "applicability_reason_code",
+        "applicability_basis_json",
+        "result",
+        "claim_count",
+        "reason_code",
+    ]
     rows = conn.execute(
         """
-        SELECT coverage_obligations.deal_slug, obligation_id, expected_claim_type,
-               importance, result, claim_count, reason_code
+        SELECT coverage_obligations.deal_slug, obligation_id, obligation_kind,
+               expected_claim_type, importance, applicability,
+               applicability_reason_code, applicability_basis_json,
+               result, claim_count, reason_code
         FROM coverage_obligations
         LEFT JOIN coverage_results USING (obligation_id)
         ORDER BY coverage_obligations.deal_slug, obligation_id

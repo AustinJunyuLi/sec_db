@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from sec_graph.extract.llm.models import LLMWindowRequest
 
+_FINAL_PRICE_OBLIGATION_LABEL = "Final transaction price"
+
 
 def build_system_prompt() -> str:
     return (
@@ -93,9 +95,9 @@ def _format_obligations_by_claim_type(window: LLMWindowRequest) -> str:
 def _format_acceptance_rules(window: LLMWindowRequest) -> str:
     lines: list[str] = []
     labels = {item.obligation_label for item in window.coverage_obligations}
-    if "Final bid price" in labels:
+    if _FINAL_PRICE_OBLIGATION_LABEL in labels:
         lines.append(
-            "- Final bid price: emit only the final, winning, accepted, or best-and-final price claim; "
+            "- Final transaction price: emit only the final, winning, accepted, or best-and-final price claim; "
             "not preliminary, rejected, superseded, financing, or advisory facts. The quote must include bidder, date, value, and offer/proposal context."
         )
     if "Buyer group composition" in labels:
