@@ -56,7 +56,10 @@ def _process_scope(source: IngestSource) -> str:
     ).upper()
     if form_type in {"DEFM14A", "PREM14A"}:
         return "target_full_proxy"
-    if form_type in {"SC TO-T", "SC TO-T/A"}:
+    if form_type in {"SC TO-T", "SC TO-T/A", "EX-99.(A)(1)(A)"}:
+        # Tender-offer Schedule TO-T's selected EX-99.(A)(1)(A) Offer to
+        # Purchase exhibit ingests as bidder-partial scope. The fetcher
+        # records the exhibit form_type rather than the parent SC TO-T form.
         return "bidder_partial_schedule_to"
     if form_type in {"DEFA14A", "DEFA14A/A"}:
         return "amendment_only"

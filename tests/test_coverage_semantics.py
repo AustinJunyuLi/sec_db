@@ -272,9 +272,13 @@ def _insert_window_source(conn, tmp_path: Path) -> None:
             json.dumps(["event"]),
         ],
     )
-    for sequence, label in enumerate(("Sales process initiation", "Exclusivity grant"), start=1):
+    obligation_kinds = (
+        ("process_initiation", "Sales process initiation"),
+        ("final_approval_event", "Exclusivity grant"),
+    )
+    for sequence, (kind, label) in enumerate(obligation_kinds, start=1):
         conn.execute(
-            "INSERT INTO coverage_obligations VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO coverage_obligations VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             [
                 make_id("coverage-deal", "obligation", sequence),
                 RUN_ID,
@@ -282,8 +286,12 @@ def _insert_window_source(conn, tmp_path: Path) -> None:
                 filing.filing_id,
                 filing.deal_slug,
                 "event",
+                kind,
                 label,
                 "required",
+                "applicable",
+                "universal_sale_process",
+                "[]",
                 True,
             ],
         )

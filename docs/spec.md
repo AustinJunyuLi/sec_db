@@ -27,9 +27,31 @@ compatibility paths, and no legacy payload readers.
 ## Evidence Map And Live LLM Scope
 
 The evidence map routes production Linkflow extraction to one coherent
-`Background of the Merger` / sale-process section region per filing. That
-region preserves source paragraph order and carries calibrated coverage
-obligations for supported sale-process claims.
+sale-process section region per recognized heading. A filing may produce
+more than one region when it carries genuinely distinct sale-process
+material (for example, a tender-offer Offer to Purchase typically yields a
+`Background of the Offer` region and a `Past Contacts, Transactions,
+Negotiations and Agreements` region). Each region preserves source
+paragraph order and carries Python-owned coverage obligations.
+
+Coverage obligations are produced by a Python applicability engine. There
+are three families:
+
+- Universal obligations (process initiation, target board, target
+  financial advisor, target legal advisor, final transaction price, final
+  approval event) are always applicable in any sale-process region.
+- Conditional obligations (IOI/first-round/final-round counts,
+  exclusivity, go-shop, buyer-group composition, rollover holders, voting
+  support, special committee, recusal, financing commitment, amendment,
+  and similar) are applicable only when the region text emits a
+  documented trigger phrase.
+- Scope-driven obligations (such as tender-offer prior contacts) are
+  applicable only when the filing's `process_scope` matches.
+
+Inapplicable obligations are still inserted into `coverage_obligations`
+with `applicability = 'not_applicable'`, `applicability_reason_code`, and
+`applicability_basis_json`, so the audit ledger records every decision.
+Linkflow only ever sees the applicable obligations.
 
 Production LLM extraction uses request mode `claim_only_p8_relation_v1` and
 default Linkflow reasoning effort `medium`.
@@ -79,6 +101,17 @@ claim_dispositions
 
 `coverage_results` remains an extraction table, but it is Python-owned. It is
 never part of the provider response.
+
+`coverage_obligations` carries the Python-owned applicability audit:
+`applicability` is one of `applicable` or `not_applicable`,
+`applicability_reason_code` is a deterministic short identifier
+(`universal_sale_process`, `trigger_phrase_match`, `trigger_phrase_absent`,
+`process_scope:<scope>`, or `process_scope_mismatch`), and
+`applicability_basis_json` is a JSON list of trigger phrases or scope
+values that drove the decision. Validation only requires a current
+`coverage_result` for current obligations whose
+`applicability = 'applicable'`. Inapplicable obligations are recorded for
+audit, never sent to Linkflow, and never become `missed`.
 
 Every claim must have exactly one current disposition:
 

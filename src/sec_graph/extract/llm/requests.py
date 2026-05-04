@@ -89,13 +89,17 @@ def _window_obligations(
         """
         SELECT obligation_id, expected_claim_type, obligation_label, importance
         FROM coverage_obligations
-        WHERE region_id = ? AND current = true
+        WHERE region_id = ?
+          AND current = true
+          AND applicability = 'applicable'
         ORDER BY CAST(regexp_extract(obligation_id, '_(\\d+)$', 1) AS INTEGER), obligation_id
         """,
         [region_id],
     ).fetchall()
     if not rows:
-        raise ValueError(f"region {region_id} has no coverage obligations")
+        raise ValueError(
+            f"region {region_id} has no applicable coverage obligations"
+        )
     return [
         WindowObligation.model_validate(
             dict(zip(("obligation_id", "expected_claim_type", "obligation_label", "importance"), row, strict=True))

@@ -1,0 +1,61 @@
+{
+  "schema_version": "2026-05-04",
+  "description": "Offline Reference-9 region selection expectations. Each entry records the recognized sale-process section labels and a paragraph-count band per region. Bands are deliberately wide so heading-detection improvements do not require constant fixture updates, but tight enough to catch the 'BG eats the whole filing' regression.",
+  "deals": {
+    "providence-worcester": {
+      "regions": [
+        {"section": "Background of the Merger", "min_paragraphs": 20, "max_paragraphs": 80}
+      ],
+      "process_scope": "target_full_proxy"
+    },
+    "medivation": {
+      "regions": [
+        {"section": "Background of the Offer", "min_paragraphs": 20, "max_paragraphs": 80},
+        {"section": "Past Contacts, Transactions, Negotiations and Agreements", "min_paragraphs": 2, "max_paragraphs": 30}
+      ],
+      "process_scope": "bidder_partial_schedule_to"
+    },
+    "imprivata": {
+      "regions": [
+        {"section": "Background of the Merger", "min_paragraphs": 30, "max_paragraphs": 200}
+      ],
+      "process_scope": "target_full_proxy"
+    },
+    "zep": {
+      "regions": [
+        {"section": "Background of the Merger", "min_paragraphs": 30, "max_paragraphs": 200}
+      ],
+      "process_scope": "target_full_proxy"
+    },
+    "petsmart-inc": {
+      "regions": [
+        {"section": "Background of the Merger", "min_paragraphs": 20, "max_paragraphs": 200}
+      ],
+      "process_scope": "target_full_proxy"
+    },
+    "penford": {
+      "regions": [
+        {"section": "Background of the Merger", "min_paragraphs": 30, "max_paragraphs": 200}
+      ],
+      "process_scope": "target_full_proxy"
+    },
+    "mac-gray": {
+      "regions": [
+        {"section": "Background of the Merger", "min_paragraphs": 30, "max_paragraphs": 200}
+      ],
+      "process_scope": "target_full_proxy"
+    },
+    "saks": {
+      "regions": [
+        {"section": "Background of the Merger", "min_paragraphs": 30, "max_paragraphs": 200}
+      ],
+      "process_scope": "target_full_proxy"
+    },
+    "stec": {
+      "regions": [
+        {"section": "Background of the Merger", "min_paragraphs": 30, "max_paragraphs": 200}
+      ],
+      "process_scope": "target_full_proxy"
+    }
+  }
+}

@@ -80,6 +80,10 @@ def proof_summary(
         "projection_judgments",
         "bidder_rows",
     )}
+    row_counts["applicable_coverage_obligations"] = _count_query(
+        conn,
+        "SELECT count(*) FROM coverage_obligations WHERE current = true AND applicability = 'applicable'",
+    )
     insufficient_required = _count_query(
         conn,
         """
@@ -90,6 +94,7 @@ def proof_summary(
          AND coverage_results.current = true
         WHERE coverage_obligations.importance IN ('required', 'important')
           AND coverage_obligations.current = true
+          AND coverage_obligations.applicability = 'applicable'
           AND (coverage_results.result IS NULL OR coverage_results.result <> 'claims_emitted')
         """,
     )
@@ -111,7 +116,7 @@ def proof_summary(
         1 for failure in validation.hard_failures if failure.check == HardCheck.SEMANTIC_CLAIM_EVIDENCE
     )
     live_claims = _count_query(conn, "SELECT count(*) FROM claims WHERE provider_source_stage = 'linkflow'")
-    thin_live = live_claims < max(1, row_counts["coverage_obligations"] // 3)
+    thin_live = live_claims < max(1, row_counts["applicable_coverage_obligations"] // 3)
     verdict = "SOUND"
     if live_claims == 0:
         verdict = "SUSPECT"

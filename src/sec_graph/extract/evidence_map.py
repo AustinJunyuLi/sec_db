@@ -7,22 +7,14 @@ from dataclasses import dataclass
 
 import duckdb
 
+from sec_graph.extract.applicability import (
+    ApplicabilityDecision,
+    decide_applicability,
+)
+from sec_graph.ingest.section_vocabulary import SALE_PROCESS_SECTIONS
 from sec_graph.schema import make_id
 
-_BACKGROUND_SECTION = "Background of the Merger"
-_BACKGROUND_REGION_KIND = "sale_process_narrative"
-_BACKGROUND_OBLIGATIONS = (
-    ("event", "Sales process initiation", "required"),
-    ("participation_count", "Bidder count at IOI stage", "required"),
-    ("participation_count", "Bidder count at first round", "important"),
-    ("event", "Final round bid receipt", "required"),
-    ("event", "Exclusivity grant", "required"),
-    ("actor", "Target board", "required"),
-    ("actor", "Financial advisor for target", "required"),
-    ("actor", "Legal advisor for target", "required"),
-    ("bid", "Final bid price", "required"),
-    ("actor_relation", "Buyer group composition", "important"),
-)
+_SALE_PROCESS_REGION_KIND = "sale_process_narrative"
 
 
 @dataclass(frozen=True)
@@ -43,59 +35,111 @@ def build_evidence_map(
     filing_id: str,
     run_id: str,
 ) -> list[str]:
-    """Create evidence regions and obligations for one filing.
+    """Create evidence regions and applicability-aware obligations.
 
-    The production LLM path receives the full Background of the Merger section.
-    Missing section assignment is a hard ingest failure, not a routing choice.
+    For every recognized sale-process section in the filing, emit one region
+    in encounter order. Each region carries the full applicability ledger:
+    universal obligations are always applicable, conditional obligations are
+    applicable only when the region text emits a documented trigger, and
+    scope-driven obligations apply only to the matching process scope.
+
+    A filing with no sale-process paragraphs is a hard failure. A region with
+    zero applicable obligations is a hard failure: the universal set ensures
+    this is impossible in practice, and a region without any applicable
+    obligation cannot produce a meaningful Linkflow request.
     """
 
     rows = _paragraph_rows(conn, filing_id)
     if not rows:
         raise ValueError(f"filing {filing_id} has no paragraphs")
     slug = rows[0].deal_slug
-    conn.execute("DELETE FROM coverage_results WHERE obligation_id IN (SELECT obligation_id FROM coverage_obligations WHERE filing_id = ?)", [filing_id])
+    process_scope = _filing_process_scope(conn, filing_id)
+
+    conn.execute(
+        "DELETE FROM coverage_results WHERE obligation_id IN ("
+        " SELECT obligation_id FROM coverage_obligations WHERE filing_id = ?"
+        ")",
+        [filing_id],
+    )
     conn.execute("DELETE FROM coverage_obligations WHERE filing_id = ?", [filing_id])
     conn.execute("DELETE FROM evidence_regions WHERE filing_id = ?", [filing_id])
 
-    selected = [row for row in rows if row.section == _BACKGROUND_SECTION]
-    if not selected:
-        raise ValueError(f"filing {filing_id} has no {_BACKGROUND_SECTION!r} paragraphs")
+    section_paragraphs: dict[str, list[ParagraphRow]] = {}
+    section_order: list[str] = []
+    for row in rows:
+        if row.section not in SALE_PROCESS_SECTIONS:
+            continue
+        if row.section not in section_paragraphs:
+            section_paragraphs[row.section] = []
+            section_order.append(row.section)
+        section_paragraphs[row.section].append(row)
 
-    expected_types = _unique_claim_types(_BACKGROUND_OBLIGATIONS)
-    region_id = make_id(slug, "region", 1)
-    conn.execute(
-        "INSERT INTO evidence_regions VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-        [
-            region_id,
-            run_id,
-            filing_id,
-            slug,
-            _BACKGROUND_REGION_KIND,
-            1,
-            selected[0].paragraph_id,
-            selected[-1].paragraph_id,
-            json.dumps([row.paragraph_id for row in selected]),
-            json.dumps([_BACKGROUND_SECTION]),
-            json.dumps(expected_types),
-        ],
-    )
-    for sequence, (claim_type, label, importance) in enumerate(_BACKGROUND_OBLIGATIONS, start=1):
-        obligation_id = make_id(slug, "obligation", sequence)
+    if not section_paragraphs:
+        raise ValueError(
+            f"filing {filing_id} has no sale-process paragraphs "
+            f"(e.g., 'Background of the Merger', 'Background of the Offer', "
+            f"or 'Past Contacts, Transactions, Negotiations and Agreements')"
+        )
+
+    region_ids: list[str] = []
+    obligation_counter = 0
+    for region_index, section in enumerate(section_order, start=1):
+        paragraphs = section_paragraphs[section]
+        region_text = "\n".join(p.paragraph_text for p in paragraphs)
+        decisions = decide_applicability(
+            region_text=region_text,
+            process_scope=process_scope,
+        )
+        applicable_decisions = [d for d in decisions if d.applicability == "applicable"]
+        if not applicable_decisions:
+            raise ValueError(
+                f"region for section {section!r} in filing {filing_id} has no "
+                "applicable obligations; refusing to send empty window to Linkflow"
+            )
+        expected_types = _ordered_unique(
+            d.obligation_kind.claim_type for d in applicable_decisions
+        )
+        region_id = make_id(slug, "region", region_index)
         conn.execute(
-            "INSERT INTO coverage_obligations VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO evidence_regions VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             [
-                obligation_id,
-                run_id,
                 region_id,
+                run_id,
                 filing_id,
                 slug,
-                claim_type,
-                label,
-                importance,
-                True,
+                _SALE_PROCESS_REGION_KIND,
+                region_index,
+                paragraphs[0].paragraph_id,
+                paragraphs[-1].paragraph_id,
+                json.dumps([row.paragraph_id for row in paragraphs]),
+                json.dumps([section]),
+                json.dumps(expected_types),
             ],
         )
-    return [region_id]
+        for decision in decisions:
+            obligation_counter += 1
+            obligation_id = make_id(slug, "obligation", obligation_counter)
+            kind = decision.obligation_kind
+            conn.execute(
+                "INSERT INTO coverage_obligations VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                [
+                    obligation_id,
+                    run_id,
+                    region_id,
+                    filing_id,
+                    slug,
+                    kind.claim_type,
+                    kind.kind,
+                    kind.label,
+                    kind.importance,
+                    decision.applicability,
+                    decision.reason_code,
+                    json.dumps(list(decision.basis)),
+                    True,
+                ],
+            )
+        region_ids.append(region_id)
+    return region_ids
 
 
 def _paragraph_rows(conn: duckdb.DuckDBPyConnection, filing_id: str) -> list[ParagraphRow]:
@@ -117,9 +161,18 @@ def _paragraph_rows(conn: duckdb.DuckDBPyConnection, filing_id: str) -> list[Par
     return [ParagraphRow(*row) for row in rows]
 
 
-def _unique_claim_types(obligations: tuple[tuple[str, str, str], ...]) -> list[str]:
-    claim_types: list[str] = []
-    for claim_type, _label, _importance in obligations:
-        if claim_type not in claim_types:
-            claim_types.append(claim_type)
-    return claim_types
+def _filing_process_scope(conn: duckdb.DuckDBPyConnection, filing_id: str) -> str:
+    row = conn.execute(
+        "SELECT process_scope FROM filings WHERE filing_id = ?", [filing_id]
+    ).fetchone()
+    if row is None:
+        raise ValueError(f"filing {filing_id} not found in filings table")
+    return row[0]
+
+
+def _ordered_unique(values) -> list[str]:
+    seen: list[str] = []
+    for value in values:
+        if value not in seen:
+            seen.append(value)
+    return seen

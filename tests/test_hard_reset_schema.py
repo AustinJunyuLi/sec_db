@@ -97,7 +97,10 @@ def test_typed_claims_reconcile_to_source_backed_projection(tmp_path: Path) -> N
 
     assert proof["row_counts"]["claims"] >= 5
     assert proof["row_counts"]["claim_dispositions"] == proof["row_counts"]["claims"]
-    assert proof["row_counts"]["coverage_results"] == proof["row_counts"]["coverage_obligations"]
+    # coverage_results are written for applicable obligations only; the
+    # inapplicable rows in coverage_obligations are audit-only.
+    assert proof["row_counts"]["coverage_results"] == proof["row_counts"]["applicable_coverage_obligations"]
+    assert proof["row_counts"]["coverage_results"] < proof["row_counts"]["coverage_obligations"]
     assert proof["row_counts"]["actor_relations"] >= 1
     assert proof["row_counts"]["participation_counts"] >= 1
     assert proof["row_counts"]["bidder_rows"] >= 1
@@ -347,33 +350,51 @@ def test_evidence_map_builds_one_full_background_sale_process_region() -> None:
         "sectioned-deal_para_3",
         "sectioned-deal_para_5",
     ]
-    assert json.loads(region[5]) == ["event", "participation_count", "actor", "bid", "actor_relation"]
+    # Universal obligations cover event/actor/bid; "exclusivity" triggers an
+    # additional applicable event obligation. No participation_count or
+    # actor_relation triggers fire for this minimal text.
+    assert json.loads(region[5]) == ["event", "actor", "bid"]
 
+    universal_kinds_in_order = (
+        ("event", "process_initiation", "Sales process initiation", "required", "applicable", "universal_sale_process"),
+        ("actor", "target_board", "Target board", "required", "applicable", "universal_sale_process"),
+        ("actor", "target_financial_advisor", "Financial advisor for target", "required", "applicable", "universal_sale_process"),
+        ("actor", "target_legal_advisor", "Legal advisor for target", "required", "applicable", "universal_sale_process"),
+        ("bid", "final_consideration", "Final transaction price", "required", "applicable", "universal_sale_process"),
+        ("event", "final_approval_event", "Final approval or signing event", "required", "applicable", "universal_sale_process"),
+    )
     obligations = conn.execute(
         """
-        SELECT expected_claim_type, obligation_label, importance
+        SELECT expected_claim_type, obligation_kind, obligation_label, importance,
+               applicability, applicability_reason_code
         FROM coverage_obligations
         WHERE filing_id = ?
         ORDER BY CAST(regexp_extract(obligation_id, '_(\\d+)$', 1) AS INTEGER)
         """,
         [filing_id],
     ).fetchall()
-    assert obligations == [
-        ("event", "Sales process initiation", "required"),
-        ("participation_count", "Bidder count at IOI stage", "required"),
-        ("participation_count", "Bidder count at first round", "important"),
-        ("event", "Final round bid receipt", "required"),
-        ("event", "Exclusivity grant", "required"),
-        ("actor", "Target board", "required"),
-        ("actor", "Financial advisor for target", "required"),
-        ("actor", "Legal advisor for target", "required"),
-        ("bid", "Final bid price", "required"),
-        ("actor_relation", "Buyer group composition", "important"),
-    ]
+    # Universal obligations come first in canonical order.
+    assert obligations[:6] == list(universal_kinds_in_order)
+
+    # The exclusivity trigger must be applicable for this text.
+    exclusivity_row = next(row for row in obligations if row[1] == "exclusivity_grant")
+    assert exclusivity_row[4] == "applicable"
+    assert exclusivity_row[5] == "trigger_phrase_match"
+
+    # Conditional obligations whose triggers do not fire must be marked
+    # not_applicable rather than dropped, so the audit ledger is complete.
+    inapplicable_kinds = {row[1] for row in obligations if row[4] == "not_applicable"}
+    assert "buyer_group_composition" in inapplicable_kinds
+    assert "rollover_holder" in inapplicable_kinds
+    assert "tender_offer_prior_contacts" in inapplicable_kinds  # not a tender-offer scope
+
+    # Linkflow only sees applicable obligations; it never receives the
+    # not_applicable rows.
     window = build_llm_windows(conn, filing_id=filing_id)[0]
-    assert [obligation.obligation_label for obligation in window.coverage_obligations] == [
-        label for _claim_type, label, _importance in obligations
+    applicable_labels = [
+        row[2] for row in obligations if row[4] == "applicable"
     ]
+    assert [obligation.obligation_label for obligation in window.coverage_obligations] == applicable_labels
 
 
 def test_evidence_map_fails_loudly_without_background_section() -> None:
@@ -384,9 +405,10 @@ def test_evidence_map_fails_loudly_without_background_section() -> None:
     try:
         build_evidence_map(conn, filing_id=filing_id, run_id=RUN_ID)
     except ValueError as exc:
+        assert "sale-process" in str(exc)
         assert "Background of the Merger" in str(exc)
     else:
-        raise AssertionError("expected missing Background section to fail loudly")
+        raise AssertionError("expected missing sale-process section to fail loudly")
 
 
 def _insert_filing(conn, tmp_path: Path) -> Path:

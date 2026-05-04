@@ -8,7 +8,13 @@ Current active plans live one level up in `quality_reports/plans/`.
 As of 2026-05-04, the active execution handoff is:
 
 ```text
-quality_reports/plans/2026-05-04_relation_revised_claim_only_p8_implementation_plan.md
+quality_reports/plans/2026-05-04_p8_region_applicability_ref9_plan.md
+```
+
+The executed P8 schema-freeze handoff has moved here:
+
+```text
+quality_reports/plans/legacy/2026-05-04_relation_revised_claim_only_p8_implementation_plan.md
 ```
 
 The schema decision evidence remains outside this archive:

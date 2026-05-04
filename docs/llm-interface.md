@@ -10,8 +10,11 @@ does not silently switch providers.
 ## Request Shape
 
 Production requests are evidence-map semantic windows covering one full
-`Background of the Merger` / sale-process section region. The production model
-does not receive single-paragraph windows, bounded snippets, or whole raw filings.
+sale-process section region. Filings may yield multiple regions (e.g., a
+tender-offer Offer to Purchase typically produces a `Background of the
+Offer` region and a `Past Contacts, Transactions, Negotiations and
+Agreements` region). The production model does not receive
+single-paragraph windows, bounded snippets, or whole raw filings.
 
 Each request contains:
 
@@ -22,10 +25,18 @@ Each request contains:
 - region id;
 - region kind;
 - ordered paragraph references;
-- coverage obligations;
-- allowed claim types;
+- applicable coverage obligations only (Python filters out the inapplicable
+  audit rows before the request is built);
+- allowed claim types (derived from the applicable obligations in the
+  window);
 - schema and extract versions;
 - request mode `claim_only_p8_relation_v1`.
+
+Linkflow never receives inapplicable obligations and is never asked to
+emit absence judgments. Python alone decides whether an obligation is
+applicable to a region (universal/conditional-with-trigger/scope-driven)
+and writes that decision to `coverage_obligations` for audit before any
+request is built.
 
 The model sees one filing and one deal only. It receives no cross-deal context.
 Default live Linkflow reasoning effort is `medium`. The only production request

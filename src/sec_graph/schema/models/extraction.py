@@ -102,6 +102,9 @@ class EvidenceRegion(BaseModel):
     expected_claim_types_json: str
 
 
+Applicability = Literal["applicable", "not_applicable"]
+
+
 class CoverageObligation(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
@@ -111,8 +114,12 @@ class CoverageObligation(BaseModel):
     filing_id: str
     deal_slug: str
     expected_claim_type: ClaimType
+    obligation_kind: str
     obligation_label: str
     importance: Literal["required", "important", "optional"]
+    applicability: Applicability
+    applicability_reason_code: str
+    applicability_basis_json: str
     current: bool = True
 
 
@@ -247,8 +254,12 @@ CREATE TABLE coverage_obligations (
   filing_id VARCHAR NOT NULL,
   deal_slug VARCHAR NOT NULL,
   expected_claim_type VARCHAR NOT NULL CHECK (expected_claim_type IN ('actor', 'event', 'bid', 'participation_count', 'actor_relation')),
+  obligation_kind VARCHAR NOT NULL,
   obligation_label VARCHAR NOT NULL,
   importance VARCHAR NOT NULL CHECK (importance IN ('required', 'important', 'optional')),
+  applicability VARCHAR NOT NULL CHECK (applicability IN ('applicable', 'not_applicable')),
+  applicability_reason_code VARCHAR NOT NULL,
+  applicability_basis_json VARCHAR NOT NULL,
   current BOOLEAN NOT NULL,
   FOREIGN KEY (region_id) REFERENCES evidence_regions(region_id),
   FOREIGN KEY (filing_id) REFERENCES filings(filing_id)

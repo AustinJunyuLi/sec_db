@@ -1,8 +1,10 @@
 # Relation-Revised Claim-Only P8 Implementation Plan
 
-**Status:** Executed on 2026-05-04. This file is retained as the executed
-handoff plan. Current binding authority is `docs/spec.md`,
-`docs/llm-interface.md`, and
+**Status:** Executed on 2026-05-04 and archived under `legacy/`. Do not execute
+this file as the active plan. Internal references to the former active path are
+historical. The current active handoff is
+`quality_reports/plans/2026-05-04_p8_region_applicability_ref9_plan.md`.
+Current binding authority is `docs/spec.md`, `docs/llm-interface.md`, and
 `docs/superpowers/specs/2026-05-03-pipeline-hard-reset-design.md`.
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.

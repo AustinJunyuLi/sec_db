@@ -106,6 +106,12 @@ def _check_claim_dispositions(conn: duckdb.DuckDBPyConnection) -> list[Validatio
 
 
 def _check_coverage_results(conn: duckdb.DuckDBPyConnection) -> list[ValidationFailure]:
+    """Every applicable+current obligation must have exactly one current result.
+
+    Inapplicable obligations are recorded for audit but do not require a
+    coverage_result; the LLM never sees them and Python never invents a
+    ``missed`` outcome from their absence.
+    """
     rows = conn.execute(
         """
         SELECT coverage_obligations.obligation_id, count(coverage_results.coverage_result_id)
@@ -114,6 +120,7 @@ def _check_coverage_results(conn: duckdb.DuckDBPyConnection) -> list[ValidationF
           ON coverage_results.obligation_id = coverage_obligations.obligation_id
          AND coverage_results.current = true
         WHERE coverage_obligations.current = true
+          AND coverage_obligations.applicability = 'applicable'
         GROUP BY coverage_obligations.obligation_id
         HAVING count(coverage_results.coverage_result_id) <> 1
         """
