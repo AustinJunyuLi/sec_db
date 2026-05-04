@@ -258,6 +258,45 @@ def test_medivation_reference9_uses_offer_to_purchase_exhibit() -> None:
     assert "dex99a1a" in source["primary_document_url"].lower()
 
 
+def test_sc_to_t_manifest_without_offer_to_purchase_exhibit_fails_loudly(tmp_path: Path) -> None:
+    from sec_graph.ingest.pipeline import IngestSource, ingest_source
+
+    source_dir = tmp_path / "bad-tender"
+    source_dir.mkdir()
+    raw_path = source_dir / "raw.md"
+    manifest_path = source_dir / "manifest.json"
+    raw_path.write_text(
+        "Background of the Offer\n\nThe offer materials say nothing useful.",
+        encoding="utf-8",
+    )
+    manifest_path.write_text(
+        json.dumps(
+            {
+                "source": {
+                    "filing_form_type": "SC TO-T",
+                    "selected_document_form_type": "SC TO-T",
+                    "primary_document_name": "cover.htm",
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+    conn = connect(":memory:")
+    init_schema(conn)
+    with pytest.raises(ValueError) as excinfo:
+        ingest_source(
+            conn,
+            IngestSource(
+                slug="bad-tender",
+                source_path=raw_path,
+                manifest_path=manifest_path,
+            ),
+        )
+    message = str(excinfo.value)
+    assert "SC TO-T" in message
+    assert "EX-99.(A)(1)(A)" in message
+
+
 @pytest.mark.parametrize("slug", ("penford", "zep", "saks"))
 def test_reference9_negative_facts_do_not_become_applicable(
     slug: str, fact_ledger: dict[str, dict]

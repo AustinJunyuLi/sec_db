@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -18,6 +19,8 @@ from .spans import paragraph_seed_span
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_EXAMPLES_DIR = REPO_ROOT / "data" / "examples"
+_TENDER_PARENT_FORMS = {"SC TO-T", "SC TO-T/A"}
+_OFFER_TO_PURCHASE_RE = re.compile(r"^EX-99\.\(?A\)?\(?1\)?\(?A\)?", re.IGNORECASE)
 
 
 @dataclass(frozen=True)
@@ -50,6 +53,7 @@ def _process_scope(source: IngestSource) -> str:
     if source.manifest_path is None:
         return "target_full_proxy"
     manifest = json.loads(source.manifest_path.read_text(encoding="utf-8"))
+    _require_offer_to_purchase_for_tender(source, manifest)
     form_type = str(
         manifest.get("source", {}).get("filing_form_type")
         or manifest.get("source", {}).get("form_type", "")
@@ -64,6 +68,27 @@ def _process_scope(source: IngestSource) -> str:
     if form_type in {"DEFA14A", "DEFA14A/A"}:
         return "amendment_only"
     raise ValueError(f"cannot map form_type {form_type!r} to process_scope for {source.slug}")
+
+
+def _require_offer_to_purchase_for_tender(source: IngestSource, manifest: dict) -> None:
+    source_info = manifest.get("source", {})
+    parent_form = str(
+        source_info.get("filing_form_type")
+        or source_info.get("form_type")
+        or ""
+    ).upper()
+    selected_form = str(source_info.get("selected_document_form_type") or "").upper()
+    selected_name = str(source_info.get("primary_document_name") or "").casefold()
+    if parent_form not in _TENDER_PARENT_FORMS:
+        return
+    if _OFFER_TO_PURCHASE_RE.match(selected_form):
+        return
+    if "ex99a1a" in selected_name or ("ex-99" in selected_name and "a1a" in selected_name):
+        return
+    raise ValueError(
+        f"{source.slug}: SC TO-T source must select EX-99.(A)(1)(A) Offer to Purchase exhibit; "
+        f"selected_document_form_type={selected_form!r}, primary_document_name={selected_name!r}"
+    )
 
 
 def ingest_source(conn: duckdb.DuckDBPyConnection, source: IngestSource) -> CleanFiling:
