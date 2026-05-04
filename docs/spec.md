@@ -90,6 +90,7 @@ evidence_regions
 coverage_obligations
 coverage_results
 claims
+claim_coverage_links
 actor_claims
 event_claims
 bid_claims
@@ -101,6 +102,10 @@ claim_dispositions
 
 `coverage_results` remains an extraction table, but it is Python-owned. It is
 never part of the provider response.
+
+`claim_coverage_links` persists the validated claim-to-obligation edge that
+proves `coverage_results.result = 'claims_emitted'`; the stored claim count must
+agree with current links for the same obligation and run.
 
 `coverage_obligations` carries the Python-owned applicability audit:
 `applicability` is one of `applicable` or `not_applicable`,

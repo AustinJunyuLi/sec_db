@@ -94,9 +94,17 @@ invocation. All used:
 All ten Linkflow requests completed with sanitized `_medium_success.json`
 artifacts: one request for each single-region deal and two requests for
 Medivation's two selected sale-process regions. Every per-deal run reached
-`reconcile` and then failed the stricter validation gate, which is the intended
-fail-loud behavior for unresolved required/important coverage or semantically
-unsupported relation claims.
+`reconcile` and then failed the stricter validation gate, which was the
+intended fail-loud behavior for unresolved required/important coverage or
+semantically unsupported relation claims.
+
+This table is a point-in-time P8 proof snapshot, not current Reference-9
+authority. It predates the 2026-05-04 correctness repair that rejected
+cross-reference-only regions, removed several false-positive obligation
+triggers, and added persisted failed-validation proof metadata. The listed runs
+produced validation reports and sanitized Linkflow artifacts; projection proof
+artifacts are only produced after validation passes, while failed validation is
+now represented by `failed_validation_proof.json`.
 
 | Deal | Run id | Regions | Applicable obligations | Claims imported | Coverage states | Validation failures |
 |---|---|---:|---:|---:|---|---|

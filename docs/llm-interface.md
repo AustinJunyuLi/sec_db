@@ -125,6 +125,8 @@ Python validates every provider result before insertion:
 
 Coverage proof is obligation-specific. Python assigns `claims_emitted` only
 from validated claim-to-obligation links, never from broad `claim_type` counts.
+The validated claim-to-obligation edge is persisted in `claim_coverage_links`
+and must agree with `coverage_results.claim_count`.
 Python assigns `missed` when the applicable request window contains source
 support but Linkflow returns no validated claim linked to the obligation.
 Python assigns `no_supported_claim` when the window is relevant but contains no

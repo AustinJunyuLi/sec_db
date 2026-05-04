@@ -1,6 +1,8 @@
 # P8 Region Applicability Ref-9 Plan
 
-**Status:** Active on 2026-05-04.
+**Status:** Superseded as implementation authority by
+`quality_reports/plans/2026-05-04_reference9_correctness_repair_plan.md`;
+retained as P8 phase context.
 
 **Goal:** Make the frozen P8 claim-only Linkflow contract production-useful by
 replacing the current single-Background/static-obligation map with validated
@@ -82,7 +84,7 @@ too narrow:
   `coverage_results` table already allows `no_supported_claim` and `ambiguous`,
   but the conversion path does not yet assign them.
 - `src/sec_graph/validate/integrity.py` requires exactly one current coverage
-  result for every current obligation.
+  result for every current applicable obligation.
 - All nine Reference-9 local filing directories exist under `data/filings/`.
   Committed examples cover only four slugs, so the offline Ref-9 gate is not
   yet durable enough.
@@ -366,7 +368,7 @@ Required behavior:
 Acceptance:
 
 - Same-family exact-obligation semantics still hold.
-- Every current obligation has exactly one current coverage result.
+- Every current applicable obligation has exactly one current coverage result.
 - Validation blocks `SOUND` when required or important coverage is unresolved.
 - Tests cover all four result states.
 
@@ -491,7 +493,7 @@ This plan is complete when:
   offline.
 - Applicability prevents false missing obligations without hiding real misses.
 - Linkflow still receives and returns only the frozen P8 claim-only contract.
-- Python writes auditable coverage results for every current obligation.
+- Python writes auditable coverage results for every current applicable obligation.
 - Validation prevents incomplete required/important coverage from passing.
 - A tracked session log records the Ref-9 offline proof, and live proof exists
   when credentials are available.

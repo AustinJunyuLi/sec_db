@@ -9,8 +9,7 @@ authority and they are NOT instructions for what to run next.
 
 - `docs/superpowers/specs/2026-05-03-pipeline-hard-reset-design.md` is the
   full-pipeline hard-reset authority.
-- `docs/spec.md` is the binding design and schema authority. §1A is the
-  deployable P8 schema contract.
+- `docs/spec.md` is the binding design and deployable-schema authority.
 - `docs/llm-interface.md` is the binding Linkflow typed-claim interface
   contract.
 

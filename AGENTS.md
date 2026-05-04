@@ -21,8 +21,8 @@ non-trivial change:
 
 - `docs/superpowers/specs/2026-05-03-pipeline-hard-reset-design.md` is the
   full-pipeline authority for the hard reset.
-- `docs/spec.md` is the binding design and schema contract. §1A is the
-  deployable-schema authority.
+- `docs/spec.md` is the binding design and schema contract. Its Schema
+  Authority section is the deployable-schema authority.
 - `docs/llm-interface.md` is the Linkflow typed-claim interface contract.
 
 `docs/prior-pipeline-lessons.md` is failure-mode context from the previous

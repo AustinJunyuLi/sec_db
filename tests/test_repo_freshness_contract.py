@@ -54,6 +54,23 @@ def test_spec_coverage_result_invariant_is_applicability_aware() -> None:
     assert "Every current applicable coverage obligation must have exactly one current result" in text
 
 
+def test_active_ref9_plan_uses_applicable_coverage_obligation_language() -> None:
+    text = (
+        REPO_ROOT
+        / "quality_reports"
+        / "plans"
+        / "2026-05-04_p8_region_applicability_ref9_plan.md"
+    ).read_text(encoding="utf-8")
+    assert "Every current obligation has exactly one current coverage result" not in text
+    assert "every current obligation has exactly one current coverage result" not in text
+    assert "current applicable obligation" in text
+
+
+def test_session_logs_do_not_reference_missing_spec_section() -> None:
+    text = (REPO_ROOT / "quality_reports" / "session_logs" / "README.md").read_text(encoding="utf-8")
+    assert "§1A" not in text
+
+
 def test_tracked_existing_files_do_not_contain_secrets_or_raw_provider_payloads() -> None:
     result = subprocess.run(["git", "ls-files"], cwd=REPO_ROOT, capture_output=True, text=True, check=True)
     patterns = {
