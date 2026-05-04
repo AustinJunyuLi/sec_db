@@ -1,0 +1,57 @@
+{
+  "schema_version": "2026-05-04",
+  "description": "Compact source-truth ledger for the bounded Reference-9 correctness gate. Snippets are short and local to the expected fact; full filings remain under data/filings/.",
+  "deals": {
+    "penford": {
+      "negative_facts": [
+        {
+          "kind": "exclusivity_grant",
+          "snippet_must_contain": "did not justify providing exclusivity",
+          "expected_applicability": "not_applicable",
+          "reason_code": "negative_or_requested_only"
+        },
+        {
+          "kind": "exclusivity_grant",
+          "snippet_must_contain": "declined to enter into exclusive negotiations",
+          "expected_applicability": "not_applicable",
+          "reason_code": "negative_or_requested_only"
+        },
+        {
+          "kind": "recusal",
+          "snippet_must_contain": "not interested in participating in any potential sale process",
+          "expected_applicability": "not_applicable",
+          "reason_code": "conditional_or_disclaimed"
+        }
+      ]
+    },
+    "zep": {
+      "negative_facts": [
+        {
+          "kind": "special_committee",
+          "snippet_must_contain": "not to form a transaction committee",
+          "expected_applicability": "not_applicable",
+          "reason_code": "negative_or_not_formed"
+        }
+      ]
+    },
+    "saks": {
+      "negative_facts": [
+        {
+          "kind": "recusal",
+          "snippet_must_contain": "did not participate",
+          "expected_applicability": "not_applicable",
+          "reason_code": "unrelated_bidder_nonparticipation"
+        }
+      ]
+    },
+    "medivation": {
+      "rejected_regions": [
+        {
+          "section": "Past Contacts, Transactions, Negotiations and Agreements",
+          "classification": "cross_reference_only",
+          "snippet_must_contain": "For more information on the Merger Agreement"
+        }
+      ]
+    }
+  }
+}

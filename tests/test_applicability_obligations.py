@@ -77,6 +77,34 @@ def test_conditional_obligation_is_applicable_only_with_trigger() -> None:
     assert without_decision.basis == ()
 
 
+@pytest.mark.parametrize(
+    ("text", "kind"),
+    [
+        (
+            "Buyer A requested exclusivity, but the board declined exclusivity.",
+            "exclusivity_grant",
+        ),
+        ("The board determined not to form a transaction committee.", "special_committee"),
+        ("Company F did not participate in a buyer offer.", "recusal"),
+    ],
+)
+def test_negative_or_unrelated_mentions_do_not_trigger_conditional_applicability(
+    text: str, kind: str
+) -> None:
+    decision = next(
+        item
+        for item in decide_applicability(region_text=text, process_scope="target_full_proxy")
+        if item.obligation_kind.kind == kind
+    )
+    assert decision.applicability == "not_applicable"
+    assert decision.reason_code in {
+        "negative_or_requested_only",
+        "negative_or_not_formed",
+        "unrelated_bidder_nonparticipation",
+        "trigger_phrase_absent",
+    }
+
+
 def test_scope_obligation_only_applies_to_listed_scope() -> None:
     proxy_decisions = decide_applicability(
         region_text="Some text.", process_scope="target_full_proxy"

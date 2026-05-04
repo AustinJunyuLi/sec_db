@@ -27,6 +27,7 @@ EXPECTATIONS_PATH = (
 APPLICABILITY_EXPECTATIONS_PATH = (
     REPO_ROOT / "tests" / "fixtures" / "reference9_applicability_expectations.json"
 )
+FACT_LEDGER_PATH = REPO_ROOT / "tests" / "fixtures" / "reference9_fact_ledger.json"
 RUN_ID = "2026-05-04T000000Z_reference9-offline_offline0"
 FETCH_COMMAND = "UV_CACHE_DIR=/private/tmp/uv-cache PYTHONDONTWRITEBYTECODE=1 uv run python scripts/fetch_filings.py --slug {slug}"
 
@@ -53,6 +54,10 @@ def _load_applicability_expectations() -> dict[str, dict]:
     ]
 
 
+def _load_fact_ledger() -> dict[str, dict]:
+    return json.loads(FACT_LEDGER_PATH.read_text(encoding="utf-8"))["deals"]
+
+
 @pytest.fixture(scope="module")
 def expectations() -> dict[str, dict]:
     return _load_expectations()
@@ -61,6 +66,11 @@ def expectations() -> dict[str, dict]:
 @pytest.fixture(scope="module")
 def applicability_expectations() -> dict[str, dict]:
     return _load_applicability_expectations()
+
+
+@pytest.fixture(scope="module")
+def fact_ledger() -> dict[str, dict]:
+    return _load_fact_ledger()
 
 
 def _missing_filings() -> list[str]:
@@ -246,6 +256,71 @@ def test_medivation_reference9_uses_offer_to_purchase_exhibit() -> None:
     assert selected_form_type == "EX-99.(A)(1)(A)"
     assert source["primary_document_name"].lower().endswith("ex99a1a.htm")
     assert "dex99a1a" in source["primary_document_url"].lower()
+
+
+@pytest.mark.parametrize("slug", ("penford", "zep", "saks"))
+def test_reference9_negative_facts_do_not_become_applicable(
+    slug: str, fact_ledger: dict[str, dict]
+) -> None:
+    if slug in _missing_filings():
+        pytest.fail(
+            f"Reference-9 slug {slug!r} has no data/filings/{slug}/raw.md; "
+            f"fetch it with: {FETCH_COMMAND.format(slug=slug)}"
+        )
+    conn = connect(":memory:")
+    init_schema(conn)
+    [source] = filing_sources([slug], filings_dir=FILINGS_DIR)
+    filing = ingest_source(conn, source)
+    build_evidence_map(conn, filing_id=filing.filing_id, run_id=RUN_ID)
+
+    rows = {
+        kind: applicability
+        for kind, applicability in conn.execute(
+            """
+            SELECT obligation_kind, applicability
+            FROM coverage_obligations
+            WHERE filing_id = ?
+              AND current = true
+            """,
+            [filing.filing_id],
+        ).fetchall()
+    }
+    for fact in fact_ledger[slug].get("negative_facts", []):
+        assert rows[fact["kind"]] == fact["expected_applicability"], (
+            f"{slug}: {fact['kind']} should be {fact['expected_applicability']} "
+            f"because source snippet contains {fact['snippet_must_contain']!r}"
+        )
+
+
+def test_medivation_cross_reference_only_past_contacts_region_is_rejected(
+    fact_ledger: dict[str, dict]
+) -> None:
+    slug = "medivation"
+    if slug in _missing_filings():
+        pytest.fail(
+            f"Reference-9 slug {slug!r} has no data/filings/{slug}/raw.md; "
+            f"fetch it with: {FETCH_COMMAND.format(slug=slug)}"
+        )
+    conn = connect(":memory:")
+    init_schema(conn)
+    [source] = filing_sources([slug], filings_dir=FILINGS_DIR)
+    filing = ingest_source(conn, source)
+    build_evidence_map(conn, filing_id=filing.filing_id, run_id=RUN_ID)
+
+    selected_sections = [
+        json.loads(row[0])[0]
+        for row in conn.execute(
+            """
+            SELECT trigger_phrases_json
+            FROM evidence_regions
+            WHERE filing_id = ?
+            ORDER BY priority
+            """,
+            [filing.filing_id],
+        ).fetchall()
+    ]
+    rejected = fact_ledger[slug]["rejected_regions"][0]["section"]
+    assert rejected not in selected_sections
 
 
 def _applicability_summary(conn, *, index: int) -> dict[str, object]:
