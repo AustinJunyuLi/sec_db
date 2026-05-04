@@ -155,6 +155,17 @@ class Claim(BaseModel):
     claim_sequence: int = Field(ge=1)
 
 
+class ClaimCoverageLink(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    claim_id: str
+    obligation_id: str
+    run_id: str
+    deal_slug: str
+    claim_type: ClaimType
+    current: bool = True
+
+
 class ActorClaim(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
@@ -296,6 +307,17 @@ CREATE TABLE claims (
   CHECK (claim_sequence >= 1),
   FOREIGN KEY (filing_id) REFERENCES filings(filing_id),
   FOREIGN KEY (region_id) REFERENCES evidence_regions(region_id)
+);
+
+CREATE TABLE claim_coverage_links (
+  claim_id VARCHAR PRIMARY KEY,
+  obligation_id VARCHAR NOT NULL,
+  run_id VARCHAR NOT NULL,
+  deal_slug VARCHAR NOT NULL,
+  claim_type VARCHAR NOT NULL CHECK (claim_type IN ('actor', 'event', 'bid', 'participation_count', 'actor_relation')),
+  current BOOLEAN NOT NULL,
+  FOREIGN KEY (claim_id) REFERENCES claims(claim_id),
+  FOREIGN KEY (obligation_id) REFERENCES coverage_obligations(obligation_id)
 );
 
 CREATE TABLE actor_claims (

@@ -56,6 +56,7 @@ def test_hard_reset_schema_replaces_candidates_and_array_evidence() -> None:
         "coverage_obligations",
         "coverage_results",
         "projection_units",
+        "claim_coverage_links",
         "projection_judgments",
         "bidder_rows",
         "run_manifest",

@@ -58,6 +58,12 @@ def build_evidence_map(
     process_scope = _filing_process_scope(conn, filing_id)
 
     conn.execute(
+        "DELETE FROM claim_coverage_links WHERE obligation_id IN ("
+        " SELECT obligation_id FROM coverage_obligations WHERE filing_id = ?"
+        ")",
+        [filing_id],
+    )
+    conn.execute(
         "DELETE FROM coverage_results WHERE obligation_id IN ("
         " SELECT obligation_id FROM coverage_obligations WHERE filing_id = ?"
         ")",

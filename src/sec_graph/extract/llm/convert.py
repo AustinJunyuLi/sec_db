@@ -132,6 +132,17 @@ def _insert_llm_response_rows(
                 claim_sequence - 1,
             ],
         )
+        conn.execute(
+            "INSERT INTO claim_coverage_links VALUES (?, ?, ?, ?, ?, ?)",
+            [
+                claim_id,
+                payload.coverage_obligation_id,
+                run_id,
+                request.deal_slug,
+                payload.claim_type,
+                True,
+            ],
+        )
         conn.execute("INSERT INTO claim_evidence VALUES (?, ?, ?)", [claim_id, span.evidence_id, 1])
         _insert_typed_claim(conn, claim_id, payload)
         coverage_claim_counts[payload.coverage_obligation_id] += 1

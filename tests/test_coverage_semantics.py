@@ -117,6 +117,81 @@ def test_single_event_claim_does_not_satisfy_all_event_obligations(tmp_path: Pat
     ]
 
 
+def test_inserted_claim_persists_coverage_obligation_link(tmp_path: Path) -> None:
+    conn = connect(":memory:")
+    init_schema(conn)
+    _insert_window_source(conn, tmp_path)
+    window = LLMWindowRequest(
+        request_id="coverage-deal_llmrequest_1",
+        deal_slug="coverage-deal",
+        deal_id="coverage-deal",
+        filing_id="coverage-deal_filing_1",
+        region_id="coverage-deal_region_1",
+        window_id="coverage-deal_window_1",
+        region_kind="sale_process_narrative",
+        ordered_paragraphs=[
+            WindowParagraph(
+                paragraph_id="coverage-deal_para_1",
+                source_span_id="coverage-deal_evidence_1",
+                char_start=0,
+                char_end=89,
+                paragraph_text=(
+                    "The Board began a sale process. "
+                    "The Board later granted exclusivity to Buyer A."
+                ),
+            )
+        ],
+        coverage_obligations=[
+            WindowObligation(
+                obligation_id="coverage-deal_obligation_1",
+                expected_claim_type="event",
+                obligation_label="Sales process initiation",
+                importance="required",
+            )
+        ],
+        allowed_claim_types=["event"],
+        schema_version=1,
+        extract_version=1,
+        request_mode=DEFAULT_REQUEST_MODE,
+    )
+    payload = SemanticClaimsPayload(
+        event_claims=[
+            EventClaimPayload(
+                claim_type="event",
+                coverage_obligation_id="coverage-deal_obligation_1",
+                event_type="process",
+                event_subtype="contact_initial",
+                event_date=None,
+                description="The Board began a sale process.",
+                actor_label=None,
+                actor_role=None,
+                confidence="high",
+                quote_text="The Board began a sale process.",
+            )
+        ]
+    )
+    response = LLMExtractionResponse(
+        request_id=window.request_id,
+        provider_name="linkflow",
+        provider_model="gpt-5.5",
+        reasoning_effort="medium",
+        payload=payload,
+        raw_response_sha256=quote_hash(json.dumps(payload.model_dump(mode="json"), sort_keys=True)),
+        finish_status="completed",
+    )
+
+    [claim_id] = insert_llm_response(conn, window, response, run_id=RUN_ID)
+
+    assert conn.execute(
+        """
+        SELECT claim_id, obligation_id, run_id, current
+        FROM claim_coverage_links
+        """
+    ).fetchall() == [
+        (claim_id, "coverage-deal_obligation_1", RUN_ID, True)
+    ]
+
+
 def test_rejected_claim_obligation_link_rolls_back_partial_inserts(tmp_path: Path) -> None:
     conn = connect(":memory:")
     init_schema(conn)
@@ -208,6 +283,7 @@ def test_rejected_claim_obligation_link_rolls_back_partial_inserts(tmp_path: Pat
         "claims",
         "actor_claims",
         "actor_relation_claims",
+        "claim_coverage_links",
         "claim_evidence",
         "coverage_results",
     ):
