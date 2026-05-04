@@ -16,6 +16,7 @@ import re
 from dataclasses import dataclass, field
 from typing import Literal
 
+from sec_graph.extract.source_support import SupportState, classify_obligation_support
 from sec_graph.schema.models.extraction import ClaimType
 
 Importance = Literal["required", "important", "optional"]
@@ -27,9 +28,9 @@ class ObligationKind:
     """Static metadata for a candidate coverage obligation.
 
     ``kind`` is the stable identifier used in the audit ledger. ``label`` is
-    the human-readable label sent to Linkflow. ``triggers`` is empty for
-    universal/scope-driven kinds; the conditional kinds carry compiled
-    regex patterns that vote on applicability.
+    the human-readable label sent to Linkflow. ``triggers`` is retained as
+    documented lexical metadata for conditional kinds; positive support is
+    classified by ``source_support.py`` rather than by broad trigger presence.
     """
 
     kind: str
@@ -350,14 +351,23 @@ def decide_applicability(
                     )
                 )
         elif kind.family == "conditional":
-            hits = _trigger_hits(region_text, kind.triggers)
-            if hits:
+            support = classify_obligation_support(kind.kind, region_text)
+            if support.state == SupportState.POSITIVE:
                 decisions.append(
                     ApplicabilityDecision(
                         obligation_kind=kind,
                         applicability="applicable",
-                        reason_code="trigger_phrase_match",
-                        basis=hits,
+                        reason_code="positive_source_support",
+                        basis=support.basis,
+                    )
+                )
+            elif support.state in {SupportState.NEGATIVE, SupportState.AMBIGUOUS}:
+                decisions.append(
+                    ApplicabilityDecision(
+                        obligation_kind=kind,
+                        applicability="not_applicable",
+                        reason_code=support.reason_code,
+                        basis=support.basis,
                     )
                 )
             else:
@@ -365,7 +375,7 @@ def decide_applicability(
                     ApplicabilityDecision(
                         obligation_kind=kind,
                         applicability="not_applicable",
-                        reason_code="trigger_phrase_absent",
+                        reason_code="source_support_absent",
                         basis=(),
                     )
                 )

@@ -62,8 +62,8 @@ def test_conditional_obligation_is_applicable_only_with_trigger() -> None:
         if d.obligation_kind.kind == "exclusivity_grant"
     )
     assert with_decision.applicability == "applicable"
-    assert with_decision.reason_code == "trigger_phrase_match"
-    assert with_decision.basis  # at least one trigger captured
+    assert with_decision.reason_code == "positive_source_support"
+    assert with_decision.basis  # at least one source-support basis captured
 
     without_decision = next(
         d
@@ -73,7 +73,7 @@ def test_conditional_obligation_is_applicable_only_with_trigger() -> None:
         if d.obligation_kind.kind == "exclusivity_grant"
     )
     assert without_decision.applicability == "not_applicable"
-    assert without_decision.reason_code == "trigger_phrase_absent"
+    assert without_decision.reason_code == "source_support_absent"
     assert without_decision.basis == ()
 
 
@@ -101,6 +101,8 @@ def test_negative_or_unrelated_mentions_do_not_trigger_conditional_applicability
         "negative_or_requested_only",
         "negative_or_not_formed",
         "unrelated_bidder_nonparticipation",
+        "source_support_absent",
+        "topic_only_or_ambiguous",
         "trigger_phrase_absent",
     }
 
@@ -161,7 +163,16 @@ def test_inapplicable_obligations_are_recorded_and_excluded_from_window() -> Non
     for row in inapplicable:
         basis = json.loads(row[3])
         assert isinstance(basis, list)
-        assert row[2] in {"trigger_phrase_absent", "process_scope_mismatch"}
+        assert row[2] in {
+            "conditional_or_disclaimed",
+            "negative_or_not_formed",
+            "negative_or_requested_only",
+            "process_scope_mismatch",
+            "source_support_absent",
+            "topic_only_or_ambiguous",
+            "trigger_phrase_absent",
+            "unrelated_bidder_nonparticipation",
+        }
 
     [window] = build_llm_windows(conn, filing_id=filing_id)
     window_kinds = {obligation.obligation_label for obligation in window.coverage_obligations}
