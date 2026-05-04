@@ -233,6 +233,73 @@ def test_claims_emitted_without_coverage_link_fails_validation(tmp_path: Path) -
     )
 
 
+def test_coverage_link_with_mismatched_claim_type_fails_validation(tmp_path: Path) -> None:
+    conn, _source_path = _semantic_db(
+        tmp_path,
+        bid_quote="On January 1, 2020, Party A submitted a final proposal of $10.00 per share",
+        relation_quote="Parent was an acquisition vehicle of Buyer Group",
+    )
+    obligation_id, claim_id = _claims_emitted_link(conn)
+    conn.execute(
+        """
+        UPDATE claims
+        SET claim_type = CASE WHEN claim_type = 'event' THEN 'actor' ELSE 'event' END
+        WHERE claim_id = ?
+        """,
+        [claim_id],
+    )
+
+    validation = validate_database(conn)
+
+    assert any(
+        failure.check == HardCheck.COVERAGE_RESULT
+        and failure.row_id == obligation_id
+        and claim_id in failure.detail
+        for failure in validation.hard_failures
+    )
+
+
+def test_coverage_link_with_mismatched_claim_run_fails_validation(tmp_path: Path) -> None:
+    conn, _source_path = _semantic_db(
+        tmp_path,
+        bid_quote="On January 1, 2020, Party A submitted a final proposal of $10.00 per share",
+        relation_quote="Parent was an acquisition vehicle of Buyer Group",
+    )
+    obligation_id, claim_id = _claims_emitted_link(conn)
+    conn.execute(
+        "UPDATE claims SET run_id = '2026-05-03T111213Z_other-run_badf00d' WHERE claim_id = ?",
+        [claim_id],
+    )
+
+    validation = validate_database(conn)
+
+    assert any(
+        failure.check == HardCheck.COVERAGE_RESULT
+        and failure.row_id == obligation_id
+        and claim_id in failure.detail
+        for failure in validation.hard_failures
+    )
+
+
+def test_coverage_link_with_mismatched_claim_deal_fails_validation(tmp_path: Path) -> None:
+    conn, _source_path = _semantic_db(
+        tmp_path,
+        bid_quote="On January 1, 2020, Party A submitted a final proposal of $10.00 per share",
+        relation_quote="Parent was an acquisition vehicle of Buyer Group",
+    )
+    obligation_id, claim_id = _claims_emitted_link(conn)
+    conn.execute("UPDATE claims SET deal_slug = 'other-deal' WHERE claim_id = ?", [claim_id])
+
+    validation = validate_database(conn)
+
+    assert any(
+        failure.check == HardCheck.COVERAGE_RESULT
+        and failure.row_id == obligation_id
+        and claim_id in failure.detail
+        for failure in validation.hard_failures
+    )
+
+
 def _semantic_db(tmp_path: Path, *, bid_quote: str, relation_quote: str):
     conn = connect(":memory:")
     init_schema(conn)
@@ -242,6 +309,19 @@ def _semantic_db(tmp_path: Path, *, bid_quote: str, relation_quote: str):
         insert_llm_response(conn, window, _response_for_window(window, bid_quote=bid_quote, relation_quote=relation_quote), RUN_ID)
     reconcile_all(conn, run_id=RUN_ID)
     return conn, source_path
+
+
+def _claims_emitted_link(conn) -> tuple[str, str]:
+    return conn.execute(
+        """
+        SELECT coverage_results.obligation_id, claim_coverage_links.claim_id
+        FROM coverage_results
+        JOIN claim_coverage_links USING (obligation_id)
+        WHERE coverage_results.result = 'claims_emitted'
+        ORDER BY coverage_results.obligation_id, claim_coverage_links.claim_id
+        LIMIT 1
+        """
+    ).fetchone()
 
 
 def _insert_filing(conn, tmp_path: Path) -> Path:

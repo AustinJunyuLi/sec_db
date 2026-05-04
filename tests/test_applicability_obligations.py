@@ -103,7 +103,6 @@ def test_negative_or_unrelated_mentions_do_not_trigger_conditional_applicability
         "unrelated_bidder_nonparticipation",
         "source_support_absent",
         "topic_only_or_ambiguous",
-        "trigger_phrase_absent",
     }
 
 
@@ -170,7 +169,6 @@ def test_inapplicable_obligations_are_recorded_and_excluded_from_window() -> Non
             "process_scope_mismatch",
             "source_support_absent",
             "topic_only_or_ambiguous",
-            "trigger_phrase_absent",
             "unrelated_bidder_nonparticipation",
         }
 

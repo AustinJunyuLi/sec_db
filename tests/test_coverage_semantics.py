@@ -311,7 +311,7 @@ def test_unlinked_applicable_obligations_get_all_python_coverage_states(tmp_path
                 "event",
                 "Exclusivity grant",
                 "important",
-                "trigger_phrase_match",
+                "positive_source_support",
                 ["exclusivity"],
             ),
             (

@@ -109,9 +109,10 @@ agree with current links for the same obligation and run.
 
 `coverage_obligations` carries the Python-owned applicability audit:
 `applicability` is one of `applicable` or `not_applicable`,
-`applicability_reason_code` is a deterministic short identifier
-(`universal_sale_process`, `trigger_phrase_match`, `trigger_phrase_absent`,
-`process_scope:<scope>`, or `process_scope_mismatch`), and
+`applicability_reason_code` is a deterministic short identifier such as
+`universal_sale_process`, `positive_source_support`, `source_support_absent`,
+`topic_only_or_ambiguous`, `negated_or_unrelated_source_support`,
+`process_scope:<scope>`, or `process_scope_mismatch`, and
 `applicability_basis_json` is a JSON list of trigger phrases or scope
 values that drove the decision. Validation only requires a current
 `coverage_result` for current obligations whose

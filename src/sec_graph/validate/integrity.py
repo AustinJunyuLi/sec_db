@@ -211,7 +211,13 @@ def _check_coverage_results(conn: duckdb.DuckDBPyConnection) -> list[ValidationF
         WHERE coverage_results.current = true
           AND (
             claim_coverage_links.run_id <> coverage_results.run_id
+            OR claim_coverage_links.run_id <> claims.run_id
+            OR claim_coverage_links.deal_slug <> claims.deal_slug
+            OR claim_coverage_links.deal_slug <> coverage_obligations.deal_slug
             OR claim_coverage_links.claim_type <> coverage_obligations.expected_claim_type
+            OR claim_coverage_links.claim_type <> claims.claim_type
+            OR claims.run_id <> coverage_results.run_id
+            OR claims.deal_slug <> coverage_obligations.deal_slug
             OR claims.region_id <> coverage_obligations.region_id
           )
         ORDER BY coverage_results.obligation_id, claim_coverage_links.claim_id
@@ -222,7 +228,7 @@ def _check_coverage_results(conn: duckdb.DuckDBPyConnection) -> list[ValidationF
             HardCheck.COVERAGE_RESULT,
             "claim_coverage_links",
             obligation_id,
-            f"linked claim {claim_id} does not match obligation run, type, or region",
+            f"linked claim {claim_id} does not match obligation run, deal, type, or region",
         )
         for obligation_id, claim_id in bad_link_rows
     )
