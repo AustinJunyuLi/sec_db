@@ -106,6 +106,23 @@ def run_pipeline(
         report = write_validation_outputs(conn, run_dir, allow_existing=True)
         record_artifact(run_dir, run_id=run_id, path=run_dir / "validation_report.json", artifact_kind="json_report", owning_stage="validate", deal_slug=None, created_by="write_validation_outputs")
         if not report["passed"]:
+            _write_failed_validation_proof(
+                run_dir=run_dir,
+                run_id=run_id,
+                manifest=manifest,
+                validation_report=report,
+                llm_config=llm_config,
+                request_mode=request_mode,
+            )
+            record_artifact(
+                run_dir,
+                run_id=run_id,
+                path=run_dir / "failed_validation_proof.json",
+                artifact_kind="json_report",
+                owning_stage="validate",
+                deal_slug=None,
+                created_by="_write_failed_validation_proof",
+            )
             raise RuntimeError(f"run failed validation; artifacts: {run_dir}")
         proof = write_projection_outputs(conn, run_dir, run_id=run_id, projection_name=projection_name, allow_existing=True)
         for artifact in (
@@ -268,9 +285,45 @@ def _atomic_copy(src: Path, dst: Path) -> None:
     os.replace(tmp, dst)
 
 
+def _write_failed_validation_proof(
+    *,
+    run_dir: Path,
+    run_id: str,
+    manifest: dict[str, object],
+    validation_report: dict[str, object],
+    llm_config: LLMProviderConfig | None,
+    request_mode: str,
+) -> None:
+    artifact_root = Path("artifacts/linkflow") / run_id
+    success_count = len(list(artifact_root.glob("*_success.json"))) if artifact_root.exists() else 0
+    failure_count = len(list(artifact_root.glob("*_failure.json"))) if artifact_root.exists() else 0
+    atomic_write_json(
+        run_dir / "failed_validation_proof.json",
+        {
+            "run_id": run_id,
+            "resolved_commit": manifest.get("code_identity"),
+            "validation_passed": bool(validation_report.get("passed")),
+            "validation_failure_count": len(validation_report.get("hard_failures", [])),
+            "provider": llm_config.provider_name if llm_config else None,
+            "model": llm_config.model if llm_config else None,
+            "reasoning_effort": llm_config.reasoning_effort if llm_config else None,
+            "request_mode": request_mode,
+            "artifact_counts": {
+                "linkflow_success": success_count,
+                "linkflow_failure": failure_count,
+            },
+        },
+    )
+
+
 def _git_head() -> str | None:
-    git_dir = Path(".git")
-    if not git_dir.exists():
+    import subprocess
+
+    try:
+        return subprocess.check_output(
+            ["git", "rev-parse", "HEAD"],
+            text=True,
+            stderr=subprocess.DEVNULL,
+        ).strip()
+    except Exception:
         return None
-    head = git_dir / "HEAD"
-    return head.read_text(encoding="utf-8").strip() if head.exists() else None
