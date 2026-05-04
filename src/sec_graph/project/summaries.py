@@ -47,9 +47,13 @@ def write_projection_outputs(
             "applicability",
             "applicability_reason_code",
             "applicability_basis_json",
+            "coverage_result_id",
             "result",
             "claim_count",
             "reason_code",
+            "coverage_current",
+            "obligation_current",
+            "linked_claim_ids_json",
         ],
     )
     _write_csv(run_dir / "claim_dispositions.csv", _disposition_rows(conn), ["deal_slug", "claim_id", "claim_type", "disposition", "canonical_table", "canonical_id", "reason_code"])
@@ -200,8 +204,8 @@ def _deal_summaries(conn: duckdb.DuckDBPyConnection) -> dict[str, dict[str, int]
             "event_actor_links": _count_query(conn, "SELECT count(*) FROM event_actor_links JOIN events USING (event_id) WHERE events.deal_id = ?", [deal_id]),
             "participation_counts": _count_where(conn, "participation_counts", "deal_id", deal_id),
             "bidder_rows": _count_where(conn, "bidder_rows", "deal_slug", slug),
-            "claim_dispositions": _count_query(conn, "SELECT count(*) FROM claim_dispositions JOIN claims USING (claim_id) WHERE claims.deal_slug = ?", [slug]),
-            "coverage_results": _count_query(conn, "SELECT count(*) FROM coverage_results JOIN coverage_obligations USING (obligation_id) WHERE coverage_obligations.deal_slug = ?", [slug]),
+        "claim_dispositions": _count_query(conn, "SELECT count(*) FROM claim_dispositions JOIN claims USING (claim_id) WHERE claims.deal_slug = ? AND claim_dispositions.current = true", [slug]),
+        "coverage_results": _count_query(conn, "SELECT count(*) FROM coverage_results JOIN coverage_obligations USING (obligation_id) WHERE coverage_obligations.deal_slug = ? AND coverage_results.current = true", [slug]),
         }
     return out
 
@@ -216,19 +220,41 @@ def _coverage_rows(conn: duckdb.DuckDBPyConnection) -> list[dict[str, Any]]:
         "applicability",
         "applicability_reason_code",
         "applicability_basis_json",
+        "coverage_result_id",
         "result",
         "claim_count",
         "reason_code",
+        "coverage_current",
+        "obligation_current",
+        "linked_claim_ids_json",
     ]
     rows = conn.execute(
         """
-        SELECT coverage_obligations.deal_slug, obligation_id, obligation_kind,
-               expected_claim_type, importance, applicability,
+        SELECT coverage_obligations.deal_slug, coverage_obligations.obligation_id,
+               obligation_kind, expected_claim_type, importance, applicability,
                applicability_reason_code, applicability_basis_json,
-               result, claim_count, reason_code
+               coverage_results.coverage_result_id, result, claim_count, reason_code,
+               coverage_results.current AS coverage_current,
+               coverage_obligations.current AS obligation_current,
+               COALESCE(
+                 to_json(list(claim_coverage_links.claim_id ORDER BY claim_coverage_links.claim_id)
+                   FILTER (WHERE claim_coverage_links.claim_id IS NOT NULL)),
+                 '[]'
+               ) AS linked_claim_ids_json
         FROM coverage_obligations
-        LEFT JOIN coverage_results USING (obligation_id)
-        ORDER BY coverage_obligations.deal_slug, obligation_id
+        LEFT JOIN coverage_results
+          ON coverage_results.obligation_id = coverage_obligations.obligation_id
+         AND coverage_results.current = true
+        LEFT JOIN claim_coverage_links
+          ON claim_coverage_links.obligation_id = coverage_obligations.obligation_id
+         AND claim_coverage_links.current = true
+        WHERE coverage_obligations.current = true
+        GROUP BY coverage_obligations.deal_slug, coverage_obligations.obligation_id,
+                 obligation_kind, expected_claim_type, importance, applicability,
+                 applicability_reason_code, applicability_basis_json,
+                 coverage_results.coverage_result_id, result, claim_count, reason_code,
+                 coverage_results.current, coverage_obligations.current
+        ORDER BY coverage_obligations.deal_slug, coverage_obligations.obligation_id
         """
     ).fetchall()
     return [dict(zip(columns, row, strict=True)) for row in rows]
@@ -242,7 +268,9 @@ def _disposition_rows(conn: duckdb.DuckDBPyConnection) -> list[dict[str, Any]]:
                claim_dispositions.disposition, claim_dispositions.canonical_table,
                claim_dispositions.canonical_id, claim_dispositions.reason_code
         FROM claims
-        LEFT JOIN claim_dispositions USING (claim_id)
+        LEFT JOIN claim_dispositions
+          ON claim_dispositions.claim_id = claims.claim_id
+         AND claim_dispositions.current = true
         ORDER BY claims.deal_slug, claims.claim_sequence, claims.claim_id
         """
     ).fetchall()
@@ -278,6 +306,7 @@ def observed_deal_metrics(conn: duckdb.DuckDBPyConnection, run_id: str) -> list[
                 FROM claim_dispositions
                 JOIN claims USING (claim_id)
                 WHERE claims.deal_slug = ?
+                  AND claim_dispositions.current = true
                 GROUP BY claim_dispositions.disposition
                 ORDER BY claim_dispositions.disposition
                 """,
@@ -293,6 +322,7 @@ def observed_deal_metrics(conn: duckdb.DuckDBPyConnection, run_id: str) -> list[
             WHERE claims.deal_slug = ?
               AND claim_dispositions.disposition = 'rejected'
               AND claim_dispositions.reason_code LIKE '%quote%'
+              AND claim_dispositions.current = true
             """,
             [slug],
         )
@@ -440,10 +470,17 @@ def _count_query(conn: duckdb.DuckDBPyConnection, query: str, params: list[Any] 
 
 
 def _group_count(conn: duckdb.DuckDBPyConnection, table: str, column: str) -> dict[str, int]:
+    where_current = " WHERE current = true" if _table_has_current(conn, table) else ""
     return {
         row[0]: int(row[1])
-        for row in conn.execute(f"SELECT {column}, count(*) FROM {table} GROUP BY {column} ORDER BY {column}").fetchall()
+        for row in conn.execute(
+            f"SELECT {column}, count(*) FROM {table}{where_current} GROUP BY {column} ORDER BY {column}"
+        ).fetchall()
     }
+
+
+def _table_has_current(conn: duckdb.DuckDBPyConnection, table: str) -> bool:
+    return any(row[1] == "current" for row in conn.execute(f"PRAGMA table_info({table})").fetchall())
 
 
 def _write_json(path: Path, payload: dict[str, Any]) -> None:

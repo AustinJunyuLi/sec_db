@@ -153,6 +153,79 @@ def _check_coverage_results(conn: duckdb.DuckDBPyConnection) -> list[ValidationF
         )
         for obligation_id, importance, result in unresolved_rows
     )
+    bad_not_applicable_rows = conn.execute(
+        """
+        SELECT coverage_obligations.obligation_id, coverage_results.coverage_result_id
+        FROM coverage_obligations
+        JOIN coverage_results
+          ON coverage_results.obligation_id = coverage_obligations.obligation_id
+         AND coverage_results.current = true
+        WHERE coverage_obligations.current = true
+          AND coverage_obligations.applicability = 'not_applicable'
+        ORDER BY coverage_obligations.obligation_id
+        """
+    ).fetchall()
+    failures.extend(
+        ValidationFailure(
+            HardCheck.COVERAGE_RESULT,
+            "coverage_obligations",
+            obligation_id,
+            f"not_applicable obligation has current coverage result {coverage_result_id}",
+        )
+        for obligation_id, coverage_result_id in bad_not_applicable_rows
+    )
+    unlinked_claims_emitted = conn.execute(
+        """
+        SELECT coverage_results.obligation_id
+        FROM coverage_results
+        LEFT JOIN claim_coverage_links
+          ON claim_coverage_links.obligation_id = coverage_results.obligation_id
+         AND claim_coverage_links.current = true
+        WHERE coverage_results.current = true
+          AND coverage_results.result = 'claims_emitted'
+        GROUP BY coverage_results.obligation_id, coverage_results.claim_count
+        HAVING count(claim_coverage_links.claim_id) = 0
+           OR count(claim_coverage_links.claim_id) <> coverage_results.claim_count
+        """
+    ).fetchall()
+    failures.extend(
+        ValidationFailure(
+            HardCheck.COVERAGE_RESULT,
+            "coverage_results",
+            obligation_id,
+            "claims_emitted has no linked claims or claim_count does not match persisted links",
+        )
+        for (obligation_id,) in unlinked_claims_emitted
+    )
+    bad_link_rows = conn.execute(
+        """
+        SELECT coverage_results.obligation_id, claim_coverage_links.claim_id
+        FROM coverage_results
+        JOIN coverage_obligations
+          ON coverage_obligations.obligation_id = coverage_results.obligation_id
+        JOIN claim_coverage_links
+          ON claim_coverage_links.obligation_id = coverage_results.obligation_id
+         AND claim_coverage_links.current = true
+        JOIN claims
+          ON claims.claim_id = claim_coverage_links.claim_id
+        WHERE coverage_results.current = true
+          AND (
+            claim_coverage_links.run_id <> coverage_results.run_id
+            OR claim_coverage_links.claim_type <> coverage_obligations.expected_claim_type
+            OR claims.region_id <> coverage_obligations.region_id
+          )
+        ORDER BY coverage_results.obligation_id, claim_coverage_links.claim_id
+        """
+    ).fetchall()
+    failures.extend(
+        ValidationFailure(
+            HardCheck.COVERAGE_RESULT,
+            "claim_coverage_links",
+            obligation_id,
+            f"linked claim {claim_id} does not match obligation run, type, or region",
+        )
+        for obligation_id, claim_id in bad_link_rows
+    )
     return failures
 
 

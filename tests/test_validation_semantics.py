@@ -167,6 +167,72 @@ def test_required_important_ambiguous_or_no_supported_coverage_blocks_sound(tmp_
     assert proof["insufficient_required_or_important_obligations"] == baseline["insufficient_required_or_important_obligations"] + 2
 
 
+def test_not_applicable_obligation_with_current_coverage_result_fails(tmp_path: Path) -> None:
+    conn, _source_path = _semantic_db(
+        tmp_path,
+        bid_quote="On January 1, 2020, Party A submitted a final proposal of $10.00 per share",
+        relation_quote="Parent was an acquisition vehicle of Buyer Group",
+    )
+    obligation_id = conn.execute(
+        """
+        SELECT obligation_id
+        FROM coverage_obligations
+        WHERE applicability = 'not_applicable'
+        ORDER BY obligation_id
+        LIMIT 1
+        """
+    ).fetchone()[0]
+    conn.execute(
+        "INSERT INTO coverage_results VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+            "bad_coverage_result",
+            RUN_ID,
+            obligation_id,
+            "missed",
+            "bad_not_applicable_result",
+            "not_applicable obligations must not carry coverage results",
+            0,
+            True,
+        ],
+    )
+
+    validation = validate_database(conn)
+
+    assert any(
+        failure.check == HardCheck.COVERAGE_RESULT
+        and failure.row_id == obligation_id
+        and "not_applicable" in failure.detail
+        for failure in validation.hard_failures
+    )
+
+
+def test_claims_emitted_without_coverage_link_fails_validation(tmp_path: Path) -> None:
+    conn, _source_path = _semantic_db(
+        tmp_path,
+        bid_quote="On January 1, 2020, Party A submitted a final proposal of $10.00 per share",
+        relation_quote="Parent was an acquisition vehicle of Buyer Group",
+    )
+    obligation_id = conn.execute(
+        """
+        SELECT obligation_id
+        FROM coverage_results
+        WHERE result = 'claims_emitted'
+        ORDER BY obligation_id
+        LIMIT 1
+        """
+    ).fetchone()[0]
+    conn.execute("DELETE FROM claim_coverage_links WHERE obligation_id = ?", [obligation_id])
+
+    validation = validate_database(conn)
+
+    assert any(
+        failure.check == HardCheck.COVERAGE_RESULT
+        and failure.row_id == obligation_id
+        and "claims_emitted has no linked claims" in failure.detail
+        for failure in validation.hard_failures
+    )
+
+
 def _semantic_db(tmp_path: Path, *, bid_quote: str, relation_quote: str):
     conn = connect(":memory:")
     init_schema(conn)
