@@ -1,0 +1,143 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 52.52,
+  "input_chars": 3196,
+  "input_path": "inputs/providence-worcester/W2_MULTI_REGION/w2_sale_process_part2.json",
+  "input_text_sha256": "f9b009ff94078ba80a4c1b0d4ab436d7c5291c76c48e71c01a2660c0b7b3491a",
+  "input_tokens": 2139,
+  "job_id": "stage2__providence-worcester__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_sale_process_part2__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 4,
+      "actor_relation_claims": 2,
+      "bid_claims": 0,
+      "event_claims": 2,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 8,
+    "relation_types": {
+      "advises": 1,
+      "supports": 1
+    },
+    "strict_claim_total": 8,
+    "total_quotes": 8
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 2869,
+  "output_text_sha256": "c3f884c295523fc20bd794bf5952a1ed8cf5f9692bbf21b2805400f2f24a5336",
+  "output_tokens": 2229,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "committee",
+        "actor_label": "the Board",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_sale_process_part2_obl_6",
+        "observability": "named",
+        "quote_text": "the Board (other than Director Smith, who recused himself from the August 12, 2016 meeting)"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "BMO",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_sale_process_part2_obl_7",
+        "observability": "named",
+        "quote_text": "representatives of BMO reviewed BMO\u2019s financial analyses supporting its opinion to the Board"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Hinckley Allen",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "providence-worcester_w2_sale_process_part2_obl_8",
+        "observability": "named",
+        "quote_text": "Hinckley Allen and Simpson Thacher finalized the transaction documents"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Simpson Thacher",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "providence-worcester_w2_sale_process_part2_obl_8",
+        "observability": "named",
+        "quote_text": "Hinckley Allen and Simpson Thacher finalized the transaction documents"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_sale_process_part2_obl_7",
+        "effective_date_first": null,
+        "object_label": "the Board",
+        "quote_text": "BMO then rendered an oral opinion to the Board, subsequently confirmed by delivery of a written opinion, dated August 12, 2016",
+        "relation_type": "advises",
+        "role_detail": "financial opinion",
+        "subject_label": "BMO"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "medium",
+        "coverage_obligation_id": "providence-worcester_w2_sale_process_part2_obl_10",
+        "effective_date_first": null,
+        "object_label": "G&W",
+        "quote_text": "the Company, G&W and the Eder Trusts executed the voting agreement",
+        "relation_type": "supports",
+        "role_detail": "voting agreement",
+        "subject_label": "the Eder Trusts"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "G&W",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "medium",
+        "coverage_obligation_id": "providence-worcester_w2_sale_process_part2_obl_4",
+        "description": "The Board determined that the G&W offer represented the superior proposal.",
+        "event_date": null,
+        "event_subtype": "final_round_bid",
+        "event_type": "bid",
+        "quote_text": "The Board determined that the G&W offer represented the superior proposal."
+      },
+      {
+        "actor_label": "the Company and G&W",
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_sale_process_part2_obl_5",
+        "description": "The Company and G&W executed the merger agreement.",
+        "event_date": null,
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "quote_text": "the Company and G&W executed the merger agreement"
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 5653,
+  "prompt_sha256": "3c30addd8b26d86898f2c93b11cf47a83153d39aade0f707151f72c7b86bcd36",
+  "reasoning": "medium",
+  "reasoning_tokens": 1552,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "providence-worcester",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_sale_process_part2",
+  "window_profile": "W2_MULTI_REGION"
+}

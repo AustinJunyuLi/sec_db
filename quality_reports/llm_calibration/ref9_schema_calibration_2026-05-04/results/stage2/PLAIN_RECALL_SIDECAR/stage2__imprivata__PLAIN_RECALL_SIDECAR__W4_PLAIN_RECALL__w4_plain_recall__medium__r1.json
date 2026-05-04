@@ -1,0 +1,632 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "PLAIN_RECALL_SIDECAR",
+  "duration_s": 161.82,
+  "input_chars": 120000,
+  "input_path": "inputs/imprivata/W4_PLAIN_RECALL/w4_plain_recall.json",
+  "input_text_sha256": "e9b3b12967eb5221c0599fd99e9e21fe3aed8ea84d492973701a65359f3af3c0",
+  "input_tokens": 23698,
+  "job_id": "stage2__imprivata__PLAIN_RECALL_SIDECAR__W4_PLAIN_RECALL__w4_plain_recall__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actors": 11,
+      "bids": 8,
+      "chronology": 32,
+      "counts": 11,
+      "relations": 13,
+      "source_limitations": 5,
+      "uncertain_or_missing": 5
+    },
+    "duplicate_quotes_within_response": 3,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 0.8875,
+    "quotes_in_window": 71,
+    "relation_types": {},
+    "sidecar_total_items": 85,
+    "strict_claim_total": 0,
+    "total_quotes": 80
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 37637,
+  "output_text_sha256": "b304835700e537d2ebd2cbc53ae5de7d33e76da0614ad08cc0a542dd7fa3c5d4",
+  "output_tokens": 7553,
+  "parsed": {
+    "actors": [
+      {
+        "date": null,
+        "description": "Imprivata is the target company, described as a healthcare IT security company headquartered in Lexington, Massachusetts.",
+        "exact_quote": "Imprivata is a healthcare IT security company that enables healthcare organizations globally to access, communicate, and transact patient information securely and conveniently.",
+        "importance": "core",
+        "label": "Imprivata, Inc."
+      },
+      {
+        "date": "2016-07-06",
+        "description": "Project Brady Holdings, LLC is Parent, formed solely for the merger-related transactions and affiliated with Thoma Bravo Fund XII, L.P.",
+        "exact_quote": "Parent was formed on July 6, 2016, solely for the purpose of engaging in the transactions contemplated by the merger agreement and has not engaged in any business activities other than in connection with the transactions contemplated by the merger agreement and arranging of the equity financing in connection with the merger.",
+        "importance": "core",
+        "label": "Project Brady Holdings, LLC / Parent"
+      },
+      {
+        "date": "2016-07-06",
+        "description": "Project Brady Merger Sub, Inc. is Merger Sub, a wholly owned direct subsidiary of Parent, also formed solely for the transaction.",
+        "exact_quote": "Merger Sub is a wholly-owned direct subsidiary of Parent, and was formed on July 6, 2016, solely for the purpose of engaging in the transactions contemplated by the merger agreement",
+        "importance": "core",
+        "label": "Project Brady Merger Sub, Inc. / Merger Sub"
+      },
+      {
+        "date": null,
+        "description": "Parent and Merger Sub are affiliated with Thoma Bravo Fund XII, L.P.; after the merger Imprivata would be affiliated with Thoma Bravo.",
+        "exact_quote": "Parent and Merger Sub are each affiliated with Thoma Bravo Fund XII, L.P. (the \u201c Thoma Bravo Fund \u201d).",
+        "importance": "core",
+        "label": "Thoma Bravo Fund XII, L.P."
+      },
+      {
+        "date": null,
+        "description": "Barclays was retained as Imprivata's financial advisor for a possible sale and rendered a fairness opinion.",
+        "exact_quote": "Pursuant to an engagement letter, dated as of April 15, 2016, Imprivata engaged Barclays to act as its financial advisor with respect to a possible sale of Imprivata.",
+        "importance": "core",
+        "label": "Barclays"
+      },
+      {
+        "date": null,
+        "description": "Goodwin Procter LLP served as Imprivata's outside legal counsel and advised the Board and Special Committee on fiduciary duties and transaction documents.",
+        "exact_quote": "representatives of the Company\u2019s outside legal counsel, Goodwin Procter LLP (\u201c Goodwin \u201d), were in attendance. Representatives of Goodwin discussed with the Board their fiduciary duties in the context of evaluating Thoma Bravo\u2019s indication of interest.",
+        "importance": "useful",
+        "label": "Goodwin Procter LLP"
+      },
+      {
+        "date": null,
+        "description": "Kirkland & Ellis LLP served as Thoma Bravo's outside counsel in merger agreement negotiations.",
+        "exact_quote": "Thoma Bravo\u2019s outside counsel, Kirkland & Ellis LLP (\u201c Kirkland \u201d) sent a revised draft of the merger agreement to Goodwin.",
+        "importance": "useful",
+        "label": "Kirkland & Ellis LLP"
+      },
+      {
+        "date": "2016-06-17",
+        "description": "Special Committee was formed from independent and disinterested non-management directors to oversee the strategic process.",
+        "exact_quote": "the Board established a special committee of the Board (the \u201c Special Committee \u201d) that included only independent and disinterested directors.",
+        "importance": "core",
+        "label": "Special Committee"
+      },
+      {
+        "date": "2016-06-17",
+        "description": "Special Committee members were David Barrett, Paul Maeder, Kate Walsh, Jack Blaeser, Dr. John Halamka and Rodger Weismann; Kate Walsh was elected Chairperson.",
+        "exact_quote": "The Special Committee consisted of all of the non-management directors on the Board, which were David Barrett, Paul Maeder, Kate Walsh, Jack Blaeser, Dr. John Halamka and Rodger Weismann.",
+        "importance": "core",
+        "label": "Special Committee members"
+      },
+      {
+        "date": null,
+        "description": "Chip Linnemann, through ChipLinnemann, LLC, acted as consultant/advisor concerning a sale of Imprivata and served as liaison support to the Special Committee.",
+        "exact_quote": "The Company entered into an agreement ... with ChipLinnemann, LLC ... for the provision of consulting and advisory services concerning a sale of Imprivata, which includes the proposed transaction.",
+        "importance": "useful",
+        "label": "Chip Linnemann / ChipLinnemann, LLC"
+      },
+      {
+        "date": null,
+        "description": "Anonymous sale-process participants included Strategic 1, Strategic 2, Strategic 3, Strategic 4, Sponsor A, and Sponsor B.",
+        "exact_quote": "These parties included a telecommunications enterprise company (\u201c Strategic 1 \u201d), two large software companies (\u201c Strategic 2 \u201d and \u201c Strategic 3 \u201d) and three financial sponsors (\u201c Sponsor A ,\u201d \u201c Sponsor B \u201d and Thoma Bravo).",
+        "importance": "core",
+        "label": "Anonymous bidders / participants"
+      }
+    ],
+    "bids": [
+      {
+        "date": "2016-03-09",
+        "description": "Thoma Bravo submitted an unsolicited non-binding indication of interest to acquire Imprivata for $15.00 per share in cash, fully equity financed, with diligence and signing possible within 30 days or less; Imprivata's closing stock price was $11.64 that day.",
+        "exact_quote": "On March 9, 2016, Thoma Bravo sent an unsolicited, non-binding indication of interest letter addressed to the Board indicating that Thoma Bravo would be interested in acquiring the Company for cash at a purchase price of $15.00 per share of Imprivata\u2019s common stock.",
+        "importance": "core",
+        "label": "Thoma Bravo initial IOI"
+      },
+      {
+        "date": "2016-06-09",
+        "description": "Sponsor A submitted a preliminary non-binding indication of interest at $16.50 per share, subject to diligence, with equity commitments for entire purchase price and no financing contingency.",
+        "exact_quote": "Sponsor A indicated a price of $16.50 per share.",
+        "importance": "core",
+        "label": "Sponsor A preliminary bid"
+      },
+      {
+        "date": "2016-06-09",
+        "description": "Thoma Bravo submitted a preliminary non-binding indication of interest at $17.25 per share and provided a form equity commitment letter and draft merger agreement.",
+        "exact_quote": "Thoma Bravo indicated a price of $17.25 per share, and also provided a form of equity commitment letter and draft merger agreement.",
+        "importance": "core",
+        "label": "Thoma Bravo preliminary bid"
+      },
+      {
+        "date": "2016-06-09",
+        "description": "Sponsor B submitted a preliminary non-binding indication of interest in a range of $17.00 to $18.00 per share.",
+        "exact_quote": "Sponsor B indicated a range of $17.00 - $18.00 per share.",
+        "importance": "core",
+        "label": "Sponsor B preliminary bid"
+      },
+      {
+        "date": "2016-06-09",
+        "description": "All three June 9 preliminary bids were subject to due diligence and had full equity commitments with no financing contingency.",
+        "exact_quote": "three parties (Sponsor A, Sponsor B and Thoma Bravo) presented written preliminary non-binding indications of interest that were each subject to satisfactory completion of due diligence, among other conditions. Each of these indications provided for equity commitments from fund sponsors for the entire purchase price and none of these indications of interest were contingent on financing.",
+        "importance": "core",
+        "label": "June 9 bid terms"
+      },
+      {
+        "date": "2016-07-08",
+        "description": "Only Thoma Bravo submitted a final bid, at $19.00 per share in cash, with equity commitment for entire purchase price and diligence completed.",
+        "exact_quote": "only Thoma Bravo submitted a bid for the Company. Thoma Bravo\u2019s bid was at a price of $19.00 per share in cash, provided for an equity commitment for the entire purchase price and indicated that Thoma Bravo had completed all of its due diligence",
+        "importance": "core",
+        "label": "Thoma Bravo final-round bid"
+      },
+      {
+        "date": "2016-07-09",
+        "description": "After being asked for best and final offer, Thoma Bravo increased its offer to $19.25 per share and indicated it was best and final.",
+        "exact_quote": "Barclays received a revised written, non-binding proposal from Thoma Bravo setting forth its best and final offer of $19.25 per share, together with a revised draft of the equity commitment letter for the entire purchase price for the Company.",
+        "importance": "core",
+        "label": "Thoma Bravo best and final bid"
+      },
+      {
+        "date": "2016-07-12",
+        "description": "Barclays opined that the $19.25 per share cash consideration was fair, from a financial point of view, to holders of Imprivata common stock other than excluded shares.",
+        "exact_quote": "Barclays then delivered its oral opinion ... to the effect that, as of such date ... from a financial point of view, the $19.25 per share cash consideration to be offered to the holders of shares of common stock of the Company (other than the Excluded Shares) was fair to such holders.",
+        "importance": "core",
+        "label": "Fairness opinion on $19.25 consideration"
+      }
+    ],
+    "chronology": [
+      {
+        "date": "2014-06",
+        "description": "Imprivata completed its IPO at $15.00 per share.",
+        "exact_quote": "In June 2014, the Company completed the initial public offering of its common stock priced at $15.00 per share.",
+        "importance": "useful",
+        "label": "IPO"
+      },
+      {
+        "date": "Early 2015 and 2015-06",
+        "description": "Thoma Bravo informally approached Imprivata representatives and expressed potential interest; no specific proposal was made.",
+        "exact_quote": "In early 2015, and again in June 2015, representatives of Thoma Bravo informally approached and had brief meetings with representatives of the Company, and expressed Thoma Bravo\u2019s potential interest in exploring a possible business transaction with the Company.",
+        "importance": "core",
+        "label": "Initial Thoma Bravo outreach"
+      },
+      {
+        "date": "2015-08-05 to 2015-10-22",
+        "description": "Thoma Bravo-affiliated private equity funds bought 1,213,066 Imprivata shares in open market purchases for approximately $17.4 million, representing less than 5% of outstanding shares.",
+        "exact_quote": "private equity funds affiliated with Thoma Bravo acquired an aggregate of 1,213,066 shares of Imprivata common stock (representing less than 5% of the outstanding shares of Imprivata common stock) in open market purchases for an aggregate purchase price of approximately $17.4 million",
+        "importance": "core",
+        "label": "Thoma Bravo share purchases"
+      },
+      {
+        "date": "2016-01",
+        "description": "Thoma Bravo again reiterated interest in a potential transaction at an industry conference; no proposal was made.",
+        "exact_quote": "In January 2016, representatives of Thoma Bravo met with members of Company management during an industry conference and reiterated Thoma Bravo\u2019s interest in a potential transaction with the Company. No specific proposal was made.",
+        "importance": "core",
+        "label": "Thoma Bravo renewed interest"
+      },
+      {
+        "date": "2016-03-09",
+        "description": "Thoma Bravo submitted its unsolicited $15.00 per share indication of interest.",
+        "exact_quote": "On March 9, 2016, Thoma Bravo sent an unsolicited, non-binding indication of interest letter addressed to the Board",
+        "importance": "core",
+        "label": "Thoma Bravo unsolicited IOI"
+      },
+      {
+        "date": "2016-03-10",
+        "description": "Board met to consider Thoma Bravo's indication, discussed fiduciary duties, deferred response pending further review, authorized a director advisory committee to recommend a financial advisor, and authorized CEO to tell Thoma Bravo the Board was evaluating the IOI.",
+        "exact_quote": "The Board concluded that it should defer consideration of Thoma Bravo\u2019s indication of interest and any response thereto until the Board had further considered the Company\u2019s short- and long-term business strategies and the Company\u2019s intrinsic value.",
+        "importance": "core",
+        "label": "Board response to IOI"
+      },
+      {
+        "date": "2016-04-15",
+        "description": "Board engaged Barclays, subject to an engagement letter, and initially concluded Thoma Bravo's indication undervalued Imprivata while asking Barclays to assemble other likely interested parties.",
+        "exact_quote": "While the Board determined to further evaluate Thoma Bravo\u2019s indication of interest, it concluded as a preliminary matter that it undervalued the Company. The Board also requested that Barclays assemble a list of other parties that would likely be interested in a business combination transaction involving the Company.",
+        "importance": "core",
+        "label": "Barclays engaged and market check planned"
+      },
+      {
+        "date": "2016-04-28",
+        "description": "Barclays reviewed an indicative list of 15 potentially interested parties: 11 strategic companies and four financial sponsors, including Thoma Bravo.",
+        "exact_quote": "Representatives of Barclays reviewed with the Board an indicative list of parties which Barclays believed would be potentially interested in pursuing a business combination transaction involving the Company, including 11 strategic companies and four financial sponsors, including Thoma Bravo.",
+        "importance": "core",
+        "label": "15-party list"
+      },
+      {
+        "date": "2016-05-05",
+        "description": "Board approved the indicative list and directed Barclays to contact each party confidentially, launching the strategic process.",
+        "exact_quote": "The Board also approved the indicative list of parties and determined that Barclays should contact each of the parties on the indicative list on a confidential basis to gauge its interest in a potential transaction with the Company, which we refer to as the \u201cstrategic process.\u201d",
+        "importance": "core",
+        "label": "Strategic process authorized"
+      },
+      {
+        "date": "2016-05-06 to 2016-06-09",
+        "description": "Barclays contacted all 15 parties; three strategic parties and four financial sponsors signed confidentiality agreements, including Thoma Bravo, and six parties attended high-level management presentations after one financial sponsor withdrew shortly after signing.",
+        "exact_quote": "During the period from May 6 through June 9, 2016, at the direction of the Board, Barclays contacted and had discussions with the 15 potentially interested parties ... Of the parties contacted, three strategic parties and four financial sponsors executed confidentiality agreements with the Company, including Thoma Bravo on May 10, 2016.",
+        "importance": "core",
+        "label": "Initial outreach and NDAs"
+      },
+      {
+        "date": "2016-06-03",
+        "description": "Barclays sent bid instructions to six NDA parties that had attended management meetings, setting a June 9 deadline and requesting offer price, financing sources, future plans, diligence needs and transaction structure.",
+        "exact_quote": "Barclays distributed a bid instruction letter on behalf of the Company to the six parties that had executed a confidentiality agreement and attended meetings with Company management by that date. The letter indicated a deadline for submitting indications of interest by June 9, 2016",
+        "importance": "core",
+        "label": "Initial bid instructions"
+      },
+      {
+        "date": "2016-06-08",
+        "description": "Strategic 1 withdrew, stating the acquisition would not be a strategic fit and it would not bid.",
+        "exact_quote": "Strategic 1 informed Barclays that after further internal consideration, an acquisition of the Company would not be a strategic fit for it, and therefore it was no longer interested in participating in the strategic process and would not be submitting an indication of interest.",
+        "importance": "core",
+        "label": "Strategic 1 withdrawal"
+      },
+      {
+        "date": "2016-06-09",
+        "description": "Sponsor A, Sponsor B and Thoma Bravo submitted preliminary non-binding bids; Imprivata's closing stock price was $13.46.",
+        "exact_quote": "On June 9, 2016, three parties (Sponsor A, Sponsor B and Thoma Bravo) presented written preliminary non-binding indications of interest",
+        "importance": "core",
+        "label": "Initial bids received"
+      },
+      {
+        "date": "2016-06-12",
+        "description": "Board reviewed the June 9 bids; Barclays reported 10 of 11 strategic parties had declined, and Strategic 3 had not submitted a bid despite NDA and management meeting.",
+        "exact_quote": "Barclays reported to the Board that at such time ten of the 11 strategic parties contacted by Barclays had declined to participate in the strategic process, and that while Strategic 3 had executed a confidentiality agreement and met with management, it did not submit a bid by the June 9, 2016 deadline.",
+        "importance": "core",
+        "label": "Strategic bidder attrition"
+      },
+      {
+        "date": "2016-06-12",
+        "description": "Board advanced Sponsor A, Sponsor B and Thoma Bravo to the second phase because their proposals were in close range, and directed Barclays to encourage higher bids and encourage Strategic 3 to submit a proposal.",
+        "exact_quote": "because Sponsor A, Sponsor B and Thoma Bravo had submitted proposals within close range of each other, the Board authorized Barclays to advance all three parties to the second phase of the strategic process and to encourage them to indicate a willingness to increase their respective offer prices.",
+        "importance": "core",
+        "label": "Second phase authorization"
+      },
+      {
+        "date": "2016-06-14",
+        "description": "Strategic 3 withdrew due to internal focus on other corporate transactions and perceived technology overlap.",
+        "exact_quote": "Strategic 3 informed representatives of Barclays that because of its internal focus on other corporate transactions and a perceived overlap in technologies, it was no longer interested in exploring a potential transaction with the Company.",
+        "importance": "core",
+        "label": "Strategic 3 withdrawal"
+      },
+      {
+        "date": "2016-06-15",
+        "description": "Sponsor A indicated any second-round bid would not be meaningfully higher than its initial $16.50 price; Barclays said the Board likely would not be interested, and no further discussions occurred.",
+        "exact_quote": "Sponsor A informed Barclays that in light of its view of the Company after its diligence, if it were to submit a second round bid, it would not be meaningfully higher than the price indicated in its June 9, 2016 preliminary indication of interest",
+        "importance": "core",
+        "label": "Sponsor A drops"
+      },
+      {
+        "date": "2016-06-17",
+        "description": "Board formed the Special Committee of independent/disinterested directors to direct the sale process and address potential management conflicts in a financial-sponsor sale context.",
+        "exact_quote": "because of the potential for management conflicts of interest to arise in the context of a potential sale to a financial sponsor, the Board would form a special committee of independent and disinterested directors that would direct the strategic process on behalf of the Board.",
+        "importance": "core",
+        "label": "Special Committee rationale"
+      },
+      {
+        "date": "2016-06-17",
+        "description": "Sponsor B and Thoma Bravo received access to the online data room.",
+        "exact_quote": "On June 17, 2016, Sponsor B and Thoma Bravo were provided access to an online data room containing nonpublic information regarding the Company.",
+        "importance": "core",
+        "label": "Data room access"
+      },
+      {
+        "date": "2016-06-23",
+        "description": "Strategic 4, an additional party contacted at the Special Committee's direction, declined to participate because an acquisition would not be a strategic fit.",
+        "exact_quote": "Strategic 4 informed Barclays that an acquisition of the Company would not be a strategic fit for it and that it was not interested in participating in the strategic process.",
+        "importance": "core",
+        "label": "Strategic 4 withdrawal"
+      },
+      {
+        "date": "2016-06-24",
+        "description": "Barclays sent final bid process letters to Sponsor B and Thoma Bravo, requesting marked merger agreement drafts by July 7 and final bids by July 8.",
+        "exact_quote": "Barclays sent final bid process letters to Sponsor B and Thoma Bravo, requesting marked drafts of the Company\u2019s proposed form of merger agreement ... by July 7, 2016, and setting a final bid deadline of July 8, 2016.",
+        "importance": "core",
+        "label": "Final bid letters"
+      },
+      {
+        "date": "2016-06-29",
+        "description": "Sponsor B indicated any final bid would be significantly below its initial $17.00-$18.00 range; Barclays said the Special Committee likely would not be interested, and no further discussions occurred.",
+        "exact_quote": "Sponsor B informed Barclays that in light of its revised views on the Company\u2019s growth outlook, if it were to submit a final bid, it would be significantly below the price indicated in its June 9, 2016 preliminary indication of interest",
+        "importance": "core",
+        "label": "Sponsor B drops"
+      },
+      {
+        "date": "2016-07-01",
+        "description": "Imprivata's proposed form merger agreement and voting agreement were made available to Thoma Bravo.",
+        "exact_quote": "On July 1, 2016, the Company\u2019s proposed form of merger agreement and voting agreement was made available to Thoma Bravo.",
+        "importance": "useful",
+        "label": "Draft agreements to Thoma Bravo"
+      },
+      {
+        "date": "2016-07-05 to 2016-07-06",
+        "description": "Imprivata permitted two potential debt financing sources to join Thoma Bravo's confidentiality agreement, but the merger was not conditioned on debt financing.",
+        "exact_quote": "the Company permitted two sources of potential debt financing ... to join as parties under the confidentiality agreement between the Company and Thoma Bravo.",
+        "importance": "useful",
+        "label": "Debt financing sources added to NDA"
+      },
+      {
+        "date": "2016-07-08",
+        "description": "Only Thoma Bravo submitted a final bid by the final bid deadline.",
+        "exact_quote": "On July 8, 2016, the date by which Sponsor B and Thoma Bravo had been invited to submit their final bids, only Thoma Bravo submitted a bid for the Company.",
+        "importance": "core",
+        "label": "Only final bidder"
+      },
+      {
+        "date": "2016-07-09",
+        "description": "Thoma Bravo increased to $19.25 per share as best and final after Barclays asked for an improved offer.",
+        "exact_quote": "Thoma Bravo made it clear that $19.25 per share was its best and final offer.",
+        "importance": "core",
+        "label": "Best and final offer"
+      },
+      {
+        "date": "2016-07-10 to 2016-07-13",
+        "description": "Goodwin and Kirkland negotiated merger agreement, voting agreement and equity commitment letter terms, including debt cooperation, termination rights/remedies, liability cap, third-party beneficiary rights, unsolicited proposal response rights, termination fee, and voting agreement parties.",
+        "exact_quote": "The key issues negotiated in the draft merger agreement and related agreements included the scope of the representations and warranties, the Company\u2019s obligations to cooperate with Thoma Bravo\u2019s debt financing efforts, the rights of the parties to terminate the transaction and related remedies",
+        "importance": "core",
+        "label": "Definitive agreement negotiations"
+      },
+      {
+        "date": "2016-07-11",
+        "description": "Imprivata refused Thoma Bravo's requested exclusivity agreement through July 13, 2016.",
+        "exact_quote": "Following discussion with the Chairperson of the Special Committee, Goodwin informed Kirkland that the Company would not enter into an exclusivity agreement.",
+        "importance": "core",
+        "label": "No exclusivity"
+      },
+      {
+        "date": "2016-07-11",
+        "description": "Imprivata also refused to contact a large stockholder pre-signing for a voting agreement, but agreed to do so promptly after signing.",
+        "exact_quote": "Goodwin informed Kirkland that the Company would not agree to contact such stockholder prior to the execution of the merger agreement, but that the Company would agree to contact such person promptly after the execution of the merger agreement and request that they execute a voting agreement.",
+        "importance": "useful",
+        "label": "Large stockholder voting agreement request"
+      },
+      {
+        "date": "2016-07-12",
+        "description": "Special Committee unanimously recommended Board approval after Barclays' fairness opinion and review of final terms.",
+        "exact_quote": "the Special Committee unanimously determined to recommend to the Board that the Company enter into the merger agreement for the transaction with Thoma Bravo on the terms presented to the Special Committee.",
+        "importance": "core",
+        "label": "Special Committee approval"
+      },
+      {
+        "date": "2016-07-12",
+        "description": "Board unanimously approved the merger agreement and recommended stockholder adoption.",
+        "exact_quote": "the Board unanimously adopted and declared the advisability of the merger agreement, and further declared that the merger agreement was in the best interests of the Company and its stockholders, and recommended that the Company\u2019s stockholders approve the merger agreement.",
+        "importance": "core",
+        "label": "Board approval"
+      },
+      {
+        "date": "2016-07-13",
+        "description": "Parties executed the merger agreement, received final equity commitment letter and voting agreements, and announced the transaction before market open.",
+        "exact_quote": "On July 13, 2016, before the stock market opened, the parties finalized and executed the merger agreement and received executed final copies of the equity commitment letter and the voting agreements.",
+        "importance": "core",
+        "label": "Signing and announcement"
+      }
+    ],
+    "counts": [
+      {
+        "date": "2016-04-28",
+        "description": "Initial outreach list consisted of 15 parties: 11 strategic companies and four financial sponsors, including Thoma Bravo.",
+        "exact_quote": "including 11 strategic companies and four financial sponsors, including Thoma Bravo.",
+        "importance": "core",
+        "label": "15 parties contacted"
+      },
+      {
+        "date": "2016-05-06 to 2016-06-09",
+        "description": "Of 15 contacted parties, three strategic parties and four financial sponsors executed confidentiality agreements.",
+        "exact_quote": "Of the parties contacted, three strategic parties and four financial sponsors executed confidentiality agreements with the Company",
+        "importance": "core",
+        "label": "7 NDAs"
+      },
+      {
+        "date": "2016-06-03",
+        "description": "Six NDA parties that attended management meetings received bid instruction letters.",
+        "exact_quote": "Barclays distributed a bid instruction letter on behalf of the Company to the six parties that had executed a confidentiality agreement and attended meetings with Company management by that date.",
+        "importance": "core",
+        "label": "6 bid letters"
+      },
+      {
+        "date": "2016-06-09",
+        "description": "Three parties submitted preliminary bids: Sponsor A, Sponsor B and Thoma Bravo.",
+        "exact_quote": "three parties (Sponsor A, Sponsor B and Thoma Bravo) presented written preliminary non-binding indications of interest",
+        "importance": "core",
+        "label": "3 preliminary bids"
+      },
+      {
+        "date": "2016-06-12",
+        "description": "By June 12, ten of 11 strategic parties had declined to participate; Strategic 3 had signed an NDA and met management but did not bid.",
+        "exact_quote": "ten of the 11 strategic parties contacted by Barclays had declined to participate in the strategic process",
+        "importance": "core",
+        "label": "10 of 11 strategic parties declined"
+      },
+      {
+        "date": "2016-07-08",
+        "description": "Only one party, Thoma Bravo, submitted a final bid.",
+        "exact_quote": "only Thoma Bravo submitted a bid for the Company.",
+        "importance": "core",
+        "label": "1 final bid"
+      },
+      {
+        "date": "2016-07-05 to 2016-07-06",
+        "description": "Two potential debt financing sources were permitted to join Thoma Bravo's confidentiality agreement.",
+        "exact_quote": "the Company permitted two sources of potential debt financing ... to join as parties under the confidentiality agreement between the Company and Thoma Bravo.",
+        "importance": "useful",
+        "label": "2 debt financing sources"
+      },
+      {
+        "date": null,
+        "description": "Special Committee's reasons section states that 16 different parties were involved in the process, including 12 strategic parties and four financial sponsors, and only Thoma Bravo made a final bid.",
+        "exact_quote": "16 different parties were involved in the process, including 12 strategic parties and four financial sponsors, in an effort to obtain the best value reasonably available to stockholders, and only Thoma Bravo made a final bid to acquire the Company.",
+        "importance": "core",
+        "label": "16 parties involved"
+      },
+      {
+        "date": null,
+        "description": "Company termination fee under specified circumstances was $13.6 million, about 2.5% of equity value.",
+        "exact_quote": "the Company will have an obligation to pay Thoma Bravo a termination fee of $13.6 million (equal to approximately 2.5% of the equity value of the transaction)",
+        "importance": "useful",
+        "label": "Termination fee"
+      },
+      {
+        "date": null,
+        "description": "Thoma Bravo Fund guarantee cap was $40.8 million.",
+        "exact_quote": "the Thoma Bravo Fund guarantees the payment of all of the liabilities and obligations of Parent and Merger Sub under the merger agreement, subject to an aggregate cap equal to $40.8 million.",
+        "importance": "useful",
+        "label": "Guarantee cap"
+      },
+      {
+        "date": null,
+        "description": "Barclays received approximately $12 million to $13 million in investment banking fees from Thoma Bravo and affiliates from January 1, 2013 to July 12, 2016.",
+        "exact_quote": "From January 1, 2013 to July 12, 2016, Barclays received compensation for investment banking services provided directly to Thoma Bravo and/or certain of its portfolio companies and affiliates of approximately $12 million to $13 million.",
+        "importance": "useful",
+        "label": "Barclays-Thoma Bravo fees"
+      }
+    ],
+    "relations": [
+      {
+        "date": null,
+        "description": "Parent and Merger Sub are affiliates of Thoma Bravo Fund XII, L.P.",
+        "exact_quote": "Parent and Merger Sub are each affiliated with Thoma Bravo Fund XII, L.P. (the \u201c Thoma Bravo Fund \u201d).",
+        "importance": "core",
+        "label": "Parent/Merger Sub - Thoma Bravo Fund"
+      },
+      {
+        "date": null,
+        "description": "Thoma Bravo Fund provided an equity commitment up to $548,148,554 plus up to an additional $20 million for certain fees and expenses after considering Imprivata cash.",
+        "exact_quote": "the Thoma Bravo Fund has provided to Parent an equity commitment of up to $548,148,554 plus, solely and to the extent necessary in order to pay any additional fees and expenses required by the merger agreement to be paid by Parent after taking into account the amount of available cash of Imprivata at the closing, up to an additional $20,000,000 in the aggregate",
+        "importance": "core",
+        "label": "Equity financing commitment"
+      },
+      {
+        "date": null,
+        "description": "Parent and/or Merger Sub may obtain debt financing, but the merger is not conditioned on obtaining debt financing.",
+        "exact_quote": "Parent and/or Merger Sub may obtain debt financing to offset a portion of the funds required to consummate the transactions contemplated by the merger agreement, but the merger is not conditioned on Parent\u2019s ability to obtain debt financing",
+        "importance": "core",
+        "label": "Debt financing not a condition"
+      },
+      {
+        "date": null,
+        "description": "After the merger, Imprivata as surviving corporation will be affiliated with Thoma Bravo.",
+        "exact_quote": "After giving effect to the merger, Imprivata, as the surviving corporation will be affiliated with Thoma Bravo.",
+        "importance": "core",
+        "label": "Post-merger affiliation"
+      },
+      {
+        "date": "2016-06-17",
+        "description": "Special Committee approved management guidelines prohibiting bidder discussions about compensation, retention or investment arrangements unless instructed otherwise, and prohibiting favoring any bidder.",
+        "exact_quote": "approved guidelines that Company management would be required to follow during the strategic process, including requirements to, except as otherwise instructed by the Special Committee, not engage in discussions regarding any compensation, retention or investment arrangements with bidders and not to favor any one bidder over other bidders.",
+        "importance": "core",
+        "label": "Management-bidder guidelines"
+      },
+      {
+        "date": "2016-06-27",
+        "description": "Company management and Barclays met over dinner with Thoma Bravo to discuss the business; management roles, compensation, retention and investment arrangements were not discussed.",
+        "exact_quote": "The parties did not discuss Company management roles, compensation, retention or investment arrangements in connection with the proposed transaction.",
+        "importance": "core",
+        "label": "No rollover/employment discussions at dinner"
+      },
+      {
+        "date": "2016-07-08",
+        "description": "Special Committee noted Thoma Bravo had not discussed or requested discussions with management about roles, compensation, retention or investment arrangements; offer was not conditioned on retention or management participation.",
+        "exact_quote": "Thoma Bravo\u2019s offer provided for equity financing for the entire acquisition of the Company and that its offer was not conditioned on any retention or participation by Company management.",
+        "importance": "core",
+        "label": "No management participation condition"
+      },
+      {
+        "date": "2016-07-11",
+        "description": "CEO call with Thoma Bravo concerned confirmatory diligence, and no employment, compensation or retention terms were discussed.",
+        "exact_quote": "In this discussion, no specific terms or conditions of employment regarding Company management, including potential compensation or retention, were discussed.",
+        "importance": "core",
+        "label": "No management employment terms discussed"
+      },
+      {
+        "date": null,
+        "description": "All standstill obligations under confidentiality agreements automatically terminated upon entry into the Thoma Bravo merger agreement.",
+        "exact_quote": "All standstill obligations under the confidentiality agreements automatically terminated upon the Company\u2019s entry into the merger agreement with Thoma Bravo.",
+        "importance": "useful",
+        "label": "Standstill termination"
+      },
+      {
+        "date": null,
+        "description": "Company may respond to certain bona fide written acquisition proposals before stockholder approval if Board or Special Committee determines it is or could lead to a superior proposal and failure to act would be inconsistent with fiduciary duties.",
+        "exact_quote": "Prior to the receipt of the Company stockholder approval, the Company may provide confidential information and/or engage in discussions or negotiations in connection with a bona fide written acquisition proposal ... if the Board or the Special Committee determines in good faith ... that such acquisition proposal either constitutes a superior proposal or could reasonably be expected to lead to a superior proposal",
+        "importance": "useful",
+        "label": "Fiduciary out / unsolicited proposals"
+      },
+      {
+        "date": null,
+        "description": "Board or Special Committee may change recommendation or terminate to enter a superior proposal, subject to Thoma Bravo matching rights and termination fee.",
+        "exact_quote": "The Board or the Special Committee may, in connection with a superior proposal, effect a change in recommendation ... and/or cause the Company to terminate the merger agreement to enter into a definitive agreement with respect to a superior proposal",
+        "importance": "useful",
+        "label": "Superior proposal termination right"
+      },
+      {
+        "date": null,
+        "description": "Thoma Bravo had a three-business-day matching right, renewed for two business days for material revisions to superior proposal terms.",
+        "exact_quote": "subject to a three business day \u201cmatching right\u201d that would allow Thoma Bravo to match a superior proposal, and which will renew for an additional two business days with any material revisions to the terms of the superior proposal.",
+        "importance": "useful",
+        "label": "Matching rights"
+      },
+      {
+        "date": null,
+        "description": "Imprivata retained Innisfree M&A Incorporated as proxy solicitor for the merger vote at a fee estimated not to exceed $15,000 plus expenses.",
+        "exact_quote": "Imprivata has also retained Innisfree M&A Incorporated (\u201c Innisfree \u201d) to assist in the solicitation of proxies at a fee estimated not to exceed $15,000, plus reasonable out of pocket expenses.",
+        "importance": "useful",
+        "label": "Proxy solicitor"
+      }
+    ],
+    "source_limitations": [
+      "The provided window is a proxy-statement excerpt focused on board process and fairness opinion; it does not include the full merger agreement annex or complete voting agreement text.",
+      "The excerpt describes voting agreements as executed and requested but does not identify all stockholders party to those agreements or the number/percentage of shares covered in this window.",
+      "The window does not provide a tender-offer structure; it describes a merger requiring stockholder approval, proxy solicitation, and a stockholders meeting.",
+      "The excerpt uses anonymized labels for other participants (Strategic 1-4, Sponsor A, Sponsor B) and does not reveal their identities.",
+      "The window cuts off during the prospective financial information section, so later projection tables and additional merger-agreement provisions may be outside the provided text."
+    ],
+    "uncertain_or_missing": [
+      {
+        "date": null,
+        "description": "Specific identities of Strategic 1, Strategic 2, Strategic 3, Strategic 4, Sponsor A and Sponsor B are not disclosed in this window.",
+        "exact_quote": "a telecommunications enterprise company (\u201c Strategic 1 \u201d), two large software companies (\u201c Strategic 2 \u201d and \u201c Strategic 3 \u201d) and three financial sponsors (\u201c Sponsor A ,\u201d \u201c Sponsor B \u201d and Thoma Bravo).",
+        "importance": "core",
+        "label": "Anonymous participant identities"
+      },
+      {
+        "date": null,
+        "description": "The window states voting agreements were executed but does not provide all parties or share coverage in the excerpt.",
+        "exact_quote": "the parties finalized and executed the merger agreement and received executed final copies of the equity commitment letter and the voting agreements.",
+        "importance": "uncertain",
+        "label": "Voting agreement details missing"
+      },
+      {
+        "date": null,
+        "description": "No rollover, retention, compensation, or management participation arrangement with Thoma Bravo is disclosed as having been discussed before signing; repeated statements say such matters were not discussed.",
+        "exact_quote": "no specific terms or conditions of employment regarding Company management, including potential compensation or retention, were discussed.",
+        "importance": "core",
+        "label": "No disclosed management rollover/employment terms pre-signing"
+      },
+      {
+        "date": null,
+        "description": "The merger was not conditioned on debt financing, although potential debt financing could be obtained and debt sources were allowed under the confidentiality agreement.",
+        "exact_quote": "Parent and/or Merger Sub may obtain debt financing to offset a portion of the funds required to consummate the transactions contemplated by the merger agreement, but the merger is not conditioned on Parent\u2019s ability to obtain debt financing",
+        "importance": "core",
+        "label": "Debt financing uncertain / optional"
+      },
+      {
+        "date": null,
+        "description": "The process involved merger stockholder approval rather than a tender offer, based on the provided excerpt.",
+        "exact_quote": "Under applicable law, we cannot complete the merger without the affirmative vote of a majority of the outstanding shares of Imprivata common stock entitled to vote at the stockholders meeting.",
+        "importance": "core",
+        "label": "No tender-offer evidence in window"
+      }
+    ]
+  },
+  "prompt_chars": 120739,
+  "prompt_sha256": "7f3687d4bd5750a898957ea69c1b07d87b9df9bbbe90f4b1b5f8b01ae2ad5fbf",
+  "reasoning": "medium",
+  "reasoning_tokens": 26,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "395ec9adc1244cf05f88f704783e6cc5565bc76e2584cde5245ec75b525f8e4c",
+  "slug": "imprivata",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w4_plain_recall",
+  "window_profile": "W4_PLAIN_RECALL"
+}

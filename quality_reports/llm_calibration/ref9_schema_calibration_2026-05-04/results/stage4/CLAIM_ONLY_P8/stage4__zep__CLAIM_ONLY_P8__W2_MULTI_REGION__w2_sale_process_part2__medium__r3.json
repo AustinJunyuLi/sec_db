@@ -1,0 +1,242 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 47.37,
+  "input_chars": 15025,
+  "input_path": "inputs/zep/W2_MULTI_REGION/w2_sale_process_part2.json",
+  "input_text_sha256": "2c0d9cf1a18337355be5a1fcfa30a57c906e3aca26b18a23ce3ff0788e100664",
+  "input_tokens": 4431,
+  "job_id": "stage4__zep__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_sale_process_part2__medium__r3",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 4,
+      "actor_relation_claims": 2,
+      "bid_claims": 2,
+      "event_claims": 6,
+      "participation_count_claims": 2
+    },
+    "duplicate_quotes_within_response": 3,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 2,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 9,
+    "not_unique_in_source_window": 4,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 16,
+    "relation_types": {
+      "advises": 2
+    },
+    "strict_claim_total": 16,
+    "total_quotes": 16
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 7209,
+  "output_text_sha256": "0c7a9a34311c6c8aa7d32485591724011ab250aebf31a51953f58c596a4169b9",
+  "output_tokens": 2734,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "committee",
+        "actor_label": "our board of directors",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part2_obl_6",
+        "observability": "named",
+        "quote_text": "our board of directors"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "BofA Merrill Lynch",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part2_obl_7",
+        "observability": "named",
+        "quote_text": "representatives of BofA Merrill Lynch"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "King & Spalding",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part2_obl_8",
+        "observability": "named",
+        "quote_text": "King & Spalding"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "New Mountain Capital",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part2_obl_10",
+        "observability": "named",
+        "quote_text": "New Mountain Capital"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part2_obl_7",
+        "effective_date_first": "2015-04-08",
+        "object_label": "the Company",
+        "quote_text": "Representatives of BofA Merrill Lynch commenced the go-shop process on our behalf on April 8, 2015.",
+        "relation_type": "advises",
+        "role_detail": "financial advisor",
+        "subject_label": "BofA Merrill Lynch"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part2_obl_8",
+        "effective_date_first": null,
+        "object_label": "the Company",
+        "quote_text": "Following the April 6, 2015 board meeting, representatives of King & Spalding continued to negotiate the final terms of the merger agreement with New Mountain Capital's advisors.",
+        "relation_type": "advises",
+        "role_detail": "legal advisor",
+        "subject_label": "King & Spalding"
+      }
+    ],
+    "bid_claims": [
+      {
+        "bid_date": "2015-02-26",
+        "bid_stage": "revised",
+        "bid_value": 20.05,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "New Mountain Capital",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": null,
+        "coverage_obligation_id": "zep_w2_sale_process_part2_obl_9",
+        "quote_text": "On February 26, 2015, New Mountain Capital delivered a revised indication of interest reflecting an increased per share price of $20.05, and indicated that this was the highest price it was willing to offer."
+      },
+      {
+        "bid_date": "2015-03-13",
+        "bid_stage": "final",
+        "bid_value": 20.05,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "New Mountain Capital",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": null,
+        "coverage_obligation_id": "zep_w2_sale_process_part2_obl_9",
+        "quote_text": "On March 13, 2015, New Mountain Capital communicated that the $20.05 per share offer price was New Mountain Capital's \"best and final\" offer."
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "BofA Merrill Lynch",
+        "actor_role": "advisor_for_target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part2_obl_1",
+        "description": "BofA Merrill Lynch commenced the go-shop process on the Company's behalf.",
+        "event_date": "2015-04-08",
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "quote_text": "Representatives of BofA Merrill Lynch commenced the go-shop process on our behalf on April 8, 2015."
+      },
+      {
+        "actor_label": "New Mountain Capital",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part2_obl_2",
+        "description": "New Mountain Capital delivered a revised indication of interest at $20.05 per share.",
+        "event_date": "2015-02-26",
+        "event_subtype": "ioi_submitted",
+        "event_type": "process",
+        "quote_text": "On February 26, 2015, New Mountain Capital delivered a revised indication of interest reflecting an increased per share price of $20.05, and indicated that this was the highest price it was willing to offer."
+      },
+      {
+        "actor_label": "New Mountain Capital",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part2_obl_4",
+        "description": "New Mountain Capital communicated that its $20.05 per share offer was its best and final offer.",
+        "event_date": "2015-03-13",
+        "event_subtype": "final_round_bid",
+        "event_type": "bid",
+        "quote_text": "On March 13, 2015, New Mountain Capital communicated that the $20.05 per share offer price was New Mountain Capital's \"best and final\" offer."
+      },
+      {
+        "actor_label": "New Mountain Capital",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part2_obl_5",
+        "description": "The Company signed an agreement providing New Mountain Capital exclusivity through March 31, 2015.",
+        "event_date": "2015-02-27",
+        "event_subtype": "exclusivity_grant",
+        "event_type": "process",
+        "quote_text": "On February 27, 2015, we signed an agreement with New Mountain Capital extending the term of the confidentiality provision, the \"standstill\" provision and the employee non-solicitation provision in our original confidentiality agreement with them as well as providing for an exclusivity period with New Mountain Capital through March 31, 2015."
+      },
+      {
+        "actor_label": "New Mountain Capital",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part2_obl_5",
+        "description": "The board authorized an extension of exclusivity with New Mountain Capital through April 7, 2015, signed on March 18, 2015.",
+        "event_date": "2015-03-18",
+        "event_subtype": "exclusivity_grant",
+        "event_type": "process",
+        "quote_text": "our board of directors authorized an extension of exclusivity with New Mountain Capital through April 7, 2015, which extension letter was signed on March 18, 2015."
+      },
+      {
+        "actor_label": "New Mountain Capital",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part2_obl_9",
+        "description": "The parties executed the merger agreement and related transaction documents.",
+        "event_date": "2015-04-08",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "quote_text": "Following the meeting of our board of directors, the parties executed the merger agreement and the related transaction documents and issued a press release announcing the transaction on the morning of April 8, 2015."
+      }
+    ],
+    "participation_count_claims": [
+      {
+        "actor_class": "financial",
+        "claim_type": "participation_count",
+        "confidence": "medium",
+        "count_max": 1,
+        "count_min": 1,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "zep_w2_sale_process_part2_obl_2",
+        "process_stage": "ioi_submitted",
+        "quote_text": "On February 26, 2015, New Mountain Capital delivered a revised indication of interest reflecting an increased per share price of $20.05, and indicated that this was the highest price it was willing to offer."
+      },
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": 58,
+        "count_min": 58,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "zep_w2_sale_process_part2_obl_1",
+        "process_stage": "contacted",
+        "quote_text": "During the go-shop process, representatives of BofA Merrill Lynch contacted a total of fifty-eight parties (including potential strategic and financial buyers) regarding each such party's interest in exploring a transaction with us."
+      }
+    ]
+  },
+  "prompt_chars": 17295,
+  "prompt_sha256": "5ae302de438eda28ec44882778c857fb10a5682eb6e48bebc49d8a62011fc8fe",
+  "reasoning": "medium",
+  "reasoning_tokens": 1034,
+  "replica": "r3",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "zep",
+  "stage": "stage4",
+  "status": "completed",
+  "window_id": "w2_sale_process_part2",
+  "window_profile": "W2_MULTI_REGION"
+}

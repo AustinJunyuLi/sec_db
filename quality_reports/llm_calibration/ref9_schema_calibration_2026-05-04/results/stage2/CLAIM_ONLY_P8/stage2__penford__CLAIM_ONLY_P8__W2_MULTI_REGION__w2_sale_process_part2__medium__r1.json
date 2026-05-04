@@ -1,0 +1,207 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 84.05,
+  "input_chars": 22470,
+  "input_path": "inputs/penford/W2_MULTI_REGION/w2_sale_process_part2.json",
+  "input_text_sha256": "20c366721c82f4ddfc453a26b6403836e431d70169cbcac16d95e13387317b74",
+  "input_tokens": 6011,
+  "job_id": "stage2__penford__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_sale_process_part2__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 3,
+      "actor_relation_claims": 3,
+      "bid_claims": 1,
+      "event_claims": 4,
+      "participation_count_claims": 2
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 2,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 5,
+    "not_unique_in_source_window": 3,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 13,
+    "relation_types": {
+      "advises": 2,
+      "supports": 1
+    },
+    "strict_claim_total": 13,
+    "total_quotes": 13
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 5281,
+  "output_text_sha256": "63cb7670707ac1f541736135df08ba4c11f162af38128208793c1217f20f245b",
+  "output_tokens": 2712,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "committee",
+        "actor_label": "Penford board",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_6",
+        "observability": "named",
+        "quote_text": "Penford board"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Deutsche Bank",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_7",
+        "observability": "named",
+        "quote_text": "Deutsche Bank"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Perkins Coie",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_8",
+        "observability": "named",
+        "quote_text": "Perkins Coie"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_7",
+        "effective_date_first": null,
+        "object_label": "Penford",
+        "quote_text": "certain members of management of each of Penford and Ingredion, and representatives of their legal advisors, Perkins Coie and Sidley Austin, respectively, and their financial advisors, Deutsche Bank and J.P. Morgan Securities, respectively",
+        "relation_type": "advises",
+        "role_detail": "financial advisor",
+        "subject_label": "Deutsche Bank"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_8",
+        "effective_date_first": null,
+        "object_label": "Penford",
+        "quote_text": "certain members of management of each of Penford and Ingredion, and representatives of their legal advisors, Perkins Coie and Sidley Austin, respectively, and their financial advisors, Deutsche Bank and J.P. Morgan Securities, respectively",
+        "relation_type": "advises",
+        "role_detail": "legal advisor",
+        "subject_label": "Perkins Coie"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "medium",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_10",
+        "effective_date_first": "2014-10-14",
+        "object_label": "Ingredion",
+        "quote_text": "Penford, Ingredion and SEACOR executed the voting and support agreement.",
+        "relation_type": "supports",
+        "role_detail": "party to voting and support agreement",
+        "subject_label": "SEACOR"
+      }
+    ],
+    "bid_claims": [
+      {
+        "bid_date": "2014-10-14",
+        "bid_stage": "final",
+        "bid_value": 19,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "Ingredion",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": null,
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_9",
+        "quote_text": "the purchase price per share, on a fully diluted basis, remained at $19.00 per share"
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "Ingredion",
+        "actor_role": "sender",
+        "claim_type": "event",
+        "confidence": "medium",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_1",
+        "description": "Ingredion first contacted Penford, initiating the process later reviewed by Deutsche Bank with the board.",
+        "event_date": null,
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "quote_text": "the process that the Company followed after it was first contacted by Ingredion"
+      },
+      {
+        "actor_label": "Ingredion",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "low",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_5",
+        "description": "The board directed management to proceed to negotiate and finalize a definitive agreement with Ingredion.",
+        "event_date": "2014-10-03",
+        "event_subtype": "exclusivity_grant",
+        "event_type": "process",
+        "quote_text": "the directors present at the board meeting unanimously directed management to proceed to negotiate and finalize a definitive agreement with Ingredion"
+      },
+      {
+        "actor_label": "Ingredion",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_4",
+        "description": "Ingredion confirmed the proposed price of $19.00 and discussed finalizing the merger agreement.",
+        "event_date": "2014-10-14",
+        "event_subtype": "final_round_bid",
+        "event_type": "bid",
+        "quote_text": "On October 14, 2014, Mr. Fortnum called Mr. Malkoski to confirm the proposed price of $19.00 and discuss finalizing the draft merger agreement and proceeding with the transaction as previously planned."
+      },
+      {
+        "actor_label": "Penford and Ingredion",
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_4",
+        "description": "Penford and Ingredion finalized and executed the merger agreement.",
+        "event_date": "2014-10-14",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "quote_text": "During the evening on October 14, 2014, Penford and Ingredion finalized and executed the merger agreement"
+      }
+    ],
+    "participation_count_claims": [
+      {
+        "actor_class": "strategic",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": 6,
+        "count_min": 6,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_2",
+        "process_stage": "contacted",
+        "quote_text": "Deutsche Bank reported that as part of the market check process, it had contacted a total of six potential counterparties"
+      },
+      {
+        "actor_class": "strategic",
+        "claim_type": "participation_count",
+        "confidence": "medium",
+        "count_max": 3,
+        "count_min": 3,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_3",
+        "process_stage": "nda_signed",
+        "quote_text": "the remaining three of which either did not move forward in a timely manner or made a lower indication of value"
+      }
+    ]
+  },
+  "prompt_chars": 24784,
+  "prompt_sha256": "b22a61bae798979ca45a19f9b613a4b2ec8f33f51b44fdc73e4402ed48a538d4",
+  "reasoning": "medium",
+  "reasoning_tokens": 1483,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "penford",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_sale_process_part2",
+  "window_profile": "W2_MULTI_REGION"
+}

@@ -11,7 +11,7 @@ from pathlib import Path
 
 from sec_graph.cli.extract_cmd import llm_config_from_args
 from sec_graph.corpus import create_corpus_skeleton
-from sec_graph.extract.llm.models import LLMProviderConfig
+from sec_graph.extract.llm.models import DEFAULT_REQUEST_MODE, LLMProviderConfig
 from sec_graph.extract.pipeline import run_extract
 from sec_graph.ingest.pipeline import DEFAULT_EXAMPLES_DIR, IngestSource, example_sources, filing_sources, ingest_sources
 from sec_graph.project.summaries import default_cost_envelope_assumptions, observed_deal_metrics, write_projection_outputs
@@ -43,8 +43,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--projection", default="bidder_cycle_baseline_v1", help="projection name")
     parser.add_argument("--llm-provider", choices=["linkflow"], help="optional LLM typed-claim provider")
     parser.add_argument("--llm-model", default="gpt-5.5", help="LLM model name")
-    parser.add_argument("--llm-reasoning-effort", choices=["low", "medium", "high", "xhigh"], default="high")
-    parser.add_argument("--request-mode", choices=["semantic_claims_v1"], default="semantic_claims_v1")
+    parser.add_argument("--llm-reasoning-effort", choices=["low", "medium", "high", "xhigh"], default="medium")
+    parser.add_argument("--request-mode", choices=[DEFAULT_REQUEST_MODE], default=DEFAULT_REQUEST_MODE)
     return parser
 
 
@@ -58,7 +58,7 @@ def run_pipeline(
     examples_dir: Path = DEFAULT_EXAMPLES_DIR,
     db_path: Path | None = None,
     llm_config: LLMProviderConfig | None = None,
-    request_mode: str = "semantic_claims_v1",
+    request_mode: str = DEFAULT_REQUEST_MODE,
     resume: bool = False,
 ) -> dict[str, object]:
     validate_run_id(run_id)

@@ -1,0 +1,84 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_MULTI_QUOTE_P8",
+  "duration_s": 25.61,
+  "input_chars": 22000,
+  "input_path": "inputs/providence-worcester/W2_MULTI_REGION/w2_support_or_voting_agreement.json",
+  "input_text_sha256": "1e590e3fe61da32832bf722ce31f40b240e314d96e6e01b2f568b400f069de69",
+  "input_tokens": 6419,
+  "job_id": "stage2__providence-worcester__EXPANDED_MULTI_QUOTE_P8__W2_MULTI_REGION__w2_support_or_voting_agreement__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 1,
+      "actor_relation_claims": 1,
+      "bid_claims": 0,
+      "event_claims": 0,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 2,
+    "relation_types": {
+      "supports": 1
+    },
+    "strict_claim_total": 2,
+    "total_quotes": 2
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 844,
+  "output_text_sha256": "0da766316bb0ded8f275496f4187055549ca2ae32d8ae2fb040023bdcb4c5812",
+  "output_tokens": 685,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "committee",
+        "actor_label": "PWRR board of directors",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_support_or_voting_agreement_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "The PWRR board of directors (the \u201cBoard\u201d) recommends"
+        ]
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_support_or_voting_agreement_obl_2",
+        "effective_date_first": null,
+        "object_label": "merger proposal",
+        "quote_texts": [
+          "The PWRR board of directors (the \u201cBoard\u201d) recommends that you vote \u201cFOR\u201d the merger proposal"
+        ],
+        "relation_type": "supports",
+        "role_detail": "recommends shareholders vote FOR",
+        "subject_label": "PWRR board of directors"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 24103,
+  "prompt_sha256": "edea3f3f2757ed4f0d0a7195df44c3954fb614507eb412c3013f4c6887a84923",
+  "reasoning": "medium",
+  "reasoning_tokens": 461,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "0e783020c5768c044a886e0c68312d3e78a57555f4637885fb098049de8a7824",
+  "slug": "providence-worcester",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_support_or_voting_agreement",
+  "window_profile": "W2_MULTI_REGION"
+}

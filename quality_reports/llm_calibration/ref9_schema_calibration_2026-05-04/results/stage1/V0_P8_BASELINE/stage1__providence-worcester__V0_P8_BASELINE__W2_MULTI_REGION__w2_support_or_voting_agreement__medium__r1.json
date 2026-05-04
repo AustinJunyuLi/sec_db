@@ -1,0 +1,76 @@
+{
+  "attempt_count": 2,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "V0_P8_BASELINE",
+  "duration_s": 14.03,
+  "input_chars": 22000,
+  "input_path": "inputs/providence-worcester/W2_MULTI_REGION/w2_support_or_voting_agreement.json",
+  "input_text_sha256": "1e590e3fe61da32832bf722ce31f40b240e314d96e6e01b2f568b400f069de69",
+  "input_tokens": 6215,
+  "job_id": "stage1__providence-worcester__V0_P8_BASELINE__W2_MULTI_REGION__w2_support_or_voting_agreement__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 0,
+      "actor_relation_claims": 0,
+      "bid_claims": 0,
+      "coverage_results": 3,
+      "event_claims": 0,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": null,
+    "quotes_in_window": 0,
+    "relation_types": {},
+    "strict_claim_total": 0,
+    "total_quotes": 0
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 1089,
+  "output_text_sha256": "07ba8d985270ce0441fafcc66510a05ab4fe6f805683cba8f2fbf3f2dba1f09c",
+  "output_tokens": 423,
+  "parsed": {
+    "actor_claims": [],
+    "actor_relation_claims": [],
+    "bid_claims": [],
+    "coverage_results": [
+      {
+        "obligation_id": "providence-worcester_w2_support_or_voting_agreement_obl_1",
+        "reason": "The source window references a 'Voting Agreement' in the table of contents but does not identify any support or voting shareholders.",
+        "reason_code": "no_support_shareholder_identified",
+        "result": "no_supported_claim"
+      },
+      {
+        "obligation_id": "providence-worcester_w2_support_or_voting_agreement_obl_2",
+        "reason": "The source window does not describe any voting support or support agreement relationship involving a shareholder.",
+        "reason_code": "no_support_relation_described",
+        "result": "no_supported_claim"
+      },
+      {
+        "obligation_id": "providence-worcester_w2_support_or_voting_agreement_obl_3",
+        "reason": "The source window provides outstanding share and voting requirement information for the special meeting, but does not state any shares or voting percentage subject to a support or voting agreement.",
+        "reason_code": "no_supported_support_percentage_or_shares",
+        "result": "no_supported_claim"
+      }
+    ],
+    "event_claims": [],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23866,
+  "prompt_sha256": "ebfd06d1f876e50fd223dd2a5036de48bfec46f98f2a7fbac9f096445a44d20c",
+  "reasoning": "medium",
+  "reasoning_tokens": 178,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "891e4a5674ba114d92ee1d400df86fba7a95780231cc29bd539799ee3cd2af97",
+  "slug": "providence-worcester",
+  "stage": "stage1",
+  "status": "completed",
+  "window_id": "w2_support_or_voting_agreement",
+  "window_profile": "W2_MULTI_REGION"
+}

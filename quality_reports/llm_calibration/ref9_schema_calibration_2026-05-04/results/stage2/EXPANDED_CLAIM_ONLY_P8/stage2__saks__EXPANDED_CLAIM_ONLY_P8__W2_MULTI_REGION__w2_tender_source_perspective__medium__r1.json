@@ -1,0 +1,122 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_CLAIM_ONLY_P8",
+  "duration_s": 21.75,
+  "input_chars": 22000,
+  "input_path": "inputs/saks/W2_MULTI_REGION/w2_tender_source_perspective.json",
+  "input_text_sha256": "e15846ec6d4ebb1606568eaed341ea1709563c61d0657836a0668898191cc66e",
+  "input_tokens": 5750,
+  "job_id": "stage2__saks__EXPANDED_CLAIM_ONLY_P8__W2_MULTI_REGION__w2_tender_source_perspective__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 5,
+      "actor_relation_claims": 0,
+      "bid_claims": 0,
+      "event_claims": 1,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 3,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 1,
+    "not_unique_in_source_window": 2,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 6,
+    "relation_types": {},
+    "strict_claim_total": 6,
+    "total_quotes": 6
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 2012,
+  "output_text_sha256": "a42494d8bf1de9e6cb370a50c2e75bddca539c514b39ac3fefb09e6f556bd01a",
+  "output_tokens": 1021,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "the Company",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "the Company"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Hudson\u2019s Bay",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "Hudson\u2019s Bay"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Merger Sub",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "Merger Sub"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "the Equity Provider",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "the Equity Provider"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "the parties to the debt commitment letter",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "the parties to the debt commitment letter"
+      }
+    ],
+    "actor_relation_claims": [],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "the Company",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_tender_source_perspective_obl_3",
+        "description": "The Company announced that the go shop period expired on September 6, 2013 and no party had been designated as an excluded party.",
+        "drop_agency": "target",
+        "drop_reason": "never_advanced",
+        "event_date": "2013-09-06",
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_text": "On September 10, 2013, the Company announced that the go shop period expired on September 6, 2013, and no party had been designated by the Company as an excluded party."
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23934,
+  "prompt_sha256": "ca8c68f168cfe4d7ddbfdaf3c7a55447af4fa371bdcad7c41e8bce1cad0100cb",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "80c516a8b3401128674672619998677e77e1705c31b2f7b7ea8a4f8856bd14eb",
+  "slug": "saks",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_tender_source_perspective",
+  "window_profile": "W2_MULTI_REGION"
+}

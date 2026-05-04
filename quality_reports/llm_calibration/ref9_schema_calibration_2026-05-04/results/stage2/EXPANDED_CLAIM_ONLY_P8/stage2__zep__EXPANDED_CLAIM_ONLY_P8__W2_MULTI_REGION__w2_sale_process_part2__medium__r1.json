@@ -1,0 +1,225 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_CLAIM_ONLY_P8",
+  "duration_s": 55.22,
+  "input_chars": 15025,
+  "input_path": "inputs/zep/W2_MULTI_REGION/w2_sale_process_part2.json",
+  "input_text_sha256": "2c0d9cf1a18337355be5a1fcfa30a57c906e3aca26b18a23ce3ff0788e100664",
+  "input_tokens": 4640,
+  "job_id": "stage2__zep__EXPANDED_CLAIM_ONLY_P8__W2_MULTI_REGION__w2_sale_process_part2__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 4,
+      "actor_relation_claims": 3,
+      "bid_claims": 1,
+      "event_claims": 5,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 2,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 8,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 6,
+    "not_unique_in_source_window": 3,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 13,
+    "relation_types": {
+      "advises": 3
+    },
+    "strict_claim_total": 13,
+    "total_quotes": 13
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 6364,
+  "output_text_sha256": "0b03bb46b9f904f3ba006829b4fbd2c8fbd8ebbd4ddc8894a5e6c82d55549702",
+  "output_tokens": 2497,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "committee",
+        "actor_label": "our board of directors",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part2_obl_6",
+        "observability": "named",
+        "quote_text": "our board of directors"
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "BofA Merrill Lynch",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part2_obl_7",
+        "observability": "named",
+        "quote_text": "representatives of BofA Merrill Lynch reviewed and discussed with our board of directors certain financial matters, including the financial analyses of the merger consideration"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "King & Spalding",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part2_obl_8",
+        "observability": "named",
+        "quote_text": "representatives of King & Spalding reviewed the terms of the draft merger agreement and other transaction documents"
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "New Mountain Capital",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part2_obl_10",
+        "observability": "named",
+        "quote_text": "New Mountain Capital"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part2_obl_7",
+        "effective_date_first": null,
+        "object_label": "Company",
+        "quote_text": "the Company's advisors",
+        "relation_type": "advises",
+        "role_detail": null,
+        "subject_label": "BofA Merrill Lynch"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part2_obl_8",
+        "effective_date_first": null,
+        "object_label": "Company",
+        "quote_text": "the Company's advisors",
+        "relation_type": "advises",
+        "role_detail": null,
+        "subject_label": "King & Spalding"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "medium",
+        "coverage_obligation_id": "zep_w2_sale_process_part2_obl_10",
+        "effective_date_first": null,
+        "object_label": "New Mountain Capital",
+        "quote_text": "New Mountain Capital and its advisors",
+        "relation_type": "advises",
+        "role_detail": null,
+        "subject_label": "New Mountain Capital's advisors"
+      }
+    ],
+    "bid_claims": [
+      {
+        "bid_date": "2015-03-13",
+        "bid_formality": null,
+        "bid_stage": "final",
+        "bid_value": 20.05,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "New Mountain Capital",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": null,
+        "coverage_obligation_id": "zep_w2_sale_process_part2_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_text": "On March 13, 2015, New Mountain Capital communicated that the $20.05 per share offer price was New Mountain Capital's \"best and final\" offer."
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "BofA Merrill Lynch",
+        "actor_role": "sender",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part2_obl_1",
+        "description": "At the direction of the board, BofA Merrill Lynch communicated to New Mountain Capital that the board might consider granting exclusivity if New Mountain Capital raised its offer price and confirmed a go-shop provision.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2015-02-24",
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_text": "On February 24, 2015, at the direction of our board of directors, representatives of BofA Merrill Lynch communicated to New Mountain Capital that our board of directors might be willing to consider granting New Mountain Capital a thirty day exclusivity period if New Mountain Capital raised its offer price and confirmed that a \"go-shop\" provision would be included in any potential definitive merger agreement."
+      },
+      {
+        "actor_label": "our board of directors",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part2_obl_1",
+        "description": "The board determined to move forward with negotiations with New Mountain Capital regarding the proposed sale of the Company.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2015-02-26",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_text": "our board of directors determined to move forward with negotiations with New Mountain Capital regarding the proposed sale of the Company."
+      },
+      {
+        "actor_label": "New Mountain Capital",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part2_obl_4",
+        "description": "New Mountain Capital communicated that its $20.05 per share offer price was its best and final offer.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2015-03-13",
+        "event_subtype": "final_round_bid",
+        "event_type": "bid",
+        "initiation_side": "bidder",
+        "quote_text": "On March 13, 2015, New Mountain Capital communicated that the $20.05 per share offer price was New Mountain Capital's \"best and final\" offer."
+      },
+      {
+        "actor_label": "New Mountain Capital",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part2_obl_5",
+        "description": "The Company signed an agreement providing for an exclusivity period with New Mountain Capital through March 31, 2015.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2015-02-27",
+        "event_subtype": "exclusivity_grant",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_text": "On February 27, 2015, we signed an agreement with New Mountain Capital extending the term of the confidentiality provision, the \"standstill\" provision and the employee non-solicitation provision in our original confidentiality agreement with them as well as providing for an exclusivity period with New Mountain Capital through March 31, 2015."
+      },
+      {
+        "actor_label": "New Mountain Capital",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part2_obl_5",
+        "description": "The board authorized an extension of exclusivity with New Mountain Capital through April 7, 2015, signed on March 18, 2015.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2015-03-18",
+        "event_subtype": "exclusivity_grant",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_text": "our board of directors authorized an extension of exclusivity with New Mountain Capital through April 7, 2015, which extension letter was signed on March 18, 2015."
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 17456,
+  "prompt_sha256": "20f1c6c67563f2f84e8093da3c422003395d9bc27edb8666cef4c70cab743ed9",
+  "reasoning": "medium",
+  "reasoning_tokens": 1034,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "80c516a8b3401128674672619998677e77e1705c31b2f7b7ea8a4f8856bd14eb",
+  "slug": "zep",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_sale_process_part2",
+  "window_profile": "W2_MULTI_REGION"
+}

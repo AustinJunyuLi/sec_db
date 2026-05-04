@@ -1,0 +1,116 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_CLAIM_ONLY_P8",
+  "duration_s": 24.27,
+  "input_chars": 22000,
+  "input_path": "inputs/petsmart-inc/W2_MULTI_REGION/w2_rollover.json",
+  "input_text_sha256": "bf644a57d88fa3abc7b3ff787ef2b859cd2542e05ec1fe4a27d6cc566d41b66a",
+  "input_tokens": 5755,
+  "job_id": "stage1__petsmart-inc__EXPANDED_CLAIM_ONLY_P8__W2_MULTI_REGION__w2_rollover__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 3,
+      "actor_relation_claims": 1,
+      "bid_claims": 0,
+      "event_claims": 1,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 5,
+    "relation_types": {
+      "rollover_holder_for": 1
+    },
+    "strict_claim_total": 5,
+    "total_quotes": 5
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 2390,
+  "output_text_sha256": "a5f41de6b44165004228d9e003667fdc3943314523a7274a7e6ffebaedc237fb",
+  "output_tokens": 1050,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Longview",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_rollover_obl_1",
+        "observability": "named",
+        "quote_text": "Longview\u2019s contribution to Parent of $250 million worth of the Company\u2019s common stock immediately prior to the effective time of the merger"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "the Company\u2019s directors and executive officers",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_rollover_obl_1",
+        "observability": "named",
+        "quote_text": "some of the Company\u2019s directors and executive officers have interests in the merger that are different from, or in addition to, the interests of the Company\u2019s stockholders generally"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "The Company\u2019s executive officers",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_rollover_obl_1",
+        "observability": "named",
+        "quote_text": "The Company\u2019s executive officers are participants in the Company\u2019s Executive Change in Control and Severance Benefit Plan"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_rollover_obl_2",
+        "effective_date_first": null,
+        "object_label": "Parent",
+        "quote_text": "Longview\u2019s contribution to Parent of $250 million worth of the Company\u2019s common stock immediately prior to the effective time of the merger",
+        "relation_type": "rollover_holder_for",
+        "role_detail": "contribution of $250 million worth of the Company\u2019s common stock",
+        "subject_label": "Longview"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "Longview",
+        "actor_role": "rollover_holder",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_rollover_obl_3",
+        "description": "Parent entered into a rollover agreement with Longview with respect to Longview's contribution of Company common stock to Parent.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "rollover_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_text": "Parent has received equity commitments for the equity financing from the Buyer Group (other than Longview) and has entered into a rollover agreement with Longview with respect to its contribution of Company common stock to Parent"
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23871,
+  "prompt_sha256": "68c4636355578c8220b786b4b35ce7f6ce6020003c364edc2836da0079a90756",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "80c516a8b3401128674672619998677e77e1705c31b2f7b7ea8a4f8856bd14eb",
+  "slug": "petsmart-inc",
+  "stage": "stage1",
+  "status": "completed",
+  "window_id": "w2_rollover",
+  "window_profile": "W2_MULTI_REGION"
+}

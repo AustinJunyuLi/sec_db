@@ -1,0 +1,153 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 48.46,
+  "input_chars": 14112,
+  "input_path": "inputs/medivation/W2_MULTI_REGION/w2_tender_source_perspective.json",
+  "input_text_sha256": "6965d0d7ae263580b3218c005ba7855ce358cd53acc188f3b5475d8a00064fbf",
+  "input_tokens": 4448,
+  "job_id": "stage2__medivation__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_tender_source_perspective__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 5,
+      "actor_relation_claims": 0,
+      "bid_claims": 1,
+      "event_claims": 3,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 2,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 9,
+    "relation_types": {},
+    "strict_claim_total": 9,
+    "total_quotes": 9
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 4125,
+  "output_text_sha256": "47889a7fc6dd95f56e2a0cc1aa367897bd9523f6aad751f7984433bbd55284ff",
+  "output_tokens": 1529,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "organization",
+        "actor_label": "Montreal, Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "Montreal, Inc., a Delaware corporation (which we refer to as \u201cPurchaser\u201d)"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Pfizer Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "Pfizer Inc., a Delaware corporation (which we refer to as \u201cPfizer\u201d)"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Medivation, Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "Medivation, Inc., a Delaware corporation (which we refer to as \u201cMedivation\u201d or the \u201cCompany\u201d)"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Computershare Trust Company, N.A.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "Computershare Trust Company, N.A., in its capacity as depositary and paying agent for the Offer"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Information Agent",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "medivation_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "The Information Agent for the Offer is: 470 West Avenue Stamford, CT 06902"
+      }
+    ],
+    "actor_relation_claims": [],
+    "bid_claims": [
+      {
+        "bid_date": null,
+        "bid_stage": "unspecified",
+        "bid_value": 81.5,
+        "bid_value_lower": null,
+        "bid_value_unit": "USD per Share",
+        "bid_value_upper": null,
+        "bidder_label": "Montreal, Inc.",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "medivation_w2_tender_source_perspective_obl_2",
+        "quote_text": "at a price of $81.50 per Share, net to the seller in cash, without interest, subject to any required withholding of taxes"
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "Montreal, Inc.",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_tender_source_perspective_obl_3",
+        "description": "Offer and withdrawal rights will expire at the end of the day, one minute after 11:59 p.m. Eastern Time on Tuesday, September 27, 2016, unless extended or earlier terminated.",
+        "event_date": "2016-09-27",
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "quote_text": "THE OFFER AND WITHDRAWAL RIGHTS WILL EXPIRE AT THE END OF THE DAY, ONE MINUTE AFTER 11:59 P.M. EASTERN TIME ON TUESDAY, SEPTEMBER 27, 2016, UNLESS THE OFFER IS EXTENDED OR EARLIER TERMINATED."
+      },
+      {
+        "actor_label": "Montreal, Inc.",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_tender_source_perspective_obl_3",
+        "description": "The Offer is conditioned upon satisfaction of the Minimum Condition and other conditions.",
+        "event_date": null,
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "quote_text": "The Offer is conditioned upon, among other things, the satisfaction of (i) the Minimum Condition (as defined below), (ii) the Regulatory Condition (as defined below), (iii) the Governmental Authority Condition (as defined below) and (iv) the Termination Condition (as defined below)."
+      },
+      {
+        "actor_label": "Montreal, Inc.",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_tender_source_perspective_obl_3",
+        "description": "Minimum Condition requires validly tendered and not withdrawn shares, together with shares owned by Pfizer and affiliates, to represent at least one more share than 50% of the specified share sum by the expiration of the Offer.",
+        "event_date": "2016-09-27",
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "quote_text": "The \u201cMinimum Condition\u201d requires that the number of Shares validly tendered in accordance with the terms of the Offer, and not validly withdrawn, on or prior to the end of the day, by one minute after 11:59 p.m. Eastern Time, on Tuesday, September 27, 2016"
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 15909,
+  "prompt_sha256": "fb64a17a92a1e650f375448b12204c0d2ae6a4613aa94e9c63f9b422f8288328",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "medivation",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_tender_source_perspective",
+  "window_profile": "W2_MULTI_REGION"
+}

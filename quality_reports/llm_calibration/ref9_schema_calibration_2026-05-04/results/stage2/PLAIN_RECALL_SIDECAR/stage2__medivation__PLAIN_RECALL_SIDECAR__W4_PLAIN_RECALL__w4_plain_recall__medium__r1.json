@@ -1,0 +1,625 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "PLAIN_RECALL_SIDECAR",
+  "duration_s": 170.44,
+  "input_chars": 120000,
+  "input_path": "inputs/medivation/W4_PLAIN_RECALL/w4_plain_recall.json",
+  "input_text_sha256": "802e9802cb208cad0a9601f0b293baf13daf19b118f02e1ed870b93ec5c64caf",
+  "input_tokens": 24164,
+  "job_id": "stage2__medivation__PLAIN_RECALL_SIDECAR__W4_PLAIN_RECALL__w4_plain_recall__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actors": 12,
+      "bids": 6,
+      "chronology": 31,
+      "counts": 8,
+      "relations": 15,
+      "source_limitations": 5,
+      "uncertain_or_missing": 7
+    },
+    "duplicate_quotes_within_response": 4,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 0.9873,
+    "quotes_in_window": 78,
+    "relation_types": {},
+    "sidecar_total_items": 84,
+    "strict_claim_total": 0,
+    "total_quotes": 79
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 37537,
+  "output_text_sha256": "7562d78c990b0cbc2cf25f73246e9f21e5b6dca58034960ab9da7f2c3985bd94",
+  "output_tokens": 7688,
+  "parsed": {
+    "actors": [
+      {
+        "date": null,
+        "description": "Medivation is the target company, a Delaware biopharmaceutical company with common stock trading on NASDAQ under MDVN.",
+        "exact_quote": "Medivation was incorporated in Delaware in 1995 and began operations under the name Orion Acquisition Corp. II. Medivation\u2019s common stock trades on the NASDAQ Global Select Market under the symbol \u201cMDVN.\u201d",
+        "importance": "core",
+        "label": "Medivation"
+      },
+      {
+        "date": null,
+        "description": "Pfizer is the acquirer/parent in the transaction.",
+        "exact_quote": "Pfizer is a research-based, global biopharmaceutical company.",
+        "importance": "core",
+        "label": "Pfizer"
+      },
+      {
+        "date": "2016-08-19",
+        "description": "Purchaser is Pfizer\u2019s wholly-owned Delaware acquisition subsidiary formed solely to effect the offer and merger.",
+        "exact_quote": "Purchaser is a Delaware corporation formed on August 19, 2016 solely for the purpose of effecting the Offer and the Merger and has conducted no business activities other than those related to the structuring and negotiation of the Offer and the Merger.",
+        "importance": "core",
+        "label": "Purchaser"
+      },
+      {
+        "date": null,
+        "description": "Purchaser is wholly owned by Pfizer.",
+        "exact_quote": "Purchaser is a wholly-owned subsidiary of Pfizer.",
+        "importance": "core",
+        "label": "Purchaser-Pfizer relation"
+      },
+      {
+        "date": null,
+        "description": "Sanofi was an earlier public bidder that made a non-binding proposal and later withdrew its consent solicitation.",
+        "exact_quote": "On April 15, 2016, Dr. David Hung, President and CEO of Medivation, received a letter dated April 13, 2016 from the Chief Executive Officer of Sanofi, setting forth a non-binding proposal to acquire Medivation for $52.50 per share.",
+        "importance": "core",
+        "label": "Sanofi"
+      },
+      {
+        "date": null,
+        "description": "Medivation\u2019s financial advisors in the sale process were J.P. Morgan and Evercore.",
+        "exact_quote": "representatives of J.P. Morgan Securities LLC (\u201cJ.P. Morgan\u201d) and Evercore Group L.L.C. (\u201cEvercore\u201d), financial advisors to Medivation",
+        "importance": "core",
+        "label": "Medivation financial advisors"
+      },
+      {
+        "date": null,
+        "description": "Pfizer\u2019s financial advisors included Centerview and Guggenheim.",
+        "exact_quote": "representatives of Pfizer, Guggenheim Securities, LLC (\u201cGuggenheim\u201d), a financial advisor to Pfizer, and Centerview",
+        "importance": "useful",
+        "label": "Pfizer financial advisors"
+      },
+      {
+        "date": null,
+        "description": "Medivation\u2019s legal advisors included Cooley and Wachtell Lipton.",
+        "exact_quote": "the offices of Cooley LLP (\u201cCooley\u201d), a legal advisor to Medivation",
+        "importance": "useful",
+        "label": "Cooley"
+      },
+      {
+        "date": null,
+        "description": "Wachtell Lipton served as a legal advisor to Medivation.",
+        "exact_quote": "Cooley and Wachtell, Lipton, Rosen & Katz (\u201cWachtell Lipton\u201d), a legal advisor to Medivation",
+        "importance": "useful",
+        "label": "Wachtell Lipton"
+      },
+      {
+        "date": null,
+        "description": "Pfizer\u2019s outside counsel in the process was Ropes & Gray.",
+        "exact_quote": "representatives of Pfizer and Pfizer\u2019s outside counsel Ropes & Gray LLP (\u201cRopes & Gray\u201d)",
+        "importance": "useful",
+        "label": "Ropes & Gray"
+      },
+      {
+        "date": null,
+        "description": "Key Pfizer executives involved included Ian Read, Douglas Giordano, Albert Bourla, Mace Rothenberg, and Mikael Dolsten.",
+        "exact_quote": "Mr. Ian Read, Chairman and CEO of Pfizer, Dr. Mace Rothenberg, Chief Development Officer, Oncology at Pfizer, and Dr. Mikael Dolsten, President of Worldwide Research and Development at Pfizer, met with Dr. Hung.",
+        "importance": "useful",
+        "label": "Pfizer executives"
+      },
+      {
+        "date": null,
+        "description": "David Hung was Medivation\u2019s President and CEO and a principal Medivation participant in discussions.",
+        "exact_quote": "Dr. David Hung, President and CEO of Medivation",
+        "importance": "core",
+        "label": "David Hung"
+      }
+    ],
+    "bids": [
+      {
+        "date": "2016-04-13",
+        "description": "Sanofi made a non-binding proposal to acquire Medivation for $52.50 per share.",
+        "exact_quote": "received a letter dated April 13, 2016 from the Chief Executive Officer of Sanofi, setting forth a non-binding proposal to acquire Medivation for $52.50 per share.",
+        "importance": "core",
+        "label": "Sanofi $52.50 proposal"
+      },
+      {
+        "date": "2016-08-08",
+        "description": "Pfizer submitted a non-binding preliminary cash proposal for $65.00 per share, not subject to a financing condition.",
+        "exact_quote": "On August 8, 2016, Pfizer submitted a non-binding preliminary proposal to Medivation (the \u201cAugust 8 Proposal\u201d), subject to, among other conditions, satisfactory completion of Pfizer\u2019s due diligence, to acquire Medivation for cash consideration of $65.00 per Share. The August 8 Proposal stated that it was not subject to any financing condition",
+        "importance": "core",
+        "label": "Pfizer $65.00 preliminary proposal"
+      },
+      {
+        "date": "2016-08-19",
+        "description": "Pfizer submitted a revised written cash proposal for $77.00 per share.",
+        "exact_quote": "On August 19, 2016, Pfizer submitted a revised written proposal to acquire Medivation for cash consideration of $77.00 per Share.",
+        "importance": "core",
+        "label": "Pfizer $77.00 revised proposal"
+      },
+      {
+        "date": "2016-08-20",
+        "description": "Pfizer submitted a best-and-final cash proposal for $81.50 per share.",
+        "exact_quote": "Pfizer communicated a \u201cbest and final\u201d proposal to acquire Medivation for cash consideration of $81.50 per Share on August 20, 2016.",
+        "importance": "core",
+        "label": "Pfizer $81.50 best and final"
+      },
+      {
+        "date": "2016-08-19",
+        "description": "Medivation\u2019s closing share price before Pfizer\u2019s best-and-final proposal was $67.16.",
+        "exact_quote": "Medivation\u2019s closing Share price on August 19, 2016 was $67.16.",
+        "importance": "useful",
+        "label": "Pre-signing share price"
+      },
+      {
+        "date": null,
+        "description": "The final transaction was structured as a tender offer followed by a merger for all outstanding shares.",
+        "exact_quote": "The Offer, as the first step in the acquisition of Medivation, is intended to facilitate the acquisition of all outstanding Shares. The purpose of the Merger is to acquire all outstanding Shares not tendered and purchased pursuant to the Offer.",
+        "importance": "core",
+        "label": "Tender offer structure"
+      }
+    ],
+    "chronology": [
+      {
+        "date": "2016-04-15",
+        "description": "Medivation\u2019s CEO received Sanofi\u2019s April 13 non-binding acquisition proposal; the Medivation board held a special meeting and determined it needed more time for analysis.",
+        "exact_quote": "On April 15, 2016, Dr. David Hung, President and CEO of Medivation, received a letter dated April 13, 2016 from the Chief Executive Officer of Sanofi, setting forth a non-binding proposal to acquire Medivation for $52.50 per share. The Board of Directors of Medivation convened a special meeting to discuss the proposal and determined it needed additional time for analysis.",
+        "importance": "core",
+        "label": "Sanofi proposal received"
+      },
+      {
+        "date": "2016-04-20",
+        "description": "Pfizer\u2019s Douglas Giordano attempted to contact Medivation CEO David Hung to propose a discussion with Albert Bourla.",
+        "exact_quote": "On April 20, 2016, Douglas Giordano, Senior Vice President, Worldwide Business Development at Pfizer, attempted to contact Dr. Hung by phone and by email to propose a discussion among the two and Albert Bourla, Group President of Pfizer Innovative Health.",
+        "importance": "core",
+        "label": "Pfizer outreach"
+      },
+      {
+        "date": "2016-04-28",
+        "description": "Sanofi\u2019s proposal was publicly announced.",
+        "exact_quote": "Sanofi\u2019s proposal was publicly announced on April 28, 2016 and unanimously rejected by Medivation\u2019s Board of Directors on April 29, 2016.",
+        "importance": "core",
+        "label": "Sanofi proposal public"
+      },
+      {
+        "date": "2016-04-29",
+        "description": "Medivation\u2019s board unanimously rejected Sanofi\u2019s proposal.",
+        "exact_quote": "Sanofi\u2019s proposal was publicly announced on April 28, 2016 and unanimously rejected by Medivation\u2019s Board of Directors on April 29, 2016.",
+        "importance": "core",
+        "label": "Sanofi rejected"
+      },
+      {
+        "date": "2016-05-02",
+        "description": "Pfizer expressed interest in a possible transaction if Medivation decided to pursue one.",
+        "exact_quote": "During this conversation, and in light of the public announcement on April 28 of Sanofi\u2019s proposal, Mr. Giordano expressed Pfizer\u2019s interest in a possible transaction when, and if, Medivation decided to pursue such a transaction.",
+        "importance": "core",
+        "label": "Pfizer expresses interest"
+      },
+      {
+        "date": "2016-05-03 to 2016-07-07",
+        "description": "Pfizer conducted initial due diligence using publicly available information.",
+        "exact_quote": "From May 3, 2016 through July 7, 2016, Pfizer continued its initial due diligence review of Medivation based on publicly available information.",
+        "importance": "useful",
+        "label": "Public diligence"
+      },
+      {
+        "date": "2016-05-11",
+        "description": "Centerview, Pfizer\u2019s financial advisor, contacted Medivation\u2019s financial advisors about Pfizer\u2019s potential strategic interest.",
+        "exact_quote": "On May 11, 2016, representatives of Centerview Partners LLC (\u201cCenterview\u201d), a financial advisor to Pfizer, contacted representatives of J.P. Morgan Securities LLC (\u201cJ.P. Morgan\u201d) and Evercore Group L.L.C. (\u201cEvercore\u201d), financial advisors to Medivation, regarding Pfizer\u2019s potential strategic interest in Medivation.",
+        "importance": "core",
+        "label": "Advisor contact"
+      },
+      {
+        "date": "2016-05-20",
+        "description": "Pfizer reiterated interest in a negotiated transaction with Medivation.",
+        "exact_quote": "On May 20, 2016, Mr. Giordano had a telephone conversation with Dr. Hung during which Mr. Giordano highlighted Pfizer\u2019s complementary oncology focus and reiterated Pfizer\u2019s interest in pursuing a negotiated transaction with Medivation when and if Medivation and its Board of Directors decided to pursue such a transaction.",
+        "importance": "core",
+        "label": "Interest reiterated"
+      },
+      {
+        "date": "2016-05-25",
+        "description": "Sanofi initiated a preliminary consent solicitation to remove and replace Medivation\u2019s board.",
+        "exact_quote": "On May 25, 2016, Sanofi filed with the SEC a preliminary consent solicitation seeking to remove and replace Medivation\u2019s Board of Directors.",
+        "importance": "core",
+        "label": "Sanofi consent solicitation"
+      },
+      {
+        "date": "2016-06-28",
+        "description": "Medivation\u2019s advisors contacted Pfizer about providing confidential information, subject to a confidentiality and standstill agreement.",
+        "exact_quote": "On June 28, 2016, representatives of J.P. Morgan and Evercore contacted Mr. Giordano to discuss providing Pfizer with certain confidential information with respect to a potential strategic transaction, subject to execution of a confidentiality and standstill agreement.",
+        "importance": "core",
+        "label": "Confidential information outreach"
+      },
+      {
+        "date": "2016-06-29",
+        "description": "Pfizer executed a confidentiality and standstill agreement with Medivation and was invited into a potential sale process.",
+        "exact_quote": "On June 29, 2016, Pfizer executed a confidentiality and standstill agreement with Medivation, and Medivation invited Pfizer to participate in a potential sale process.",
+        "importance": "core",
+        "label": "Pfizer invited to sale process"
+      },
+      {
+        "date": "2016-07-05",
+        "description": "Medivation announced confidentiality agreements with several parties, including Sanofi; Sanofi agreed to withdraw its consent solicitation.",
+        "exact_quote": "On July 5, 2016, Medivation issued a press release announcing that it had entered into confidentiality agreements with several parties, including Sanofi, and that Sanofi had agreed to withdraw its consent solicitation.",
+        "importance": "core",
+        "label": "Several confidentiality agreements; Sanofi withdraws consent solicitation"
+      },
+      {
+        "date": "2016-07-07",
+        "description": "Pfizer gained access to a limited virtual data room with non-public information and continued diligence.",
+        "exact_quote": "On July 7, 2016, representatives of Pfizer were granted access to a limited virtual data room containing certain non-public information regarding Medivation\u2019s business and operations, and Pfizer continued its due diligence review of Medivation\u2019s documentation.",
+        "importance": "core",
+        "label": "Limited VDR access"
+      },
+      {
+        "date": "2016-07-07",
+        "description": "Pfizer senior executives met with Medivation CEO David Hung; Pfizer indicated interest in further exploration of a potential strategic transaction.",
+        "exact_quote": "Also on July 7, Mr. Ian Read, Chairman and CEO of Pfizer, Dr. Mace Rothenberg, Chief Development Officer, Oncology at Pfizer, and Dr. Mikael Dolsten, President of Worldwide Research and Development at Pfizer, met with Dr. Hung. During this meeting, Mr. Read indicated that Pfizer was interested in further exploration of a potential strategic transaction.",
+        "importance": "core",
+        "label": "Senior executive meeting"
+      },
+      {
+        "date": "2016-07-14",
+        "description": "Medivation management gave Pfizer and advisors a presentation on Medivation\u2019s business and operations in San Francisco.",
+        "exact_quote": "On July 14, 2016, representatives of Medivation\u2019s management met with representatives of Pfizer, and their respective external advisors, at the offices of Cooley LLP (\u201cCooley\u201d), a legal advisor to Medivation, in San Francisco to provide a presentation on Medivation\u2019s business and operations.",
+        "importance": "core",
+        "label": "Management presentation"
+      },
+      {
+        "date": "2016-07-19",
+        "description": "Medivation\u2019s advisors asked Pfizer to submit a written non-binding preliminary acquisition proposal by August 8, 2016, and said a limited number of qualified parties might be invited into further discussions.",
+        "exact_quote": "On July 19, 2016, representatives of J.P. Morgan and Evercore sent a letter to representatives of Pfizer requesting that Pfizer submit a written, non-binding preliminary proposal for an acquisition of Medivation on August 8, 2016. The letter stated that, should Medivation decide to continue exploring potential interest in a transaction, a limited number of qualified parties may be invited to enter into further discussions and be provided additional due diligence materials.",
+        "importance": "core",
+        "label": "Bid request letter"
+      },
+      {
+        "date": "2016-07-26 to 2016-07-27",
+        "description": "Pfizer and Ropes & Gray participated in due diligence calls with Medivation counsel and management.",
+        "exact_quote": "On July 26 and 27, 2016, representatives of Pfizer and Pfizer\u2019s outside counsel Ropes & Gray LLP (\u201cRopes & Gray\u201d) participated in a series of due diligence calls with Medivation\u2019s outside counsel and Medivation\u2019s management.",
+        "importance": "useful",
+        "label": "Diligence calls"
+      },
+      {
+        "date": "2016-07-28",
+        "description": "Pfizer\u2019s board approved submitting a non-binding preliminary proposal to Medivation.",
+        "exact_quote": "On July 28, 2016, the Pfizer Board of Directors held a telephonic meeting, during which representatives of Pfizer\u2019s management provided an overview of the potential acquisition, reviewed key due diligence findings and a preliminary valuation analysis, and discussed the strategic rationale for pursuing a transaction with Medivation. Pfizer\u2019s Board of Directors approved the submission of a non-binding preliminary proposal to Medivation.",
+        "importance": "core",
+        "label": "Pfizer board approval to bid"
+      },
+      {
+        "date": "2016-08-03 to 2016-08-08",
+        "description": "Pfizer and Ropes & Gray participated in additional due diligence calls, including one with Medivation\u2019s auditors PwC.",
+        "exact_quote": "Between August 3, 2016 and August 8, 2016, representatives of Pfizer and Ropes & Gray participated in additional due diligence calls with Medivation\u2019s management, and for one of the calls, with representatives of PricewaterhouseCoopers LLP, Medivation\u2019s independent auditors.",
+        "importance": "useful",
+        "label": "Additional diligence"
+      },
+      {
+        "date": "2016-08-08",
+        "description": "Pfizer submitted its $65.00 per share non-binding preliminary proposal.",
+        "exact_quote": "On August 8, 2016, Pfizer submitted a non-binding preliminary proposal to Medivation (the \u201cAugust 8 Proposal\u201d), subject to, among other conditions, satisfactory completion of Pfizer\u2019s due diligence, to acquire Medivation for cash consideration of $65.00 per Share.",
+        "importance": "core",
+        "label": "August 8 proposal"
+      },
+      {
+        "date": "2016-08-10",
+        "description": "Medivation invited Pfizer into a subsequent round of the potential sale process along with several other interested parties.",
+        "exact_quote": "On August 10, 2016, Medivation notified Pfizer that it was inviting Pfizer to a subsequent round of the potential sale process, together with several other interested parties.",
+        "importance": "core",
+        "label": "Subsequent round"
+      },
+      {
+        "date": "2016-08-11",
+        "description": "Pfizer gained access to an expanded virtual data room with additional non-public information.",
+        "exact_quote": "On August 11, 2016, representatives of Pfizer were granted access to an expanded virtual data room, containing additional non-public information regarding Medivation\u2019s business and operations, and Pfizer continued its due diligence review of Medivation\u2019s documentation.",
+        "importance": "core",
+        "label": "Expanded VDR access"
+      },
+      {
+        "date": "2016-08-11",
+        "description": "Medivation\u2019s advisors sent Pfizer and its counsel a draft merger agreement.",
+        "exact_quote": "On August 11, 2016, representatives of J.P. Morgan and Evercore sent a draft Merger Agreement to Pfizer and Ropes & Gray.",
+        "importance": "core",
+        "label": "Draft merger agreement sent"
+      },
+      {
+        "date": "2016-08-14",
+        "description": "Medivation\u2019s advisors requested Pfizer\u2019s merger agreement markup by August 18 and definitive acquisition proposal by August 19.",
+        "exact_quote": "On August 14, 2016, representatives of J.P. Morgan and Evercore sent a letter to Pfizer, requesting that Pfizer provide to Medivation a mark-up of the Merger Agreement on August 18, 2016 and a definitive proposal to acquire Medivation on August 19, 2016.",
+        "importance": "core",
+        "label": "Final round instructions"
+      },
+      {
+        "date": "2016-08-14 to 2016-08-17",
+        "description": "Medivation participated in additional due diligence calls with Pfizer representatives.",
+        "exact_quote": "Also from August 14, 2016 through August 17, 2016, Medivation participated in additional due diligence calls with representatives of Pfizer.",
+        "importance": "useful",
+        "label": "Final diligence calls"
+      },
+      {
+        "date": "2016-08-17",
+        "description": "Pfizer\u2019s board authorized management to continue pursuing and finalize a definitive acquisition agreement.",
+        "exact_quote": "At this meeting, the Pfizer Board of Directors authorized Pfizer\u2019s executive management to continue to pursue the potential transaction with Medivation and to finalize a definitive agreement to acquire Medivation.",
+        "importance": "core",
+        "label": "Pfizer board authorization"
+      },
+      {
+        "date": "2016-08-18",
+        "description": "Ropes & Gray provided Medivation\u2019s counsel with a revised merger agreement; Pfizer executives reiterated strong interest to Medivation\u2019s CEO.",
+        "exact_quote": "On August 18, 2016, representatives of Ropes & Gray provided Cooley and Wachtell, Lipton, Rosen & Katz (\u201cWachtell Lipton\u201d), a legal advisor to Medivation, with a revised Merger Agreement. Also on August 18, 2016, Mr. Read and Mr. Giordano called Dr. Hung to reiterate Pfizer\u2019s strong interest with respect to a potential transaction.",
+        "importance": "core",
+        "label": "Revised merger agreement and interest call"
+      },
+      {
+        "date": "2016-08-19",
+        "description": "Pfizer submitted a $77.00 per share revised proposal; Medivation\u2019s advisors told Pfizer to submit its best and final offer on August 20.",
+        "exact_quote": "On August 19, 2016, Pfizer submitted a revised written proposal to acquire Medivation for cash consideration of $77.00 per Share. Representatives of Centerview discussed Pfizer\u2019s revised written proposal with representatives of J.P. Morgan and Evercore. In addition, on August 19, 2016, Mr. Giordano spoke with representatives of J.P. Morgan and Evercore, who informed Mr. Giordano that Pfizer should submit its \u201cbest and final\u201d offer on Saturday, August 20, 2016.",
+        "importance": "core",
+        "label": "Revised proposal and best-final instruction"
+      },
+      {
+        "date": "2016-08-19 to 2016-08-20",
+        "description": "Counsel negotiated final merger agreement terms, including closing conditions, deal protections, termination fee, non-solicitation, representations, covenants, and regulatory undertakings.",
+        "exact_quote": "Additionally, on August 19 and August 20, 2016, Cooley and Wachtell Lipton negotiated the final terms of the Merger Agreement with Ropes & Gray, including the closing conditions, deal protections (including the size of the termination fee and the non-solicitation provisions), the scope of the representations and warranties, interim operating covenants and regulatory undertakings.",
+        "importance": "core",
+        "label": "Final agreement negotiations"
+      },
+      {
+        "date": "2016-08-20",
+        "description": "Pfizer made its $81.50 per share best-and-final proposal; Medivation\u2019s board approved the transaction; Pfizer, Purchaser, and Medivation executed the merger agreement.",
+        "exact_quote": "Following Pfizer\u2019s \u201cbest and final\u201d proposal, the Medivation Board of Directors approved the transaction with Pfizer. Pfizer, Purchaser and Medivation each executed the Merger Agreement on the afternoon of Saturday, August 20, 2016.",
+        "importance": "core",
+        "label": "Signing"
+      },
+      {
+        "date": "2016-08-22",
+        "description": "Pfizer and Medivation announced the proposed transaction by joint press release.",
+        "exact_quote": "On Monday, August 22, 2016, Pfizer and Medivation issued a joint press release announcing the proposed transaction.",
+        "importance": "core",
+        "label": "Announcement"
+      }
+    ],
+    "counts": [
+      {
+        "date": "2016-07-05",
+        "description": "Medivation disclosed confidentiality agreements with several parties, including Sanofi; exact number is not provided in this source window.",
+        "exact_quote": "Medivation issued a press release announcing that it had entered into confidentiality agreements with several parties, including Sanofi",
+        "importance": "core",
+        "label": "Several confidentiality agreements"
+      },
+      {
+        "date": "2016-08-10",
+        "description": "Pfizer was invited to a subsequent sale-process round together with several other interested parties; exact number and identities of other parties are not provided in this source window.",
+        "exact_quote": "Medivation notified Pfizer that it was inviting Pfizer to a subsequent round of the potential sale process, together with several other interested parties.",
+        "importance": "core",
+        "label": "Several other interested parties"
+      },
+      {
+        "date": null,
+        "description": "The merger agreement termination fee payable by Medivation in specified circumstances was $510 million.",
+        "exact_quote": "Medivation has agreed to pay Pfizer a termination fee of $510,000,000 (which we refer to as the \u201cTermination Fee\u201d)",
+        "importance": "core",
+        "label": "Termination fee"
+      },
+      {
+        "date": null,
+        "description": "Acquisition Proposal threshold generally included transactions involving 20% or more of assets, revenues, earnings, or shares; Superior Offer definition substitutes 80% for 20%.",
+        "exact_quote": "\u201cAcquisition Proposal\u201d means any proposal or offer from any person (other than Pfizer and its affiliates) or \u201cgroup\u201d, within the meaning of Section 13(d) of the Exchange Act, relating to, in a single transaction or series of related transactions, any (a) acquisition or license of assets of Medivation and its subsidiaries equal to 20% or more of such subsidiaries\u2019 assets or to which 20% or more of the subsidiaries\u2019 revenues or earnings are attributable, (b) issuance or acquisition of 20% or more of the outstanding Shares",
+        "importance": "useful",
+        "label": "Acquisition Proposal threshold"
+      },
+      {
+        "date": null,
+        "description": "For the Superior Offer definition, the 20% references in the Acquisition Proposal definition are deemed 80%.",
+        "exact_quote": "provided that for purposes of the definition of \u201cSuperior Offer\u201d, the references to \u201c20%\u201d in the definition of Acquisition Proposal will be deemed to be references to \u201c80%.\u201d",
+        "importance": "useful",
+        "label": "Superior Offer threshold"
+      },
+      {
+        "date": null,
+        "description": "Medivation generally had to notify Pfizer within 48 hours of receipt of Acquisition Proposal inquiries, proposals, or offers.",
+        "exact_quote": "Medivation will (i) promptly (and in any event within 48 hours after knowledge of receipt by an executive officer or director of Medivation) notify Pfizer if any inquiries, proposals or offers with respect to an Acquisition Proposal are received",
+        "importance": "useful",
+        "label": "48-hour notice"
+      },
+      {
+        "date": null,
+        "description": "Pfizer generally had a three-business-day match/negotiation period after a Determination Notice before Medivation could change recommendation or terminate for a Superior Offer.",
+        "exact_quote": "Medivation will confidentially have given Pfizer prior written notice of its intention to consider making a Company Adverse Change Recommendation and terminating the Merger Agreement at least three (3) business days prior to making any such Company Adverse Change Recommendation or termination",
+        "importance": "useful",
+        "label": "Three-business-day notice period"
+      },
+      {
+        "date": null,
+        "description": "If the regulatory condition was not satisfied by the End Date but capable of satisfaction, the End Date would be extended once to March 31, 2017.",
+        "exact_quote": "if as of such date, the Regulatory Condition is not satisfied but remains capable of being satisfied or waived, and all other Offer Conditions (with certain exceptions) have been satisfied or waived, then the End Date will automatically be extended one time to March 31, 2017",
+        "importance": "useful",
+        "label": "Regulatory extension date"
+      }
+    ],
+    "relations": [
+      {
+        "date": null,
+        "description": "Pfizer identified Medivation as a strategic opportunity in its innovative health business review, centered on XTANDI and revenue/earnings growth potential.",
+        "exact_quote": "As part of a strategic review of its innovative health business, Pfizer identified Medivation as a potential opportunity for a strategic transaction that could provide Pfizer with the leading novel hormone therapy in the United States, XTANDI, for the treatment of certain prostate cancers with the potential of immediately generating revenue growth and driving overall earnings growth potential for Pfizer.",
+        "importance": "core",
+        "label": "Strategic rationale"
+      },
+      {
+        "date": null,
+        "description": "Medivation and Astellas collaborated on XTANDI, Medivation\u2019s commercial product.",
+        "exact_quote": "Medivation has one commercial product, XTANDI \u00ae (enzalutamide) capsules (which we refer to as \u201cXTANDI\u201d), through its collaboration with Astellas Pharma, Inc. (which we refer to as \u201cAstellas\u201d).",
+        "importance": "useful",
+        "label": "Astellas collaboration"
+      },
+      {
+        "date": "2016-06-29",
+        "description": "Pfizer and Medivation entered into a confidentiality agreement with a standstill, expiring December 29, 2016 subject to earlier termination triggers.",
+        "exact_quote": "On June 29, 2016, Medivation and Pfizer entered into a customary confidentiality agreement",
+        "importance": "core",
+        "label": "Confidentiality agreement"
+      },
+      {
+        "date": "2016-06-29",
+        "description": "The confidentiality agreement required Pfizer and representatives to keep confidential information strictly confidential and use it only for evaluating or negotiating a possible transaction.",
+        "exact_quote": "Pfizer and Medivation agreed that, subject to certain exceptions, Pfizer and its representatives would keep the Confidential Information (as defined in the Confidentiality Agreement) strictly confidential and would not (except as required by law but only after compliance with the Confidentiality Agreement or with Medivation\u2019s prior written consent) disclose any Confidential Information in any manner whatsoever, and would not use any Confidential Information other than in connection with evaluating or negotiating a possible transaction.",
+        "importance": "useful",
+        "label": "Confidentiality restrictions"
+      },
+      {
+        "date": "2016-06-29",
+        "description": "The confidentiality agreement included a Medivation-benefit standstill expiring December 29, 2016, subject to specified early termination events.",
+        "exact_quote": "The Confidentiality Agreement includes a standstill provision for the benefit of Medivation that expires on December 29, 2016 but terminates if",
+        "importance": "core",
+        "label": "Standstill"
+      },
+      {
+        "date": null,
+        "description": "Pfizer and Purchaser stated they had all required funds available, including cash on hand, and Pfizer had no financing commitment tied to the merger agreement.",
+        "exact_quote": "Pfizer and Purchaser currently have, and will have, available to them all funds, through a variety of sources, including cash on hand, necessary for the payment of the aggregate Offer Price and the aggregate Merger Consideration and to satisfy all of their payment obligations under the Merger Agreement and resulting from the transactions contemplated thereby. Pfizer has not entered into any financing commitment in connection with the Merger Agreement or the transactions contemplated thereby.",
+        "importance": "core",
+        "label": "No financing condition / funds available"
+      },
+      {
+        "date": null,
+        "description": "Pfizer stated neither Pfizer nor Purchaser beneficially owned or had a right to acquire Medivation shares except as provided in the merger agreement or offer materials.",
+        "exact_quote": "Except as provided in the Merger Agreement or as otherwise described in this Offer to Purchase, (i) none of Pfizer or Purchaser or, to the best knowledge of Pfizer and Purchaser, any of the persons listed in Schedule I to this Offer to Purchase or any associate or majority-owned subsidiary of Pfizer or Purchaser or any of the persons so listed beneficially owns or has any right to acquire, directly or indirectly, any Shares",
+        "importance": "useful",
+        "label": "No preexisting share ownership disclosed"
+      },
+      {
+        "date": null,
+        "description": "Pfizer stated no reportable securities arrangements with other persons concerning Medivation securities except as provided in the merger agreement or offer materials.",
+        "exact_quote": "Except as provided in the Merger Agreement or as otherwise described in this Offer to Purchase, none of Pfizer or Purchaser or, to the best knowledge of Pfizer and Purchaser, any of the persons listed in Schedule I to this Offer to Purchase, has any contract, arrangement, understanding or relationship with any other person with respect to any securities of Medivation",
+        "importance": "useful",
+        "label": "No securities arrangements disclosed"
+      },
+      {
+        "date": null,
+        "description": "Pfizer stated no contacts, negotiations, or transactions with Medivation concerning M&A or similar matters in the past two years except as set forth in the offer materials.",
+        "exact_quote": "Except as set forth in this Offer to Purchase, there have been no contacts, negotiations or transactions between Pfizer or any of its subsidiaries or, to the best knowledge of Pfizer and Purchaser, any of the persons listed in Schedule I to this Offer to Purchase, on the one hand, and Medivation or its subsidiaries, on the other hand, concerning a merger, consolidation or acquisition, tender offer or other acquisition of securities, an election of directors or a sale or other transfer of a material amount of assets during the past two years.",
+        "importance": "useful",
+        "label": "No other past contacts"
+      },
+      {
+        "date": null,
+        "description": "The merger would be governed by DGCL Section 251(h) and effected without a stockholder vote after a successful tender offer.",
+        "exact_quote": "The Merger will be governed by Section 251(h) of the DGCL.",
+        "importance": "core",
+        "label": "251(h) merger"
+      },
+      {
+        "date": null,
+        "description": "If the offer is consummated, Pfizer/Purchaser will not seek a vote of remaining public stockholders before the merger.",
+        "exact_quote": "If the Offer is consummated, we will not seek a vote of the remaining public stockholders of Medivation before effecting the Merger.",
+        "importance": "core",
+        "label": "No stockholder vote"
+      },
+      {
+        "date": "2016-08-20",
+        "description": "Medivation and its rights agent amended the rights agreement so the Pfizer offer and merger would not trigger adverse rights-plan consequences.",
+        "exact_quote": "In connection with Medivation\u2019s entry into the Merger Agreement, Medivation and American Stock Transfer & Trust Company entered into Amendment No. 1 to Rights Agreement, dated August 20, 2016",
+        "importance": "core",
+        "label": "Rights amendment"
+      },
+      {
+        "date": "2016-08-20",
+        "description": "The rights amendment allowed the offer, merger, and related transactions without triggering distribution or other adverse event under the rights agreement.",
+        "exact_quote": "The effect of the Rights Amendment is to permit the Offer, the Merger and the other transactions contemplated by the Merger Agreement to occur without triggering any distribution or other adverse event to Pfizer or its affiliates under the Rights Agreement.",
+        "importance": "core",
+        "label": "Rights plan not triggered"
+      },
+      {
+        "date": null,
+        "description": "Medivation\u2019s board took action under DGCL Section 203 so anti-takeover restrictions would not apply to the offer and merger.",
+        "exact_quote": "Medivation\u2019s Board of Directors has taken all action necessary under the DGCL to ensure that no such restrictions apply to the Offer, Merger or any other transactions contemplated by the Merger Agreement.",
+        "importance": "useful",
+        "label": "DGCL 203 approval"
+      },
+      {
+        "date": null,
+        "description": "No employment, equity contribution, or similar agreement between Medivation executives/directors and Pfizer/Purchaser/Medivation existed as of signing, except certain pre-existing agreements to be described in Schedule 14D-9; the offer and merger were not conditioned on such arrangements.",
+        "exact_quote": "To the best knowledge of Pfizer and Purchaser, except for certain pre-existing agreements to be described in the Schedule 14D-9, no employment, equity contribution, or other agreement, arrangement or understanding between any executive officer or director of Medivation, on the one hand, and Pfizer, Purchaser or Medivation, on the other hand, existed as of the date of the Merger Agreement, and neither the Offer nor the Merger is conditioned upon any executive officer or director of Medivation entering into any such agreement, arrangement or understanding.",
+        "importance": "core",
+        "label": "No rollover/employment condition"
+      }
+    ],
+    "source_limitations": [
+      "The chronology expressly states it summarizes key meetings and events between Pfizer and Medivation and does not catalogue every conversation.",
+      "The source says Medivation provided information regarding Medivation not involving Pfizer or Purchaser.",
+      "The source directs readers to Medivation\u2019s Schedule 14D-9 for Medivation\u2019s additional activities relating to signing, so this window is primarily Pfizer/Purchaser tender-offer perspective.",
+      "The source identifies 'several parties' and 'several other interested parties' but does not name or count those other interested parties in this window.",
+      "The source window contains offer/merger agreement summaries and cautions that the merger agreement representations and warranties were made for allocating contractual risk and should not be read as standalone factual disclosures."
+    ],
+    "uncertain_or_missing": [
+      {
+        "date": null,
+        "description": "The exact identities and number of the 'several parties' that entered confidentiality agreements with Medivation are not provided, other than Sanofi and Pfizer context.",
+        "exact_quote": "Medivation issued a press release announcing that it had entered into confidentiality agreements with several parties, including Sanofi",
+        "importance": "core",
+        "label": "Unnamed confidentiality parties"
+      },
+      {
+        "date": null,
+        "description": "The exact identities and number of the 'several other interested parties' invited to the subsequent round with Pfizer are not provided in this source window.",
+        "exact_quote": "Medivation notified Pfizer that it was inviting Pfizer to a subsequent round of the potential sale process, together with several other interested parties.",
+        "importance": "core",
+        "label": "Unnamed subsequent-round bidders"
+      },
+      {
+        "date": null,
+        "description": "Medivation\u2019s additional sale-process activities are not fully described in this source window and are deferred to the Schedule 14D-9.",
+        "exact_quote": "For a review of Medivation\u2019s additional activities relating to the signing of the Merger Agreement, please refer to Medivation\u2019s Schedule 14D-9 being mailed to stockholders with this Offer to Purchase.",
+        "importance": "core",
+        "label": "Medivation-side process omitted"
+      },
+      {
+        "date": null,
+        "description": "The source does not state whether other parties submitted bids or their bid amounts, if any.",
+        "exact_quote": "a limited number of qualified parties may be invited to enter into further discussions and be provided additional due diligence materials.",
+        "importance": "uncertain",
+        "label": "Other bids not disclosed here"
+      },
+      {
+        "date": null,
+        "description": "No support agreements are described in the provided window.",
+        "exact_quote": "Except as provided in the Merger Agreement or as otherwise described in this Offer to Purchase, none of Pfizer or Purchaser or, to the best knowledge of Pfizer and Purchaser, any of the persons listed in Schedule I to this Offer to Purchase, has any contract, arrangement, understanding or relationship with any other person with respect to any securities of Medivation",
+        "importance": "useful",
+        "label": "No support agreements identified"
+      },
+      {
+        "date": null,
+        "description": "No financing commitment was entered into; the source indicates Pfizer/Purchaser had funds available through sources including cash on hand.",
+        "exact_quote": "Pfizer has not entered into any financing commitment in connection with the Merger Agreement or the transactions contemplated thereby.",
+        "importance": "core",
+        "label": "No financing commitment"
+      },
+      {
+        "date": null,
+        "description": "No management rollover or new employment/equity arrangement condition is identified, except unspecified pre-existing agreements to be described in Schedule 14D-9.",
+        "exact_quote": "except for certain pre-existing agreements to be described in the Schedule 14D-9, no employment, equity contribution, or other agreement, arrangement or understanding between any executive officer or director of Medivation, on the one hand, and Pfizer, Purchaser or Medivation, on the other hand, existed as of the date of the Merger Agreement",
+        "importance": "core",
+        "label": "No rollover/new management agreements identified"
+      }
+    ]
+  },
+  "prompt_chars": 120740,
+  "prompt_sha256": "7937f9974fcc7c72cf17118d882706fcad99ee80833a545b1c5f28fba3b74e7e",
+  "reasoning": "medium",
+  "reasoning_tokens": 23,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "395ec9adc1244cf05f88f704783e6cc5565bc76e2584cde5245ec75b525f8e4c",
+  "slug": "medivation",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w4_plain_recall",
+  "window_profile": "W4_PLAIN_RECALL"
+}

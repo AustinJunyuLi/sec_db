@@ -1,0 +1,280 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 49.87,
+  "input_chars": 24701,
+  "input_path": "inputs/mac-gray/W2_MULTI_REGION/w2_sale_process_part1.json",
+  "input_text_sha256": "e523f22b22b59676d5e3829a86eb0dde07f8370058c99c406f1c50615c965c59",
+  "input_tokens": 6521,
+  "job_id": "stage4__mac-gray__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_sale_process_part1__medium__r2",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 6,
+      "actor_relation_claims": 5,
+      "bid_claims": 1,
+      "event_claims": 5,
+      "participation_count_claims": 3
+    },
+    "duplicate_quotes_within_response": 2,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 3,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 6,
+    "not_unique_in_source_window": 3,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 20,
+    "relation_types": {
+      "advises": 2,
+      "controls": 1,
+      "member_of": 2
+    },
+    "strict_claim_total": 20,
+    "total_quotes": 20
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 8091,
+  "output_text_sha256": "58925b48bc7c9baaee3c006f987903292b369e26cb1825d04e6a6928914f4651",
+  "output_tokens": 3045,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "committee",
+        "actor_label": "The Mac-Gray Board of Directors",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part1_obl_6",
+        "observability": "named",
+        "quote_text": "The Mac-Gray Board of Directors, whom we sometimes to refer to as the Board"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "BofA Merrill Lynch",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part1_obl_7",
+        "observability": "named",
+        "quote_text": "BofA Merrill Lynch"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Goodwin Procter LLP",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part1_obl_8",
+        "observability": "named",
+        "quote_text": "Goodwin Procter LLP, outside legal counsel to Mac-Gray"
+      },
+      {
+        "actor_kind": "group",
+        "actor_label": "CSC/Pamplona",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part1_obl_10",
+        "observability": "named",
+        "quote_text": "CSC and Pamplona, who together we refer to as CSC/Pamplona"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "CSC",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part1_obl_10",
+        "observability": "named",
+        "quote_text": "CSC"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Pamplona",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part1_obl_10",
+        "observability": "named",
+        "quote_text": "Pamplona"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part1_obl_7",
+        "effective_date_first": null,
+        "object_label": "Mac-Gray",
+        "quote_text": "Mac-Gray engage BofA Merrill Lynch as Mac-Gray's financial advisor for the Board's exploration of strategic alternatives, including a potential sale process",
+        "relation_type": "advises",
+        "role_detail": "financial advisor",
+        "subject_label": "BofA Merrill Lynch"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part1_obl_8",
+        "effective_date_first": null,
+        "object_label": "Mac-Gray",
+        "quote_text": "Goodwin Procter LLP, outside legal counsel to Mac-Gray",
+        "relation_type": "advises",
+        "role_detail": "outside legal counsel",
+        "subject_label": "Goodwin Procter LLP"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part1_obl_10",
+        "effective_date_first": null,
+        "object_label": "CSC/Pamplona",
+        "quote_text": "including CSC and Pamplona, who together we refer to as CSC/Pamplona",
+        "relation_type": "member_of",
+        "role_detail": null,
+        "subject_label": "CSC"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part1_obl_10",
+        "effective_date_first": null,
+        "object_label": "CSC/Pamplona",
+        "quote_text": "including CSC and Pamplona, who together we refer to as CSC/Pamplona",
+        "relation_type": "member_of",
+        "role_detail": null,
+        "subject_label": "Pamplona"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part1_obl_10",
+        "effective_date_first": null,
+        "object_label": "CSC",
+        "quote_text": "CSC was purchased by Pamplona in May 2013",
+        "relation_type": "controls",
+        "role_detail": null,
+        "subject_label": "Pamplona"
+      }
+    ],
+    "bid_claims": [
+      {
+        "bid_date": "2013-06-21",
+        "bid_stage": "initial",
+        "bid_value": null,
+        "bid_value_lower": 17,
+        "bid_value_unit": "USD per share",
+        "bid_value_upper": 19,
+        "bidder_label": "Party A",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "all-cash",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part1_obl_9",
+        "quote_text": "On June 21, 2013, Party A submitted an unsolicited proposal to the Mac-Gray Board of Directors offering to purchase Mac-Gray for an all-cash purchase price of $17.00 to $19.00 per share"
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "BofA Merrill Lynch",
+        "actor_role": "sender",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part1_obl_1",
+        "description": "BofA Merrill Lynch, as instructed by the Board, contacted Party A to discuss a possible business combination with Mac-Gray.",
+        "event_date": "2013-04-08",
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "quote_text": "On April 8, 2013, representatives of BofA Merrill Lynch, as instructed by the Board, telephoned a representative of Party A to discuss generally a possible business combination between Party A and Mac-Gray."
+      },
+      {
+        "actor_label": "Mac-Gray Board of Directors",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part1_obl_1",
+        "description": "The Board approved engaging BofA Merrill Lynch as financial advisor for strategic alternatives, including a potential sale process.",
+        "event_date": "2013-05-30",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "Based on the recommendation of the Transaction Committee, the Board unanimously approved the engagement of BofA Merrill Lynch on the terms discussed at this meeting."
+      },
+      {
+        "actor_label": "Mac-Gray",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part1_obl_1",
+        "description": "Mac-Gray entered into an engagement letter with BofA Merrill Lynch for a review of strategic alternatives, including a potential sale process.",
+        "event_date": "2013-05-31",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "On May 31, 2013, Mac-Gray entered into an engagement letter with BofA Merrill Lynch with respect to the Board's undertaking a review of strategic alternatives, including a potential sale process"
+      },
+      {
+        "actor_label": "Special Committee",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part1_obl_1",
+        "description": "The Special Committee concluded it was in stockholders' best interests to consider a potential sale of Mac-Gray.",
+        "event_date": "2013-06-24",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "the Special Committee concluded that it would be in the best interests of stockholders to consider a potential sale of Mac-Gray"
+      },
+      {
+        "actor_label": "Special Committee",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part1_obl_1",
+        "description": "The Special Committee determined to approach 50 parties to solicit interest in a transaction with Mac-Gray.",
+        "event_date": "2013-06-24",
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "quote_text": "the Special Committee determined to approach a total of\n\n31\n<!-- PAGE 38 -->\nZEQ.=2,SEQ=37,EFW=\"2217482\",CP=\"MAC-GRAY CORPORATION\",DN=\"1\",CHK=927463,FOLIO='31',FILE='DISK112:[13ZCX1.13ZCX46801]DG46801A.;20',USER='HYUNG',CD=';2-DEC-2013;13:16'\n\nTable of Contents\n\n50 parties, including CSC and Pamplona, who together we refer to as CSC/Pamplona, and Party A, to solicit potential interest in a transaction with Mac-Gray"
+      }
+    ],
+    "participation_count_claims": [
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": 50,
+        "count_min": 50,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part1_obl_2",
+        "process_stage": "contacted",
+        "quote_text": "the Special Committee determined to approach a total of\n\n31\n<!-- PAGE 38 -->\nZEQ.=2,SEQ=37,EFW=\"2217482\",CP=\"MAC-GRAY CORPORATION\",DN=\"1\",CHK=927463,FOLIO='31',FILE='DISK112:[13ZCX1.13ZCX46801]DG46801A.;20',USER='HYUNG',CD=';2-DEC-2013;13:16'\n\nTable of Contents\n\n50 parties"
+      },
+      {
+        "actor_class": "strategic",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": 15,
+        "count_min": 15,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part1_obl_2",
+        "process_stage": "contacted",
+        "quote_text": "15 of which were potential strategic buyers"
+      },
+      {
+        "actor_class": "financial",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": 35,
+        "count_min": 35,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part1_obl_2",
+        "process_stage": "contacted",
+        "quote_text": "35 of which were potential financial buyers, including private equity firms"
+      }
+    ]
+  },
+  "prompt_chars": 27026,
+  "prompt_sha256": "f5e8648e5342ea3aad7305ce1996170eca012738173aebd46b07de2a54a76cf5",
+  "reasoning": "medium",
+  "reasoning_tokens": 1034,
+  "replica": "r2",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "mac-gray",
+  "stage": "stage4",
+  "status": "completed",
+  "window_id": "w2_sale_process_part1",
+  "window_profile": "W2_MULTI_REGION"
+}

@@ -1,0 +1,111 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 19.72,
+  "input_chars": 21998,
+  "input_path": "inputs/stec/W2_MULTI_REGION/w2_tender_source_perspective.json",
+  "input_text_sha256": "cb53cb40ba7ca360e7d4d44013c4e8135bc5d91fa204f3aad483bf2778254f50",
+  "input_tokens": 5657,
+  "job_id": "stage2__stec__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_tender_source_perspective__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 3,
+      "actor_relation_claims": 0,
+      "bid_claims": 1,
+      "event_claims": 1,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 5,
+    "relation_types": {},
+    "strict_claim_total": 5,
+    "total_quotes": 5
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 2163,
+  "output_text_sha256": "586e8e9464ff37e72b2da9724a69b3ed074fabe48f8be008deeca3c5f3d2dd5e",
+  "output_tokens": 1044,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "organization",
+        "actor_label": "Merger Sub",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "The merger agreement contemplates the merger of Merger Sub, a wholly-owned subsidiary of WDC, with and into sTec, with sTec surviving the merger."
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "WDC",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "The merger agreement contemplates the merger of Merger Sub, a wholly-owned subsidiary of WDC, with and into sTec, with sTec surviving the merger."
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "sTec",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "The merger agreement contemplates the merger of Merger Sub, a wholly-owned subsidiary of WDC, with and into sTec, with sTec surviving the merger."
+      }
+    ],
+    "actor_relation_claims": [],
+    "bid_claims": [
+      {
+        "bid_date": null,
+        "bid_stage": "unspecified",
+        "bid_value": 6.85,
+        "bid_value_lower": null,
+        "bid_value_unit": "USD per share",
+        "bid_value_upper": null,
+        "bidder_label": "WDC",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "stec_w2_tender_source_perspective_obl_2",
+        "quote_text": "Upon completion of the merger, holders of our common stock will be entitled to receive $6.85 in cash, without interest and less applicable withholding taxes, in exchange for each share of our common stock held at the effective time of the merger."
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "sTec",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_tender_source_perspective_obl_3",
+        "description": "The merger will be completed only if certain conditions are satisfied or waived.",
+        "event_date": null,
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "quote_text": "The merger will be completed only if certain conditions are satisfied or waived, including the following:"
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23771,
+  "prompt_sha256": "2c3e848572e2ef986c277c8323c100a45314d9f2729c4236d8446cb08f928152",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "stec",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_tender_source_perspective",
+  "window_profile": "W2_MULTI_REGION"
+}

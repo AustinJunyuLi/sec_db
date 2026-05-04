@@ -9,9 +9,10 @@ Independent SEC merger-filing graph extraction project.
 - `docs/llm-interface.md`
 
 The pipeline is a hard reset around a run kernel, evidence map, Linkflow
-GPT-5.5 typed semantic claims, quote validation, claim dispositions,
-relational evidence links, a canonical graph, semantic validation, actor-cycle
-projection, cost/runtime artifacts, and a corpus skeleton.
+GPT-5.5 P8 claim-only extraction, quote validation, Python-owned coverage,
+claim dispositions, relational evidence links, a canonical graph, semantic
+validation, actor-cycle projection, cost/runtime artifacts, and a corpus
+skeleton.
 
 ## Rules
 
@@ -51,7 +52,7 @@ python -m sec_graph run \
   --run-dir runs/2026-05-03T010203Z_3-deals_deadbeef \
   --llm-provider linkflow \
   --llm-model gpt-5.5 \
-  --llm-reasoning-effort high
+  --llm-reasoning-effort medium
 ```
 
 `--resume` is explicit and conservative. It refuses changed input or run

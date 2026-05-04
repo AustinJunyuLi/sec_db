@@ -1,0 +1,96 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_CLAIM_ONLY_P8",
+  "duration_s": 28.95,
+  "input_chars": 24999,
+  "input_path": "inputs/penford/W2_MULTI_REGION/w2_financing.json",
+  "input_text_sha256": "c8bbbf3f7186fbf4120742144c7f911943b99d2fbe58e1412d529855fd71c9ef",
+  "input_tokens": 6586,
+  "job_id": "stage2__penford__EXPANDED_CLAIM_ONLY_P8__W2_MULTI_REGION__w2_financing__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 1,
+      "actor_relation_claims": 1,
+      "bid_claims": 0,
+      "event_claims": 1,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 3,
+    "relation_types": {
+      "finances": 1
+    },
+    "strict_claim_total": 3,
+    "total_quotes": 3
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 1589,
+  "output_text_sha256": "e39dba4714349b29cb67811d1cb50adaad640d9b7723552a77abfaf3816a6707",
+  "output_tokens": 873,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Ingredion",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_financing_obl_1",
+        "observability": "named",
+        "quote_text": "Ingredion expects to pay the merger consideration and merger-related costs with then-available funds, which funds may include available cash and proceeds from borrowings under Ingredion\u2019s revolving credit agreement."
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_financing_obl_2",
+        "effective_date_first": null,
+        "object_label": "the merger consideration and merger-related costs",
+        "quote_text": "Ingredion expects to pay the merger consideration and merger-related costs with then-available funds, which funds may include available cash and proceeds from borrowings under Ingredion\u2019s revolving credit agreement.",
+        "relation_type": "finances",
+        "role_detail": "expects to pay with then-available funds, which may include available cash and proceeds from borrowings under Ingredion\u2019s revolving credit agreement",
+        "subject_label": "Ingredion"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": null,
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_financing_obl_3",
+        "description": "There is no financing condition to the merger.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "financing_committed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_text": "There is no financing condition to the merger."
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 26843,
+  "prompt_sha256": "803ca1e2b7ffcfb14838f4957efc75cb0494a71603488c25b55387fda371af17",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "80c516a8b3401128674672619998677e77e1705c31b2f7b7ea8a4f8856bd14eb",
+  "slug": "penford",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_financing",
+  "window_profile": "W2_MULTI_REGION"
+}

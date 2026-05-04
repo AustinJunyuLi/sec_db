@@ -1,0 +1,281 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_MULTI_QUOTE_P8",
+  "duration_s": 48.28,
+  "input_chars": 24929,
+  "input_path": "inputs/petsmart-inc/W2_MULTI_REGION/w2_sale_process_part2.json",
+  "input_text_sha256": "183f1fbdc23d3159d0669b488047fc742d5704f38731e6f2311caaa442b26790",
+  "input_tokens": 6624,
+  "job_id": "stage2__petsmart-inc__EXPANDED_MULTI_QUOTE_P8__W2_MULTI_REGION__w2_sale_process_part2__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 8,
+      "actor_relation_claims": 4,
+      "bid_claims": 1,
+      "event_claims": 3,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 4,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 3,
+    "multi_quote_claims": 1,
+    "nonempty_date_strings": 2,
+    "not_unique_in_source_window": 3,
+    "quote_match_rate": 0.9412,
+    "quotes_in_window": 16,
+    "relation_types": {
+      "advises": 2,
+      "affiliate_of": 1,
+      "voting_support_for": 1
+    },
+    "strict_claim_total": 16,
+    "total_quotes": 17
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 6771,
+  "output_text_sha256": "98573dfc8bad464334bdb16013b398f260905a5efde86206fc416de9a734982b",
+  "output_tokens": 2079,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "the Company",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_6",
+        "observability": "named",
+        "quote_texts": [
+          "the Company entered into the merger agreement"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "committee",
+        "actor_label": "the board",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_6",
+        "observability": "named",
+        "quote_texts": [
+          "the board unanimously recommends that our stockholders vote"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Parent",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_10",
+        "observability": "named",
+        "quote_texts": [
+          "Parent"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Merger Sub",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_10",
+        "observability": "named",
+        "quote_texts": [
+          "Merger Sub, a wholly owned subsidiary of Parent"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Longview",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_10",
+        "observability": "named",
+        "quote_texts": [
+          "Longview"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "the Buyer Group",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_10",
+        "observability": "named",
+        "quote_texts": [
+          "the Buyer Group"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "group",
+        "actor_label": "outside financial advisors",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_7",
+        "observability": "anonymous_handle",
+        "quote_texts": [
+          "outside legal and financial advisors"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "outside legal advisors",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_8",
+        "observability": "anonymous_handle",
+        "quote_texts": [
+          "outside legal and financial advisors"
+        ]
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_10",
+        "effective_date_first": null,
+        "object_label": "Parent",
+        "quote_texts": [
+          "Merger Sub, a wholly owned subsidiary of Parent"
+        ],
+        "relation_type": "affiliate_of",
+        "role_detail": "wholly owned subsidiary",
+        "subject_label": "Merger Sub"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_10",
+        "effective_date_first": null,
+        "object_label": "the merger proposal",
+        "quote_texts": [
+          "Longview has agreed, among other things and subject to certain conditions, to vote 7,424,591 shares of common stock in favor of the merger proposal"
+        ],
+        "relation_type": "voting_support_for",
+        "role_detail": "agreed to vote 7,424,591 shares of common stock in favor",
+        "subject_label": "Longview"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "medium",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_7",
+        "effective_date_first": null,
+        "object_label": "the board",
+        "quote_texts": [
+          "after consultation with outside legal and financial advisors"
+        ],
+        "relation_type": "advises",
+        "role_detail": "outside financial advisors consulted by board",
+        "subject_label": "outside financial advisors"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "medium",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_8",
+        "effective_date_first": null,
+        "object_label": "the board",
+        "quote_texts": [
+          "after consultation with outside legal and financial advisors"
+        ],
+        "relation_type": "advises",
+        "role_detail": "outside legal advisors consulted by board",
+        "subject_label": "outside legal advisors"
+      }
+    ],
+    "bid_claims": [
+      {
+        "bid_date": "2014-12-14",
+        "bid_formality": "formal",
+        "bid_stage": "final",
+        "bid_value": 83.0,
+        "bid_value_lower": null,
+        "bid_value_unit": "USD per share",
+        "bid_value_upper": null,
+        "bidder_label": "Parent",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "On December 14, 2014, the Company entered into the merger agreement providing for the merger of Merger Sub, a wholly owned subsidiary of Parent, with and into the Company",
+          "If the merger is completed, you will be entitled to receive $83.00 in cash, without interest and less any applicable withholding taxes, for each share of our common stock that you own."
+        ]
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "the Company",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_1",
+        "description": "The Company entered into the merger agreement with Parent providing for Merger Sub to merge with and into the Company.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-12-14",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "On December 14, 2014, the Company entered into the merger agreement providing for the merger of Merger Sub, a wholly owned subsidiary of Parent, with and into the Company"
+        ]
+      },
+      {
+        "actor_label": "Merger Sub",
+        "actor_role": "acquisition_sub",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_10",
+        "description": "Merger Sub will merge with and into the Company, with the Company surviving as a wholly owned subsidiary of Parent.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "providing for the merger of Merger Sub, a wholly owned subsidiary of Parent, with and into the Company, with the Company surviving the merger as a wholly owned subsidiary of Parent"
+        ]
+      },
+      {
+        "actor_label": "Longview",
+        "actor_role": "support_shareholder",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_10",
+        "description": "Longview entered into a voting agreement to vote 7,424,591 shares in favor of the merger proposal and against competing proposals not approved by the board.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "In connection with the merger agreement, the Company, Parent and Longview entered into the voting agreement, pursuant to which Longview has agreed, among other things and subject to certain conditions, to vote 7,424,591 shares of common stock in favor of the merger proposal and against any proposal made in opposition to or in competition with the merger or the merger agreement that is not approved by the board."
+        ]
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 27511,
+  "prompt_sha256": "75f64d7b7273f00b71f030c3d2541ec16b95de1944f157c52b1ca0ef4d731d4d",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "0e783020c5768c044a886e0c68312d3e78a57555f4637885fb098049de8a7824",
+  "slug": "petsmart-inc",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_sale_process_part2",
+  "window_profile": "W2_MULTI_REGION"
+}

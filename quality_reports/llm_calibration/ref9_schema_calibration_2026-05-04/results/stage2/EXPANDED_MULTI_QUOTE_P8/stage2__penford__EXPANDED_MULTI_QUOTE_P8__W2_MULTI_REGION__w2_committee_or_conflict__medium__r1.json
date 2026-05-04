@@ -1,0 +1,498 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_MULTI_QUOTE_P8",
+  "duration_s": 148.66,
+  "input_chars": 22000,
+  "input_path": "inputs/penford/W2_MULTI_REGION/w2_committee_or_conflict.json",
+  "input_text_sha256": "286f8449447f3fb36903647e93aaf999e06fd8d0334cb5927eb98e9767354ca0",
+  "input_tokens": 5953,
+  "job_id": "stage2__penford__EXPANDED_MULTI_QUOTE_P8__W2_MULTI_REGION__w2_committee_or_conflict__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 4,
+      "actor_relation_claims": 5,
+      "bid_claims": 0,
+      "event_claims": 19,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 4,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 20,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 18,
+    "not_unique_in_source_window": 1,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 28,
+    "relation_types": {
+      "advises": 2,
+      "affiliate_of": 1,
+      "member_of": 2
+    },
+    "strict_claim_total": 28,
+    "total_quotes": 28
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 17296,
+  "output_text_sha256": "9cfacfaaa658936f3960d8c2a2541f8d2b5ec079604a88a5d3573fb43b0a4d73",
+  "output_tokens": 4889,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "committee",
+        "actor_label": "Executive Committee of the Penford board",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_committee_or_conflict_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "the Executive Committee of the Penford board"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "person",
+        "actor_label": "Mr. Behrens",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_committee_or_conflict_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Mr. Behrens, the SEACOR representative on the board"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Perkins Coie LLP",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_committee_or_conflict_obl_2",
+        "observability": "named",
+        "quote_texts": [
+          "Perkins Coie LLP (referred to as Perkins Coie), Penford\u2019s legal counsel"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "Deutsche Bank",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_committee_or_conflict_obl_2",
+        "observability": "named",
+        "quote_texts": [
+          "Deutsche Bank as the Company\u2019s financial advisor"
+        ]
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_committee_or_conflict_obl_2",
+        "effective_date_first": null,
+        "object_label": "Penford board",
+        "quote_texts": [
+          "the Executive Committee of the Penford board"
+        ],
+        "relation_type": "member_of",
+        "role_detail": "Executive Committee of the board",
+        "subject_label": "Executive Committee of the Penford board"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_committee_or_conflict_obl_2",
+        "effective_date_first": null,
+        "object_label": "Penford",
+        "quote_texts": [
+          "Perkins Coie LLP (referred to as Perkins Coie), Penford\u2019s legal counsel"
+        ],
+        "relation_type": "advises",
+        "role_detail": "legal counsel",
+        "subject_label": "Perkins Coie LLP"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_committee_or_conflict_obl_2",
+        "effective_date_first": null,
+        "object_label": "Penford",
+        "quote_texts": [
+          "Deutsche Bank as the Company\u2019s financial advisor"
+        ],
+        "relation_type": "advises",
+        "role_detail": "financial advisor",
+        "subject_label": "Deutsche Bank"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_committee_or_conflict_obl_2",
+        "effective_date_first": null,
+        "object_label": "SEACOR",
+        "quote_texts": [
+          "Mr. Behrens, the SEACOR representative on the board"
+        ],
+        "relation_type": "affiliate_of",
+        "role_detail": "SEACOR representative on the board",
+        "subject_label": "Mr. Behrens"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_committee_or_conflict_obl_2",
+        "effective_date_first": null,
+        "object_label": "Penford board",
+        "quote_texts": [
+          "Mr. Behrens, the SEACOR representative on the board"
+        ],
+        "relation_type": "member_of",
+        "role_detail": "SEACOR representative on the board",
+        "subject_label": "Mr. Behrens"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "Mr. Hatfield",
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_committee_or_conflict_obl_3",
+        "description": "Mr. Hatfield decided to utilize the Executive Committee to discuss recent developments on an expedited basis because it could meet with little advance notice and had authority under the Company's bylaws.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "Mr. Hatfield decided to utilize the Executive Committee to discuss recent developments, due to the Executive Committee\u2019s ability to meet with little advance notice and the authority vested in this committee under the Company\u2019s bylaws"
+        ]
+      },
+      {
+        "actor_label": "Mr. Lawlor",
+        "actor_role": "sender",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_committee_or_conflict_obl_3",
+        "description": "Mr. Lawlor gave notice of an Executive Committee meeting to discuss Schedule 13D filings and strategic developments, including discussions with Ingredion.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-07-22",
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "on July 22, 2014, Mr. Lawlor, as secretary of the Company, provided notice of a meeting of the Executive Committee of the Penford board for the purpose of discussing, among other things, recent Schedule 13D filings, including the SEACOR Filing and strategic developments, including the discussions with Ingredion"
+        ]
+      },
+      {
+        "actor_label": "Executive Committee of the Penford board",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_committee_or_conflict_obl_3",
+        "description": "The Executive Committee held a telephonic meeting attended by all committee members, certain directors, management, and Perkins Coie representatives.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-07-24",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "On July 24, 2014, the Executive Committee of the Penford board held a telephonic meeting, at which all members of the Executive Committee, as well as certain other directors, members of Penford\u2019s management and representatives of Perkins Coie LLP (referred to as Perkins Coie), Penford\u2019s legal counsel, were present"
+        ]
+      },
+      {
+        "actor_label": "Executive Committee of the Penford board",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_committee_or_conflict_obl_3",
+        "description": "The Executive Committee directed management to retain Deutsche Bank as Penford's financial advisor for shareholder matters and evaluation of strategic alternatives.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-07-24",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "the Executive Committee directed management to proceed to retain Deutsche Bank as the Company\u2019s financial advisor and to advise on shareholder matters and to evaluate strategic alternatives, and directed management to negotiate a suitable engagement letter"
+        ]
+      },
+      {
+        "actor_label": "Deutsche Bank",
+        "actor_role": "advisor_for_target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_committee_or_conflict_obl_3",
+        "description": "An engagement letter with Deutsche Bank was executed.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-09-11",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "An engagement letter with Deutsche Bank was executed on September 11, 2014"
+        ]
+      },
+      {
+        "actor_label": "Penford board",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_committee_or_conflict_obl_3",
+        "description": "The board discussed the Executive Committee's decision to engage Deutsche Bank with regard to shareholder matters and strategic alternatives.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-07-30",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "The board discussed the new credit facility, a recent meeting of the Executive Committee and the Executive Committee\u2019s decision to engage Deutsche Bank with regard to shareholder matters and to evaluate strategic alternatives"
+        ]
+      },
+      {
+        "actor_label": "Executive Committee of the Penford board",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_committee_or_conflict_obl_3",
+        "description": "The Executive Committee met with management and representatives of Perkins Coie and Deutsche Bank to discuss Ingredion's indication of interest.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-08-11",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "On August 11, 2014, the Executive Committee met with members of management and representatives of each of Perkins Coie and Deutsche Bank, at which meeting they discussed Ingredion\u2019s indication of interest received on August 10"
+        ]
+      },
+      {
+        "actor_label": "Executive Committee of the Penford board",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_committee_or_conflict_obl_3",
+        "description": "The Executive Committee unanimously determined it was in the best interests of Penford and its shareholders to proceed with further review and investigation of Ingredion's indication of interest.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-08-11",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "the Executive Committee unanimously determined that it would be in the best interests of the Company and its shareholders to proceed with further review and investigation of Ingredion\u2019s indication of interest to acquire Penford"
+        ]
+      },
+      {
+        "actor_label": "Executive Committee of the Penford board",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_committee_or_conflict_obl_3",
+        "description": "Because SEACOR had been identified as a potential counterparty, the Executive Committee determined that Mr. Hatfield should contact Mr. Behrens to discuss whether SEACOR was interested in acquiring Penford.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-08-11",
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "since SEACOR had been identified by Penford\u2019s financial advisor as a potential counterparty, the Executive Committee determined that Mr. Hatfield should promptly contact Mr. Behrens, the SEACOR representative on the board, to discuss whether SEACOR had an interest in acquiring the Company"
+        ]
+      },
+      {
+        "actor_label": "Executive Committee of the Penford board",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_committee_or_conflict_obl_3",
+        "description": "The Executive Committee indicated that if SEACOR had an interest in acquiring Penford, Mr. Behrens should recuse himself from future board discussions due to a potential conflict between his duties to Penford shareholders and SEACOR.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-08-11",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "The Executive Committee indicated that if SEACOR did have such an interest, Mr. Behrens should recuse himself from future board discussions related to a possible sale process due to the potential conflict between Mr. Behrens\u2019 duties to the Company\u2019s shareholders and his duties to SEACOR"
+        ]
+      },
+      {
+        "actor_label": "Executive Committee of the Penford board",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_committee_or_conflict_obl_3",
+        "description": "The Executive Committee determined that a board meeting should be held to discuss recent developments relating to the Ingredion indication of interest.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-08-11",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "The Executive Committee also determined that a meeting of the board of directors be held to discuss the recent developments with respect to the Ingredion indication of interest"
+        ]
+      },
+      {
+        "actor_label": "Mr. Hatfield",
+        "actor_role": "sender",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_committee_or_conflict_obl_3",
+        "description": "Mr. Hatfield discussed the Ingredion indication of interest with Mr. Behrens to determine whether SEACOR was interested in acquiring Penford; Mr. Behrens said SEACOR was not interested in participating in a potential sale process at that time.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-08-12",
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "On August 12, 2014, Mr. Hatfield discussed the Ingredion indication of interest with Mr. Behrens to determine if SEACOR was interested in acquiring the Company. Mr. Behrens stated that SEACOR was not interested in participating in any potential sale process at that time"
+        ]
+      },
+      {
+        "actor_label": "Mr. Hatfield",
+        "actor_role": "sender",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_committee_or_conflict_obl_3",
+        "description": "At a special board meeting, Mr. Hatfield requested that Mr. Behrens confirm SEACOR's position regarding a potential transaction with Penford.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-08-13",
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "Prior to engaging in substantive discussions, Mr. Hatfield requested that Mr. Behrens confirm the position of SEACOR with respect to a potential transaction with Penford"
+        ]
+      },
+      {
+        "actor_label": "Mr. Behrens",
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_committee_or_conflict_obl_3",
+        "description": "Mr. Behrens confirmed that SEACOR was not interested in participating in a potential sale process at that time.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-08-13",
+        "event_subtype": "advancement_declined",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "Mr. Behrens confirmed that SEACOR was not interested in participating in any potential sale process at that time"
+        ]
+      },
+      {
+        "actor_label": "Penford board",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_committee_or_conflict_obl_3",
+        "description": "The board members present unanimously directed management to proceed with further investigation and development of Ingredion's proposal.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-08-13",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "Following discussion among the board members, the board members present at the meeting unanimously directed management to proceed with further investigation and development of the proposal from Ingredion"
+        ]
+      },
+      {
+        "actor_label": "Penford board",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_committee_or_conflict_obl_3",
+        "description": "The board authorized management to engage with Ingredion and provide additional information regarding Penford.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-08-14",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "the board authorized management to engage with Ingredion and provide additional information regarding the Company"
+        ]
+      },
+      {
+        "actor_label": "Penford board",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_committee_or_conflict_obl_3",
+        "description": "The board directed management to continue negotiations with Ingredion and due diligence, and authorized management and Deutsche Bank to proceed with the market check process.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-08-28",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "Following discussion, the board directed management to continue negotiations with Ingredion and engage in the due diligence process with Ingredion. The board also authorized management and Deutsche Bank to proceed with the market check process as described at the meeting"
+        ]
+      },
+      {
+        "actor_label": "Perkins Coie",
+        "actor_role": "advisor_for_target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_committee_or_conflict_obl_3",
+        "description": "Perkins Coie provided a review and led a discussion of the Penford board's fiduciary duties in connection with strategic proposals involving a change in control.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-08-28",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "As part of the August 28, 2014 board meeting, Perkins Coie provided a review, and led a discussion, of the fiduciary duties of Penford\u2019s board, including in connection with strategic proposals involving a change in control of Penford"
+        ]
+      },
+      {
+        "actor_label": "Executive Committee of the Penford board",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_committee_or_conflict_obl_3",
+        "description": "Members of management briefed the Executive Committee, with Perkins Coie and Deutsche Bank present, and Deutsche Bank reported on the market check and Ingredion diligence processes.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-09-19",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "On September 19, 2014, members of management briefed the Executive Committee on the status of the operation of the business, including an update on fourth quarter fiscal 2014 and first quarter 2015. Perkins Coie and Deutsche Bank were also present at the briefing. Deutsche Bank then reported on the status of the market check process and the ongoing due diligence process with Ingredion"
+        ]
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 24031,
+  "prompt_sha256": "c8e998b7de73de45f3e6aa0d8ac68540a14558433761ae81d7bdc6ee782b97e1",
+  "reasoning": "medium",
+  "reasoning_tokens": 1034,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "0e783020c5768c044a886e0c68312d3e78a57555f4637885fb098049de8a7824",
+  "slug": "penford",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_committee_or_conflict",
+  "window_profile": "W2_MULTI_REGION"
+}

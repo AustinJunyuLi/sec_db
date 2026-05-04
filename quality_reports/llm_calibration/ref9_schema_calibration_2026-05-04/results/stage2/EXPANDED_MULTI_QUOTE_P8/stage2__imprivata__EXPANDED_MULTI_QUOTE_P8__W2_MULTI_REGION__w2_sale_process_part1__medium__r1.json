@@ -1,0 +1,574 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_MULTI_QUOTE_P8",
+  "duration_s": 125.38,
+  "input_chars": 23675,
+  "input_path": "inputs/imprivata/W2_MULTI_REGION/w2_sale_process_part1.json",
+  "input_text_sha256": "6a33345b965963fb98e84a71317e8c0581a3648cc7e861cde4b385d568b234a8",
+  "input_tokens": 6201,
+  "job_id": "stage2__imprivata__EXPANDED_MULTI_QUOTE_P8__W2_MULTI_REGION__w2_sale_process_part1__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 10,
+      "actor_relation_claims": 4,
+      "bid_claims": 4,
+      "event_claims": 8,
+      "participation_count_claims": 10
+    },
+    "duplicate_quotes_within_response": 7,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 31,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 12,
+    "not_unique_in_source_window": 6,
+    "quote_match_rate": 0.9722,
+    "quotes_in_window": 35,
+    "relation_types": {
+      "advises": 2,
+      "affiliate_of": 1,
+      "finances": 1
+    },
+    "strict_claim_total": 36,
+    "total_quotes": 36
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 15751,
+  "output_text_sha256": "0ca18a0cdb48d46793394486806938efac0bfce883de3770b52e5ef031cc5120",
+  "output_tokens": 4993,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "Board",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_6",
+        "observability": "named",
+        "quote_texts": [
+          "The Board, together with Company management and with the assistance of the Company\u2019s advisors"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Barclays",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_7",
+        "observability": "named",
+        "quote_texts": [
+          "the Board engaged Barclays as the Company\u2019s financial advisor"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Goodwin Procter LLP",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_8",
+        "observability": "named",
+        "quote_texts": [
+          "the Company\u2019s outside legal counsel, Goodwin Procter LLP (\u201c Goodwin \u201d)"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "Thoma Bravo",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_10",
+        "observability": "named",
+        "quote_texts": [
+          "representatives of Thoma Bravo"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "group",
+        "actor_label": "private equity funds affiliated with Thoma Bravo",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_10",
+        "observability": "named",
+        "quote_texts": [
+          "private equity funds affiliated with Thoma Bravo"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "Sponsor A",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_2",
+        "observability": "anonymous_handle",
+        "quote_texts": [
+          "Sponsor A"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "Sponsor B",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_2",
+        "observability": "anonymous_handle",
+        "quote_texts": [
+          "Sponsor B"
+        ]
+      },
+      {
+        "actor_class": "s",
+        "actor_kind": "organization",
+        "actor_label": "Strategic 1",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_1",
+        "observability": "anonymous_handle",
+        "quote_texts": [
+          "Strategic 1"
+        ]
+      },
+      {
+        "actor_class": "s",
+        "actor_kind": "organization",
+        "actor_label": "Strategic 2",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_1",
+        "observability": "anonymous_handle",
+        "quote_texts": [
+          "Strategic 2"
+        ]
+      },
+      {
+        "actor_class": "s",
+        "actor_kind": "organization",
+        "actor_label": "Strategic 3",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_1",
+        "observability": "anonymous_handle",
+        "quote_texts": [
+          "Strategic 3"
+        ]
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_7",
+        "effective_date_first": "2016-04-15",
+        "object_label": "Company",
+        "quote_texts": [
+          "recommended the engagement of Barclays as the Company\u2019s financial advisor to assist the Board in its evaluation of Thoma Bravo\u2019s indication of interest and any other strategic alternatives that might be available to the Company"
+        ],
+        "relation_type": "advises",
+        "role_detail": "financial advisor",
+        "subject_label": "Barclays"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_8",
+        "effective_date_first": null,
+        "object_label": "Company",
+        "quote_texts": [
+          "the Company\u2019s outside legal counsel, Goodwin Procter LLP (\u201c Goodwin \u201d)"
+        ],
+        "relation_type": "advises",
+        "role_detail": "outside legal counsel",
+        "subject_label": "Goodwin Procter LLP"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_10",
+        "effective_date_first": null,
+        "object_label": "Thoma Bravo",
+        "quote_texts": [
+          "private equity funds affiliated with Thoma Bravo"
+        ],
+        "relation_type": "affiliate_of",
+        "role_detail": "private equity funds affiliated with Thoma Bravo",
+        "subject_label": "private equity funds affiliated with Thoma Bravo"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_10",
+        "effective_date_first": null,
+        "object_label": "Thoma Bravo",
+        "quote_texts": [
+          "it was prepared to finance the transaction entirely with equity from its private equity funds"
+        ],
+        "relation_type": "finances",
+        "role_detail": "equity from its private equity funds",
+        "subject_label": "Thoma Bravo private equity funds"
+      }
+    ],
+    "bid_claims": [
+      {
+        "bid_date": "2016-03-09",
+        "bid_formality": "formal",
+        "bid_stage": "initial",
+        "bid_value": 15.0,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "Thoma Bravo",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "On March 9, 2016, Thoma Bravo sent an unsolicited, non-binding indication of interest letter addressed to the Board indicating that Thoma Bravo would be interested in acquiring the Company for cash at a purchase price of $15.00 per share of Imprivata\u2019s common stock."
+        ]
+      },
+      {
+        "bid_date": "2016-06-09",
+        "bid_formality": "formal",
+        "bid_stage": "initial",
+        "bid_value": 16.5,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "Sponsor A",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": null,
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "Sponsor A indicated a price of $16.50 per share."
+        ]
+      },
+      {
+        "bid_date": "2016-06-09",
+        "bid_formality": "formal",
+        "bid_stage": "initial",
+        "bid_value": 17.25,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "Thoma Bravo",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": null,
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "Thoma Bravo indicated a price of $17.25 per share, and also provided a form of equity commitment letter and draft merger agreement."
+        ]
+      },
+      {
+        "bid_date": "2016-06-09",
+        "bid_formality": "formal",
+        "bid_stage": "initial",
+        "bid_value": null,
+        "bid_value_lower": 17.0,
+        "bid_value_unit": "per share",
+        "bid_value_upper": 18.0,
+        "bidder_label": "Sponsor B",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": null,
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "Sponsor B indicated a range of $17.00 - $18.00 per share."
+        ]
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "Thoma Bravo",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_1",
+        "description": "Thoma Bravo sent an unsolicited, non-binding indication of interest to acquire the Company for cash at $15.00 per share.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2016-03-09",
+        "event_subtype": "ioi_submitted",
+        "event_type": "bid",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "On March 9, 2016, Thoma Bravo sent an unsolicited, non-binding indication of interest letter addressed to the Board indicating that Thoma Bravo would be interested in acquiring the Company for cash at a purchase price of $15.00 per share of Imprivata\u2019s common stock."
+        ]
+      },
+      {
+        "actor_label": "Board",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_1",
+        "description": "The Board determined that Barclays should contact each of the 15 parties on the indicative list confidentially to gauge interest in a potential transaction, beginning the strategic process.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2016-05-05",
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "The Board also approved the indicative list of parties and determined that Barclays should contact each of the parties on the indicative list on a confidential basis to gauge its interest in a potential transaction with the Company, which we refer to as the \u201cstrategic process.\u201d"
+        ]
+      },
+      {
+        "actor_label": "Barclays",
+        "actor_role": "sender",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_1",
+        "description": "Barclays contacted and had discussions with the 15 potentially interested parties, including Thoma Bravo, at the direction of the Board.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "During the period from May 6 through June 9, 2016, at the direction of the Board, Barclays contacted and had discussions with the 15 potentially interested parties discussed by the Board at its April 28 and May 5, 2016 meetings, including Thoma Bravo."
+        ]
+      },
+      {
+        "actor_label": "Thoma Bravo",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_1",
+        "description": "Thoma Bravo executed a confidentiality agreement with the Company.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2016-05-10",
+        "event_subtype": "nda_signed",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "three strategic parties and four financial sponsors executed confidentiality agreements with the Company, including Thoma Bravo on May 10, 2016."
+        ]
+      },
+      {
+        "actor_label": "six parties",
+        "actor_role": "recipient",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_3",
+        "description": "Barclays distributed a bid instruction letter to the six parties that had executed confidentiality agreements and attended management meetings, setting a June 9 deadline for indications of interest.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2016-06-03",
+        "event_subtype": "first_round_bid",
+        "event_type": "bid",
+        "initiation_side": "target",
+        "quote_texts": [
+          "On June 3, 2016, Barclays distributed a bid instruction letter on behalf of the Company to the six parties that had executed a confidentiality agreement and attended meetings with Company management by that date."
+        ]
+      },
+      {
+        "actor_label": "Sponsor A, Sponsor B and Thoma Bravo",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_2",
+        "description": "Sponsor A, Sponsor B and Thoma Bravo presented written preliminary non-binding indications of interest.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2016-06-09",
+        "event_subtype": "ioi_submitted",
+        "event_type": "bid",
+        "initiation_side": null,
+        "quote_texts": [
+          "On June 9, 2016, three parties (Sponsor A, Sponsor B and Thoma Bravo) presented written preliminary non-binding indications of interest that were each subject to satisfactory completion of due diligence, among other conditions."
+        ]
+      },
+      {
+        "actor_label": "Sponsor A, Sponsor B and Thoma Bravo",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_3",
+        "description": "The three first-round bidders submitted written preliminary non-binding indications of interest by the June 9 bid deadline.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2016-06-09",
+        "event_subtype": "first_round_bid",
+        "event_type": "bid",
+        "initiation_side": null,
+        "quote_texts": [
+          "On June 9, 2016, three parties (Sponsor A, Sponsor B and Thoma Bravo) presented written preliminary non-binding indications of interest that were each subject to satisfactory completion of due diligence, among other conditions."
+        ]
+      },
+      {
+        "actor_label": "ten of the 11 strategic parties contacted by Barclays",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_1",
+        "description": "By June 12, ten of the 11 strategic parties contacted by Barclays had declined to participate in the strategic process.",
+        "drop_agency": "bidder",
+        "drop_reason": "other",
+        "event_date": "2016-06-12",
+        "event_subtype": "advancement_declined",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "Barclays reported to the Board that at such time ten of the 11 strategic parties contacted by Barclays had declined to participate in the strategic process"
+        ]
+      }
+    ],
+    "participation_count_claims": [
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 15,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_1",
+        "process_stage": "contacted",
+        "quote_texts": [
+          "Barclays contacted and had discussions with the 15 potentially interested parties"
+        ]
+      },
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 15,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_1",
+        "process_stage": "contacted",
+        "quote_texts": [
+          "including 11 strategic companies and four financial sponsors, including Thoma Bravo"
+        ]
+      },
+      {
+        "actor_class": "strategic",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 11,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_1",
+        "process_stage": "contacted",
+        "quote_texts": [
+          "including 11 strategic companies and four financial sponsors, including Thoma Bravo"
+        ]
+      },
+      {
+        "actor_class": "financial",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 4,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_1",
+        "process_stage": "contacted",
+        "quote_texts": [
+          "including 11 strategic companies and four financial sponsors, including Thoma Bravo"
+        ]
+      },
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 7,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_1",
+        "process_stage": "nda_signed",
+        "quote_texts": [
+          "three strategic parties and four financial sponsors executed confidentiality agreements with the Company"
+        ]
+      },
+      {
+        "actor_class": "strategic",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 3,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_1",
+        "process_stage": "nda_signed",
+        "quote_texts": [
+          "three strategic parties and four financial sponsors executed confidentiality agreements with the Company"
+        ]
+      },
+      {
+        "actor_class": "financial",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 4,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_1",
+        "process_stage": "nda_signed",
+        "quote_texts": [
+          "three strategic parties and four financial sponsors executed confidentiality agreements with the Company"
+        ]
+      },
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 6,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_3",
+        "process_stage": "first_round",
+        "quote_texts": [
+          "Barclays distributed a bid instruction letter on behalf of the Company to the six parties that had executed a confidentiality agreement and attended meetings with Company management by that date."
+        ]
+      },
+      {
+        "actor_class": "financial",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 3,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_2",
+        "process_stage": "ioi_submitted",
+        "quote_texts": [
+          "On June 9, 2016, three parties (Sponsor A, Sponsor B and Thoma Bravo) presented written preliminary non-binding indications of interest"
+        ]
+      },
+      {
+        "actor_class": "financial",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 3,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part1_obl_3",
+        "process_stage": "first_round",
+        "quote_texts": [
+          "On June 9, 2016, three parties (Sponsor A, Sponsor B and Thoma Bravo) presented written preliminary non-binding indications of interest"
+        ]
+      }
+    ]
+  },
+  "prompt_chars": 26224,
+  "prompt_sha256": "6d0dc1fb6c9a9a88697165e016ffd8fc16a15e644d4f2e2d24a90b406a0cf27f",
+  "reasoning": "medium",
+  "reasoning_tokens": 1299,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "0e783020c5768c044a886e0c68312d3e78a57555f4637885fb098049de8a7824",
+  "slug": "imprivata",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_sale_process_part1",
+  "window_profile": "W2_MULTI_REGION"
+}

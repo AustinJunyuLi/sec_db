@@ -1,0 +1,147 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_CLAIM_ONLY_P8",
+  "duration_s": 33.83,
+  "input_chars": 25000,
+  "input_path": "inputs/mac-gray/W2_MULTI_REGION/w2_financing.json",
+  "input_text_sha256": "320f20b6a67fcabc0e7935a3d5d321f34cde83caffb4d7a1aa280d17babe088f",
+  "input_tokens": 7053,
+  "job_id": "stage1__mac-gray__EXPANDED_CLAIM_ONLY_P8__W2_MULTI_REGION__w2_financing__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 2,
+      "actor_relation_claims": 2,
+      "bid_claims": 0,
+      "event_claims": 3,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 2,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 2,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 7,
+    "relation_types": {
+      "finances": 2
+    },
+    "strict_claim_total": 7,
+    "total_quotes": 7
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 4429,
+  "output_text_sha256": "8b3b395b99686b230e825c3a4212d1f094519c3492e1c4e6a72d65dd02d92551",
+  "output_tokens": 1557,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "Pamplona Capital Partners III, L.P.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_financing_obl_1",
+        "observability": "named",
+        "quote_text": "Pamplona Capital Partners III, L.P."
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "Pamplona",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_financing_obl_1",
+        "observability": "named",
+        "quote_text": "The obligation of Pamplona to fund the closing funding obligations"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_financing_obl_2",
+        "effective_date_first": "2013-10-14",
+        "object_label": "Buyer Entities",
+        "quote_text": "which is committed pursuant to the Pamplona commitment letter delivered to the Buyer Entities by Pamplona Capital Partners III, L.P. dated as of October 14, 2013",
+        "relation_type": "finances",
+        "role_detail": "committed pursuant to the Pamplona commitment letter",
+        "subject_label": "Pamplona Capital Partners III, L.P."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_financing_obl_2",
+        "effective_date_first": null,
+        "object_label": "Buyer Entities",
+        "quote_text": "The obligation of Pamplona to fund the closing funding obligations",
+        "relation_type": "finances",
+        "role_detail": "obligation to fund the closing funding obligations",
+        "subject_label": "Pamplona"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "Buyer Entities",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_financing_obl_3",
+        "description": "The merger agreement does not contain any condition to the obligations of the Buyer Entities or Merger Subsidiary relating to receipt of financing by the Buyer Entities.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "financing_committed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_text": "The merger agreement does not contain any condition to the obligations of the Buyer Entities or Merger Subsidiary relating to the receipt of financing by the Buyer Entities."
+      },
+      {
+        "actor_label": "Parent",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_financing_obl_3",
+        "description": "Parent made available an aggregate of $594 million of capital for purposes of funding the merger consideration.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-10-14",
+        "event_subtype": "financing_committed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_text": "Parent has made available\n\n58\n<!-- PAGE 65 -->\nZEQ.=5,SEQ=64,EFW=\"2217482\",CP=\"MAC-GRAY CORPORATION\",DN=\"1\",CHK=85691,FOLIO='58',FILE='DISK112:[13ZCX1.13ZCX46801]DM46801A.;10',USER='HYUNG',CD=';2-DEC-2013;13:16'\n\nTable of Contents\n\nfor purposes of funding the merger consideration an aggregate of $594 million of capital (the Pamplona commitment amount), which is committed pursuant to the Pamplona commitment letter delivered to the Buyer Entities by Pamplona Capital Partners III, L.P. dated as of October 14, 2013."
+      },
+      {
+        "actor_label": "Pamplona",
+        "actor_role": "equity_financing_source",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_financing_obl_3",
+        "description": "Pamplona is obligated to fund the closing funding obligations subject to stated conditions.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "financing_committed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_text": "The obligation of Pamplona to fund the closing funding obligations is conditioned upon (a) all conditions to the obligations of Parent and Merger Subsidiary set forth in the merger agreement having been satisfied or waived as of the date of the closing pursuant to the terms of the merger agreement (other than those conditions that by their nature cannot be satisfied until the closing and that would be satisfied assuming the Closing would occur); or (b) Mac-Gray obtaining, as contemplated in the merger agreement, an award of specific performance by a court of competent jurisdiction in a final non-appealable judgment requiring Parent to effect the closing, or other equitable remedy to specifically enforce the obligations of Parent and Merger Subsidiary to effect the closing on the terms set forth in the merger agreement."
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 26848,
+  "prompt_sha256": "56e171be5ced5a8c7b8c71d8608749e0bd17dcd66f36c576552d8b5923b8328e",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "80c516a8b3401128674672619998677e77e1705c31b2f7b7ea8a4f8856bd14eb",
+  "slug": "mac-gray",
+  "stage": "stage1",
+  "status": "completed",
+  "window_id": "w2_financing",
+  "window_profile": "W2_MULTI_REGION"
+}

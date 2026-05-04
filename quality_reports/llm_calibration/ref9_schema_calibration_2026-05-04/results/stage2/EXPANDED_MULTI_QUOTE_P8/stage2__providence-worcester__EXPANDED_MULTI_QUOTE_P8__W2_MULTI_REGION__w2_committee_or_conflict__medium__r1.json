@@ -1,0 +1,172 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_MULTI_QUOTE_P8",
+  "duration_s": 27.69,
+  "input_chars": 22000,
+  "input_path": "inputs/providence-worcester/W2_MULTI_REGION/w2_committee_or_conflict.json",
+  "input_text_sha256": "73448aaf07e2d7cec30d7aefff64f2e665e10994a1a5094330af794f81fa7e61",
+  "input_tokens": 5894,
+  "job_id": "stage2__providence-worcester__EXPANDED_MULTI_QUOTE_P8__W2_MULTI_REGION__w2_committee_or_conflict__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 4,
+      "actor_relation_claims": 1,
+      "bid_claims": 0,
+      "event_claims": 3,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 2,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 8,
+    "relation_types": {
+      "advises": 1
+    },
+    "strict_claim_total": 8,
+    "total_quotes": 8
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 4420,
+  "output_text_sha256": "92ae4f29bbfb19c131342b94d587765cfdb66f009a9d4215245a0e6786a80b92",
+  "output_tokens": 1523,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "Company directors and executive officers",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_committee_or_conflict_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Company directors and executive officers may be deemed to have interests in the merger that are different from, or in addition to, the interests of the Company\u2019s shareholders generally and which may create potential conflicts of interest"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "the Eder Trusts",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_committee_or_conflict_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "the holders of our common stock (other than the Eder Trusts)"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "BMO Capital Markets Corp.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_committee_or_conflict_obl_2",
+        "observability": "named",
+        "quote_texts": [
+          "our financial advisor, BMO Capital Markets Corp., which we refer to as \u201cBMO,\u201d"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "committee",
+        "actor_label": "Board",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_committee_or_conflict_obl_2",
+        "observability": "named",
+        "quote_texts": [
+          "rendered to the Board its oral opinion"
+        ]
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_committee_or_conflict_obl_2",
+        "effective_date_first": "2016-08-12",
+        "object_label": "Board",
+        "quote_texts": [
+          "at the meeting of the Board on August 12, 2016, our financial advisor, BMO Capital Markets Corp., which we refer to as \u201cBMO,\u201d rendered to the Board its oral opinion"
+        ],
+        "relation_type": "advises",
+        "role_detail": "financial advisor",
+        "subject_label": "BMO Capital Markets Corp."
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "Company directors and executive officers",
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_committee_or_conflict_obl_3",
+        "description": "Company directors and executive officers may be deemed to have interests in the merger that are different from or in addition to shareholders generally, potentially creating conflicts of interest.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "Company directors and executive officers may be deemed to have interests in the merger that are different from, or in addition to, the interests of the Company\u2019s shareholders generally and which may create potential conflicts of interest"
+        ]
+      },
+      {
+        "actor_label": "Board",
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_committee_or_conflict_obl_3",
+        "description": "The Board was aware of and considered the directors\u2019 and executive officers\u2019 interests when approving the merger agreement and recommending shareholder approval.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "The members of the Board were aware of and considered these interests in reaching the determination to approve the merger agreement and deem the merger agreement, the merger and the other transactions contemplated by the merger agreement to be advisable and in the best interests of the Company, and in recommending that the Company\u2019s shareholders vote for the approval of the merger agreement"
+        ]
+      },
+      {
+        "actor_label": "BMO Capital Markets Corp.",
+        "actor_role": "advisor_for_target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_committee_or_conflict_obl_3",
+        "description": "BMO rendered an oral fairness opinion to the Board on August 12, 2016, later confirmed in writing the same date.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2016-08-12",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "at the meeting of the Board on August 12, 2016, our financial advisor, BMO Capital Markets Corp., which we refer to as \u201cBMO,\u201d rendered to the Board its oral opinion, subsequently confirmed by delivery of a written opinion dated August 12, 2016"
+        ]
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 24083,
+  "prompt_sha256": "6e9f4f93092ea6761b045f2c1b8021c329469c9878ac4549447980e59dedba57",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "0e783020c5768c044a886e0c68312d3e78a57555f4637885fb098049de8a7824",
+  "slug": "providence-worcester",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_committee_or_conflict",
+  "window_profile": "W2_MULTI_REGION"
+}

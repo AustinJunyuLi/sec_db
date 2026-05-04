@@ -1,0 +1,144 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_CLAIM_ONLY_P8",
+  "duration_s": 39.19,
+  "input_chars": 22000,
+  "input_path": "inputs/penford/W2_MULTI_REGION/w2_tender_source_perspective.json",
+  "input_text_sha256": "3a69715b7d260917d98b42207e8429282152d3dd832a8b2cf2d498ee2adf7320",
+  "input_tokens": 5831,
+  "job_id": "stage2__penford__EXPANDED_CLAIM_ONLY_P8__W2_MULTI_REGION__w2_tender_source_perspective__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 4,
+      "actor_relation_claims": 0,
+      "bid_claims": 1,
+      "event_claims": 2,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 2,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 1,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 7,
+    "relation_types": {},
+    "strict_claim_total": 7,
+    "total_quotes": 7
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 3532,
+  "output_text_sha256": "0e5265fa7e21a4e58fbd32a0f213baaf5c88f322333a3a8f3cf5dd223e0a434b",
+  "output_tokens": 1344,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Penford",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "The obligations of Penford, Ingredion and Merger Sub to complete the merger are subject to the satisfaction or, if permitted under applicable law, the waiver of the following mutual conditions:"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Ingredion",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "The obligations of Penford, Ingredion and Merger Sub to complete the merger are subject to the satisfaction or, if permitted under applicable law, the waiver of the following mutual conditions:"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Merger Sub",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "The obligations of Penford, Ingredion and Merger Sub to complete the merger are subject to the satisfaction or, if permitted under applicable law, the waiver of the following mutual conditions:"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Okapi Partners",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "To assist in the solicitation of proxies, we have engaged Okapi Partners."
+      }
+    ],
+    "actor_relation_claims": [],
+    "bid_claims": [
+      {
+        "bid_date": null,
+        "bid_formality": "formal",
+        "bid_stage": "unspecified",
+        "bid_value": 19.0,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "Ingredion",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "penford_w2_tender_source_perspective_obl_2",
+        "proposal_scope": "whole_company",
+        "quote_text": "Upon completion of the merger, you will be entitled to receive $19.00 in cash, without interest and subject to any applicable withholding of taxes, for each share of Penford common stock you own as of immediately prior to the effective time of the merger"
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "Penford",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_tender_source_perspective_obl_3",
+        "description": "Penford shareholders must adopt the merger agreement for closing to occur.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_text": "For the merger closing to occur, Penford shareholders must adopt the merger agreement at a special meeting of shareholders and other closing conditions must be satisfied or waived, including various regulatory requirements."
+      },
+      {
+        "actor_label": "Penford",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_tender_source_perspective_obl_3",
+        "description": "The special meeting of Penford shareholders was scheduled for January 29, 2015.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2015-01-29",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_text": "The special meeting will be held at the Inverness Hotel and Conference Center, 200 Inverness Drive West, Englewood, Colorado 80112, at 2:00 p.m. (Mountain time) on January 29, 2015."
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23946,
+  "prompt_sha256": "334479d932ceee9a1576a2fa6e1fbf3545027076d36960c88fedb9965be448dc",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "80c516a8b3401128674672619998677e77e1705c31b2f7b7ea8a4f8856bd14eb",
+  "slug": "penford",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_tender_source_perspective",
+  "window_profile": "W2_MULTI_REGION"
+}

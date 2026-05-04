@@ -1,0 +1,129 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_MULTI_QUOTE_P8",
+  "duration_s": 38.59,
+  "input_chars": 22000,
+  "input_path": "inputs/imprivata/W2_MULTI_REGION/w2_tender_source_perspective.json",
+  "input_text_sha256": "968a061b06f1e05caf61670f4f5cef92c3cbb5c15eee4c2372058f9b18784daa",
+  "input_tokens": 5863,
+  "job_id": "stage2__imprivata__EXPANDED_MULTI_QUOTE_P8__W2_MULTI_REGION__w2_tender_source_perspective__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 3,
+      "actor_relation_claims": 0,
+      "bid_claims": 1,
+      "event_claims": 1,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 1,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 5,
+    "relation_types": {},
+    "strict_claim_total": 5,
+    "total_quotes": 5
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 2312,
+  "output_text_sha256": "91fe828a9af960a410d27a555d2745fcf371d6f5d34d207d2639cb3682b75152",
+  "output_tokens": 1102,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Imprivata",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Imprivata agreed to duly set a record date for, call, give notice of, convene and hold a meeting of its stockholders"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Parent",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "made available to Parent or its representatives"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Merger Sub",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "in a manner adverse to Parent or the Merger Sub"
+        ]
+      }
+    ],
+    "actor_relation_claims": [],
+    "bid_claims": [
+      {
+        "bid_date": null,
+        "bid_formality": null,
+        "bid_stage": "unspecified",
+        "bid_value": 19.25,
+        "bid_value_lower": null,
+        "bid_value_unit": "USD per share",
+        "bid_value_upper": null,
+        "bidder_label": "Parent",
+        "claim_type": "bid",
+        "confidence": "medium",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "imprivata_w2_tender_source_perspective_obl_2",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "an amount (subject to any applicable withholding tax) in cash equal to: (i) $19.25; minus (ii) the exercise price per share of Imprivata common stock"
+        ]
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "Imprivata",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_tender_source_perspective_obl_3",
+        "description": "Imprivata agreed to set a record date for, call, give notice of, convene and hold a stockholders meeting to consider adoption of the merger agreement.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "cohort_closure",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "Imprivata agreed to duly set a record date for, call, give notice of, convene and hold a meeting of its stockholders, which we refer to as the \u201c stockholders meeting ,\u201d for the purpose of considering and taking action upon the adoption of the merger agreement by Imprivata stockholders."
+        ]
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 24006,
+  "prompt_sha256": "e049c3fd6067013097b3b52c32dc3ee4ce94847215f19a266a2cfa49876cdb0f",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "0e783020c5768c044a886e0c68312d3e78a57555f4637885fb098049de8a7824",
+  "slug": "imprivata",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_tender_source_perspective",
+  "window_profile": "W2_MULTI_REGION"
+}

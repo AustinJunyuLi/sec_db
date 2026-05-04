@@ -1,0 +1,106 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "V0_P8_BASELINE",
+  "duration_s": 29.98,
+  "input_chars": 18286,
+  "input_path": "inputs/mac-gray/W2_MULTI_REGION/w2_committee_or_conflict.json",
+  "input_text_sha256": "19cf4bbdf20ce6fe1ec8e61a5238f49cfcebc977cff0da0f4b51881a0efa0dde",
+  "input_tokens": 6148,
+  "job_id": "stage1__mac-gray__V0_P8_BASELINE__W2_MULTI_REGION__w2_committee_or_conflict__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 1,
+      "actor_relation_claims": 2,
+      "bid_claims": 0,
+      "coverage_results": 0,
+      "event_claims": 1,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 4,
+    "relation_types": {
+      "advises": 1,
+      "member_of": 1
+    },
+    "strict_claim_total": 4,
+    "total_quotes": 4
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 2387,
+  "output_text_sha256": "0148fea65c23a4d403333c25ef4cbbf9259c947d75b79db73bf161e302b0750a",
+  "output_tokens": 1017,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "committee",
+        "actor_label": "special committee",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_committee_or_conflict_obl_1",
+        "observability": "named",
+        "quote_text": "The Mac-Gray Board of Directors formed a special committee of six disinterested and independent directors to, among other things, review and evaluate the merger agreement proposal, consider and evaluate alternatives available to Mac-Gray and alleviate any potential conflicts of interest."
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_committee_or_conflict_obl_2",
+        "effective_date_first": null,
+        "object_label": "special committee",
+        "quote_text": "The Mac-Gray Board of Directors formed a special committee of six disinterested and independent directors to, among other things, review and evaluate the merger agreement proposal, consider and evaluate alternatives available to Mac-Gray and alleviate any potential conflicts of interest.",
+        "relation_type": "member_of",
+        "role_detail": null,
+        "subject_label": "six disinterested and independent directors"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_committee_or_conflict_obl_2",
+        "effective_date_first": null,
+        "object_label": "Mac-Gray Board of Directors",
+        "quote_text": "upon the unanimous recommendation of the special committee",
+        "relation_type": "advises",
+        "role_detail": "unanimous recommendation",
+        "subject_label": "special committee"
+      }
+    ],
+    "bid_claims": [],
+    "coverage_results": [],
+    "event_claims": [
+      {
+        "actor_label": "Mac-Gray Board of Directors",
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_committee_or_conflict_obl_3",
+        "description": "The Mac-Gray Board of Directors formed a special committee of six disinterested and independent directors to review and evaluate the merger agreement proposal, consider alternatives and alleviate potential conflicts of interest.",
+        "event_date": null,
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "quote_text": "The Mac-Gray Board of Directors formed a special committee of six disinterested and independent directors to, among other things, review and evaluate the merger agreement proposal, consider and evaluate alternatives available to Mac-Gray and alleviate any potential conflicts of interest."
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 20084,
+  "prompt_sha256": "c5fb387bc54aee44c6cfb653b2d9295a04db26a9b380086e1a1d361288dc4697",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "891e4a5674ba114d92ee1d400df86fba7a95780231cc29bd539799ee3cd2af97",
+  "slug": "mac-gray",
+  "stage": "stage1",
+  "status": "completed",
+  "window_id": "w2_committee_or_conflict",
+  "window_profile": "W2_MULTI_REGION"
+}

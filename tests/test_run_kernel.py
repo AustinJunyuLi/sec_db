@@ -6,6 +6,7 @@ from pathlib import Path
 import pytest
 
 from sec_graph.cli import _argv_from_namespace
+from sec_graph.extract.llm.models import DEFAULT_REQUEST_MODE
 from sec_graph.run import (
     ResumeRefused,
     RunKernel,
@@ -103,7 +104,7 @@ def test_run_lock_fails_loudly_for_second_writer(tmp_path: Path) -> None:
 
 
 def test_kernel_ledgers_record_progress_and_stage_artifact_digests(tmp_path: Path) -> None:
-    config = {"provider": "linkflow", "model": "gpt-5.5", "reasoning_effort": "high"}
+    config = {"provider": "linkflow", "model": "gpt-5.5", "reasoning_effort": "medium"}
     config_hash = stable_config_hash(config)
     run_id = make_run_id(
         scope="petsmart-inc",
@@ -184,8 +185,8 @@ def test_top_level_cli_forwards_explicit_resume() -> None:
         projection="bidder_cycle_baseline_v1",
         llm_provider="linkflow",
         llm_model="gpt-5.5",
-        llm_reasoning_effort="high",
-        request_mode="semantic_claims_v1",
+        llm_reasoning_effort="medium",
+        request_mode=DEFAULT_REQUEST_MODE,
         resume=True,
         fresh=False,
     )

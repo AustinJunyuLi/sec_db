@@ -1,0 +1,171 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_MULTI_QUOTE_P8",
+  "duration_s": 27.41,
+  "input_chars": 16929,
+  "input_path": "inputs/saks/W2_MULTI_REGION/w2_buyer_group_or_transaction_structure.json",
+  "input_text_sha256": "212ab7d86285545ae220e39e26b468ee9d6fc5db78adbc765a18814fc6d61a51",
+  "input_tokens": 5378,
+  "job_id": "stage2__saks__EXPANDED_MULTI_QUOTE_P8__W2_MULTI_REGION__w2_buyer_group_or_transaction_structure__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 3,
+      "actor_relation_claims": 3,
+      "bid_claims": 0,
+      "event_claims": 2,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 1,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 1,
+    "not_unique_in_source_window": 1,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 8,
+    "relation_types": {
+      "acquisition_vehicle_of": 1,
+      "affiliate_of": 1,
+      "controls": 1
+    },
+    "strict_claim_total": 8,
+    "total_quotes": 8
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 4223,
+  "output_text_sha256": "e676fc66e6043a013bdc4af764c92af50f38a3d1345b06e6681909c897efe385",
+  "output_tokens": 1497,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Hudson\u2019s Bay Company",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Hudson\u2019s Bay Company, a corporation incorporated under the federal laws of Canada (\u201cHudson\u2019s Bay\u201d)"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "vehicle",
+        "actor_label": "Harry Acquisition Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Harry Acquisition Inc., a Delaware corporation and an indirect wholly owned subsidiary of Hudson\u2019s Bay (\u201cMerger Sub\u201d)"
+        ]
+      },
+      {
+        "actor_class": "s",
+        "actor_kind": "organization",
+        "actor_label": "Saks Incorporated",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Saks Incorporated, referred to as \u201cSaks,\u201d the \u201cCompany,\u201d \u201cwe,\u201d \u201cour\u201d or \u201cus,\u201d is a Tennessee corporation. The operations of Saks consist of Saks Fifth Avenue stores and Saks Fifth Avenue\u2019s e-commerce operations as well as Saks Fifth Avenue OFF 5TH stores. The Company is an omni-channel luxury retailer offering a wide assortment of distinctive fashion apparel, shoes, accessories, jewelry, cosmetics and gifts."
+        ]
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Hudson\u2019s Bay",
+        "quote_texts": [
+          "Harry Acquisition Inc., a Delaware corporation and an indirect wholly owned subsidiary of Hudson\u2019s Bay (\u201cMerger Sub\u201d)"
+        ],
+        "relation_type": "affiliate_of",
+        "role_detail": "indirect wholly owned subsidiary; Merger Sub",
+        "subject_label": "Harry Acquisition Inc."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Harry Acquisition Inc.",
+        "quote_texts": [
+          "Harry Acquisition Inc., a Delaware corporation and an indirect wholly owned subsidiary of Hudson\u2019s Bay (\u201cMerger Sub\u201d)"
+        ],
+        "relation_type": "controls",
+        "role_detail": "indirect wholly owned subsidiary",
+        "subject_label": "Hudson\u2019s Bay"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Hudson\u2019s Bay",
+        "quote_texts": [
+          "Harry Acquisition Inc., a Delaware corporation and an indirect wholly owned subsidiary of Hudson\u2019s Bay (\u201cMerger Sub\u201d)"
+        ],
+        "relation_type": "acquisition_vehicle_of",
+        "role_detail": "Merger Sub",
+        "subject_label": "Harry Acquisition Inc."
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": null,
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_buyer_group_or_transaction_structure_obl_3",
+        "description": "Agreement and Plan of Merger dated as of July 28, 2013 by and among Hudson\u2019s Bay Company, Harry Acquisition Inc. and Saks Incorporated.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-07-28",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "Agreement and Plan of Merger (as it may be amended from time to time, the \u201cmerger agreement\u201d), dated as of July 28, 2013, by and among Hudson\u2019s Bay Company, a corporation incorporated under the federal laws of Canada (\u201cHudson\u2019s Bay\u201d), Harry Acquisition Inc., a Delaware corporation and an indirect wholly owned subsidiary of Hudson\u2019s Bay (\u201cMerger Sub\u201d), and the Company."
+        ]
+      },
+      {
+        "actor_label": "Harry Acquisition Inc.",
+        "actor_role": "acquisition_sub",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_buyer_group_or_transaction_structure_obl_3",
+        "description": "Pursuant to the merger agreement, Merger Sub will be merged with and into the Company.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "Pursuant to the merger agreement, Merger Sub will be merged with and into the Company (the \u201cmerger\u201d)"
+        ]
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 19073,
+  "prompt_sha256": "944c5d76d5cece759942ebe44bde8cb565db98cf0728d9641c977f8c4011c7b1",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "0e783020c5768c044a886e0c68312d3e78a57555f4637885fb098049de8a7824",
+  "slug": "saks",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_buyer_group_or_transaction_structure",
+  "window_profile": "W2_MULTI_REGION"
+}

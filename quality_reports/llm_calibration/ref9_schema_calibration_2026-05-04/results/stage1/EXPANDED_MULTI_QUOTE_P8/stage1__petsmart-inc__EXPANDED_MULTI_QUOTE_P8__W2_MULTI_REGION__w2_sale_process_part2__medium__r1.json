@@ -1,0 +1,195 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_MULTI_QUOTE_P8",
+  "duration_s": 40.79,
+  "input_chars": 24929,
+  "input_path": "inputs/petsmart-inc/W2_MULTI_REGION/w2_sale_process_part2.json",
+  "input_text_sha256": "183f1fbdc23d3159d0669b488047fc742d5704f38731e6f2311caaa442b26790",
+  "input_tokens": 6624,
+  "job_id": "stage1__petsmart-inc__EXPANDED_MULTI_QUOTE_P8__W2_MULTI_REGION__w2_sale_process_part2__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 6,
+      "actor_relation_claims": 2,
+      "bid_claims": 1,
+      "event_claims": 1,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 2,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 4,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 10,
+    "relation_types": {
+      "controls": 1,
+      "voting_support_for": 1
+    },
+    "strict_claim_total": 10,
+    "total_quotes": 10
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 3717,
+  "output_text_sha256": "0ca428c9513755084526b86c88261699f3af8551d730f1b894be713d5ff8c8f4",
+  "output_tokens": 1912,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "committee",
+        "actor_label": "board",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_6",
+        "observability": "named",
+        "quote_texts": [
+          "the board"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "outside financial advisors",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_7",
+        "observability": "anonymous_handle",
+        "quote_texts": [
+          "outside legal and financial advisors"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "outside legal advisors",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_8",
+        "observability": "anonymous_handle",
+        "quote_texts": [
+          "outside legal and financial advisors"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Parent",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_10",
+        "observability": "named",
+        "quote_texts": [
+          "Parent"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Merger Sub",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_10",
+        "observability": "named",
+        "quote_texts": [
+          "Merger Sub"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Longview",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_10",
+        "observability": "named",
+        "quote_texts": [
+          "Longview"
+        ]
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_10",
+        "effective_date_first": null,
+        "object_label": "Merger Sub",
+        "quote_texts": [
+          "Merger Sub, a wholly owned subsidiary of Parent"
+        ],
+        "relation_type": "controls",
+        "role_detail": "wholly owned subsidiary",
+        "subject_label": "Parent"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_10",
+        "effective_date_first": null,
+        "object_label": "merger proposal",
+        "quote_texts": [
+          "Longview has agreed, among other things and subject to certain conditions, to vote 7,424,591 shares of common stock in favor of the merger proposal"
+        ],
+        "relation_type": "voting_support_for",
+        "role_detail": "agreed to vote 7,424,591 shares of common stock in favor of the merger proposal",
+        "subject_label": "Longview"
+      }
+    ],
+    "bid_claims": [
+      {
+        "bid_date": null,
+        "bid_formality": "formal",
+        "bid_stage": "final",
+        "bid_value": 83.0,
+        "bid_value_lower": null,
+        "bid_value_unit": "USD per share",
+        "bid_value_upper": null,
+        "bidder_label": "Parent",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "If the merger is completed, you will be entitled to receive $83.00 in cash, without interest and less any applicable withholding taxes, for each share of our common stock that you own."
+        ]
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "Company",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "medium",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_5",
+        "description": "Under the merger agreement, the Company and its affiliates and their representatives may not solicit, initiate, encourage or facilitate alternative proposals.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "exclusivity_grant",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "Under the merger agreement, the Company and its affiliates and their respective representatives may not:\n\n\u2022\n\nsolicit, initiate or knowingly encourage or facilitate the making or submission of an alternative proposal"
+        ]
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 27511,
+  "prompt_sha256": "75f64d7b7273f00b71f030c3d2541ec16b95de1944f157c52b1ca0ef4d731d4d",
+  "reasoning": "medium",
+  "reasoning_tokens": 1034,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "0e783020c5768c044a886e0c68312d3e78a57555f4637885fb098049de8a7824",
+  "slug": "petsmart-inc",
+  "stage": "stage1",
+  "status": "completed",
+  "window_id": "w2_sale_process_part2",
+  "window_profile": "W2_MULTI_REGION"
+}

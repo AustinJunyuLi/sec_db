@@ -1,0 +1,113 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 21.84,
+  "input_chars": 25000,
+  "input_path": "inputs/providence-worcester/W2_MULTI_REGION/w2_financing.json",
+  "input_text_sha256": "a910c5b62ba4fd68392ac388e21f57e6754c5add7f6d5a47beb9599e651be828",
+  "input_tokens": 6366,
+  "job_id": "stage2__providence-worcester__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_financing__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 2,
+      "actor_relation_claims": 2,
+      "bid_claims": 0,
+      "event_claims": 1,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 2,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 2,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 5,
+    "relation_types": {
+      "finances": 1,
+      "supports": 1
+    },
+    "strict_claim_total": 5,
+    "total_quotes": 5
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 2095,
+  "output_text_sha256": "85cb0d6716e989398bc2aea08ce0da4339ddb97a5f327fb241f5007490e72db5",
+  "output_tokens": 1032,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "organization",
+        "actor_label": "Party F",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_financing_obl_1",
+        "observability": "anonymous_handle",
+        "quote_text": "Party E submitted a revised LOI, along with financing support, from Party F, at a price of $23.81 per share."
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "a BMO affiliate",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_financing_obl_1",
+        "observability": "anonymous_handle",
+        "quote_text": "a BMO affiliate has a participation in G&W\u2019s existing secured syndicated debt facility"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_financing_obl_2",
+        "effective_date_first": "2016-08-01",
+        "object_label": "Party E",
+        "quote_text": "Party E submitted a revised LOI, along with financing support, from Party F, at a price of $23.81 per share.",
+        "relation_type": "supports",
+        "role_detail": "financing support",
+        "subject_label": "Party F"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_financing_obl_2",
+        "effective_date_first": null,
+        "object_label": "G&W",
+        "quote_text": "a BMO affiliate has a participation in G&W\u2019s existing secured syndicated debt facility",
+        "relation_type": "finances",
+        "role_detail": "participation in existing secured syndicated debt facility",
+        "subject_label": "a BMO affiliate"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "Party F",
+        "actor_role": "equity_financing_source",
+        "claim_type": "event",
+        "confidence": "medium",
+        "coverage_obligation_id": "providence-worcester_w2_financing_obl_3",
+        "description": "Party E submitted a revised LOI with financing support from Party F.",
+        "event_date": "2016-08-01",
+        "event_subtype": "financing_committed",
+        "event_type": "transaction",
+        "quote_text": "On August 1, 2016, Party D submitted a revised LOI at a price of $24.00 per share and Party E submitted a revised LOI, along with financing support, from Party F, at a price of $23.81 per share."
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 26735,
+  "prompt_sha256": "54fb00f504aa6ff53ef73bb0a3fe8e6ba65fd6fa418b3e5fce1cdf3d3e7d9339",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "providence-worcester",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_financing",
+  "window_profile": "W2_MULTI_REGION"
+}

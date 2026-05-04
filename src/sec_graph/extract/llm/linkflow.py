@@ -15,6 +15,7 @@ from pydantic import ValidationError
 
 from sec_graph.extract.llm.convert import insert_llm_response
 from sec_graph.extract.llm.models import (
+    DEFAULT_REQUEST_MODE,
     LLMContractError,
     LLMExtractionResponse,
     LLMProviderConfig,
@@ -31,11 +32,55 @@ _MAX_ATTEMPTS = 3
 _BACKOFF_SECONDS = (5.0, 15.0)
 
 
-def _semantic_claim_schema() -> dict[str, Any]:
+_CLAIM_ARRAY_BY_TYPE = {
+    "actor": "actor_claims",
+    "event": "event_claims",
+    "bid": "bid_claims",
+    "participation_count": "participation_count_claims",
+    "actor_relation": "actor_relation_claims",
+}
+
+
+def _semantic_claim_schema(request: LLMWindowRequest | None = None) -> dict[str, Any]:
     schema = SemanticClaimsPayload.model_json_schema()
     _inline_refs(schema)
     _strictify(schema)
+    if request is not None:
+        _constrain_coverage_obligations(schema, request)
     return schema
+
+
+def _constrain_coverage_obligations(schema: dict[str, Any], request: LLMWindowRequest) -> None:
+    obligations_by_type = {
+        claim_type: [
+            obligation.obligation_id
+            for obligation in request.coverage_obligations
+            if obligation.expected_claim_type == claim_type
+        ]
+        for claim_type in _CLAIM_ARRAY_BY_TYPE
+    }
+    for claim_type, array_name in _CLAIM_ARRAY_BY_TYPE.items():
+        ids = obligations_by_type[claim_type] or [f"__no_{claim_type}_coverage_obligation__"]
+        coverage_schema = schema["properties"][array_name]["items"]["properties"]["coverage_obligation_id"]
+        coverage_schema["enum"] = ids
+    if _only_obligation_label(request, "bid", "Final bid price"):
+        schema["properties"]["bid_claims"]["items"]["properties"]["bid_stage"]["enum"] = ["final"]
+    if _only_obligation_label(request, "actor_relation", "Buyer group composition"):
+        schema["properties"]["actor_relation_claims"]["items"]["properties"]["relation_type"]["enum"] = [
+            "member_of",
+            "affiliate_of",
+            "controls",
+            "acquisition_vehicle_of",
+        ]
+
+
+def _only_obligation_label(request: LLMWindowRequest, claim_type: str, label: str) -> bool:
+    matching = [
+        obligation
+        for obligation in request.coverage_obligations
+        if obligation.expected_claim_type == claim_type
+    ]
+    return bool(matching) and all(obligation.obligation_label == label for obligation in matching)
 
 
 def _inline_refs(schema: dict[str, Any]) -> None:
@@ -123,7 +168,7 @@ def _response_payload(request: LLMWindowRequest, config: LLMProviderConfig) -> d
                 "type": "json_schema",
                 "name": "sec_graph_semantic_claims",
                 "strict": True,
-                "schema": _semantic_claim_schema(),
+                "schema": _semantic_claim_schema(request),
             }
         },
     }
@@ -404,7 +449,7 @@ def _write_success_artifact(request: LLMWindowRequest, config: LLMProviderConfig
             "response_digest": response.raw_response_sha256,
             "claim_count": claim_count,
             "inserted_claim_count": inserted_count,
-            "coverage_result_count": len(response.payload.coverage_results),
+            "coverage_obligation_count": len(request.coverage_obligations),
         },
     )
 
@@ -415,12 +460,16 @@ def run_linkflow_requests(
     filing_id: str,
     run_id: str,
     config: LLMProviderConfig,
-    request_mode: str = "semantic_claims_v1",
+    request_mode: str = DEFAULT_REQUEST_MODE,
 ) -> list[str]:
     inserted: list[str] = []
     for request in build_llm_windows(conn, filing_id=filing_id, request_mode=request_mode):
         response = extract(request, config, run_id=run_id)
-        claim_ids = insert_llm_response(conn, request, response, run_id=run_id)
+        try:
+            claim_ids = insert_llm_response(conn, request, response, run_id=run_id)
+        except LLMContractError as exc:
+            _write_contract_failure(request, config, run_id, response.raw_response_sha256, str(exc))
+            raise
         _write_success_artifact(request, config, run_id, response, len(claim_ids))
         _insert_cost_record(conn, request, run_id, config, response)
         inserted.extend(claim_ids)

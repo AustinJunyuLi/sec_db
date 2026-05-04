@@ -1,0 +1,160 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_CLAIM_ONLY_P8",
+  "duration_s": 27.51,
+  "input_chars": 22000,
+  "input_path": "inputs/saks/W2_MULTI_REGION/w2_committee_or_conflict.json",
+  "input_text_sha256": "afbbdd751734db842cecfd0f6ad3c3aaaf19a267270a414bd181c422b4d8afd0",
+  "input_tokens": 5676,
+  "job_id": "stage2__saks__EXPANDED_CLAIM_ONLY_P8__W2_MULTI_REGION__w2_committee_or_conflict__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 4,
+      "actor_relation_claims": 4,
+      "bid_claims": 0,
+      "event_claims": 1,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 2,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 0.8889,
+    "quotes_in_window": 8,
+    "relation_types": {
+      "advises": 1,
+      "affiliate_of": 3
+    },
+    "strict_claim_total": 9,
+    "total_quotes": 9
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 3492,
+  "output_text_sha256": "eac5da3932abeb3f82f3b21292052487f3df415f942edaf02d9dfe224efdad07",
+  "output_tokens": 1298,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "legal and accounting advisors",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_committee_or_conflict_obl_1",
+        "observability": "named",
+        "quote_text": "representatives, including legal and accounting advisors"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "directors of the Company",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_committee_or_conflict_obl_1",
+        "observability": "named",
+        "quote_text": "the Company and directors of the Company"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "directors and officers of the subsidiaries",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_committee_or_conflict_obl_1",
+        "observability": "named",
+        "quote_text": "directors and officers of the subsidiaries"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "each director or officer of the Company",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_committee_or_conflict_obl_1",
+        "observability": "named",
+        "quote_text": "each director or officer of the Company"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_committee_or_conflict_obl_2",
+        "effective_date_first": null,
+        "object_label": "Company",
+        "quote_text": "representatives, including legal and accounting advisors",
+        "relation_type": "advises",
+        "role_detail": "legal and accounting advisors",
+        "subject_label": "legal and accounting advisors"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_committee_or_conflict_obl_2",
+        "effective_date_first": null,
+        "object_label": "Company",
+        "quote_text": "the Company and directors of the Company",
+        "relation_type": "affiliate_of",
+        "role_detail": "directors",
+        "subject_label": "directors of the Company"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_committee_or_conflict_obl_2",
+        "effective_date_first": null,
+        "object_label": "Company\u2019s subsidiaries",
+        "quote_text": "The Company\u2019s subsidiaries and directors and officers of the subsidiaries",
+        "relation_type": "affiliate_of",
+        "role_detail": "directors and officers",
+        "subject_label": "directors and officers of the subsidiaries"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_committee_or_conflict_obl_2",
+        "effective_date_first": null,
+        "object_label": "Company",
+        "quote_text": "equity securities of the Company held by each director or officer of the Company",
+        "relation_type": "affiliate_of",
+        "role_detail": "director or officer holding Company equity securities",
+        "subject_label": "each director or officer of the Company"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "Company",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_committee_or_conflict_obl_3",
+        "description": "The merger agreement contains a covenant for actions to cause disposition of Company equity securities held by each Company director or officer to be exempt under Rule 16b-3.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_text": "actions to cause the disposition of equity securities of the Company held by each director or officer of the Company pursuant to the transactions contemplated by the merger agreement to be exempt pursuant to Rule 16b-3 under the Exchange Act"
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23967,
+  "prompt_sha256": "a370e1c0067e9b7a9939c2597bed72de52f60ddf6d1f1724f3d404823ae84e3e",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "80c516a8b3401128674672619998677e77e1705c31b2f7b7ea8a4f8856bd14eb",
+  "slug": "saks",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_committee_or_conflict",
+  "window_profile": "W2_MULTI_REGION"
+}

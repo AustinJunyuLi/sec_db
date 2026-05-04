@@ -1,0 +1,906 @@
+{
+  "attempt_count": 2,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_MULTI_QUOTE_P8",
+  "duration_s": 111.11,
+  "input_chars": 44467,
+  "input_path": "inputs/mac-gray/W1_SALE_PROCESS/w1_sale_process_part1.json",
+  "input_text_sha256": "551f7e6717f0f7528d70c62eefe1ee1a56624005e6dbb38afddeb62214da0885",
+  "input_tokens": 10981,
+  "job_id": "stage1__mac-gray__EXPANDED_MULTI_QUOTE_P8__W1_SALE_PROCESS__w1_sale_process_part1__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 10,
+      "actor_relation_claims": 5,
+      "bid_claims": 9,
+      "event_claims": 23,
+      "participation_count_claims": 8
+    },
+    "duplicate_quotes_within_response": 13,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 51,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 33,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 55,
+    "relation_types": {
+      "advises": 2,
+      "affiliate_of": 1,
+      "rollover_holder_for": 2
+    },
+    "strict_claim_total": 55,
+    "total_quotes": 55
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 28305,
+  "output_text_sha256": "b5ece3ab146ae3b5f57e2c7f8defa11cfebea51bf9754e71aea55f96c4efe738",
+  "output_tokens": 7982,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "Mac-Gray Board of Directors",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_6",
+        "observability": "named",
+        "quote_texts": [
+          "The Mac-Gray Board of Directors, whom we sometimes to refer to as the Board"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "BofA Merrill Lynch",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_7",
+        "observability": "named",
+        "quote_texts": [
+          "Mac-Gray engage BofA Merrill Lynch as Mac-Gray's financial advisor"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Goodwin Procter LLP",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_8",
+        "observability": "named",
+        "quote_texts": [
+          "Goodwin Procter LLP, outside legal counsel to Mac-Gray"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "committee",
+        "actor_label": "Transaction Committee",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "the Board formed a transaction committee at this meeting, which we refer to as the Transaction Committee"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "committee",
+        "actor_label": "Special Committee",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "the Board then established the Special Committee, comprised of the six independent and disinterested members of the Board"
+        ]
+      },
+      {
+        "actor_class": "s",
+        "actor_kind": "organization",
+        "actor_label": "Party A",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_10",
+        "observability": "anonymous_handle",
+        "quote_texts": [
+          "another strategic party, whom we refer to as Party A"
+        ]
+      },
+      {
+        "actor_class": "mixed",
+        "actor_kind": "group",
+        "actor_label": "CSC/Pamplona",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_10",
+        "observability": "named",
+        "quote_texts": [
+          "CSC and Pamplona, who together we refer to as CSC/Pamplona"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "Party B",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_10",
+        "observability": "anonymous_handle",
+        "quote_texts": [
+          "18 financial bidders (including Party B and Party C)"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "Party C",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_10",
+        "observability": "anonymous_handle",
+        "quote_texts": [
+          "18 financial bidders (including Party B and Party C)"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "Moab",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_10",
+        "observability": "named",
+        "quote_texts": [
+          "Moab Partners, L.P. and certain of its affiliates, which we refer collectively to as Moab"
+        ]
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_7",
+        "effective_date_first": "2013-05-31",
+        "object_label": "Mac-Gray",
+        "quote_texts": [
+          "On May 31, 2013, Mac-Gray entered into an engagement letter with BofA Merrill Lynch with respect to the Board's undertaking a review of strategic alternatives, including a potential sale process"
+        ],
+        "relation_type": "advises",
+        "role_detail": "financial advisor for strategic alternatives review including potential sale process",
+        "subject_label": "BofA Merrill Lynch"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_8",
+        "effective_date_first": null,
+        "object_label": "Mac-Gray",
+        "quote_texts": [
+          "Goodwin Procter LLP, outside legal counsel to Mac-Gray"
+        ],
+        "relation_type": "advises",
+        "role_detail": "outside legal counsel",
+        "subject_label": "Goodwin Procter LLP"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_10",
+        "effective_date_first": null,
+        "object_label": "Pamplona",
+        "quote_texts": [
+          "an acquisition of Mac-Gray by its portfolio company, CSC"
+        ],
+        "relation_type": "affiliate_of",
+        "role_detail": "portfolio company",
+        "subject_label": "CSC"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_10",
+        "effective_date_first": null,
+        "object_label": "CSC/Pamplona",
+        "quote_texts": [
+          "Mr. Rothenberg also informed Goodwin Procter that Pamplona would be requesting that any confidentiality agreement CSC/Pamplona execute with Mac-Gray permit CSC and Pamplona to discuss their bid and evaluation material with Moab, with Moab agreeing to exclusively engage with CSC/Pamplona."
+        ],
+        "relation_type": "rollover_holder_for",
+        "role_detail": "potential equity rollover discussions requested with CSC/Pamplona",
+        "subject_label": "Moab"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_10",
+        "effective_date_first": null,
+        "object_label": "CSC/Pamplona",
+        "quote_texts": [
+          "it was premature for Mac-Gray to permit Moab to engage in equity rollover discussions with any party, including CSC/Pamplona, but that such discussions would be permitted at a later stage of the sale process"
+        ],
+        "relation_type": "rollover_holder_for",
+        "role_detail": "potential equity rollover discussions with CSC/Pamplona deferred until later stage",
+        "subject_label": "Moab"
+      }
+    ],
+    "bid_claims": [
+      {
+        "bid_date": "2013-06-21",
+        "bid_formality": null,
+        "bid_stage": "initial",
+        "bid_value": null,
+        "bid_value_lower": 17.0,
+        "bid_value_unit": "$ per share",
+        "bid_value_upper": 19.0,
+        "bidder_label": "Party A",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "all-cash",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "On June 21, 2013, Party A submitted an unsolicited proposal to the Mac-Gray Board of Directors offering to purchase Mac-Gray for an all-cash purchase price of $17.00 to $19.00 per share"
+        ]
+      },
+      {
+        "bid_date": "2013-07-23",
+        "bid_formality": null,
+        "bid_stage": "initial",
+        "bid_value": 18.5,
+        "bid_value_lower": null,
+        "bid_value_unit": "$ per share",
+        "bid_value_upper": null,
+        "bidder_label": "CSC/Pamplona",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "all-cash",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "On July 23, 2013, CSC/Pamplona submitted a preliminary indication of interest at an all-cash purchase price of $18.50 per share."
+        ]
+      },
+      {
+        "bid_date": "2013-07-24",
+        "bid_formality": null,
+        "bid_stage": "initial",
+        "bid_value": null,
+        "bid_value_lower": 17.0,
+        "bid_value_unit": "$ per share",
+        "bid_value_upper": 18.0,
+        "bidder_label": "Party B",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "all-cash",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "On July 24, 2013, Party B submitted a preliminary indication of interest at an all-cash purchase price of $17.00 to $18.00 per share."
+        ]
+      },
+      {
+        "bid_date": "2013-07-24",
+        "bid_formality": "informal",
+        "bid_stage": "initial",
+        "bid_value": null,
+        "bid_value_lower": 15.0,
+        "bid_value_unit": "$ per share",
+        "bid_value_upper": 17.0,
+        "bidder_label": "Party C",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "all-cash",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "Also on July 24, 2013, representatives from Party C called BofA Merrill Lynch and presented an oral preliminary indication of interest at an all-cash purchase price of $15.00 to $17.00 per share."
+        ]
+      },
+      {
+        "bid_date": "2013-07-25",
+        "bid_formality": "formal",
+        "bid_stage": "initial",
+        "bid_value": null,
+        "bid_value_lower": 16.0,
+        "bid_value_unit": "$ per share",
+        "bid_value_upper": 16.5,
+        "bidder_label": "Party C",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "all-cash",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "Later on July 25, 2013, Party C submitted a written indication of interest at an all-cash purchase price of $16.00 to $16.50 per share."
+        ]
+      },
+      {
+        "bid_date": "2013-09-09",
+        "bid_formality": null,
+        "bid_stage": "revised",
+        "bid_value": 19.5,
+        "bid_value_lower": null,
+        "bid_value_unit": "$ per share",
+        "bid_value_upper": null,
+        "bidder_label": "CSC/Pamplona",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "all-cash",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "On September 9, 2013, CSC/Pamplona submitted a revised indication of interest with an all-cash purchase price of $19.50 per share"
+        ]
+      },
+      {
+        "bid_date": "2013-09-09",
+        "bid_formality": null,
+        "bid_stage": "revised",
+        "bid_value": 18.5,
+        "bid_value_lower": null,
+        "bid_value_unit": "$ per share",
+        "bid_value_upper": null,
+        "bidder_label": "Party B",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "all-cash",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "On September 9, 2013, Party B also submitted a revised indication of interest with an all-cash purchase price of $18.50 per share"
+        ]
+      },
+      {
+        "bid_date": "2013-09-10",
+        "bid_formality": null,
+        "bid_stage": "revised",
+        "bid_value": null,
+        "bid_value_lower": 18.0,
+        "bid_value_unit": "$ per share",
+        "bid_value_upper": 19.0,
+        "bidder_label": "Party A",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "all-cash",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "On September 10, 2013, Party A submitted a revised indication of interest with an all-cash purchase price of $18.00 to $19.00 per share"
+        ]
+      },
+      {
+        "bid_date": "2013-09-10",
+        "bid_formality": "informal",
+        "bid_stage": "revised",
+        "bid_value": null,
+        "bid_value_lower": 16.0,
+        "bid_value_unit": "$ per share",
+        "bid_value_upper": 17.0,
+        "bidder_label": "Party C",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "all-cash",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "Also on September 10, 2013, in a telephone call to a representative of BofA Merrill Lynch, a representative of Party C indicated that it was submitting a revised oral indication of interest with an all-cash purchase price of $16.00 to $17.00 per share."
+        ]
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "Mac-Gray Board of Directors",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_1",
+        "description": "Board authorized management to work with BofA Merrill Lynch to explore transactional opportunities available to Mac-Gray.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-04-05",
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "at an in-person meeting of the Board on April 5, 2013, the Board discussed the sale of CSC to Pamplona as well as industry-wide merger and acquisition activity and dynamics, and authorized Mac-Gray management to work with BofA Merrill Lynch to explore transactional opportunities that might be available to Mac-Gray"
+        ]
+      },
+      {
+        "actor_label": "BofA Merrill Lynch",
+        "actor_role": "advisor_for_target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_1",
+        "description": "BofA Merrill Lynch, instructed by the Board, called Party A about a possible business combination with Mac-Gray.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-04-08",
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "On April 8, 2013, representatives of BofA Merrill Lynch, as instructed by the Board, telephoned a representative of Party A to discuss generally a possible business combination between Party A and Mac-Gray."
+        ]
+      },
+      {
+        "actor_label": "Transaction Committee",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_1",
+        "description": "The Board formed a Transaction Committee to assist in administration of the strategic alternatives review.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-05-09",
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "To assist in the administration of the strategic alternatives review, the Board formed a transaction committee at this meeting, which we refer to as the Transaction Committee, and appointed Thomas Bullock and Paul Daoust, both independent directors, to serve as its members."
+        ]
+      },
+      {
+        "actor_label": "BofA Merrill Lynch",
+        "actor_role": "advisor_for_target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_1",
+        "description": "Mac-Gray entered into an engagement letter with BofA Merrill Lynch for review of strategic alternatives including a potential sale process.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-05-31",
+        "event_subtype": "nda_signed",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "On May 31, 2013, Mac-Gray entered into an engagement letter with BofA Merrill Lynch with respect to the Board's undertaking a review of strategic alternatives, including a potential sale process"
+        ]
+      },
+      {
+        "actor_label": "Party A",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_1",
+        "description": "Party A submitted an unsolicited proposal to acquire Mac-Gray.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-06-21",
+        "event_subtype": "ioi_submitted",
+        "event_type": "bid",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "On June 21, 2013, Party A submitted an unsolicited proposal to the Mac-Gray Board of Directors offering to purchase Mac-Gray for an all-cash purchase price of $17.00 to $19.00 per share"
+        ]
+      },
+      {
+        "actor_label": "Special Committee",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_1",
+        "description": "The Board established a Special Committee to explore strategic alternatives and evaluate transaction proposals.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-06-24",
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "the Board then established the Special Committee, comprised of the six independent and disinterested members of the Board (namely, Mr. Bullock, Mr. Daoust, Mr. Hyman, William F. Meagher, Bruce A. Percelay and Alastair G. Robinson), to, among other things, explore strategic alternatives to enhance value to Mac-Gray's stockholders and to recommend to the Board the advisability of any such strategic alternative."
+        ]
+      },
+      {
+        "actor_label": "Special Committee",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_1",
+        "description": "Special Committee concluded it was in stockholders' best interests to consider a potential sale of Mac-Gray.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-06-24",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "the Special Committee concluded that it would be in the best interests of stockholders to consider a potential sale of Mac-Gray and to review this alternative as compared to Mac-Gray's continuing as a stand-alone company and the risks and opportunities associated with execution of Mac-Gray's strategic business plan."
+        ]
+      },
+      {
+        "actor_label": "Special Committee",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_1",
+        "description": "Special Committee determined to approach 50 parties to solicit interest in a transaction with Mac-Gray.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-06-24",
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "the Special Committee determined to approach a total of\n\n31\n<!-- PAGE 38 -->\nZEQ.=2,SEQ=37,EFW=\"2217482\",CP=\"MAC-GRAY CORPORATION\",DN=\"1\",CHK=927463,FOLIO='31',FILE='DISK112:[13ZCX1.13ZCX46801]DG46801A.;20',USER='HYUNG',CD=';2-DEC-2013;13:16'\n\nTable of Contents\n\n50 parties, including CSC and Pamplona, who together we refer to as CSC/Pamplona, and Party A, to solicit potential interest in a transaction with Mac-Gray"
+        ]
+      },
+      {
+        "actor_label": "Party B",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_1",
+        "description": "Party B entered into a confidentiality and standstill agreement with Mac-Gray.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-06-28",
+        "event_subtype": "nda_signed",
+        "event_type": "process",
+        "initiation_side": "mutual_or_process",
+        "quote_texts": [
+          "Later on June 28, 2013, Party B, entered into a confidentiality and standstill agreement with Mac-Gray"
+        ]
+      },
+      {
+        "actor_label": "Party C",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_1",
+        "description": "Party C entered into a confidentiality and standstill agreement with Mac-Gray.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-06-30",
+        "event_subtype": "nda_signed",
+        "event_type": "process",
+        "initiation_side": "mutual_or_process",
+        "quote_texts": [
+          "On June 30, 2013, Party C entered into a confidentiality and standstill agreement with Mac-Gray"
+        ]
+      },
+      {
+        "actor_label": "Special Committee",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_5",
+        "description": "Special Committee denied Moab's requested exclusive partnership with CSC/Pamplona at that stage of the process.",
+        "drop_agency": "target",
+        "drop_reason": "other",
+        "event_date": "2013-07-06",
+        "event_subtype": "excluded_by_target",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "the Special Committee decided to deny the exclusivity request at this stage of the process so that the potential equity rollover of Moab's shares could be available as a source of capital for other potential bidders."
+        ]
+      },
+      {
+        "actor_label": "CSC/Pamplona",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_1",
+        "description": "CSC/Pamplona entered into a confidentiality and standstill agreement with Mac-Gray.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-07-11",
+        "event_subtype": "nda_signed",
+        "event_type": "process",
+        "initiation_side": "mutual_or_process",
+        "quote_texts": [
+          "On July 11, 2013, CSC/Pamplona entered into a confidentiality and standstill agreement with Mac-Gray"
+        ]
+      },
+      {
+        "actor_label": "CSC/Pamplona",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_2",
+        "description": "CSC/Pamplona submitted a preliminary indication of interest.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-07-23",
+        "event_subtype": "ioi_submitted",
+        "event_type": "bid",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "On July 23, 2013, CSC/Pamplona submitted a preliminary indication of interest at an all-cash purchase price of $18.50 per share."
+        ]
+      },
+      {
+        "actor_label": "Party B",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_2",
+        "description": "Party B submitted a preliminary indication of interest.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-07-24",
+        "event_subtype": "ioi_submitted",
+        "event_type": "bid",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "On July 24, 2013, Party B submitted a preliminary indication of interest at an all-cash purchase price of $17.00 to $18.00 per share."
+        ]
+      },
+      {
+        "actor_label": "Party C",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_2",
+        "description": "Party C presented an oral preliminary indication of interest.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-07-24",
+        "event_subtype": "ioi_submitted",
+        "event_type": "bid",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "Also on July 24, 2013, representatives from Party C called BofA Merrill Lynch and presented an oral preliminary indication of interest at an all-cash purchase price of $15.00 to $17.00 per share."
+        ]
+      },
+      {
+        "actor_label": "Party C",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_2",
+        "description": "Party C submitted a written indication of interest.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-07-25",
+        "event_subtype": "ioi_submitted",
+        "event_type": "bid",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "Later on July 25, 2013, Party C submitted a written indication of interest at an all-cash purchase price of $16.00 to $16.50 per share."
+        ]
+      },
+      {
+        "actor_label": "Party A",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_1",
+        "description": "Party A entered into a confidentiality and standstill agreement with Mac-Gray.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-08-05",
+        "event_subtype": "nda_signed",
+        "event_type": "process",
+        "initiation_side": "mutual_or_process",
+        "quote_texts": [
+          "On August 5, 2013, Party A entered into a confidentiality and standstill agreement with Mac-Gray"
+        ]
+      },
+      {
+        "actor_label": "BofA Merrill Lynch",
+        "actor_role": "advisor_for_target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_3",
+        "description": "BofA Merrill Lynch sent letters to Party A, Party B, Party C and CSC/Pamplona requesting revised written proposals by September 9, 2013.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-08-27",
+        "event_subtype": "first_round_bid",
+        "event_type": "bid",
+        "initiation_side": "target",
+        "quote_texts": [
+          "On August 27, 2013, BofA Merrill Lynch, as instructed by the Special Committee, sent a letter to each of Party A, Party B, Party C and CSC/Pamplona instructing such bidders to submit revised written proposals no later than September 9, 2013"
+        ]
+      },
+      {
+        "actor_label": "CSC/Pamplona",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_3",
+        "description": "CSC/Pamplona submitted a revised indication of interest.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-09-09",
+        "event_subtype": "first_round_bid",
+        "event_type": "bid",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "On September 9, 2013, CSC/Pamplona submitted a revised indication of interest with an all-cash purchase price of $19.50 per share"
+        ]
+      },
+      {
+        "actor_label": "Party B",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_3",
+        "description": "Party B submitted a revised indication of interest.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-09-09",
+        "event_subtype": "first_round_bid",
+        "event_type": "bid",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "On September 9, 2013, Party B also submitted a revised indication of interest with an all-cash purchase price of $18.50 per share"
+        ]
+      },
+      {
+        "actor_label": "Party A",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_3",
+        "description": "Party A submitted a revised indication of interest.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-09-10",
+        "event_subtype": "first_round_bid",
+        "event_type": "bid",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "On September 10, 2013, Party A submitted a revised indication of interest with an all-cash purchase price of $18.00 to $19.00 per share"
+        ]
+      },
+      {
+        "actor_label": "Party C",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_3",
+        "description": "Party C submitted a revised oral indication of interest.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-09-10",
+        "event_subtype": "first_round_bid",
+        "event_type": "bid",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "Also on September 10, 2013, in a telephone call to a representative of BofA Merrill Lynch, a representative of Party C indicated that it was submitting a revised oral indication of interest with an all-cash purchase price of $16.00 to $17.00 per share."
+        ]
+      },
+      {
+        "actor_label": "BofA Merrill Lynch",
+        "actor_role": "advisor_for_target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_4",
+        "description": "BofA Merrill Lynch was instructed to request final indications of interest from Party A, Party B, Party C and CSC/Pamplona by September 18, 2013.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-09-11",
+        "event_subtype": "final_round_bid",
+        "event_type": "bid",
+        "initiation_side": "target",
+        "quote_texts": [
+          "the Special Committee instructed BofA Merrill Lynch to call each of Party A, Party B, Party C and CSC/Pamplona to request final indications of interest by September 18, 2013"
+        ]
+      }
+    ],
+    "participation_count_claims": [
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 50,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_1",
+        "process_stage": "contacted",
+        "quote_texts": [
+          "50 parties, including CSC and Pamplona, who together we refer to as CSC/Pamplona, and Party A, to solicit potential interest in a transaction with Mac-Gray"
+        ]
+      },
+      {
+        "actor_class": "strategic",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 15,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_1",
+        "process_stage": "contacted",
+        "quote_texts": [
+          "15 of which were potential strategic buyers"
+        ]
+      },
+      {
+        "actor_class": "financial",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 35,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_1",
+        "process_stage": "contacted",
+        "quote_texts": [
+          "35 of which were potential financial buyers, including private equity firms."
+        ]
+      },
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 20,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_2",
+        "process_stage": "nda_signed",
+        "quote_texts": [
+          "Over the next two months a total of 20 potential bidders, including two strategic bidders (Party A and CSC/Pamplona) and 18 financial bidders (including Party B and Party C), entered into confidentiality agreements with Mac-Gray"
+        ]
+      },
+      {
+        "actor_class": "strategic",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 2,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_2",
+        "process_stage": "nda_signed",
+        "quote_texts": [
+          "two strategic bidders (Party A and CSC/Pamplona)"
+        ]
+      },
+      {
+        "actor_class": "financial",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 18,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_2",
+        "process_stage": "nda_signed",
+        "quote_texts": [
+          "18 financial bidders (including Party B and Party C)"
+        ]
+      },
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 4,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_2",
+        "process_stage": "ioi_submitted",
+        "quote_texts": [
+          "BofA Merrill Lynch recommended that management meetings be arranged between members of Mac-Gray management (other than Mr. MacDonald) and each of Party A (if Party A\n\n33\n<!-- PAGE 40 -->\nZEQ.=4,SEQ=39,EFW=\"2217482\",CP=\"MAC-GRAY CORPORATION\",DN=\"1\",CHK=876206,FOLIO='33',FILE='DISK112:[13ZCX1.13ZCX46801]DG46801A.;20',USER='HYUNG',CD=';2-DEC-2013;13:16'\n\nTable of Contents\n\nagreed to enter into a confidentiality agreement), Party B, Party C and CSC/Pamplona"
+        ]
+      },
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 4,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "mac-gray_w1_sale_process_part1_obl_3",
+        "process_stage": "first_round",
+        "quote_texts": [
+          "On August 27, 2013, BofA Merrill Lynch, as instructed by the Special Committee, sent a letter to each of Party A, Party B, Party C and CSC/Pamplona instructing such bidders to submit revised written proposals no later than September 9, 2013"
+        ]
+      }
+    ]
+  },
+  "prompt_chars": 47005,
+  "prompt_sha256": "7ccdec5cf3bd3333b087311c5a43babab4102adb47946ce1a6e420d212f8600f",
+  "reasoning": "medium",
+  "reasoning_tokens": 954,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "0e783020c5768c044a886e0c68312d3e78a57555f4637885fb098049de8a7824",
+  "slug": "mac-gray",
+  "stage": "stage1",
+  "status": "completed",
+  "window_id": "w1_sale_process_part1",
+  "window_profile": "W1_SALE_PROCESS"
+}

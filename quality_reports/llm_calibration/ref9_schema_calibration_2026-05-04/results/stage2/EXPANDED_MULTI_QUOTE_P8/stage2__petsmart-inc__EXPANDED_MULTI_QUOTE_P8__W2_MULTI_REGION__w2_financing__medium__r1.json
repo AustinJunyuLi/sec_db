@@ -1,0 +1,272 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_MULTI_QUOTE_P8",
+  "duration_s": 61.67,
+  "input_chars": 24999,
+  "input_path": "inputs/petsmart-inc/W2_MULTI_REGION/w2_financing.json",
+  "input_text_sha256": "f278ea02c1b909ca2b1a772a43e1a0a6188f550e497198ebf94667d1acad9775",
+  "input_tokens": 7030,
+  "job_id": "stage2__petsmart-inc__EXPANDED_MULTI_QUOTE_P8__W2_MULTI_REGION__w2_financing__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 5,
+      "actor_relation_claims": 5,
+      "bid_claims": 0,
+      "event_claims": 5,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 5,
+    "multi_quote_claims": 1,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 1,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 16,
+    "relation_types": {
+      "finances": 4,
+      "rollover_holder_for": 1
+    },
+    "strict_claim_total": 15,
+    "total_quotes": 16
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 8030,
+  "output_text_sha256": "7296a59cb12ab48cf49e50050e9e9f1ef33ec22e4bea9f6e33ca72e9150e084c",
+  "output_tokens": 3303,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": "f",
+        "actor_kind": "group",
+        "actor_label": "consortium of financial institutions",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "a consortium of financial institutions"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "group",
+        "actor_label": "Buyer Group",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "the \u201cBuyer Group\u201d refers to a consortium of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and, at all times after December 12, 2014, Longview Asset Management, LLC;"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "group",
+        "actor_label": "members of the Buyer Group (other than Longview)",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "members of the Buyer Group (other than Longview)"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "Longview Asset Management, LLC",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Longview Asset Management, LLC (\u201cLongview\u201d)"
+        ]
+      },
+      {
+        "actor_class": "s",
+        "actor_kind": "organization",
+        "actor_label": "PetSmart, Inc.",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "\u201cPetSmart,\u201d the \u201cCompany,\u201d \u201cwe,\u201d \u201cour,\u201d or \u201cus\u201d refer to PetSmart, Inc., a Delaware corporation;"
+        ]
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_2",
+        "effective_date_first": null,
+        "object_label": "Parent",
+        "quote_texts": [
+          "Parent has received firm commitments from a consortium of financial institutions to provide the debt financing and revolving credit facility"
+        ],
+        "relation_type": "finances",
+        "role_detail": "debt financing and revolving credit facility",
+        "subject_label": "consortium of financial institutions"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_2",
+        "effective_date_first": null,
+        "object_label": "Parent",
+        "quote_texts": [
+          "Parent has received equity commitments for the equity financing from the Buyer Group (other than Longview)"
+        ],
+        "relation_type": "finances",
+        "role_detail": "equity financing",
+        "subject_label": "Buyer Group (other than Longview)"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_2",
+        "effective_date_first": null,
+        "object_label": "Parent",
+        "quote_texts": [
+          "has entered into a rollover agreement with Longview with respect to its contribution of Company common stock to Parent"
+        ],
+        "relation_type": "rollover_holder_for",
+        "role_detail": "contribution of Company common stock to Parent",
+        "subject_label": "Longview"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "medium",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_2",
+        "effective_date_first": null,
+        "object_label": "the merger and related transactions",
+        "quote_texts": [
+          "Parent expects this amount to be funded through a combination of the following:",
+          "approximately $425 million of cash is expected to be on hand in the Company and available at the closing."
+        ],
+        "relation_type": "finances",
+        "role_detail": "cash on hand in the Company available at closing",
+        "subject_label": "the Company"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_2",
+        "effective_date_first": null,
+        "object_label": "the Company",
+        "quote_texts": [
+          "Each of the members of the Buyer Group (other than Longview) has entered into a termination fee commitment letter with Parent and the Company and has agreed on a several basis, and subject to other terms and conditions of the termination fee commitment letters, to pay to the Company"
+        ],
+        "relation_type": "finances",
+        "role_detail": "portion of the $510 million Parent termination fee and certain expense reimbursement",
+        "subject_label": "members of the Buyer Group (other than Longview)"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "Parent",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_3",
+        "description": "Parent estimates approximately $8.4 billion is required to complete the merger and related transactions and expects the amount to be funded through a combination of financing sources.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "financing_committed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "Parent estimates that the total amount required to complete the merger and related transactions and pay related fees and expenses will be approximately $8.4 billion. Parent expects this amount to be funded through a combination of the following:"
+        ]
+      },
+      {
+        "actor_label": "Parent",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_3",
+        "description": "Parent received firm commitments from a consortium of financial institutions for debt financing and a revolving credit facility.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "financing_committed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "Parent has received firm commitments from a consortium of financial institutions to provide the debt financing and revolving credit facility"
+        ]
+      },
+      {
+        "actor_label": "Parent",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_3",
+        "description": "Parent received equity commitments from the Buyer Group other than Longview and entered into a rollover agreement with Longview for its contribution of Company common stock to Parent.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "financing_committed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "Parent has received equity commitments for the equity financing from the Buyer Group (other than Longview) and has entered into a rollover agreement with Longview with respect to its contribution of Company common stock to Parent"
+        ]
+      },
+      {
+        "actor_label": null,
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_3",
+        "description": "The consummation of the merger is not subject to a financing condition.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "financing_committed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "The consummation of the merger is not subject to a financing condition"
+        ]
+      },
+      {
+        "actor_label": "members of the Buyer Group (other than Longview)",
+        "actor_role": "equity_financing_source",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_3",
+        "description": "Each Buyer Group member other than Longview entered into a termination fee commitment letter and agreed on a several basis to pay the Company its portion of the Parent termination fee and certain expense reimbursement if due.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "financing_committed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "Each of the members of the Buyer Group (other than Longview) has entered into a termination fee commitment letter with Parent and the Company and has agreed on a several basis, and subject to other terms and conditions of the termination fee commitment letters, to pay to the Company (or if consented to by the Company, to purchase common equity securities of Parent to enable Parent to pay to the Company) an amount equal to its portion of the $510 million Parent termination fee and certain expense reimbursement that may be payable by Parent under the merger agreement, if and when due under the merger agreement."
+        ]
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 26915,
+  "prompt_sha256": "446d6da6a7349cfbf3c059fa7d78e3445cc03ebfbc41bc757c7297dd1fd3a708",
+  "reasoning": "medium",
+  "reasoning_tokens": 1552,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "0e783020c5768c044a886e0c68312d3e78a57555f4637885fb098049de8a7824",
+  "slug": "petsmart-inc",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_financing",
+  "window_profile": "W2_MULTI_REGION"
+}

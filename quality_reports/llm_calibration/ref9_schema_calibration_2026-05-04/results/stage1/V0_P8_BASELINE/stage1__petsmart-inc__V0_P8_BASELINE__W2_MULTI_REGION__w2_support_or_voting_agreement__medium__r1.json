@@ -1,0 +1,113 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "V0_P8_BASELINE",
+  "duration_s": 23.42,
+  "input_chars": 22000,
+  "input_path": "inputs/petsmart-inc/W2_MULTI_REGION/w2_support_or_voting_agreement.json",
+  "input_text_sha256": "d78abaffe1c0db4fa0bd3f5f4247606a907480f49bd94f692ac69f32f7080da9",
+  "input_tokens": 6632,
+  "job_id": "stage1__petsmart-inc__V0_P8_BASELINE__W2_MULTI_REGION__w2_support_or_voting_agreement__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 2,
+      "actor_relation_claims": 2,
+      "bid_claims": 0,
+      "coverage_results": 0,
+      "event_claims": 0,
+      "participation_count_claims": 1
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 1,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 2,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 5,
+    "relation_types": {
+      "supports": 2
+    },
+    "strict_claim_total": 5,
+    "total_quotes": 5
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 3212,
+  "output_text_sha256": "bfa7970d1145beee6b954edc3b8b929203f639dcdaa015d6e1dc0604a848e1e7",
+  "output_tokens": 1250,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "organization",
+        "actor_label": "Longview Asset Management, LLC",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_support_or_voting_agreement_obl_1",
+        "observability": "named",
+        "quote_text": "Longview Asset Management, LLC (\u201cLongview\u201d), on behalf of Longview clients and certain related parties"
+      },
+      {
+        "actor_kind": "group",
+        "actor_label": "Longview clients and certain related parties",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_support_or_voting_agreement_obl_1",
+        "observability": "named",
+        "quote_text": "Longview Asset Management, LLC (\u201cLongview\u201d), on behalf of Longview clients and certain related parties"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_support_or_voting_agreement_obl_2",
+        "effective_date_first": "2014-12-14",
+        "object_label": "adoption of the merger agreement",
+        "quote_text": "On December 14, 2014, the Company entered into a voting agreement (the \u201cvoting agreement\u201d) with Parent and Longview Asset Management, LLC (\u201cLongview\u201d), on behalf of Longview clients and certain related parties. Under the voting agreement, Longview agreed, among other things, to vote or cause to be voted 7,424,591 shares of common stock, which represent approximately 7.5% of the total outstanding shares of common stock as of the close of business on the record date, in favor of the adoption of the merger agreement",
+        "relation_type": "supports",
+        "role_detail": "agreed to vote or cause to be voted shares of common stock in favor of the adoption of the merger agreement",
+        "subject_label": "Longview Asset Management, LLC"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_support_or_voting_agreement_obl_2",
+        "effective_date_first": "2014-12-14",
+        "object_label": "the merger or the merger agreement",
+        "quote_text": "Longview agreed, among other things, to vote or cause to be voted 7,424,591 shares of common stock, which represent approximately 7.5% of the total outstanding shares of common stock as of the close of business on the record date, in favor of the adoption of the merger agreement, and against any other action, proposal, agreement or transaction made in opposition to or competition with the merger or the merger agreement that is not approved by the board",
+        "relation_type": "supports",
+        "role_detail": "agreed to vote against any action, proposal, agreement or transaction made in opposition to or competition with the merger or merger agreement not approved by the board",
+        "subject_label": "Longview Asset Management, LLC"
+      }
+    ],
+    "bid_claims": [],
+    "coverage_results": [],
+    "event_claims": [],
+    "participation_count_claims": [
+      {
+        "actor_class": "financial",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": 7424591,
+        "count_min": 7424591,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "petsmart-inc_w2_support_or_voting_agreement_obl_3",
+        "process_stage": "exclusivity",
+        "quote_text": "Longview agreed, among other things, to vote or cause to be voted 7,424,591 shares of common stock, which represent approximately 7.5% of the total outstanding shares of common stock as of the close of business on the record date"
+      }
+    ]
+  },
+  "prompt_chars": 23834,
+  "prompt_sha256": "db6e893779384b2c98d24f5ae124636053b1d73588d77d20cc9df15b6e1cc994",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "891e4a5674ba114d92ee1d400df86fba7a95780231cc29bd539799ee3cd2af97",
+  "slug": "petsmart-inc",
+  "stage": "stage1",
+  "status": "completed",
+  "window_id": "w2_support_or_voting_agreement",
+  "window_profile": "W2_MULTI_REGION"
+}

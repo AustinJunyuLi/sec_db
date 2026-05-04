@@ -49,10 +49,12 @@ SEC filing
 -> proof and cost/runtime artifacts
 ```
 
-Production Linkflow extraction uses one full `Background of the Merger` /
-sale-process section region per filing, strict V0 typed claims, Responses API
-streaming, and default `high` reasoning. Python owns source coordinates and
-rejects absent, ambiguous, or mismatched quote binding.
+Production Linkflow extraction uses the P8 claim-only contract documented in
+`docs/llm-interface.md`: request mode `claim_only_p8_relation_v1`, default
+`medium` reasoning, Responses API streaming, and no provider-owned coverage
+rows, source coordinates, canonical ids, scalar research judgments, or
+projection rows. Python owns quote binding, source coordinates, coverage
+results, dispositions, canonical rows, validation, and projections.
 
 ## Commands
 
@@ -68,7 +70,7 @@ python -m sec_graph run \
   --run-dir runs/2026-05-03T010203Z_petsmart_deadbeef \
   --llm-provider linkflow \
   --llm-model gpt-5.5 \
-  --llm-reasoning-effort high
+  --llm-reasoning-effort medium
 ```
 
 `scripts/fetch_filings.py` is a deliberate root convenience command for EDGAR

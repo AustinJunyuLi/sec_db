@@ -1,0 +1,376 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_MULTI_QUOTE_P8",
+  "duration_s": 99.41,
+  "input_chars": 24463,
+  "input_path": "inputs/imprivata/W2_MULTI_REGION/w2_sale_process_part2.json",
+  "input_text_sha256": "69bc5423efe606c0a923119e76e64f7e2146cedb8371b147e6e2bb22bcdbc1e0",
+  "input_tokens": 6321,
+  "job_id": "stage2__imprivata__EXPANDED_MULTI_QUOTE_P8__W2_MULTI_REGION__w2_sale_process_part2__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 7,
+      "actor_relation_claims": 4,
+      "bid_claims": 2,
+      "event_claims": 6,
+      "participation_count_claims": 3
+    },
+    "duplicate_quotes_within_response": 2,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 14,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 9,
+    "not_unique_in_source_window": 1,
+    "quote_match_rate": 0.9545,
+    "quotes_in_window": 21,
+    "relation_types": {
+      "advises": 3,
+      "finances": 1
+    },
+    "strict_claim_total": 22,
+    "total_quotes": 22
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 9936,
+  "output_text_sha256": "78a2de053651ffb2e54f6bd80e8a37eb594d374e48305deb733abe378ec42964",
+  "output_tokens": 3751,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "Board",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part2_obl_6",
+        "observability": "named",
+        "quote_texts": [
+          "the Board discussed how best to further enhance stockholder value through the next phase of the strategic process"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "committee",
+        "actor_label": "Special Committee",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part2_obl_6",
+        "observability": "named",
+        "quote_texts": [
+          "the Board established a special committee of the Board (the \u201c Special Committee \u201d) that included only independent and disinterested directors"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Barclays",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part2_obl_7",
+        "observability": "named",
+        "quote_texts": [
+          "the advice Barclays would provide to the Special Committee and the Board"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Goodwin",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part2_obl_8",
+        "observability": "named",
+        "quote_texts": [
+          "based in part on the advice of Goodwin"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "Thoma Bravo",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part2_obl_10",
+        "observability": "named",
+        "quote_texts": [
+          "Sponsor A, Sponsor B and Thoma Bravo"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Kirkland & Ellis LLP",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part2_obl_10",
+        "observability": "named",
+        "quote_texts": [
+          "Thoma Bravo\u2019s outside counsel, Kirkland & Ellis LLP (\u201c Kirkland \u201d)"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "group",
+        "actor_label": "two sources of potential debt financing",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part2_obl_10",
+        "observability": "count_only",
+        "quote_texts": [
+          "two sources of potential debt financing"
+        ]
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part2_obl_7",
+        "effective_date_first": null,
+        "object_label": "Special Committee and the Board",
+        "quote_texts": [
+          "the advice Barclays would provide to the Special Committee and the Board"
+        ],
+        "relation_type": "advises",
+        "role_detail": null,
+        "subject_label": "Barclays"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part2_obl_8",
+        "effective_date_first": null,
+        "object_label": "Special Committee",
+        "quote_texts": [
+          "based in part on the advice of Goodwin"
+        ],
+        "relation_type": "advises",
+        "role_detail": null,
+        "subject_label": "Goodwin"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part2_obl_10",
+        "effective_date_first": "2016-07-07",
+        "object_label": "Thoma Bravo",
+        "quote_texts": [
+          "On July 7, 2016, Thoma Bravo\u2019s outside counsel, Kirkland & Ellis LLP (\u201c Kirkland \u201d) sent a revised draft of the merger agreement to Goodwin."
+        ],
+        "relation_type": "advises",
+        "role_detail": "outside counsel",
+        "subject_label": "Kirkland & Ellis LLP"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "medium",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part2_obl_10",
+        "effective_date_first": "2016-07-05",
+        "object_label": "Thoma Bravo",
+        "quote_texts": [
+          "the Company permitted two sources of potential debt financing, each of which Barclays identified as parties that could potentially provide debt financing to Thoma Bravo, to join as parties under the confidentiality agreement between the Company and Thoma Bravo"
+        ],
+        "relation_type": "finances",
+        "role_detail": "potential debt financing sources",
+        "subject_label": "two sources of potential debt financing"
+      }
+    ],
+    "bid_claims": [
+      {
+        "bid_date": "2016-07-08",
+        "bid_formality": null,
+        "bid_stage": "final",
+        "bid_value": 19,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "Thoma Bravo",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part2_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "Thoma Bravo submitted a bid for the Company. Thoma Bravo\u2019s bid was at a price of $19.00 per share in cash"
+        ]
+      },
+      {
+        "bid_date": "2016-07-09",
+        "bid_formality": "formal",
+        "bid_stage": "final",
+        "bid_value": 19.25,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "Thoma Bravo",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": null,
+        "coverage_obligation_id": "imprivata_w2_sale_process_part2_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "Barclays received a revised written, non-binding proposal from Thoma Bravo setting forth its best and final offer of $19.25 per share, together with a revised draft of the equity commitment letter for the entire purchase price for the Company"
+        ]
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "Board",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part2_obl_1",
+        "description": "The Board authorized Barclays to advance Sponsor A, Sponsor B and Thoma Bravo to the second phase of the strategic process and encourage higher offer prices.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "the Board authorized Barclays to advance all three parties to the second phase of the strategic process and to encourage them to indicate a willingness to increase their respective offer prices"
+        ]
+      },
+      {
+        "actor_label": "Barclays",
+        "actor_role": "advisor_for_target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part2_obl_1",
+        "description": "Barclays contacted Strategic 4 to inquire whether it was interested in participating in the Company's strategic process.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2016-06-17",
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "On June 17, 2016, representatives of Barclays contacted representatives of Strategic 4 to inquire whether it would be interested in participating in the Company\u2019s strategic process."
+        ]
+      },
+      {
+        "actor_label": "Sponsor A",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part2_obl_1",
+        "description": "Sponsor A ceased participating after indicating it would not materially improve its June 9 bid.",
+        "drop_agency": "bidder",
+        "drop_reason": "below_minimum",
+        "event_date": "2016-06-17",
+        "event_subtype": "withdrawn_by_bidder",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "Sponsor A was going to cease participating in the strategic process unless subsequently contacted by Barclays at the direction of the Board"
+        ]
+      },
+      {
+        "actor_label": "Sponsor B",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part2_obl_1",
+        "description": "After Sponsor B indicated any final bid would be significantly below its earlier indication, the Special Committee determined not to pursue such a proposal.",
+        "drop_agency": "target",
+        "drop_reason": "below_minimum",
+        "event_date": "2016-06-30",
+        "event_subtype": "excluded_by_target",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "The Special Committee determined that it would not be in the best interest of the Company\u2019s stockholders to pursue a proposal at price significantly below the price that Sponsor B originally indicated that it would be able to offer."
+        ]
+      },
+      {
+        "actor_label": "Thoma Bravo",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part2_obl_4",
+        "description": "On the final bid deadline, only Thoma Bravo submitted a final bid for the Company.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2016-07-08",
+        "event_subtype": "final_round_bid",
+        "event_type": "bid",
+        "initiation_side": null,
+        "quote_texts": [
+          "On July 8, 2016, the date by which Sponsor B and Thoma Bravo had been invited to submit their final bids, only Thoma Bravo submitted a bid for the Company."
+        ]
+      },
+      {
+        "actor_label": "Thoma Bravo",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part2_obl_4",
+        "description": "Thoma Bravo submitted a revised written best and final offer of $19.25 per share.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2016-07-09",
+        "event_subtype": "final_round_bid",
+        "event_type": "bid",
+        "initiation_side": null,
+        "quote_texts": [
+          "Later on July 9, 2016, Barclays received a revised written, non-binding proposal from Thoma Bravo setting forth its best and final offer of $19.25 per share"
+        ]
+      }
+    ],
+    "participation_count_claims": [
+      {
+        "actor_class": "financial",
+        "claim_type": "participation_count",
+        "confidence": "medium",
+        "count_max": null,
+        "count_min": 3,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part2_obl_2",
+        "process_stage": "ioi_submitted",
+        "quote_texts": [
+          "Sponsor A, Sponsor B and Thoma Bravo had submitted proposals within close range of each other"
+        ]
+      },
+      {
+        "actor_class": "financial",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 2,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part2_obl_3",
+        "process_stage": "first_round",
+        "quote_texts": [
+          "On June 17, 2016, Sponsor B and Thoma Bravo were provided access to an online data room containing nonpublic information regarding the Company."
+        ]
+      },
+      {
+        "actor_class": "financial",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 2,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part2_obl_4",
+        "process_stage": "final_round",
+        "quote_texts": [
+          "the date by which Sponsor B and Thoma Bravo had been invited to submit their final bids"
+        ]
+      }
+    ]
+  },
+  "prompt_chars": 27012,
+  "prompt_sha256": "0e4fa9aff6ea2d5ac130816d648d88cbbb9dc5ca60ee5ceb1431b1681dd7099e",
+  "reasoning": "medium",
+  "reasoning_tokens": 1411,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "0e783020c5768c044a886e0c68312d3e78a57555f4637885fb098049de8a7824",
+  "slug": "imprivata",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_sale_process_part2",
+  "window_profile": "W2_MULTI_REGION"
+}

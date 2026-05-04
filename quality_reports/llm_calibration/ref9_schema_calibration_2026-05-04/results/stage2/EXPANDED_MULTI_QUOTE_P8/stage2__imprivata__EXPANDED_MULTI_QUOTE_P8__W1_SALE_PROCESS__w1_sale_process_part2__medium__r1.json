@@ -1,0 +1,243 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_MULTI_QUOTE_P8",
+  "duration_s": 74.55,
+  "input_chars": 7755,
+  "input_path": "inputs/imprivata/W1_SALE_PROCESS/w1_sale_process_part2.json",
+  "input_text_sha256": "c2d822b1a1305d5d4a68016eab7f448803f719abaa7b4c246d0ddc11e2512e58",
+  "input_tokens": 3201,
+  "job_id": "stage2__imprivata__EXPANDED_MULTI_QUOTE_P8__W1_SALE_PROCESS__w1_sale_process_part2__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 6,
+      "actor_relation_claims": 3,
+      "bid_claims": 1,
+      "event_claims": 3,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 2,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 6,
+    "multi_quote_claims": 1,
+    "nonempty_date_strings": 4,
+    "not_unique_in_source_window": 1,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 15,
+    "relation_types": {
+      "advises": 3
+    },
+    "strict_claim_total": 13,
+    "total_quotes": 15
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 5362,
+  "output_text_sha256": "209ea49c14173a54e0ae4cec4ce487af45f3991fbf442d49841b6500c3750069",
+  "output_tokens": 1807,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "committee",
+        "actor_label": "Special Committee",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w1_sale_process_part2_obl_6",
+        "observability": "named",
+        "quote_texts": [
+          "the Special Committee met to discuss Thoma Bravo\u2019s increased $19.25 per share offer"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "committee",
+        "actor_label": "Board",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w1_sale_process_part2_obl_6",
+        "observability": "named",
+        "quote_texts": [
+          "Later on July 12, 2016, the Board held a meeting."
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "Barclays",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w1_sale_process_part2_obl_7",
+        "observability": "named",
+        "quote_texts": [
+          "Representatives of Barclays and Goodwin were in attendance."
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Goodwin",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w1_sale_process_part2_obl_8",
+        "observability": "named",
+        "quote_texts": [
+          "Representatives of Barclays and Goodwin were in attendance."
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "Thoma Bravo",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w1_sale_process_part2_obl_10",
+        "observability": "named",
+        "quote_texts": [
+          "Thoma Bravo\u2019s increased $19.25 per share offer"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Kirkland",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w1_sale_process_part2_obl_10",
+        "observability": "named",
+        "quote_texts": [
+          "Thoma Bravo and Kirkland"
+        ]
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w1_sale_process_part2_obl_7",
+        "effective_date_first": null,
+        "object_label": "Special Committee",
+        "quote_texts": [
+          "Representatives of Barclays updated the Special Committee on the discussions with Thoma Bravo since the last Special Committee meeting."
+        ],
+        "relation_type": "advises",
+        "role_detail": null,
+        "subject_label": "Barclays"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w1_sale_process_part2_obl_8",
+        "effective_date_first": null,
+        "object_label": "Special Committee",
+        "quote_texts": [
+          "Representatives of Goodwin reviewed with the Special Committee the terms of the draft merger agreement, voting agreement and equity commitment letter, including the open items being negotiated with Thoma Bravo."
+        ],
+        "relation_type": "advises",
+        "role_detail": null,
+        "subject_label": "Goodwin"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w1_sale_process_part2_obl_10",
+        "effective_date_first": null,
+        "object_label": "Thoma Bravo",
+        "quote_texts": [
+          "representatives of Barclays and Goodwin, and Thoma Bravo and Kirkland, had various telephonic discussions to finalize the merger agreement and related agreements."
+        ],
+        "relation_type": "advises",
+        "role_detail": null,
+        "subject_label": "Kirkland"
+      }
+    ],
+    "bid_claims": [
+      {
+        "bid_date": "2016-07-10",
+        "bid_formality": null,
+        "bid_stage": "final",
+        "bid_value": 19.25,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "Thoma Bravo",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "imprivata_w1_sale_process_part2_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "On July 10, 2016, the Special Committee met to discuss Thoma Bravo\u2019s increased $19.25 per share offer.",
+          "Thoma Bravo indicated this was its best and final offer",
+          "$19.25 per share cash consideration"
+        ]
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "Special Committee",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w1_sale_process_part2_obl_1",
+        "description": "The Special Committee directed the Company and its advisors to proceed toward execution of a definitive agreement with Thoma Bravo expeditiously.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2016-07-10",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "the Special Committee directed the Company and its advisors to proceed toward the execution of a definitive agreement with Thoma Bravo expeditiously."
+        ]
+      },
+      {
+        "actor_label": "Thoma Bravo",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w1_sale_process_part2_obl_4",
+        "description": "Thoma Bravo indicated its $19.25 per share offer was its best and final offer.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2016-07-10",
+        "event_subtype": "final_round_bid",
+        "event_type": "bid",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "Thoma Bravo indicated this was its best and final offer"
+        ]
+      },
+      {
+        "actor_label": "Company and Thoma Bravo",
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w1_sale_process_part2_obl_1",
+        "description": "The parties finalized and executed the merger agreement before the stock market opened on July 13, 2016.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2016-07-13",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": "mutual_or_process",
+        "quote_texts": [
+          "On July 13, 2016, before the stock market opened, the parties finalized and executed the merger agreement"
+        ]
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 10304,
+  "prompt_sha256": "6cc7a865ef8046641f4c41764e5c9592f9e65c5dcbe65e00d253ea38c8ed612c",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "0e783020c5768c044a886e0c68312d3e78a57555f4637885fb098049de8a7824",
+  "slug": "imprivata",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w1_sale_process_part2",
+  "window_profile": "W1_SALE_PROCESS"
+}

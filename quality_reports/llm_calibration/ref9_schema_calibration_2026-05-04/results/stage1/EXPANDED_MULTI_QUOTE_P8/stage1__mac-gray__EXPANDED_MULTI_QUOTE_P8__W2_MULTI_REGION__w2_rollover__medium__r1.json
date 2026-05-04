@@ -1,0 +1,237 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_MULTI_QUOTE_P8",
+  "duration_s": 78.39,
+  "input_chars": 21999,
+  "input_path": "inputs/mac-gray/W2_MULTI_REGION/w2_rollover.json",
+  "input_text_sha256": "5a6af5ee17cb45ba0e56beae01b3eeb4d9094fba5b4f81aeb3c951d21ac1ea39",
+  "input_tokens": 6070,
+  "job_id": "stage1__mac-gray__EXPANDED_MULTI_QUOTE_P8__W2_MULTI_REGION__w2_rollover__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 3,
+      "actor_relation_claims": 5,
+      "bid_claims": 0,
+      "event_claims": 4,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 4,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 12,
+    "multi_quote_claims": 4,
+    "nonempty_date_strings": 6,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 18,
+    "relation_types": {
+      "affiliate_of": 1,
+      "recused_from": 2,
+      "rollover_holder_for": 2
+    },
+    "strict_claim_total": 12,
+    "total_quotes": 18
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 9092,
+  "output_text_sha256": "09e47fb7772260bb75f7d6905c1a07987ca60fac2a67dcab89bb1034fa231089",
+  "output_tokens": 4074,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "person",
+        "actor_label": "Stewart G. MacDonald, Jr.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_rollover_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Stewart G. MacDonald, Jr., our chief executive officer"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Moab",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_rollover_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Mac-Gray's stockholder, Moab Partners, L.P. and certain of its affiliates, which we refer collectively to as Moab."
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "person",
+        "actor_label": "Michael M. Rothenberg",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_rollover_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Mr. Rothenberg is a co-founder and the General Partner of Moab"
+        ]
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_rollover_obl_2",
+        "effective_date_first": null,
+        "object_label": "third parties",
+        "quote_texts": [
+          "in view of the significant stock ownership of Mr. MacDonald and his family, coupled with the possibility that the strategic alternatives process might result in third parties who would be interested in partnering with Mr. MacDonald (either through continued employment and/or contribution of some or all of his existing equity, a so-called equity \"rollover\"), Mr. MacDonald could have interests that would not be aligned with other Mac-Gray stockholders."
+        ],
+        "relation_type": "rollover_holder_for",
+        "role_detail": "continued employment and/or contribution of some or all of his existing equity, a so-called equity rollover",
+        "subject_label": "Stewart G. MacDonald, Jr."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_rollover_obl_2",
+        "effective_date_first": null,
+        "object_label": "any sale transaction",
+        "quote_texts": [
+          "to the extent Moab might have an interest in an equity rollover of all or a portion of Moab's shares of Mac-Gray common stock in connection with any sale transaction that might result from the Board's strategic alternatives process, Mr. Rothenberg would need to be excluded from the process from the outset."
+        ],
+        "relation_type": "rollover_holder_for",
+        "role_detail": "equity rollover of all or a portion of Moab's shares of Mac-Gray common stock",
+        "subject_label": "Moab"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_rollover_obl_2",
+        "effective_date_first": null,
+        "object_label": "Moab",
+        "quote_texts": [
+          "Mr. Rothenberg is a co-founder and the General Partner of Moab"
+        ],
+        "relation_type": "affiliate_of",
+        "role_detail": "co-founder and General Partner",
+        "subject_label": "Michael M. Rothenberg"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_rollover_obl_2",
+        "effective_date_first": "2013-06-24",
+        "object_label": "Board's evaluation of strategic alternatives and any negotiations with third parties",
+        "quote_texts": [
+          "Following this discussion, the Board decided, and Mr. MacDonald and Mr. Rothenberg agreed, that it would be appropriate to exclude Mr. MacDonald and Mr. Rothenberg from the Board's evaluation of strategic alternatives and any negotiations with third parties that might take place."
+        ],
+        "relation_type": "recused_from",
+        "role_detail": null,
+        "subject_label": "Stewart G. MacDonald, Jr."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_rollover_obl_2",
+        "effective_date_first": "2013-06-24",
+        "object_label": "Board's evaluation of strategic alternatives and any negotiations with third parties",
+        "quote_texts": [
+          "Following this discussion, the Board decided, and Mr. MacDonald and Mr. Rothenberg agreed, that it would be appropriate to exclude Mr. MacDonald and Mr. Rothenberg from the Board's evaluation of strategic alternatives and any negotiations with third parties that might take place."
+        ],
+        "relation_type": "recused_from",
+        "role_detail": null,
+        "subject_label": "Michael M. Rothenberg"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "Stewart G. MacDonald, Jr.",
+        "actor_role": "rollover_holder",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_rollover_obl_3",
+        "description": "The Transaction Committee determined to recommend that Mr. MacDonald generally should not participate in the Board's evaluation of strategic alternatives or negotiations with interested parties because third parties might partner with him through continued employment or an equity rollover.",
+        "drop_agency": "target",
+        "drop_reason": "other",
+        "event_date": "2013-05-10",
+        "event_subtype": "excluded_by_target",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "On May 10, 2013, the Transaction Committee and representatives of Goodwin Procter held a meeting by telephone conference call.",
+          "As such, the Transaction Committee determined to recommend to the Board at an upcoming meeting that, as a general matter, Mr. MacDonald should not be permitted to participate in the Board's evaluation of strategic alternatives or any negotiations with any interested parties in a sale process."
+        ]
+      },
+      {
+        "actor_label": "Moab",
+        "actor_role": "rollover_holder",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_rollover_obl_3",
+        "description": "Participants discussed that if Moab were interested in an equity rollover of all or part of its Mac-Gray shares in a sale transaction, Mr. Rothenberg would need to be excluded from the process from the outset.",
+        "drop_agency": "target",
+        "drop_reason": "other",
+        "event_date": "2013-06-12",
+        "event_subtype": "excluded_by_target",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "On June 12, 2013, Mr. Rothenberg and Mr. Hyman met individually with Mr. Bullock, Mr. Daoust, Ms. Serafini and representatives from Goodwin Procter as part of their orientation as new members of the Board.",
+          "At the meeting with Mr. Rothenberg, the participants discussed that, to the extent Moab might have an interest in an equity rollover of all or a portion of Moab's shares of Mac-Gray common stock in connection with any sale transaction that might result from the Board's strategic alternatives process, Mr. Rothenberg would need to be excluded from the process from the outset."
+        ]
+      },
+      {
+        "actor_label": "Stewart G. MacDonald, Jr.",
+        "actor_role": "rollover_holder",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_rollover_obl_3",
+        "description": "The Board decided, and Mr. MacDonald agreed, that Mr. MacDonald would be excluded from the Board's evaluation of strategic alternatives and negotiations with third parties because he could be asked to partner with a potential acquiror given his equity stake.",
+        "drop_agency": "target",
+        "drop_reason": "other",
+        "event_date": "2013-06-24",
+        "event_subtype": "excluded_by_target",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "On June 24, 2013, the Mac-Gray Board of Directors held a regularly scheduled meeting.",
+          "The Board also discussed, with input from the members of the Transaction Committee, whether it would be appropriate for each of Mr. MacDonald and Mr. Rothenberg to be excluded from the Board's consideration of strategic alternatives in view of the possibility that Mr. MacDonald and/or Moab could be asked to partner with a potential acquiror given their respective equity stakes in Mac-Gray.",
+          "Following this discussion, the Board decided, and Mr. MacDonald and Mr. Rothenberg agreed, that it would be appropriate to exclude Mr. MacDonald and Mr. Rothenberg from the Board's evaluation of strategic alternatives and any negotiations with third parties that might take place."
+        ]
+      },
+      {
+        "actor_label": "Michael M. Rothenberg",
+        "actor_role": "group_member",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_rollover_obl_3",
+        "description": "The Board decided, and Mr. Rothenberg agreed, that Mr. Rothenberg would be excluded from the Board's evaluation of strategic alternatives and negotiations with third parties because Moab could be asked to partner with a potential acquiror given its equity stake.",
+        "drop_agency": "target",
+        "drop_reason": "other",
+        "event_date": "2013-06-24",
+        "event_subtype": "excluded_by_target",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "On June 24, 2013, the Mac-Gray Board of Directors held a regularly scheduled meeting.",
+          "The Board also discussed, with input from the members of the Transaction Committee, whether it would be appropriate for each of Mr. MacDonald and Mr. Rothenberg to be excluded from the Board's consideration of strategic alternatives in view of the possibility that Mr. MacDonald and/or Moab could be asked to partner with a potential acquiror given their respective equity stakes in Mac-Gray.",
+          "Following this discussion, the Board decided, and Mr. MacDonald and Mr. Rothenberg agreed, that it would be appropriate to exclude Mr. MacDonald and Mr. Rothenberg from the Board's evaluation of strategic alternatives and any negotiations with third parties that might take place."
+        ]
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23906,
+  "prompt_sha256": "f543dd111f2ba80039c420e6a6da67d45cf195eb96108be7cccccf3126d49ae4",
+  "reasoning": "medium",
+  "reasoning_tokens": 2064,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "0e783020c5768c044a886e0c68312d3e78a57555f4637885fb098049de8a7824",
+  "slug": "mac-gray",
+  "stage": "stage1",
+  "status": "completed",
+  "window_id": "w2_rollover",
+  "window_profile": "W2_MULTI_REGION"
+}

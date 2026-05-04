@@ -1,0 +1,165 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_MULTI_QUOTE_P8",
+  "duration_s": 32.4,
+  "input_chars": 3196,
+  "input_path": "inputs/providence-worcester/W2_MULTI_REGION/w2_sale_process_part2.json",
+  "input_text_sha256": "f9b009ff94078ba80a4c1b0d4ab436d7c5291c76c48e71c01a2660c0b7b3491a",
+  "input_tokens": 2400,
+  "job_id": "stage1__providence-worcester__EXPANDED_MULTI_QUOTE_P8__W2_MULTI_REGION__w2_sale_process_part2__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 4,
+      "actor_relation_claims": 3,
+      "bid_claims": 0,
+      "event_claims": 1,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 1,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 2,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 8,
+    "relation_types": {
+      "advises": 2,
+      "voting_support_for": 1
+    },
+    "strict_claim_total": 8,
+    "total_quotes": 8
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 2765,
+  "output_text_sha256": "f247b771ee8ca614d81e9763fd1978d3621ac2f054e3c44de4699629635d4a21",
+  "output_tokens": 1192,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "committee",
+        "actor_label": "the Board",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_sale_process_part2_obl_6",
+        "observability": "named",
+        "quote_texts": [
+          "the Board"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "BMO",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_sale_process_part2_obl_7",
+        "observability": "named",
+        "quote_texts": [
+          "BMO"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Hinckley Allen",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "providence-worcester_w2_sale_process_part2_obl_8",
+        "observability": "named",
+        "quote_texts": [
+          "Hinckley Allen"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Simpson Thacher",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "providence-worcester_w2_sale_process_part2_obl_8",
+        "observability": "named",
+        "quote_texts": [
+          "Simpson Thacher"
+        ]
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_sale_process_part2_obl_7",
+        "effective_date_first": null,
+        "object_label": "the Board",
+        "quote_texts": [
+          "representatives of BMO reviewed BMO\u2019s financial analyses supporting its opinion to the Board"
+        ],
+        "relation_type": "advises",
+        "role_detail": "financial analyses and fairness opinion",
+        "subject_label": "BMO"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "medium",
+        "coverage_obligation_id": "providence-worcester_w2_sale_process_part2_obl_8",
+        "effective_date_first": null,
+        "object_label": "the Company",
+        "quote_texts": [
+          "Hinckley Allen and Simpson Thacher finalized the transaction documents and the Company and G&W executed the merger agreement"
+        ],
+        "relation_type": "advises",
+        "role_detail": "transaction documents",
+        "subject_label": "Hinckley Allen and Simpson Thacher"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_sale_process_part2_obl_10",
+        "effective_date_first": null,
+        "object_label": "G&W",
+        "quote_texts": [
+          "the Company, G&W and the Eder Trusts executed the voting agreement"
+        ],
+        "relation_type": "voting_support_for",
+        "role_detail": "voting agreement",
+        "subject_label": "the Eder Trusts"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "the Company and G&W",
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_sale_process_part2_obl_1",
+        "description": "The Company and G&W executed the merger agreement.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "the Company and G&W executed the merger agreement"
+        ]
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 5866,
+  "prompt_sha256": "ad15bc1af837657a7b06e4b87e1851dbd39521fff46d4c238eb13d561d69e30c",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "0e783020c5768c044a886e0c68312d3e78a57555f4637885fb098049de8a7824",
+  "slug": "providence-worcester",
+  "stage": "stage1",
+  "status": "completed",
+  "window_id": "w2_sale_process_part2",
+  "window_profile": "W2_MULTI_REGION"
+}

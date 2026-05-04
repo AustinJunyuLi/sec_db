@@ -1,0 +1,72 @@
+{
+  "char_end": 182772,
+  "char_start": 171864,
+  "coverage_obligations": [
+    {
+      "expected_claim_type": "actor",
+      "importance": "required",
+      "obligation_id": "zep_w2_financing_obl_1",
+      "obligation_label": "Debt, equity, or financing source"
+    },
+    {
+      "expected_claim_type": "actor_relation",
+      "importance": "required",
+      "obligation_id": "zep_w2_financing_obl_2",
+      "obligation_label": "Financing relation"
+    },
+    {
+      "expected_claim_type": "event",
+      "importance": "important",
+      "obligation_id": "zep_w2_financing_obl_3",
+      "obligation_label": "Financing commitment or no-financing-condition fact"
+    }
+  ],
+  "filing_path": "/Users/austinli/Projects/sec_graph/data/filings/zep/raw.md",
+  "filing_sha256": "db4982e93520d97de3dc3f29d730d59363132e5e86a833391dad93f9130ab342",
+  "obligation_ids": [
+    "zep_w2_financing_obl_1",
+    "zep_w2_financing_obl_2",
+    "zep_w2_financing_obl_3"
+  ],
+  "paragraph_ids": [
+    "zep_w2_financing_calib_para_1",
+    "zep_w2_financing_calib_para_2",
+    "zep_w2_financing_calib_para_3",
+    "zep_w2_financing_calib_para_4",
+    "zep_w2_financing_calib_para_5",
+    "zep_w2_financing_calib_para_6",
+    "zep_w2_financing_calib_para_7",
+    "zep_w2_financing_calib_para_8",
+    "zep_w2_financing_calib_para_9",
+    "zep_w2_financing_calib_para_10",
+    "zep_w2_financing_calib_para_11",
+    "zep_w2_financing_calib_para_12",
+    "zep_w2_financing_calib_para_13",
+    "zep_w2_financing_calib_para_14",
+    "zep_w2_financing_calib_para_15",
+    "zep_w2_financing_calib_para_16",
+    "zep_w2_financing_calib_para_17",
+    "zep_w2_financing_calib_para_18",
+    "zep_w2_financing_calib_para_19",
+    "zep_w2_financing_calib_para_20",
+    "zep_w2_financing_calib_para_21",
+    "zep_w2_financing_calib_para_22",
+    "zep_w2_financing_calib_para_23",
+    "zep_w2_financing_calib_para_24",
+    "zep_w2_financing_calib_para_25",
+    "zep_w2_financing_calib_para_26",
+    "zep_w2_financing_calib_para_27",
+    "zep_w2_financing_calib_para_28",
+    "zep_w2_financing_calib_para_29"
+  ],
+  "region_kind": "financing",
+  "region_signals": [
+    "Financing"
+  ],
+  "slug": "zep",
+  "source_perspective": "target_or_offer_primary",
+  "text": "**COMMAND=STYLE_ADDED,\"margin-left:10.0pt;text-indent:-10.0pt;\" Financing**\n\nParent estimates that the total amount of funds required to complete the merger and related transactions and pay related fees and expenses will be approximately $730 million. Parent expects this amount to be funded through a combination of the following:\n\nThe consummation of the merger is not subject to a financing condition (although the funding of the debt and cash equity financing is subject to the satisfaction of the conditions set forth in the commitment letters under which the financing will be provided).\n\nOn April 7, 2015, New Mountain Partners IV entered into an equity commitment letter (which we refer to as the \"equity commitment letters\" and, together with the debt commitment letter described below, the \"commitment letter\") with Parent pursuant to which New Mountain Partners IV committed to purchase (or cause to be purchased) from Parent equity securities of Parent having an aggregate purchase price in cash of $382.5 million. We refer to the financing described above as the \"equity financing.\" The equity financing is subject to the following conditions:\n\n49\n<!-- PAGE 57 -->\nZEQ.=1,SEQ=56,EFW=\"2224840\",CP=\"ZEP INC.\",DN=\"1\",CHK=69890,FOLIO='49',FILE='DISK116:[15ZBF1.15ZBF74401]CO74401A.;16',USER='CHE105137',CD='19-MAY-2015;15:20'\n\nTable of Contents\n\nNew Mountain Partners IV's obligations to fund the equity commitment will automatically terminate upon the earliest to occur of (subject to specified exceptions and qualifications): (i) the termination of the merger agreement in accordance with its terms; (ii) the consummation of the merger; (iii) the funding of the equity commitment pursuant to the equity commitment letter; (iv) we or any of our affiliates accept payment from New Mountain Partners IV under the terms of the limited guaranty (as defined in \"\u2014 *Financing* \u2014 *Limited Guaranty* \"), or any event occurs which terminates the obligations or liabilities of New Mountain Partners IV under the terms of the limited guaranty; or (v) we or our affiliates (or any person acting on behalf of us or our affiliates) seeks to enforce (or to cause Parent to enforce) the equity commitment letter against any person other than New Mountain Partners IV or for any amount in excess of $382.5 million.\n\nWe are an express third-party beneficiary of the equity commitment letter and have the right to specific performance to enforce New Mountain Partners IV's obligations under the equity commitment letter solely to the extent we have the right to seek specific performance under the merger agreement to require Parent to cause the equity commitment under the equity commitment letter to be funded. See \" *The Merger Agreement\u2014Specific Performance* .\"\n\nIn connection with the entry into the merger agreement, Parent has obtained a commitment letter (as amended from time to time in accordance with the merger agreement, the \"debt commitment letter\") from Jefferies Finance LLC, KeyBank National Association and KeyBanc Capital Markets Inc. (Jefferies Finance LLC and KeyBank National Association being collectively referred to as the \"Lenders\") pursuant to which the Lenders commit to provide, severally but not jointly, upon the terms and subject to the conditions set forth in the debt commitment letter, in the aggregate up to $402.5 million in debt financing (not all of which is expected to be drawn at the closing of the merger), consisting of a $360.0 million first lien senior secured term loan facility (which we refer to as the \"term loan facility\") and a $42.5 million first lien senior secured cash flow revolving credit facility (which we refer to as the \"revolving facility\"). We refer to the financing described above collectively as the \"debt financing.\"\n\nThe aggregate principal amount of the term loan facility may be increased to fund certain original issue discount or upfront fees in connection with the debt financing. The proceeds of the debt financing will be used (i) to finance, in part, the payment of the amounts payable under the merger agreement, to repay our indebtedness outstanding as of the closing of the merger and the payment of related fees and expenses, (ii) to provide ongoing working capital and (iii) for capital expenditures and other general corporate purposes.\n\nThe debt financing contemplated by the debt commitment letter is conditioned on the consummation of the merger in accordance with the merger agreement, as well as other customary conditions, including, but not limited to:\n\n50\n<!-- PAGE 58 -->\nZEQ.=2,SEQ=57,EFW=\"2224840\",CP=\"ZEP INC.\",DN=\"1\",CHK=681795,FOLIO='50',FILE='DISK116:[15ZBF1.15ZBF74401]CO74401A.;16',USER='CHE105137',CD='19-MAY-2015;15:20'\n\nTable of Contents\n\nIf any portion of the debt financing becomes unavailable on the terms and conditions contemplated by the debt commitment letter, Parent is required to promptly notify us in writing and use its reasonable best efforts to obtain substitute financing on terms and conditions not materially less favorable to Parent and Merger Sub, taken as a whole, than the terms and conditions of the debt commitment letter (including the \"flex\" provisions contained in the fee letter referenced in the debt commitment letter) in an amount sufficient to enable Parent to consummate the merger and the other transactions contemplated by the merger agreement. As of the last practicable date before the printing of this proxy statement, the debt commitment letter remains in effect, and Parent has not notified us any plans to utilize substitute financing. Except as described in this proxy statement, there is no plan or arrangement regarding the refinancing or repayment of the debt financing. The documentation governing debt financing contemplated by the debt commitment letter has not been finalized and, accordingly, the actual terms of the debt financing may differ from those described in this proxy statement.\n\nThe Lenders may invite other banks, financial institutions and institutional lenders to participate in the debt financing contemplated by the debt commitment letter and to undertake a portion of the commitments to provide such debt financing.\n\n*Term Loan Facility.* Interest under the term loan facility will be payable, at the option of Parent, either at (i) a LIBOR-based rate (subject to a floor of 1.0% per annum) plus 5.25% or (ii) a base rate (subject to a floor of 2.0% per annum and based on the highest of the prime rate published by the Wall Street Journal, the overnight federal funds rate plus 1 / 2 of 1.0%, and the one-month LIBOR rate plus 1.0%) plus 4.25%, in each cash subject to a 25 basis point reduction based on maintenance of specified total net first lien leverage ratios. Interest will be payable at the end of each interest period set forth in the credit agreement (but at least every three months) and on the maturity date. The term\n\n51\n<!-- PAGE 59 -->\nZEQ.=3,SEQ=58,EFW=\"2224840\",CP=\"ZEP INC.\",DN=\"1\",CHK=982247,FOLIO='51',FILE='DISK116:[15ZBF1.15ZBF74401]CO74401A.;16',USER='CHE105137',CD='19-MAY-2015;15:20'\n\nTable of Contents\n\nloan facility will mature seven years from the date of closing of the merger and will amortize in equal, quarterly installments in aggregate annual amounts equal to 1.00% of the original principal amount, with the balance payable on maturity.\n\nThe borrower under the term loan facility will initially be Merger Sub and, upon consummation of the merger, we together with our subsidiaries Acuity Specialty Products, Inc., Zep Vehicle Care Inc. and Amrep, Inc. (collectively, the \"Borrowers\") will assume the rights and obligations under the term loan facility. The term loan facility will be guaranteed, subject to certain agreed upon exceptions, on a joint and several basis by Parent and, subject to certain exceptions, each direct and indirect wholly-owned material U.S. restricted subsidiary of Parent. The term loan facility will be secured, subject to certain exceptions, by (i) a first priority security interest in substantially all the assets of Merger Sub (and, after the merger, the Borrowers) and each guarantor and (ii) a perfected pledge of all capital stock of Merger Sub (and, after the merger, each Borrower) and of each guarantor.\n\n*Revolving Facility.* Interest under the revolving facility will be payable, at the option of Parent, either at (i) a LIBOR-based rate plus 5.25% or (ii) a base rate (based on the highest of the prime rate published by the Wall Street Journal, the overnight federal funds rate plus 1 / 2 of 1.0%, and the one-month LIBOR rate plus 1.0%) plus 4.25%, which in the case of clause (i) is subject to two 25 basis point reductions based on maintenance of specified total net first lien leverage ratios. Interest will be payable at the end of each interest period set forth in the credit agreement (but at least every three months) and on the maturity date. The revolving facility is also subject to a fee of 0.5% per annum on the undrawn portion of the revolving facility, payable quarterly in arrears and subject to a 37.5 basis point reduction based on maintenance of specified total net first lien leverage ratios. The revolving facility will mature five years from the date of closing of the merger, which may be extended upon Parent's request on terms to be agreed upon between Parent and the Lenders.\n\nThe borrowers and guarantors under the revolving facility will be the same as the borrowers and guarantors, respectively, under the term loan facility. Amounts borrowed under the revolving facility will be secured by the same assets and to the same extent as amounts borrowed under the term loan facility. The revolving facility will contain customary affirmative and negative covenants similar to those contained in term loan facility.\n\n**COMMAND=STYLE_ADDED,\"margin-left:10.0pt;text-indent:-10.0pt;\" Limited Guaranty**\n\nConcurrently with the execution of the merger agreement, New Mountain Partners IV also executed and delivered a limited guaranty in our favor, pursuant to which New Mountain Partners IV agreed, subject to the terms and conditions of the limited guaranty, to guarantee the due and punctual observance, performance, discharge and payment when due of:\n\nNew Mountain Partners IV's obligations under the limited guaranty are subject to an aggregate cap equal to the amount of (i) the reverse termination fee, plus (ii) certain expense reimbursement and indemnification obligations specified in the merger agreement.\n\nThe limited guaranty will terminate upon the earliest to occur of:\n\n52\n<!-- PAGE 60 -->\nZEQ.=4,SEQ=59,EFW=\"2224840\",CP=\"ZEP INC.\",DN=\"1\",CHK=622813,FOLIO='52',FILE='DISK116:[15ZBF1.15ZBF74401]CO74401A.;16',USER='CHE105137',CD='19-MAY-2015;15:20'\n\nTable of Contents\n\nThe limited guaranty also restricts our and our affiliates' ability to assert specified claims against New Mountain Partners IV and its affiliates and related persons.",
+  "text_sha256": "d8fc6c4604189715ea84e1261f442a9167dfef476bcbcf2b80849a59a6d3896c",
+  "window_id": "w2_financing",
+  "window_profile": "W2_MULTI_REGION"
+}

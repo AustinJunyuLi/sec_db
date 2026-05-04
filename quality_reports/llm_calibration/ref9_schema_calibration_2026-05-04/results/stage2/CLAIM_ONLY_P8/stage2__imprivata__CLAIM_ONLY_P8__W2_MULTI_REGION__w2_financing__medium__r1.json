@@ -1,0 +1,116 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 35.04,
+  "input_chars": 25000,
+  "input_path": "inputs/imprivata/W2_MULTI_REGION/w2_financing.json",
+  "input_text_sha256": "a2c358e56186ea42843a53df3e959944bfeb6c61cf6390d3153855bb9b0063a5",
+  "input_tokens": 6145,
+  "job_id": "stage2__imprivata__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_financing__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 1,
+      "actor_relation_claims": 2,
+      "bid_claims": 0,
+      "event_claims": 2,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 2,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 5,
+    "relation_types": {
+      "finances": 1,
+      "supports": 1
+    },
+    "strict_claim_total": 5,
+    "total_quotes": 5
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 3550,
+  "output_text_sha256": "6e28520703dddf5167a2493bbbe3c3b52f91cd68a4b192ea63c93722d314d97b",
+  "output_tokens": 1321,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "organization",
+        "actor_label": "Thoma Bravo Fund",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_financing_obl_1",
+        "observability": "named",
+        "quote_text": "the Thoma Bravo Fund has committed to purchase"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_financing_obl_2",
+        "effective_date_first": "2016-07-13",
+        "object_label": "Parent",
+        "quote_text": "On July 13, 2016, Parent entered into an equity commitment letter, which we refer to as the \u201c equity commitment letter \u201d with the Thoma Bravo Fund, pursuant to which the Thoma Bravo Fund has committed to purchase, or cause the purchase of, $548,148,554 plus, solely and to the extent necessary in order to pay any additional fees and expenses required by the merger agreement to be paid by Parent after taking into account the amount of available cash of Imprivata at the closing, up to an additional $20,000,000 of equity securities of Parent in the aggregate solely for the purpose of allowing Parent and/or Merger Sub to fund the aggregate merger.",
+        "relation_type": "finances",
+        "role_detail": "equity commitment",
+        "subject_label": "Thoma Bravo Fund"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_financing_obl_2",
+        "effective_date_first": null,
+        "object_label": "Parent and/or Merger Sub",
+        "quote_text": "Under the equity commitment letter, the Thoma Bravo Fund has also agreed to pay, or cause an assignee to pay, an aggregate amount not to exceed $40,777,500 solely to satisfy the obligations of Parent and/or Merger Sub to pay monetary damages to Imprivata",
+        "relation_type": "supports",
+        "role_detail": "monetary damages support under equity commitment letter",
+        "subject_label": "Thoma Bravo Fund"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "Thoma Bravo Fund",
+        "actor_role": "equity_financing_source",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_financing_obl_3",
+        "description": "Thoma Bravo Fund committed to purchase or cause the purchase of Parent equity securities to fund the merger.",
+        "event_date": "2016-07-13",
+        "event_subtype": "financing_committed",
+        "event_type": "transaction",
+        "quote_text": "On July 13, 2016, Parent entered into an equity commitment letter, which we refer to as the \u201c equity commitment letter \u201d with the Thoma Bravo Fund, pursuant to which the Thoma Bravo Fund has committed to purchase, or cause the purchase of, $548,148,554 plus, solely and to the extent necessary in order to pay any additional fees and expenses required by the merger agreement to be paid by Parent after taking into account the amount of available cash of Imprivata at the closing, up to an additional $20,000,000 of equity securities of Parent in the aggregate solely for the purpose of allowing Parent and/or Merger Sub to fund the aggregate merger."
+      },
+      {
+        "actor_label": "Parent and/or Merger Sub",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_financing_obl_3",
+        "description": "The merger is not conditioned on Parent's ability to obtain debt financing.",
+        "event_date": null,
+        "event_subtype": "financing_committed",
+        "event_type": "transaction",
+        "quote_text": "The merger agreement provides that Parent and/or Merger Sub may obtain debt financing to offset a portion of the funds required to consummate the transactions contemplated by the merger agreement, but the merger is not conditioned on Parent\u2019s ability to obtain debt financing."
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 26691,
+  "prompt_sha256": "7ef9944939708bfa318d5fd231b5a059b9ebc83118d36bb8b4e83684f7517e14",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "imprivata",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_financing",
+  "window_profile": "W2_MULTI_REGION"
+}

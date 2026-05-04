@@ -1,0 +1,213 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_CLAIM_ONLY_P8",
+  "duration_s": 40.28,
+  "input_chars": 17924,
+  "input_path": "inputs/zep/W2_MULTI_REGION/w2_buyer_group_or_transaction_structure.json",
+  "input_text_sha256": "c1b7afe9a2e47f1c7a77738a66ab9dc0af81624161f825c05a70898cc337bb5c",
+  "input_tokens": 5890,
+  "job_id": "stage2__zep__EXPANDED_CLAIM_ONLY_P8__W2_MULTI_REGION__w2_buyer_group_or_transaction_structure__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 5,
+      "actor_relation_claims": 5,
+      "bid_claims": 0,
+      "event_claims": 3,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 3,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 2,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 2,
+    "not_unique_in_source_window": 1,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 13,
+    "relation_types": {
+      "acquisition_vehicle_of": 1,
+      "advises": 1,
+      "affiliate_of": 1,
+      "controls": 2
+    },
+    "strict_claim_total": 13,
+    "total_quotes": 13
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 5449,
+  "output_text_sha256": "4f51394364e11c9e23f210cf13d6a8114ba919f9e9acc0d98412c055670a376d",
+  "output_tokens": 1889,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Zep Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_text": "Zep Inc."
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "NM Z Parent Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_text": "NM Z Parent Inc. (\"Parent\")"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "NM Z Merger Sub Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_text": "NM Z Merger Sub Inc. (\"Merger Sub\")"
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "group",
+        "actor_label": "funds advised by New Mountain Capital, L.L.C.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_text": "funds advised by New Mountain Capital, L.L.C."
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "New Mountain Capital, L.L.C.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_text": "New Mountain Capital, L.L.C."
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "NM Z Parent Inc.",
+        "quote_text": "NM Z Parent Inc. (\"Parent\") and NM Z Merger Sub Inc. (\"Merger Sub\")",
+        "relation_type": "affiliate_of",
+        "role_detail": null,
+        "subject_label": "NM Z Merger Sub Inc."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Zep Inc.",
+        "quote_text": "pursuant to which Merger Sub will merge with and into Zep Inc. (the \"merger\")",
+        "relation_type": "acquisition_vehicle_of",
+        "role_detail": "Merger Sub will merge with and into Zep Inc.",
+        "subject_label": "NM Z Merger Sub Inc."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "NM Z Parent Inc.",
+        "quote_text": "If the merger is completed, we will become a wholly owned subsidiary of Parent",
+        "relation_type": "controls",
+        "role_detail": "Zep Inc. will become a wholly owned subsidiary of Parent if the merger is completed",
+        "subject_label": "NM Z Parent Inc."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "funds advised by New Mountain Capital, L.L.C.",
+        "quote_text": "Parent, an entity which will be indirectly owned by funds advised by New Mountain Capital, L.L.C.",
+        "relation_type": "controls",
+        "role_detail": "Parent will be indirectly owned by the funds",
+        "subject_label": "funds advised by New Mountain Capital, L.L.C."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "New Mountain Capital, L.L.C.",
+        "quote_text": "funds advised by New Mountain Capital, L.L.C.",
+        "relation_type": "advises",
+        "role_detail": null,
+        "subject_label": "New Mountain Capital, L.L.C."
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "Zep Inc.",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_buyer_group_or_transaction_structure_obl_3",
+        "description": "Zep Inc., NM Z Parent Inc. and NM Z Merger Sub Inc. entered into the Agreement and Plan of Merger dated April 7, 2015.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2015-04-07",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_text": "Agreement and Plan of Merger, dated as of April 7, 2015 (as it may be amended from time to time, the \"merger agreement\"), by and among Zep Inc., NM Z Parent Inc. (\"Parent\") and NM Z Merger Sub Inc. (\"Merger Sub\")"
+      },
+      {
+        "actor_label": "NM Z Parent Inc.",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_buyer_group_or_transaction_structure_obl_3",
+        "description": "Zep Inc., NM Z Parent Inc. and NM Z Merger Sub Inc. entered into the Agreement and Plan of Merger dated April 7, 2015.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2015-04-07",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_text": "Agreement and Plan of Merger, dated as of April 7, 2015 (as it may be amended from time to time, the \"merger agreement\"), by and among Zep Inc., NM Z Parent Inc. (\"Parent\") and NM Z Merger Sub Inc. (\"Merger Sub\")"
+      },
+      {
+        "actor_label": "NM Z Merger Sub Inc.",
+        "actor_role": "acquisition_sub",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_buyer_group_or_transaction_structure_obl_3",
+        "description": "Merger Sub will merge with and into Zep Inc.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_text": "pursuant to which Merger Sub will merge with and into Zep Inc. (the \"merger\")"
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 20012,
+  "prompt_sha256": "c5f40dfcb3dcacc8043079a0bee33378686f4637fb828a3ea9d8340f5706fdb9",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "80c516a8b3401128674672619998677e77e1705c31b2f7b7ea8a4f8856bd14eb",
+  "slug": "zep",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_buyer_group_or_transaction_structure",
+  "window_profile": "W2_MULTI_REGION"
+}

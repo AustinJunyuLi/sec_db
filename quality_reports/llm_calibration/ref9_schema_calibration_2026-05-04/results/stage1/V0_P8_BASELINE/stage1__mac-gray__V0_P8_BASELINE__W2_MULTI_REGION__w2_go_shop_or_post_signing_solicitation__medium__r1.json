@@ -1,0 +1,113 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "V0_P8_BASELINE",
+  "duration_s": 30.24,
+  "input_chars": 22000,
+  "input_path": "inputs/mac-gray/W2_MULTI_REGION/w2_go_shop_or_post_signing_solicitation.json",
+  "input_text_sha256": "2522ed8a1d47baa29a87b2662fa4811d810297126719db930aab750370e9f6e3",
+  "input_tokens": 6225,
+  "job_id": "stage1__mac-gray__V0_P8_BASELINE__W2_MULTI_REGION__w2_go_shop_or_post_signing_solicitation__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 2,
+      "actor_relation_claims": 0,
+      "bid_claims": 0,
+      "coverage_results": 0,
+      "event_claims": 3,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 5,
+    "relation_types": {},
+    "strict_claim_total": 5,
+    "total_quotes": 5
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 3597,
+  "output_text_sha256": "be17053ea96e34dc302d3e82082203a6af03dbcdbe678dc2a13d990552864bce",
+  "output_tokens": 1246,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "organization",
+        "actor_label": "third party",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "mac-gray_w2_go_shop_or_post_signing_solicitation_obl_2",
+        "observability": "anonymous_handle",
+        "quote_text": "any existing solicitation, encouragement, discussion or negotiation with any third party with respect to an acquisition proposal"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "third party",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "mac-gray_w2_go_shop_or_post_signing_solicitation_obl_2",
+        "observability": "anonymous_handle",
+        "quote_text": "if Mac-Gray receives an unsolicited bona fide acquisition proposal in writing from a third party after the date of the merger agreement"
+      }
+    ],
+    "actor_relation_claims": [],
+    "bid_claims": [],
+    "coverage_results": [],
+    "event_claims": [
+      {
+        "actor_label": "Mac-Gray",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Mac-Gray, its subsidiaries and representatives are not permitted, except under limited circumstances, to take actions related to competing acquisition proposals.",
+        "event_date": null,
+        "event_subtype": "excluded_by_target",
+        "event_type": "process",
+        "quote_text": "Under the merger agreement, Mac-Gray, its subsidiaries and their respective representatives are not permitted to (except under limited circumstances described below), among other things:"
+      },
+      {
+        "actor_label": "Mac-Gray",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Mac-Gray will cause existing solicitation, encouragement, discussion or negotiation with third parties regarding an acquisition proposal to cease and terminate.",
+        "event_date": null,
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "quote_text": "Under the merger agreement, Mac-Gray will, and will cause its subsidiaries and representatives to, immediately cease and terminate any existing solicitation, encouragement, discussion or negotiation with any third party with respect to an acquisition proposal and request that all non-public information previously provided by or on behalf of Mac-Gray to any such third party be returned or destroyed."
+      },
+      {
+        "actor_label": "third party",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Before stockholder adoption, Mac-Gray may provide non-public information and participate in discussions or negotiations with a third party that submits an unsolicited bona fide written acquisition proposal that qualifies or is reasonably likely to lead to a superior proposal under the stated conditions.",
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "Notwithstanding the restrictions described above, prior to the adoption of the merger agreement by Mac-Gray stockholders, if Mac-Gray receives an unsolicited bona fide acquisition proposal in writing from a third party after the date of the merger agreement that did not, directly or indirectly, result from or arise out of a breach of the non-solicitation provisions of the merger agreement, and that the Mac-Gray Board of Directors (acting upon the recommendation of the Special Committee) determines in good faith, after consultation with its outside legal counsel and financial advisor, constitutes or would be reasonably likely to lead to a superior proposal"
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23746,
+  "prompt_sha256": "51eac15c0fdd4f904f7a93ce6b53deed523971a1cdace0aeadb4551abde73cc3",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "891e4a5674ba114d92ee1d400df86fba7a95780231cc29bd539799ee3cd2af97",
+  "slug": "mac-gray",
+  "stage": "stage1",
+  "status": "completed",
+  "window_id": "w2_go_shop_or_post_signing_solicitation",
+  "window_profile": "W2_MULTI_REGION"
+}

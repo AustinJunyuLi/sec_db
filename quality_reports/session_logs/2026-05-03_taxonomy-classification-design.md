@@ -1,8 +1,9 @@
 # Session Log — Taxonomy Classification Design
 
 **Date:** 2026-05-03
-**Status:** Standalone spec retracted; supplementary material to GPT's
-handoff produced instead
+**Status:** Historical design log. The split handoff/supplement pair was later
+merged and corrected in
+`quality_reports/plans/2026-05-03_taxonomy-refactor-plan.md`.
 
 ## Goal
 
@@ -22,9 +23,8 @@ schema additions to close gaps that matter analytically.
 ## Approach
 
 1. Dispatched two parallel Explore agents:
-   - Agent A enumerated every column / enum value in Alex's reference workbook
-     (`/Users/austinli/bids_try/reference/deal_details_Alex_2026.xlsx`) plus
-     codebook (`CollectionInstructions_Alex_2026.pdf`).
+   - Agent A enumerated the external hand-coded reference taxonomy and codebook
+     used for research comparison.
    - Agent B enumerated every Literal / closed enum across our schema models
      (`src/sec_graph/schema/models/`, `docs/spec.md`).
 
@@ -50,8 +50,8 @@ schema additions to close gaps that matter analytically.
    `quality_reports/specs/2026-05-03_classification-taxonomy-spec.md` (later
    retracted — see step 8).
 
-8. User pointed at GPT's prior handoff at
-   `quality_reports/plans/2026-05-03_taxonomy-refactor-handoff.md` and
+8. User pointed at GPT's prior handoff, since superseded by
+   `quality_reports/plans/2026-05-03_taxonomy-refactor-plan.md`, and
    asked for a comparison. GPT's handoff is more research-complete on
    taxonomy: covers 10 axes (vs my 4), models initiation per-event, treats
    auction as DETERMINISTIC (Python-derived from NDA count, not
@@ -63,42 +63,37 @@ schema additions to close gaps that matter analytically.
    structural mistakes: auction should be derived not extracted, and null
    should be permitted for source gaps.
 
-9. User directed deletion of the standalone spec. Replaced with a
-   supplement document at
-   `quality_reports/plans/2026-05-03_taxonomy-refactor-supplement.md`
-   that adds the implementation-side material GPT's handoff did not
-   specify: validator architecture, named-entity registry, cohort
-   inheritance contract, Pydantic model location map, file-level migration
-   sequence, operational cost envelope, and a closed-enum/components
-   tradeoff for `consideration_type`. The supplement explicitly defers to
-   the handoff on all taxonomy decisions.
+9. User directed deletion of the standalone spec. A temporary supplement was
+   produced, then later merged with the handoff and corrected in
+   `quality_reports/plans/2026-05-03_taxonomy-refactor-plan.md`.
 
-## Authority Chain (Final)
+## Authority Chain Correction
 
-- `quality_reports/plans/2026-05-03_taxonomy-refactor-handoff.md` —
-  binding taxonomy authority (GPT's spec). Defines all axes, value sets,
-  and architectural rules (auction-as-derived, NDA types, drop matrix,
-  silent fate, per-event initiation).
-- `quality_reports/plans/2026-05-03_taxonomy-refactor-supplement.md` —
-  supplement, layered on top. Adds validator architecture, named-entity
-  registry, cohort inheritance, Pydantic model map, file-level migration
-  sequence, cost envelope.
-- The supplement defers to the handoff on every taxonomy decision; it
-  changes none of them.
+This log originally overstated the authority of the handoff/supplement pair.
+That was wrong. The active repository authority remains:
 
-## Decisions Encoded in Supplement
+- `docs/superpowers/specs/2026-05-03-pipeline-hard-reset-design.md`
+- `docs/spec.md`
+- `docs/llm-interface.md`
+
+The merged taxonomy plan is an implementation plan. It is not binding schema
+authority until the accepted taxonomy is copied into `docs/spec.md`, and it is
+not binding provider-interface authority until validator/multi-pass behavior is
+copied into `docs/llm-interface.md`.
+
+## Decisions Preserved In The Merged Plan
 
 | Topic | Decision |
 |---|---|
-| Confidence emission | Closed 3-value {high, medium, low} paired with every non-null classification |
+| Actor class | Closed values `s`, `f`, `mixed`, and null; do not preserve `financial`/`strategic` aliases |
+| Null policy | Use null for unsupported classifications; do not add `unknown` enum values |
 | Multi-pass N | 3 |
 | Multi-pass routing | Applied to bid_formality, initiation_side, drop_reason, agreement_kind, final-round advancement |
-| Validator pass | Blocking before reconcile; queues judgment on disagreement |
-| Registry format | YAML, single file at `data/registry/known_actors.yaml` |
-| Registry bootstrap | Corpus-driven seed from proof corpus extraction (Option B) |
+| Validator pass | Provider code lives under `src/sec_graph/extract/llm/`; validator output is stored locally, not inside primary provider claim payloads |
+| Registry | Curation aid only; registry hit cannot silently override filing-backed evidence |
 | Cohort inheritance | LLM emits both individual and cohort actor_class; Python validates consistency, does not auto-derive |
-| consideration_type encoding | Two options offered (composable booleans vs closed enum + complex_other escape); decision deferred |
-| Migration | 15-step ordered sequence; spec.md → models → DDL → schema fn → prompt → registry → multi-pass/validator → projections → version bumps → re-extract → tests |
+| consideration_type encoding | Closed enum plus optional detail; `complex_other` requires evidence |
+| Migration | spec.md → llm-interface.md → models/DDL → evidence map/schema/prompt/convert → validator/registry → reconcile/validate/project → versions → tests → live proof |
 
 ## Deferred / Dropped
 
@@ -121,13 +116,16 @@ schema additions to close gaps that matter analytically.
 
 ## Blockers
 
-None — spec is complete and self-consistent. Next action is user review and
-approval, then implementation per §15 migration sequence.
+- The merged plan must be reviewed and accepted.
+- The accepted taxonomy must be copied into `docs/spec.md`.
+- The validator/multi-pass provider contract must be copied into
+  `docs/llm-interface.md`.
+- Implementation must not start from the retired split handoff/supplement pair.
 
 ## Artifacts Produced
 
-- `quality_reports/plans/2026-05-03_taxonomy-refactor-supplement.md`
-  (supplement to GPT's handoff, 10 sections, ~3K words)
+- `quality_reports/plans/2026-05-03_taxonomy-refactor-plan.md`
+  (merged and corrected taxonomy refactor plan)
 - This session log
 - (Retracted: standalone spec at `quality_reports/specs/...` — deleted
   per user request after the handoff comparison)
@@ -137,7 +135,5 @@ approval, then implementation per §15 migration sequence.
 - Round 7 comparison appears in
   `quality_reports/llm_calibration/2026-05-03_linkflow-probe-log.md`
   (empirical basis for validator architecture).
-- The active hard-cleanse repair plan
-  (`quality_reports/plans/2026-05-02_stale-scaffold-hard-cleanse-repair-plan.md`)
-  must not conflict with the migration sequence in §15. Confirmed compatible:
-  the cleanse phases and this spec's migration are sequential, not overlapping.
+- The hard-reset execution authority is
+  `docs/superpowers/specs/2026-05-03-pipeline-hard-reset-design.md`.

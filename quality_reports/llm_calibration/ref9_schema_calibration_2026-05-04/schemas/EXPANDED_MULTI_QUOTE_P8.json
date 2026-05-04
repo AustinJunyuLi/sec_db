@@ -1,0 +1,517 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "actor_claims": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "actor_class": {
+            "enum": [
+              "s",
+              "f",
+              "mixed",
+              null
+            ],
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "actor_kind": {
+            "enum": [
+              "organization",
+              "person",
+              "group",
+              "vehicle",
+              "cohort",
+              "committee"
+            ],
+            "type": "string"
+          },
+          "actor_label": {
+            "type": "string"
+          },
+          "claim_type": {
+            "const": "actor",
+            "type": "string"
+          },
+          "confidence": {
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "type": "string"
+          },
+          "coverage_obligation_id": {
+            "description": "Exact coverage obligation id this claim supports.",
+            "type": "string"
+          },
+          "observability": {
+            "enum": [
+              "named",
+              "anonymous_handle",
+              "count_only"
+            ],
+            "type": "string"
+          },
+          "quote_texts": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "coverage_obligation_id",
+          "claim_type",
+          "actor_label",
+          "actor_kind",
+          "observability",
+          "confidence",
+          "quote_texts",
+          "actor_class"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "actor_relation_claims": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "claim_type": {
+            "const": "actor_relation",
+            "type": "string"
+          },
+          "confidence": {
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "type": "string"
+          },
+          "coverage_obligation_id": {
+            "description": "Exact coverage obligation id this claim supports.",
+            "type": "string"
+          },
+          "effective_date_first": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "object_label": {
+            "type": "string"
+          },
+          "quote_texts": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "relation_type": {
+            "enum": [
+              "member_of",
+              "affiliate_of",
+              "controls",
+              "acquisition_vehicle_of",
+              "advises",
+              "finances",
+              "voting_support_for",
+              "rollover_holder_for",
+              "committee_member_of",
+              "recused_from",
+              "supports"
+            ],
+            "type": "string"
+          },
+          "role_detail": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "subject_label": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "coverage_obligation_id",
+          "claim_type",
+          "subject_label",
+          "object_label",
+          "relation_type",
+          "role_detail",
+          "effective_date_first",
+          "confidence",
+          "quote_texts"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "bid_claims": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "bid_date": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "bid_formality": {
+            "enum": [
+              "formal",
+              "informal",
+              null
+            ],
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "bid_stage": {
+            "enum": [
+              "initial",
+              "revised",
+              "final",
+              "unspecified"
+            ],
+            "type": "string"
+          },
+          "bid_value": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "bid_value_lower": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "bid_value_unit": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "bid_value_upper": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "bidder_label": {
+            "type": "string"
+          },
+          "claim_type": {
+            "const": "bid",
+            "type": "string"
+          },
+          "confidence": {
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "type": "string"
+          },
+          "consideration_type": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "coverage_obligation_id": {
+            "description": "Exact coverage obligation id this claim supports.",
+            "type": "string"
+          },
+          "proposal_scope": {
+            "enum": [
+              "whole_company",
+              "asset_or_business_line",
+              "minority_or_investment",
+              "other",
+              null
+            ],
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "quote_texts": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "coverage_obligation_id",
+          "claim_type",
+          "bidder_label",
+          "bid_date",
+          "bid_value",
+          "bid_value_lower",
+          "bid_value_upper",
+          "bid_value_unit",
+          "consideration_type",
+          "bid_stage",
+          "confidence",
+          "quote_texts",
+          "bid_formality",
+          "proposal_scope"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "event_claims": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "actor_label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "actor_role": {
+            "enum": [
+              "target",
+              "bid_submitter",
+              "potential_buyer",
+              "group_vehicle",
+              "group_member",
+              "advisor_for_target",
+              "advisor_for_bidder",
+              "equity_financing_source",
+              "debt_financing_source",
+              "support_shareholder",
+              "rollover_holder",
+              "offeror",
+              "acquisition_sub",
+              "sender",
+              "recipient",
+              null
+            ],
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "claim_type": {
+            "const": "event",
+            "type": "string"
+          },
+          "confidence": {
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "type": "string"
+          },
+          "coverage_obligation_id": {
+            "description": "Exact coverage obligation id this claim supports.",
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "drop_agency": {
+            "enum": [
+              "bidder",
+              "target",
+              "mutual_or_process",
+              null
+            ],
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "drop_reason": {
+            "enum": [
+              "below_market",
+              "below_minimum",
+              "never_advanced",
+              "no_response",
+              "withdrew",
+              "terminated_process",
+              "other",
+              null
+            ],
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "event_date": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "event_subtype": {
+            "enum": [
+              "contact_initial",
+              "nda_signed",
+              "ioi_submitted",
+              "first_round_bid",
+              "final_round_bid",
+              "exclusivity_grant",
+              "merger_agreement_executed",
+              "withdrawn_by_bidder",
+              "excluded_by_target",
+              "non_responsive",
+              "cohort_closure",
+              "advancement_admitted",
+              "advancement_declined",
+              "rollover_executed",
+              "financing_committed"
+            ],
+            "type": "string"
+          },
+          "event_type": {
+            "enum": [
+              "process",
+              "bid",
+              "transaction"
+            ],
+            "type": "string"
+          },
+          "initiation_side": {
+            "enum": [
+              "target",
+              "bidder",
+              "activist",
+              "mutual_or_process",
+              null
+            ],
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "quote_texts": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "coverage_obligation_id",
+          "claim_type",
+          "event_type",
+          "event_subtype",
+          "event_date",
+          "description",
+          "actor_label",
+          "actor_role",
+          "confidence",
+          "quote_texts",
+          "initiation_side",
+          "drop_agency",
+          "drop_reason"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "participation_count_claims": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "actor_class": {
+            "enum": [
+              "financial",
+              "strategic",
+              "mixed"
+            ],
+            "type": "string"
+          },
+          "claim_type": {
+            "const": "participation_count",
+            "type": "string"
+          },
+          "confidence": {
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "type": "string"
+          },
+          "count_max": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "count_min": {
+            "type": "integer"
+          },
+          "count_qualifier": {
+            "enum": [
+              "exact",
+              "approximate",
+              "lower_bound",
+              "upper_bound",
+              "range"
+            ],
+            "type": "string"
+          },
+          "coverage_obligation_id": {
+            "description": "Exact coverage obligation id this claim supports.",
+            "type": "string"
+          },
+          "process_stage": {
+            "enum": [
+              "contacted",
+              "nda_signed",
+              "ioi_submitted",
+              "first_round",
+              "final_round",
+              "exclusivity"
+            ],
+            "type": "string"
+          },
+          "quote_texts": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "coverage_obligation_id",
+          "claim_type",
+          "process_stage",
+          "actor_class",
+          "count_min",
+          "count_max",
+          "count_qualifier",
+          "confidence",
+          "quote_texts"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "actor_claims",
+    "event_claims",
+    "bid_claims",
+    "participation_count_claims",
+    "actor_relation_claims"
+  ],
+  "type": "object"
+}

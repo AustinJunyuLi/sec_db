@@ -1,0 +1,123 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 24.43,
+  "input_chars": 22000,
+  "input_path": "inputs/zep/W2_MULTI_REGION/w2_go_shop_or_post_signing_solicitation.json",
+  "input_text_sha256": "2967b4c8f59603f0734041e7be58f4017b686f98d2781c7bd6a5795babee903c",
+  "input_tokens": 6359,
+  "job_id": "stage2__zep__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_go_shop_or_post_signing_solicitation__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 2,
+      "actor_relation_claims": 0,
+      "bid_claims": 0,
+      "event_claims": 4,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 2,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 6,
+    "relation_types": {},
+    "strict_claim_total": 6,
+    "total_quotes": 6
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 3725,
+  "output_text_sha256": "ae714e25cc639a2abd6ac0eb003ad4077d990647f847bd122179bb3b3fcb33a2",
+  "output_tokens": 1351,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "group",
+        "actor_label": "excluded party",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_go_shop_or_post_signing_solicitation_obl_2",
+        "observability": "anonymous_handle",
+        "quote_text": "excluded party (for so long as such person remains an excluded party)"
+      },
+      {
+        "actor_kind": "group",
+        "actor_label": "third party",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_go_shop_or_post_signing_solicitation_obl_2",
+        "observability": "anonymous_handle",
+        "quote_text": "we receive an unsolicited acquisition proposal from a third party"
+      }
+    ],
+    "actor_relation_claims": [],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": null,
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "The merger agreement included a go-shop period ending at 11:59 p.m. New York City time on May 7, 2015 during which the company, its subsidiaries and representatives were permitted to solicit other offers directly or indirectly.",
+        "event_date": "2015-05-07",
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "quote_text": "From the date of the merger agreement until 11:59 p.m. New York City time on May 7, 2015, which period we refer to as the \"go-shop period,\" we and our subsidiaries and our respective representatives were permitted to, directly or indirectly:"
+      },
+      {
+        "actor_label": null,
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "After the go-shop period, beginning at 12:00 a.m. New York City time on May 8, 2015, the company, its affiliates and representatives were restricted from solicitation activities until the effective time or earlier termination.",
+        "event_date": "2015-05-08",
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "quote_text": "Except as otherwise provided in the merger agreement, from and after 12:00 a.m. New York City time on May 8, 2015 until the effective time of the merger, or if earlier, the termination of the merger agreement in accordance with its terms, we and our affiliates and our respective representatives may not:"
+      },
+      {
+        "actor_label": "third party",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Before stockholder approval, if the company received an unsolicited acquisition proposal from a third party that the board judged constituted or would reasonably be expected to lead to a superior proposal, the company could take permitted actions under the merger agreement.",
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "if, prior to obtaining the required vote of our stockholders to approve and adopt the merger agreement, (i) we receive an unsolicited acquisition proposal from a third party that in the good faith judgment of our board of directors, after consultation with outside legal and financial advisors, constitutes, or would reasonably be expected to lead to, a \"superior proposal\""
+      },
+      {
+        "actor_label": "excluded party",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "The post-signing restrictions included an exception for taking actions with an excluded party while that person remained an excluded party.",
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "other than with respect to taking actions with an excluded party (for so long as such person remains an excluded party)"
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23755,
+  "prompt_sha256": "f562117f03d0915e78603bf7ab12fadf1ffa98ae1b0cbb356318f8540690d048",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "zep",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_go_shop_or_post_signing_solicitation",
+  "window_profile": "W2_MULTI_REGION"
+}

@@ -1,0 +1,136 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 35.9,
+  "input_chars": 2196,
+  "input_path": "inputs/saks/W2_MULTI_REGION/w2_sale_process_part2.json",
+  "input_text_sha256": "c5e49a3c1dd6d8b895152048816b2bcfd043a1727f2069cb8e327ea9a93ce2d1",
+  "input_tokens": 1906,
+  "job_id": "stage2__saks__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_sale_process_part2__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 2,
+      "actor_relation_claims": 1,
+      "bid_claims": 0,
+      "event_claims": 2,
+      "participation_count_claims": 2
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 2,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 1,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 7,
+    "relation_types": {
+      "advises": 1
+    },
+    "strict_claim_total": 7,
+    "total_quotes": 7
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 2352,
+  "output_text_sha256": "d43d2b7cd72c887dce79036cf6790a6415ea8ea676ee56eacd5c4c7f80aa4922",
+  "output_tokens": 1569,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "committee",
+        "actor_label": "Saks board",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "saks_w2_sale_process_part2_obl_6",
+        "observability": "named",
+        "quote_text": "the board has determined"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Goldman Sachs",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part2_obl_7",
+        "observability": "named",
+        "quote_text": "Goldman Sachs, on behalf of Saks"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part2_obl_7",
+        "effective_date_first": null,
+        "object_label": "Saks",
+        "quote_text": "Goldman Sachs, on behalf of Saks",
+        "relation_type": "advises",
+        "role_detail": null,
+        "subject_label": "Goldman Sachs"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "Goldman Sachs",
+        "actor_role": "advisor_for_target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part2_obl_1",
+        "description": "During the go-shop process, Goldman Sachs contacted potentially interested third parties on behalf of Saks.",
+        "event_date": null,
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "quote_text": "During the go shop process, Goldman Sachs, on behalf of Saks, contacted 58 potentially interested third parties"
+      },
+      {
+        "actor_label": null,
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part2_obl_1",
+        "description": "The go-shop period ended on September 6, 2013.",
+        "event_date": "2013-09-06",
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "quote_text": "The go shop period ended on September 6, 2013"
+      }
+    ],
+    "participation_count_claims": [
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": 6,
+        "count_min": 6,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "saks_w2_sale_process_part2_obl_2",
+        "process_stage": "ioi_submitted",
+        "quote_text": "Of those contacted, only six parties expressed interest"
+      },
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": 0,
+        "count_min": 0,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "saks_w2_sale_process_part2_obl_3",
+        "process_stage": "first_round",
+        "quote_text": "None of the parties contacted as part of the go shop process, including Company I, has submitted an acquisition proposal for Saks"
+      }
+    ]
+  },
+  "prompt_chars": 4477,
+  "prompt_sha256": "67829430d20da3de3e3ee3e4b405e5e4c36639685b4e8594334b3118a060b842",
+  "reasoning": "medium",
+  "reasoning_tokens": 987,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "saks",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_sale_process_part2",
+  "window_profile": "W2_MULTI_REGION"
+}

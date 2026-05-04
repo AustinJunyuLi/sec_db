@@ -1,0 +1,331 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_MULTI_QUOTE_P8",
+  "duration_s": 45.74,
+  "input_chars": 24999,
+  "input_path": "inputs/petsmart-inc/W2_MULTI_REGION/w2_financing.json",
+  "input_text_sha256": "f278ea02c1b909ca2b1a772a43e1a0a6188f550e497198ebf94667d1acad9775",
+  "input_tokens": 7030,
+  "job_id": "stage1__petsmart-inc__EXPANDED_MULTI_QUOTE_P8__W2_MULTI_REGION__w2_financing__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 7,
+      "actor_relation_claims": 9,
+      "bid_claims": 0,
+      "event_claims": 4,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 5,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 7,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 1,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 20,
+    "relation_types": {
+      "finances": 3,
+      "member_of": 5,
+      "rollover_holder_for": 1
+    },
+    "strict_claim_total": 20,
+    "total_quotes": 20
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 10119,
+  "output_text_sha256": "854af9d1eccca96e5d70a3e33d99342eb39ad20044a5342137e3ffe250ec8b18",
+  "output_tokens": 2806,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": "f",
+        "actor_kind": "group",
+        "actor_label": "consortium of financial institutions",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Parent has received firm commitments from a consortium of financial institutions to provide the debt financing and revolving credit facility"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "group",
+        "actor_label": "Buyer Group",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Parent has received equity commitments for the equity financing from the Buyer Group"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "Longview Asset Management, LLC",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Longview\u2019s contribution to Parent of $250 million worth of the Company\u2019s common stock immediately prior to the effective time of the merger"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "BC Partners, Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "the \u201cBuyer Group\u201d refers to a consortium of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and, at all times after December 12, 2014, Longview Asset Management, LLC"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "the \u201cBuyer Group\u201d refers to a consortium of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and, at all times after December 12, 2014, Longview Asset Management, LLC"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "affiliates of GIC Special Investments Pte Ltd",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "the \u201cBuyer Group\u201d refers to a consortium of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and, at all times after December 12, 2014, Longview Asset Management, LLC"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "affiliates of StepStone Group LP",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "the \u201cBuyer Group\u201d refers to a consortium of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and, at all times after December 12, 2014, Longview Asset Management, LLC"
+        ]
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_2",
+        "effective_date_first": null,
+        "object_label": "Parent",
+        "quote_texts": [
+          "Parent has received firm commitments from a consortium of financial institutions to provide the debt financing and revolving credit facility"
+        ],
+        "relation_type": "finances",
+        "role_detail": "debt financing and revolving credit facility",
+        "subject_label": "consortium of financial institutions"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_2",
+        "effective_date_first": null,
+        "object_label": "Parent",
+        "quote_texts": [
+          "Parent has received equity commitments for the equity financing from the Buyer Group"
+        ],
+        "relation_type": "finances",
+        "role_detail": "equity financing",
+        "subject_label": "Buyer Group"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_2",
+        "effective_date_first": null,
+        "object_label": "Parent",
+        "quote_texts": [
+          "Longview\u2019s contribution to Parent of $250 million worth of the Company\u2019s common stock immediately prior to the effective time of the merger"
+        ],
+        "relation_type": "finances",
+        "role_detail": "contribution of $250 million worth of the Company\u2019s common stock",
+        "subject_label": "Longview Asset Management, LLC"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_2",
+        "effective_date_first": null,
+        "object_label": "Parent",
+        "quote_texts": [
+          "has entered into a rollover agreement with Longview with respect to its contribution of Company common stock to Parent"
+        ],
+        "relation_type": "rollover_holder_for",
+        "role_detail": "rollover agreement with respect to contribution of Company common stock",
+        "subject_label": "Longview Asset Management, LLC"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_2",
+        "effective_date_first": null,
+        "object_label": "Buyer Group",
+        "quote_texts": [
+          "the \u201cBuyer Group\u201d refers to a consortium of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and, at all times after December 12, 2014, Longview Asset Management, LLC"
+        ],
+        "relation_type": "member_of",
+        "role_detail": "funds advised by BC Partners, Inc.",
+        "subject_label": "BC Partners, Inc."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_2",
+        "effective_date_first": null,
+        "object_label": "Buyer Group",
+        "quote_texts": [
+          "the \u201cBuyer Group\u201d refers to a consortium of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and, at all times after December 12, 2014, Longview Asset Management, LLC"
+        ],
+        "relation_type": "member_of",
+        "role_detail": null,
+        "subject_label": "La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_2",
+        "effective_date_first": null,
+        "object_label": "Buyer Group",
+        "quote_texts": [
+          "the \u201cBuyer Group\u201d refers to a consortium of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and, at all times after December 12, 2014, Longview Asset Management, LLC"
+        ],
+        "relation_type": "member_of",
+        "role_detail": null,
+        "subject_label": "affiliates of GIC Special Investments Pte Ltd"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_2",
+        "effective_date_first": null,
+        "object_label": "Buyer Group",
+        "quote_texts": [
+          "the \u201cBuyer Group\u201d refers to a consortium of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and, at all times after December 12, 2014, Longview Asset Management, LLC"
+        ],
+        "relation_type": "member_of",
+        "role_detail": null,
+        "subject_label": "affiliates of StepStone Group LP"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_2",
+        "effective_date_first": "2014-12-12",
+        "object_label": "Buyer Group",
+        "quote_texts": [
+          "the \u201cBuyer Group\u201d refers to a consortium of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and, at all times after December 12, 2014, Longview Asset Management, LLC"
+        ],
+        "relation_type": "member_of",
+        "role_detail": null,
+        "subject_label": "Longview Asset Management, LLC"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "consortium of financial institutions",
+        "actor_role": "debt_financing_source",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_3",
+        "description": "Parent received firm commitments from a consortium of financial institutions to provide debt financing and a revolving credit facility.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "financing_committed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "Parent has received firm commitments from a consortium of financial institutions to provide the debt financing and revolving credit facility"
+        ]
+      },
+      {
+        "actor_label": "Buyer Group",
+        "actor_role": "equity_financing_source",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_3",
+        "description": "Parent received equity commitments for the equity financing from the Buyer Group other than Longview.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "financing_committed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "Parent has received equity commitments for the equity financing from the Buyer Group (other than Longview)"
+        ]
+      },
+      {
+        "actor_label": "Longview Asset Management, LLC",
+        "actor_role": "rollover_holder",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_3",
+        "description": "Parent entered into a rollover agreement with Longview for Longview's contribution of Company common stock to Parent.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "rollover_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "has entered into a rollover agreement with Longview with respect to its contribution of Company common stock to Parent"
+        ]
+      },
+      {
+        "actor_label": "Parent",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_financing_obl_3",
+        "description": "The consummation of the merger is not subject to a financing condition.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "financing_committed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "The consummation of the merger is not subject to a financing condition"
+        ]
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 26915,
+  "prompt_sha256": "446d6da6a7349cfbf3c059fa7d78e3445cc03ebfbc41bc757c7297dd1fd3a708",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "0e783020c5768c044a886e0c68312d3e78a57555f4637885fb098049de8a7824",
+  "slug": "petsmart-inc",
+  "stage": "stage1",
+  "status": "completed",
+  "window_id": "w2_financing",
+  "window_profile": "W2_MULTI_REGION"
+}

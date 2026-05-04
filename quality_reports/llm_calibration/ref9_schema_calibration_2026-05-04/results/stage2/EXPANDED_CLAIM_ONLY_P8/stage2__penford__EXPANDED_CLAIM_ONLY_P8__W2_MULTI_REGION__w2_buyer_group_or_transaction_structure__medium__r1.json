@@ -1,0 +1,180 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_CLAIM_ONLY_P8",
+  "duration_s": 60.07,
+  "input_chars": 22000,
+  "input_path": "inputs/penford/W2_MULTI_REGION/w2_buyer_group_or_transaction_structure.json",
+  "input_text_sha256": "f3603d82e0dcefcfea2a8e7eb86c72809adc72fd4c33102577993f509dbe7991",
+  "input_tokens": 6177,
+  "job_id": "stage2__penford__EXPANDED_CLAIM_ONLY_P8__W2_MULTI_REGION__w2_buyer_group_or_transaction_structure__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 4,
+      "actor_relation_claims": 3,
+      "bid_claims": 0,
+      "event_claims": 3,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 1,
+    "not_unique_in_source_window": 4,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 10,
+    "relation_types": {
+      "acquisition_vehicle_of": 1,
+      "affiliate_of": 1,
+      "controls": 1
+    },
+    "strict_claim_total": 10,
+    "total_quotes": 10
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 4520,
+  "output_text_sha256": "50da7a8808e6cf1fba032146a17565040fe690d2ea871829255c1b60718bab2b",
+  "output_tokens": 1585,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Penford Corporation",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_text": "Penford Corporation"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Ingredion Incorporated",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_text": "Ingredion Incorporated"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Prospect Sub, Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_text": "Prospect Sub, Inc."
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Merger Sub",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_text": "Merger Sub"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Ingredion",
+        "quote_text": "Prospect Sub, Inc., a wholly owned subsidiary of Ingredion (referred to as Merger Sub)",
+        "relation_type": "affiliate_of",
+        "role_detail": "wholly owned subsidiary",
+        "subject_label": "Prospect Sub, Inc."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Prospect Sub, Inc.",
+        "quote_text": "Prospect Sub, Inc., a wholly owned subsidiary of Ingredion (referred to as Merger Sub)",
+        "relation_type": "controls",
+        "role_detail": "wholly owned subsidiary",
+        "subject_label": "Ingredion"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Ingredion",
+        "quote_text": "Prospect Sub, Inc., a wholly owned subsidiary of Ingredion (referred to as Merger Sub), was organized solely for the purpose of entering into the Agreement and Plan of Merger, dated as of October 14, 2014, by and among Penford, Ingredion and Merger Sub (as it may be amended from time to time, referred to as the merger agreement) and completing the proposed merger contemplated by the merger agreement (referred to as the merger).",
+        "relation_type": "acquisition_vehicle_of",
+        "role_detail": "organized solely for entering into the merger agreement and completing the proposed merger",
+        "subject_label": "Prospect Sub, Inc."
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": null,
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_buyer_group_or_transaction_structure_obl_3",
+        "description": "Agreement and Plan of Merger dated as of October 14, 2014 was entered into by and among Penford, Ingredion and Merger Sub.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-10-14",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_text": "Agreement and Plan of Merger, dated as of October 14, 2014, by and among Penford, Ingredion and Merger Sub"
+      },
+      {
+        "actor_label": "Prospect Sub, Inc.",
+        "actor_role": "acquisition_sub",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_buyer_group_or_transaction_structure_obl_3",
+        "description": "Merger Sub will merge with and into Penford, with Penford continuing as the surviving corporation of the merger.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_text": "Merger Sub will merge with and into Penford, with Penford continuing as the surviving corporation of the merger."
+      },
+      {
+        "actor_label": "Ingredion",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_buyer_group_or_transaction_structure_obl_3",
+        "description": "After completion of the merger, Ingredion will own 100% of the shares of Penford\u2019s outstanding common stock.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_text": "After completion of the merger, Ingredion will own 100% of the shares of Penford\u2019s outstanding common stock."
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 24104,
+  "prompt_sha256": "94c0955df083217fd2f701ac7344070515189520932915a7ce71a288f36b0077",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "80c516a8b3401128674672619998677e77e1705c31b2f7b7ea8a4f8856bd14eb",
+  "slug": "penford",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_buyer_group_or_transaction_structure",
+  "window_profile": "W2_MULTI_REGION"
+}

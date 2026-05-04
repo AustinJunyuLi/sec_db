@@ -1,0 +1,317 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 44.38,
+  "input_chars": 24283,
+  "input_path": "inputs/zep/W2_MULTI_REGION/w2_sale_process_part1.json",
+  "input_text_sha256": "6e3725d81e77b3cd8068edaa567edc900b773ec1e76db9a7232ddc3ab9cb85f1",
+  "input_tokens": 6229,
+  "job_id": "stage4__zep__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_sale_process_part1__medium__r3",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 3,
+      "actor_relation_claims": 2,
+      "bid_claims": 0,
+      "event_claims": 9,
+      "participation_count_claims": 9
+    },
+    "duplicate_quotes_within_response": 4,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 9,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 10,
+    "not_unique_in_source_window": 2,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 23,
+    "relation_types": {
+      "advises": 2
+    },
+    "strict_claim_total": 23,
+    "total_quotes": 23
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 10202,
+  "output_text_sha256": "a89ee789a1383936b0a033cb3a820033f4f1049e902ef4a8e4ec1f8b3df22d73",
+  "output_tokens": 2848,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "committee",
+        "actor_label": "our board of directors",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part1_obl_6",
+        "observability": "named",
+        "quote_text": "our board of directors"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "BofA Merrill Lynch",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part1_obl_7",
+        "observability": "named",
+        "quote_text": "BofA Merrill Lynch"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "King & Spalding LLP",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part1_obl_8",
+        "observability": "named",
+        "quote_text": "King & Spalding LLP (\"King & Spalding\"), legal counsel to the Company"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part1_obl_7",
+        "effective_date_first": "2014-01-28",
+        "object_label": "the Company",
+        "quote_text": "our board of directors unanimously approved an engagement letter with BofA Merrill Lynch providing for\n\n28\n<!-- PAGE 36 -->\nZEQ.=6,SEQ=35,EFW=\"2224840\",CP=\"ZEP INC.\",DN=\"1\",CHK=1020618,FOLIO='28',FILE='DISK116:[15ZBF1.15ZBF74401]CI74401A.;22',USER='CHE108975',CD='22-MAY-2015;17:50'\n\nTable of Contents\n\nBofA Merrill Lynch to act as our financial advisor in connection with reviewing our strategic alternatives.",
+        "relation_type": "advises",
+        "role_detail": "financial advisor in connection with reviewing strategic alternatives",
+        "subject_label": "BofA Merrill Lynch"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part1_obl_8",
+        "effective_date_first": null,
+        "object_label": "the Company",
+        "quote_text": "King & Spalding LLP (\"King & Spalding\"), legal counsel to the Company",
+        "relation_type": "advises",
+        "role_detail": "legal counsel",
+        "subject_label": "King & Spalding LLP"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "our board of directors",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part1_obl_1",
+        "description": "The board first discussed exploring strategic alternatives, including a potential sale of the Company.",
+        "event_date": "2013-06-20",
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "quote_text": "At a June 20, 2013 meeting, our board of directors first discussed the possibility of exploring strategic alternatives, including a potential sale of the Company."
+      },
+      {
+        "actor_label": "our board of directors",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part1_obl_1",
+        "description": "The board agreed to proceed with initial steps related to exploring strategic alternatives, including a potential sale of the Company.",
+        "event_date": "2013-07-01",
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "quote_text": "Our board of directors unanimously agreed to proceed with certain initial steps related to exploring our strategic alternatives, including a potential sale of the Company."
+      },
+      {
+        "actor_label": "our board of directors",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part1_obl_1",
+        "description": "The board decided to engage in a process to consider strategic alternatives.",
+        "event_date": "2014-01-28",
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "quote_text": "Following discussions, our board of directors decided to engage in a process to consider strategic alternatives."
+      },
+      {
+        "actor_label": "our board of directors",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part1_obl_1",
+        "description": "The board approved moving forward with contacting potential buyers, executing confidentiality agreements, and conducting meetings.",
+        "event_date": "2014-02-27",
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "quote_text": "Our board of directors unanimously approved moving forward with next steps, including contacting the potential buyers on the list discussed by our board of directors, executing confidentiality agreements with such parties and conducting meetings with such parties."
+      },
+      {
+        "actor_label": "BofA Merrill Lynch",
+        "actor_role": "sender",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part1_obl_2",
+        "description": "BofA Merrill Lynch distributed a first round process letter requiring preliminary indications of interest by April 14, 2014.",
+        "event_date": "2014-03-27",
+        "event_subtype": "first_round_bid",
+        "event_type": "process",
+        "quote_text": "On March 27, 2014, at the direction of our board of directors, BofA Merrill Lynch distributed a first round process letter, which informed potential buyers that non-binding preliminary indications of interest would be due no later than April 14, 2014."
+      },
+      {
+        "actor_label": null,
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part1_obl_2",
+        "description": "Five parties submitted preliminary and non-binding indications of interest.",
+        "event_date": "2014-04-14",
+        "event_subtype": "ioi_submitted",
+        "event_type": "bid",
+        "quote_text": "On April 14, 2014, five parties, comprising four financial buyers and one strategic buyer, submitted preliminary and non-binding indications of interest."
+      },
+      {
+        "actor_label": "Party X",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part1_obl_2",
+        "description": "Party X submitted a preliminary and non-binding indication of interest.",
+        "event_date": "2014-05-09",
+        "event_subtype": "ioi_submitted",
+        "event_type": "bid",
+        "quote_text": "On May 9, 2014, Party X submitted a preliminary and non-binding indication of interest to BofA Merrill Lynch, increasing the number of preliminary indications of interest received by us as of such date to six."
+      },
+      {
+        "actor_label": "Party Y",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part1_obl_2",
+        "description": "Party Y submitted a preliminary and non-binding indication of interest.",
+        "event_date": "2014-05-20",
+        "event_subtype": "ioi_submitted",
+        "event_type": "bid",
+        "quote_text": "On May 20, 2014, Party Y submitted a preliminary and non-binding indication of interest, bringing the total number of preliminary indications of interest received by us to seven."
+      },
+      {
+        "actor_label": "New Mountain Capital",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_sale_process_part1_obl_9",
+        "description": "New Mountain Capital delivered an unsolicited indication of interest to acquire the Company for $19.25 per share.",
+        "event_date": "2015-02-19",
+        "event_subtype": "ioi_submitted",
+        "event_type": "bid",
+        "quote_text": "On February 19, 2015, New Mountain Capital delivered an unsolicited indication of interest to the Company to acquire us for a per share price of $19.25."
+      }
+    ],
+    "participation_count_claims": [
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 50,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "zep_w2_sale_process_part1_obl_3",
+        "process_stage": "first_round",
+        "quote_text": "During the next several weeks, BofA Merrill Lynch, at the direction of our board of directors, contacted fifty potential buyers (comprising twenty-eight strategic buyers and twenty-two financial buyers, including financial buyers who owned businesses similar to our businesses),"
+      },
+      {
+        "actor_class": "financial",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 22,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "zep_w2_sale_process_part1_obl_3",
+        "process_stage": "first_round",
+        "quote_text": "comprising twenty-eight strategic buyers and twenty-two financial buyers"
+      },
+      {
+        "actor_class": "strategic",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 28,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "zep_w2_sale_process_part1_obl_3",
+        "process_stage": "first_round",
+        "quote_text": "comprising twenty-eight strategic buyers and twenty-two financial buyers"
+      },
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 25,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "zep_w2_sale_process_part1_obl_3",
+        "process_stage": "nda_signed",
+        "quote_text": "twenty-five potential buyers executed confidentiality agreements with us, received a copy of the marketing materials and/or met with the Company's management"
+      },
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 5,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "zep_w2_sale_process_part1_obl_2",
+        "process_stage": "ioi_submitted",
+        "quote_text": "On April 14, 2014, five parties, comprising four financial buyers and one strategic buyer, submitted preliminary and non-binding indications of interest."
+      },
+      {
+        "actor_class": "financial",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 4,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "zep_w2_sale_process_part1_obl_2",
+        "process_stage": "ioi_submitted",
+        "quote_text": "five parties, comprising four financial buyers and one strategic buyer"
+      },
+      {
+        "actor_class": "strategic",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 1,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "zep_w2_sale_process_part1_obl_2",
+        "process_stage": "ioi_submitted",
+        "quote_text": "five parties, comprising four financial buyers and one strategic buyer"
+      },
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 6,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "zep_w2_sale_process_part1_obl_2",
+        "process_stage": "ioi_submitted",
+        "quote_text": "increasing the number of preliminary indications of interest received by us as of such date to six"
+      },
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 7,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "zep_w2_sale_process_part1_obl_2",
+        "process_stage": "ioi_submitted",
+        "quote_text": "bringing the total number of preliminary indications of interest received by us to seven"
+      }
+    ]
+  },
+  "prompt_chars": 26553,
+  "prompt_sha256": "cbb9faa4695a49d6aa40c08ccdf0bf47dbbfbb7434bac4d42f76dcbadaf1ab62",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r3",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "zep",
+  "stage": "stage4",
+  "status": "completed",
+  "window_id": "w2_sale_process_part1",
+  "window_profile": "W2_MULTI_REGION"
+}

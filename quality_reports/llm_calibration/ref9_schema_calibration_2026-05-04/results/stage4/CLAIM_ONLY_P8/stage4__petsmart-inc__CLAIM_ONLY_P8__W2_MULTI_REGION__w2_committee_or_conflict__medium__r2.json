@@ -1,0 +1,92 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 23.33,
+  "input_chars": 22000,
+  "input_path": "inputs/petsmart-inc/W2_MULTI_REGION/w2_committee_or_conflict.json",
+  "input_text_sha256": "a2ae8023ce96de268cbabe9e5b5d19a3f77e49521752df7b1fd684839d4b8bc7",
+  "input_tokens": 5820,
+  "job_id": "stage4__petsmart-inc__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_committee_or_conflict__medium__r2",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 1,
+      "actor_relation_claims": 1,
+      "bid_claims": 0,
+      "event_claims": 1,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 3,
+    "relation_types": {
+      "member_of": 1
+    },
+    "strict_claim_total": 3,
+    "total_quotes": 3
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 1710,
+  "output_text_sha256": "a3009405c8e6d1dd8423b9141e4994dc03bfb7575335213ee3722b6ed7c58328",
+  "output_tokens": 897,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "committee",
+        "actor_label": "board of directors of the Company",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_committee_or_conflict_obl_1",
+        "observability": "named",
+        "quote_text": "The board of directors of the Company at a duly held meeting unanimously"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "medium",
+        "coverage_obligation_id": "petsmart-inc_w2_committee_or_conflict_obl_2",
+        "effective_date_first": null,
+        "object_label": "Company",
+        "quote_text": "The board of directors of the Company",
+        "relation_type": "member_of",
+        "role_detail": null,
+        "subject_label": "board of directors"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "board of directors of the Company",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_committee_or_conflict_obl_3",
+        "description": "The board of directors of the Company unanimously determined that the agreement and merger are advisable and in the best interests of the Company and its stockholders, approved the execution, delivery and performance of the agreement, and resolved to recommend adoption of the agreement by the stockholders.",
+        "event_date": null,
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "quote_text": "The board of directors of the Company at a duly held meeting unanimously (i) determined that this Agreement and the Merger are advisable and in the best interests of the Company and its stockholders, (ii) approved the execution, delivery and performance of this Agreement, and (iii) resolved to recommend the adoption of this Agreement by the stockholders of the Company"
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23838,
+  "prompt_sha256": "6057d04eda206aab2cd93561aceb1b6ab532b96ea3ac896eb7f380725306ddeb",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r2",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "petsmart-inc",
+  "stage": "stage4",
+  "status": "completed",
+  "window_id": "w2_committee_or_conflict",
+  "window_profile": "W2_MULTI_REGION"
+}

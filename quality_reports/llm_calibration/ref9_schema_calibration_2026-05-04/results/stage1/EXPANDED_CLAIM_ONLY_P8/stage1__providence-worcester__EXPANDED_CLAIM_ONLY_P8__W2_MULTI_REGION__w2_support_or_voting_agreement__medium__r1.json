@@ -1,0 +1,154 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_CLAIM_ONLY_P8",
+  "duration_s": 27.3,
+  "input_chars": 22000,
+  "input_path": "inputs/providence-worcester/W2_MULTI_REGION/w2_support_or_voting_agreement.json",
+  "input_text_sha256": "1e590e3fe61da32832bf722ce31f40b240e314d96e6e01b2f568b400f069de69",
+  "input_tokens": 6367,
+  "job_id": "stage1__providence-worcester__EXPANDED_CLAIM_ONLY_P8__W2_MULTI_REGION__w2_support_or_voting_agreement__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 5,
+      "actor_relation_claims": 4,
+      "bid_claims": 0,
+      "event_claims": 0,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 1,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 9,
+    "relation_types": {
+      "supports": 1,
+      "voting_support_for": 3
+    },
+    "strict_claim_total": 9,
+    "total_quotes": 9
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 4982,
+  "output_text_sha256": "f6833a561b4c07e8c9ee36415591f0994b808d2bf6f8d80bd3e589207e6d33ed",
+  "output_tokens": 1630,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "Shareholders of Providence and Worcester Railroad Company",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_support_or_voting_agreement_obl_1",
+        "observability": "anonymous_handle",
+        "quote_text": "To the Shareholders of Providence and Worcester Railroad Company:"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "holders of record of common stock and preferred stock",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_support_or_voting_agreement_obl_1",
+        "observability": "count_only",
+        "quote_text": "Only holders of record of common stock and preferred stock at the close of business on the record date of September 16, 2016 are entitled to notice of and to vote at the special meeting."
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "holders of common stock",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_support_or_voting_agreement_obl_1",
+        "observability": "count_only",
+        "quote_text": "Each holder of common stock is entitled to one vote for each share of common stock that he, she or it owned as of the record date."
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "holders of preferred stock",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_support_or_voting_agreement_obl_1",
+        "observability": "count_only",
+        "quote_text": "Each holder of preferred stock is entitled to one vote for each share of preferred stock that he, she or it owned as of the record date."
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "committee",
+        "actor_label": "PWRR board of directors",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_support_or_voting_agreement_obl_1",
+        "observability": "named",
+        "quote_text": "The PWRR board of directors (the \u201cBoard\u201d) recommends that you vote \u201cFOR\u201d the merger proposal, \u201cFOR\u201d the non-binding compensation proposal, and \u201cFOR\u201d the adjournment proposal."
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_support_or_voting_agreement_obl_2",
+        "effective_date_first": null,
+        "object_label": "merger proposal",
+        "quote_text": "The PWRR board of directors (the \u201cBoard\u201d) recommends that you vote \u201cFOR\u201d the merger proposal, \u201cFOR\u201d the non-binding compensation proposal, and \u201cFOR\u201d the adjournment proposal.",
+        "relation_type": "voting_support_for",
+        "role_detail": null,
+        "subject_label": "PWRR board of directors"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_support_or_voting_agreement_obl_2",
+        "effective_date_first": null,
+        "object_label": "non-binding compensation proposal",
+        "quote_text": "The PWRR board of directors (the \u201cBoard\u201d) recommends that you vote \u201cFOR\u201d the merger proposal, \u201cFOR\u201d the non-binding compensation proposal, and \u201cFOR\u201d the adjournment proposal.",
+        "relation_type": "voting_support_for",
+        "role_detail": null,
+        "subject_label": "PWRR board of directors"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_support_or_voting_agreement_obl_2",
+        "effective_date_first": null,
+        "object_label": "adjournment proposal",
+        "quote_text": "The PWRR board of directors (the \u201cBoard\u201d) recommends that you vote \u201cFOR\u201d the merger proposal, \u201cFOR\u201d the non-binding compensation proposal, and \u201cFOR\u201d the adjournment proposal.",
+        "relation_type": "voting_support_for",
+        "role_detail": null,
+        "subject_label": "PWRR board of directors"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_support_or_voting_agreement_obl_2",
+        "effective_date_first": "2016-08-12",
+        "object_label": "merger agreement and the transactions contemplated thereby, including the merger and the plan of merger",
+        "quote_text": "At a meeting on August 12, 2016, after consulting with its outside legal counsel and financial advisor and after consideration of various factors more fully described in this proxy statement, the Company\u2019s board of directors (the \u201cBoard\u201d) **(i) determined that the merger agreement, the plan of merger and the merger and other transactions contemplated by the merger agreement are fair to, advisable and in the best interests of the Company and its shareholders, (ii) approved and declared advisable the execution, delivery and performance of the merger agreement and the transactions contemplated thereby, including the merger and the plan of merger, (iii) directed that the merger agreement be submitted to the shareholders for approval and (iv) resolved to recommend that the shareholders approve the merger agreement and the transactions contemplated thereby, including the merger and the plan of merger** .",
+        "relation_type": "supports",
+        "role_detail": "resolved to recommend that the shareholders approve",
+        "subject_label": "Company\u2019s board of directors"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 24051,
+  "prompt_sha256": "c30ffddc2f8919682309afcf2f70c074f51ff41af2c4487a600377e3e36efd20",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "80c516a8b3401128674672619998677e77e1705c31b2f7b7ea8a4f8856bd14eb",
+  "slug": "providence-worcester",
+  "stage": "stage1",
+  "status": "completed",
+  "window_id": "w2_support_or_voting_agreement",
+  "window_profile": "W2_MULTI_REGION"
+}

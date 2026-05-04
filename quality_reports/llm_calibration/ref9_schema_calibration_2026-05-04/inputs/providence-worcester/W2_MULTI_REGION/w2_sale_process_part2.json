@@ -1,0 +1,96 @@
+{
+  "char_end": 141876,
+  "char_start": 138680,
+  "coverage_obligations": [
+    {
+      "expected_claim_type": "event",
+      "importance": "required",
+      "obligation_id": "providence-worcester_w2_sale_process_part2_obl_1",
+      "obligation_label": "Sales process initiation"
+    },
+    {
+      "expected_claim_type": "participation_count",
+      "importance": "required",
+      "obligation_id": "providence-worcester_w2_sale_process_part2_obl_2",
+      "obligation_label": "Bidder count at IOI stage"
+    },
+    {
+      "expected_claim_type": "participation_count",
+      "importance": "important",
+      "obligation_id": "providence-worcester_w2_sale_process_part2_obl_3",
+      "obligation_label": "Bidder count at first round"
+    },
+    {
+      "expected_claim_type": "event",
+      "importance": "required",
+      "obligation_id": "providence-worcester_w2_sale_process_part2_obl_4",
+      "obligation_label": "Final round bid receipt"
+    },
+    {
+      "expected_claim_type": "event",
+      "importance": "required",
+      "obligation_id": "providence-worcester_w2_sale_process_part2_obl_5",
+      "obligation_label": "Exclusivity grant"
+    },
+    {
+      "expected_claim_type": "actor",
+      "importance": "required",
+      "obligation_id": "providence-worcester_w2_sale_process_part2_obl_6",
+      "obligation_label": "Target board"
+    },
+    {
+      "expected_claim_type": "actor",
+      "importance": "required",
+      "obligation_id": "providence-worcester_w2_sale_process_part2_obl_7",
+      "obligation_label": "Financial advisor for target"
+    },
+    {
+      "expected_claim_type": "actor",
+      "importance": "required",
+      "obligation_id": "providence-worcester_w2_sale_process_part2_obl_8",
+      "obligation_label": "Legal advisor for target"
+    },
+    {
+      "expected_claim_type": "bid",
+      "importance": "required",
+      "obligation_id": "providence-worcester_w2_sale_process_part2_obl_9",
+      "obligation_label": "Final bid price"
+    },
+    {
+      "expected_claim_type": "actor_relation",
+      "importance": "important",
+      "obligation_id": "providence-worcester_w2_sale_process_part2_obl_10",
+      "obligation_label": "Buyer group composition"
+    }
+  ],
+  "filing_path": "/Users/austinli/Projects/sec_graph/data/filings/providence-worcester/raw.md",
+  "filing_sha256": "f2a407aeaaca4e041838e81f77526afb3e3946e812d182cb4a289b19d2dd4d3d",
+  "obligation_ids": [
+    "providence-worcester_w2_sale_process_part2_obl_1",
+    "providence-worcester_w2_sale_process_part2_obl_2",
+    "providence-worcester_w2_sale_process_part2_obl_3",
+    "providence-worcester_w2_sale_process_part2_obl_4",
+    "providence-worcester_w2_sale_process_part2_obl_5",
+    "providence-worcester_w2_sale_process_part2_obl_6",
+    "providence-worcester_w2_sale_process_part2_obl_7",
+    "providence-worcester_w2_sale_process_part2_obl_8",
+    "providence-worcester_w2_sale_process_part2_obl_9",
+    "providence-worcester_w2_sale_process_part2_obl_10"
+  ],
+  "paragraph_ids": [
+    "providence-worcester_w2_sale_process_part2_calib_para_1",
+    "providence-worcester_w2_sale_process_part2_calib_para_2",
+    "providence-worcester_w2_sale_process_part2_calib_para_3"
+  ],
+  "region_kind": "sale_process",
+  "region_signals": [
+    "Background of the Merger",
+    "split_part_2"
+  ],
+  "slug": "providence-worcester",
+  "source_perspective": "target_or_offer_primary",
+  "text": "The Board determined that the G&W offer represented the superior proposal. At the request of the Board, representatives of BMO reviewed BMO\u2019s financial analyses supporting its opinion to the Board as to the fairness, from a financial point of view, to the holders of our common stock of the consideration to be received by those holders (other than the Eder Trusts) in the merger pursuant to the merger agreement as of August 12, 2016. At the request of the Board, BMO confirmed that it did not have any existing or contemplated material relationships with G&W in connection with the provision of any financial advisory or financing services to G&W. BMO then rendered an oral opinion to the Board, subsequently confirmed by delivery of a written opinion, dated August 12, 2016 to the effect that, as of that date, and based upon and subject to the various assumptions made, procedures followed, matters considered and qualifications and limitations on the scope of review undertaken by BMO as set forth in its written opinion, the merger consideration to be received by the holders of our common stock in the merger pursuant to the merger agreement was fair, from a financial point of view, to those holders (other than the Eder Trusts). Following a discussion of the terms of the merger agreement and related matters, the Board (other than Director Smith, who recused himself from the August 12, 2016 meeting) (i) determined that the merger agreement, the plan of merger and the merger and other transactions contemplated by the merger agreement are fair to, advisable and in the best interests of the Company and its shareholders, (ii) approved and declared advisable the merger agreement and the transactions contemplated thereby, including the merger and the plan of merger, (iii) directed that the merger agreement be submitted to the Company\u2019s shareholders for approval and (iv) resolved to recommend that the Company\u2019s shareholders approve the merger agreement and the transactions contemplated thereby, including the merger and the plan of merger.\n\nShortly thereafter, Hinckley Allen and Simpson Thacher finalized the transaction documents and the Company and G&W executed the merger agreement, and the Company, G&W and the Eder Trusts executed the voting agreement. The Company issued a press release publicly announcing the transaction on Monday, August 15, 2016 prior to the opening of trading of the Company\u2019s common stock on the NASDAQ.\n\nSubsequent to the delivery of BMO\u2019s opinion and the Board\u2019s approval of the merger agreement and voting agreement, representatives of BMO advised the Board that when checking to determine if there were any financial advisory or financing relationships with G&W, it had inadvertently failed to identify that a BMO affiliate has a participation in G&W\u2019s existing secured syndicated debt facility as described under the section titled \u201cSummary of Financial Analysis of BMO Capital Markets Corp.\u2014 *Miscellaneous* \u201d on page 41. On September 6, 2016, the Board considered this new information, determined this relationship was not material to BMO\u2019s independence and confirmed that the Board remained comfortable with the engagement and opinion of BMO.",
+  "text_sha256": "f9b009ff94078ba80a4c1b0d4ab436d7c5291c76c48e71c01a2660c0b7b3491a",
+  "window_id": "w2_sale_process_part2",
+  "window_profile": "W2_MULTI_REGION"
+}

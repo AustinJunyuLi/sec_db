@@ -10,7 +10,6 @@ from sec_graph.extract.llm.models import (
     ActorClaimPayload,
     ActorRelationClaimPayload,
     BidClaimPayload,
-    CoverageResultPayload,
     EventClaimPayload,
     LLMContractError,
     LLMExtractionResponse,
@@ -29,8 +28,29 @@ ClaimPayload = (
     | ActorRelationClaimPayload
 )
 
+_NO_LINKED_CLAIM_REASON = (
+    "Python marked this obligation missed because Linkflow returned no validated "
+    "claim linked to this obligation."
+)
+
 
 def insert_llm_response(
+    conn: duckdb.DuckDBPyConnection,
+    request: LLMWindowRequest,
+    response: LLMExtractionResponse,
+    run_id: str,
+) -> list[str]:
+    conn.begin()
+    try:
+        inserted = _insert_llm_response_rows(conn, request, response, run_id)
+    except Exception:
+        conn.rollback()
+        raise
+    conn.commit()
+    return inserted
+
+
+def _insert_llm_response_rows(
     conn: duckdb.DuckDBPyConnection,
     request: LLMWindowRequest,
     response: LLMExtractionResponse,
@@ -49,15 +69,12 @@ def insert_llm_response(
     obligations_by_id = {obligation.obligation_id: obligation for obligation in request.coverage_obligations}
     if len(obligations_by_id) != len(request.coverage_obligations):
         raise LLMContractError("request contains duplicate coverage obligation ids")
-    provider_results = _provider_coverage_results_by_obligation(response, obligations_by_id)
     coverage_claim_counts = {obligation_id: 0 for obligation_id in obligations_by_id}
 
     for payload in payloads:
         if payload.claim_type not in request.allowed_claim_types:
             raise LLMContractError(f"claim_type {payload.claim_type} is not allowed for request")
         _validate_claim_obligation_links(payload, obligations_by_id)
-        for obligation_id in payload.coverage_obligation_ids:
-            coverage_claim_counts[obligation_id] += 1
         paragraph, quote_start, quote_end = _resolve_quote(request, payload.quote_text)
         quote_text_hash = quote_hash(payload.quote_text)
         span = SourceSpan(
@@ -107,28 +124,19 @@ def insert_llm_response(
         )
         conn.execute("INSERT INTO claim_evidence VALUES (?, ?, ?)", [claim_id, span.evidence_id, 1])
         _insert_typed_claim(conn, claim_id, payload)
+        coverage_claim_counts[payload.coverage_obligation_id] += 1
         inserted_claim_ids.append(claim_id)
 
     for obligation in request.coverage_obligations:
         count = coverage_claim_counts[obligation.obligation_id]
         if count:
-            if obligation.obligation_id in provider_results:
-                raise LLMContractError(
-                    f"coverage obligation {obligation.obligation_id} has both linked claims and a provider coverage result"
-                )
             result = "claims_emitted"
             reason_code = "linkflow_claims_linked"
             reason = "Linkflow emitted at least one validated claim explicitly linked to this obligation."
         else:
-            provider_result = provider_results.get(obligation.obligation_id)
-            if provider_result is None:
-                result = "missed"
-                reason_code = "provider_failed_to_account"
-                reason = "Python marked this obligation missed because Linkflow returned no linked claim and no coverage result."
-            else:
-                result = provider_result.result
-                reason_code = provider_result.reason_code
-                reason = provider_result.reason
+            result = "missed"
+            reason_code = "linkflow_no_linked_claim"
+            reason = _NO_LINKED_CLAIM_REASON
         coverage_result_id = make_id(request.deal_slug, "coverage", coverage_sequence)
         coverage_sequence += 1
         conn.execute(
@@ -138,33 +146,16 @@ def insert_llm_response(
     return inserted_claim_ids
 
 
-def _provider_coverage_results_by_obligation(
-    response: LLMExtractionResponse,
-    obligations_by_id: dict[str, WindowObligation],
-) -> dict[str, CoverageResultPayload]:
-    provider_results: dict[str, CoverageResultPayload] = {}
-    for item in response.payload.coverage_results:
-        if item.obligation_id not in obligations_by_id:
-            raise LLMContractError(f"provider returned coverage result for unknown obligation {item.obligation_id}")
-        if item.obligation_id in provider_results:
-            raise LLMContractError(f"provider returned duplicate coverage result for obligation {item.obligation_id}")
-        provider_results[item.obligation_id] = item
-    return provider_results
-
-
 def _validate_claim_obligation_links(payload: ClaimPayload, obligations_by_id: dict[str, WindowObligation]) -> None:
-    obligation_ids = payload.coverage_obligation_ids
-    if len(set(obligation_ids)) != len(obligation_ids):
-        raise LLMContractError("claim contains duplicate coverage obligation ids")
-    for obligation_id in obligation_ids:
-        obligation = obligations_by_id.get(obligation_id)
-        if obligation is None:
-            raise LLMContractError(f"claim references unknown coverage obligation {obligation_id}")
-        if obligation.expected_claim_type != payload.claim_type:
-            raise LLMContractError(
-                f"claim_type {payload.claim_type} does not match expected_claim_type "
-                f"{obligation.expected_claim_type} for obligation {obligation_id}"
-            )
+    obligation_id = payload.coverage_obligation_id
+    obligation = obligations_by_id.get(obligation_id)
+    if obligation is None:
+        raise LLMContractError(f"claim references unknown coverage obligation {obligation_id}")
+    if obligation.expected_claim_type != payload.claim_type:
+        raise LLMContractError(
+            f"claim_type {payload.claim_type} does not match expected_claim_type "
+            f"{obligation.expected_claim_type} for obligation {obligation_id}"
+        )
 
 
 def _iter_claim_payloads(payload) -> Iterable[ClaimPayload]:

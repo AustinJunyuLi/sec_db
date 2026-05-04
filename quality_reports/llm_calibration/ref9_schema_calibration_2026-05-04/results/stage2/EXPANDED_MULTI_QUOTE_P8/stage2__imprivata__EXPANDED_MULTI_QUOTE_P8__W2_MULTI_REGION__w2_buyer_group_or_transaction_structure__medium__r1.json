@@ -1,0 +1,209 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_MULTI_QUOTE_P8",
+  "duration_s": 78.17,
+  "input_chars": 16609,
+  "input_path": "inputs/imprivata/W2_MULTI_REGION/w2_buyer_group_or_transaction_structure.json",
+  "input_text_sha256": "bc9f6afcaf6f270bce412382241b9c0f20bd405231600e8946a50109e6c1f8fe",
+  "input_tokens": 5488,
+  "job_id": "stage2__imprivata__EXPANDED_MULTI_QUOTE_P8__W2_MULTI_REGION__w2_buyer_group_or_transaction_structure__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 4,
+      "actor_relation_claims": 5,
+      "bid_claims": 0,
+      "event_claims": 2,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 2,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 4,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 1,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 11,
+    "relation_types": {
+      "acquisition_vehicle_of": 3,
+      "affiliate_of": 1,
+      "controls": 1
+    },
+    "strict_claim_total": 11,
+    "total_quotes": 11
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 5439,
+  "output_text_sha256": "4e560d198797f7c62dbc35da375afbe7bc4cce7ee658a41811cc9ec76a49f17e",
+  "output_tokens": 2599,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "Project Brady Holdings, LLC",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Project Brady Holdings, LLC (\u201c Parent \u201d), a Delaware limited liability company"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "Project Brady Merger Sub, Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Project Brady Merger Sub, Inc. (\u201c Merger Sub \u201d), a Delaware corporation and wholly-owned direct subsidiary of Parent"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "Thoma Bravo, LLC",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "the private equity investment firm Thoma Bravo, LLC (\u201c Thoma Bravo \u201d)"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "an affiliate of Thoma Bravo, LLC",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "anonymous_handle",
+        "quote_texts": [
+          "Parent and Merger Sub were formed by an affiliate of the private equity investment firm Thoma Bravo, LLC (\u201c Thoma Bravo \u201d)."
+        ]
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Project Brady Merger Sub, Inc.",
+        "quote_texts": [
+          "Project Brady Merger Sub, Inc. (\u201c Merger Sub \u201d), a Delaware corporation and wholly-owned direct subsidiary of Parent"
+        ],
+        "relation_type": "controls",
+        "role_detail": "wholly-owned direct subsidiary",
+        "subject_label": "Project Brady Holdings, LLC"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Project Brady Holdings, LLC",
+        "quote_texts": [
+          "Project Brady Merger Sub, Inc. (\u201c Merger Sub \u201d), a Delaware corporation and wholly-owned direct subsidiary of Parent"
+        ],
+        "relation_type": "acquisition_vehicle_of",
+        "role_detail": "Merger Sub; wholly-owned direct subsidiary of Parent",
+        "subject_label": "Project Brady Merger Sub, Inc."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Thoma Bravo, LLC",
+        "quote_texts": [
+          "Parent and Merger Sub were formed by an affiliate of the private equity investment firm Thoma Bravo, LLC (\u201c Thoma Bravo \u201d)."
+        ],
+        "relation_type": "affiliate_of",
+        "role_detail": null,
+        "subject_label": "an affiliate of Thoma Bravo, LLC"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "medium",
+        "coverage_obligation_id": "imprivata_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Thoma Bravo, LLC",
+        "quote_texts": [
+          "Parent and Merger Sub were formed by an affiliate of the private equity investment firm Thoma Bravo, LLC (\u201c Thoma Bravo \u201d)."
+        ],
+        "relation_type": "acquisition_vehicle_of",
+        "role_detail": "formed by an affiliate of Thoma Bravo",
+        "subject_label": "Project Brady Holdings, LLC"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "medium",
+        "coverage_obligation_id": "imprivata_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Thoma Bravo, LLC",
+        "quote_texts": [
+          "Parent and Merger Sub were formed by an affiliate of the private equity investment firm Thoma Bravo, LLC (\u201c Thoma Bravo \u201d)."
+        ],
+        "relation_type": "acquisition_vehicle_of",
+        "role_detail": "formed by an affiliate of Thoma Bravo",
+        "subject_label": "Project Brady Merger Sub, Inc."
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": null,
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_buyer_group_or_transaction_structure_obl_3",
+        "description": "Agreement and Plan of Merger dated as of July 13, 2016 by and among Project Brady Holdings, LLC, Project Brady Merger Sub, Inc. and Imprivata.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2016-07-13",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "Agreement and Plan of Merger (as it may be amended from time to time, the \u201c merger agreement \u201d), dated as of July 13, 2016, by and among Project Brady Holdings, LLC (\u201c Parent \u201d), a Delaware limited liability company, Project Brady Merger Sub, Inc. (\u201c Merger Sub \u201d), a Delaware corporation and wholly-owned direct subsidiary of Parent, and Imprivata."
+        ]
+      },
+      {
+        "actor_label": "Project Brady Merger Sub, Inc.",
+        "actor_role": "acquisition_sub",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_buyer_group_or_transaction_structure_obl_3",
+        "description": "Merger Sub will be merged with and into Imprivata, with Imprivata surviving as a wholly-owned subsidiary of Parent.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "Pursuant to the terms of the merger agreement, Merger Sub will be merged with and into Imprivata with Imprivata surviving the merger as a wholly-owned subsidiary of Parent;"
+        ]
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 18773,
+  "prompt_sha256": "98afeac6be7450c3ee294741b9b4550abb88139cdca7fa1e5d4143edfb88785b",
+  "reasoning": "medium",
+  "reasoning_tokens": 1319,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "0e783020c5768c044a886e0c68312d3e78a57555f4637885fb098049de8a7824",
+  "slug": "imprivata",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_buyer_group_or_transaction_structure",
+  "window_profile": "W2_MULTI_REGION"
+}

@@ -1,0 +1,137 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 23.21,
+  "input_chars": 9423,
+  "input_path": "inputs/stec/W1_SALE_PROCESS/w1_sale_process_part2.json",
+  "input_text_sha256": "1d82e55df2b61e49e2fa16985f645505369057a84ef2a3a9187051d31a74a31e",
+  "input_tokens": 3367,
+  "job_id": "stage2__stec__CLAIM_ONLY_P8__W1_SALE_PROCESS__w1_sale_process_part2__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 3,
+      "actor_relation_claims": 1,
+      "bid_claims": 1,
+      "event_claims": 2,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 2,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 2,
+    "not_unique_in_source_window": 4,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 7,
+    "relation_types": {
+      "acquisition_vehicle_of": 1
+    },
+    "strict_claim_total": 7,
+    "total_quotes": 7
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 2265,
+  "output_text_sha256": "1cff79262d7b8eb5d2e1d8fd5e620c836c6ba95dd958f3c2e68f08e1b70bd0c2",
+  "output_tokens": 1125,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "committee",
+        "actor_label": "our board of directors",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w1_sale_process_part2_obl_6",
+        "observability": "named",
+        "quote_text": "our board of directors"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "BofA Merrill Lynch",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w1_sale_process_part2_obl_7",
+        "observability": "named",
+        "quote_text": "representatives from BofA Merrill Lynch"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Gibson Dunn",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w1_sale_process_part2_obl_8",
+        "observability": "named",
+        "quote_text": "representatives from BofA Merrill Lynch and Gibson Dunn"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w1_sale_process_part2_obl_10",
+        "effective_date_first": "2013-06-23",
+        "object_label": "WDC",
+        "quote_text": "On June 23, 2013, sTec, WDC, and Merger Sub executed the merger agreement;",
+        "relation_type": "acquisition_vehicle_of",
+        "role_detail": null,
+        "subject_label": "Merger Sub"
+      }
+    ],
+    "bid_claims": [
+      {
+        "bid_date": null,
+        "bid_stage": "final",
+        "bid_value": 6.85,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "WDC",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": null,
+        "coverage_obligation_id": "stec_w1_sale_process_part2_obl_9",
+        "quote_text": "the $6.85 per share proposal of WDC"
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "WDC",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "medium",
+        "coverage_obligation_id": "stec_w1_sale_process_part2_obl_4",
+        "description": "WDC made a $6.85 per share proposal.",
+        "event_date": null,
+        "event_subtype": "final_round_bid",
+        "event_type": "bid",
+        "quote_text": "the $6.85 per share proposal of WDC"
+      },
+      {
+        "actor_label": "sTec, WDC, and Merger Sub",
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w1_sale_process_part2_obl_10",
+        "description": "sTec, WDC, and Merger Sub executed the merger agreement.",
+        "event_date": "2013-06-23",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "quote_text": "On June 23, 2013, sTec, WDC, and Merger Sub executed the merger agreement;"
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 11704,
+  "prompt_sha256": "dfde47147374c8369bdf2005868b1936a11645345238bf6a500431d4937750f4",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "stec",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w1_sale_process_part2",
+  "window_profile": "W1_SALE_PROCESS"
+}

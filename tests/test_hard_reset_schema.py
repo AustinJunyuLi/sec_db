@@ -177,8 +177,8 @@ def test_linkflow_strict_schema_is_typed_and_provider_safe() -> None:
         "bid_claims",
         "participation_count_claims",
         "actor_relation_claims",
-        "coverage_results",
     }
+    assert "coverage_results" not in schema["properties"]
     assert schema["required"] == list(schema["properties"].keys())
     actor_item = schema["properties"]["actor_claims"]["items"]
     assert actor_item["additionalProperties"] is False
@@ -227,7 +227,6 @@ def test_linkflow_payload_validation_error_is_sanitized_and_actionable() -> None
             "bid_claims": [],
             "participation_count_claims": [],
             "actor_relation_claims": [],
-            "coverage_results": [],
         }
     )
 
@@ -240,6 +239,67 @@ def test_linkflow_payload_validation_error_is_sanitized_and_actionable() -> None
 
     assert "actor_claims.0.claim_type" in message
     assert "Party A" not in message
+
+
+def test_new_actor_relation_labels_insert_reconcile_validate_and_canonicalize(tmp_path: Path) -> None:
+    conn = connect(":memory:")
+    init_schema(conn)
+    source_path = _insert_relation_label_filing(conn, tmp_path)
+
+    build_evidence_map(conn, filing_id="relation-label-deal_filing_1", run_id=RUN_ID)
+    window = build_llm_windows(conn, filing_id="relation-label-deal_filing_1")[0]
+    insert_llm_response(conn, window, _relation_label_response(window), run_id=RUN_ID)
+
+    reconcile_all(conn, run_id=RUN_ID)
+    validation = validate_database(conn, raw_source_root=source_path.parent)
+
+    assert validation.passed, validation.hard_failures
+    relation_rows = conn.execute(
+        """
+        SELECT relation_type
+        FROM actor_relations
+        ORDER BY relation_type
+        """
+    ).fetchall()
+    assert relation_rows == [
+        ("committee_member_of",),
+        ("recused_from",),
+        ("rollover_holder_for",),
+        ("voting_support_for",),
+    ]
+    dispositions = conn.execute(
+        """
+        SELECT disposition, reason_code
+        FROM claim_dispositions
+        ORDER BY claim_id
+        """
+    ).fetchall()
+    assert dispositions == [
+        ("canonicalized", "actor_relation_canonicalized"),
+        ("canonicalized", "actor_relation_canonicalized"),
+        ("canonicalized", "actor_relation_canonicalized"),
+        ("canonicalized", "actor_relation_canonicalized"),
+    ]
+
+
+def test_old_rollover_holder_relation_is_rejected() -> None:
+    old_relation = "rollover_holder" + "_of"
+    try:
+        ActorRelationClaimPayload(
+            coverage_obligation_id="obl_relation_1",
+            claim_type="actor_relation",
+            subject_label="Holder",
+            object_label="Parent",
+            relation_type=old_relation,
+            role_detail=None,
+            effective_date_first=None,
+            confidence="high",
+            quote_text="Holder rolled equity into Parent.",
+        )
+    except Exception as exc:
+        assert old_relation in str(exc)
+    else:
+        raise AssertionError("old rollover holder relation must be rejected")
 
 
 def test_llm_prompt_forbids_empty_string_dates(tmp_path: Path) -> None:
@@ -433,6 +493,57 @@ def _insert_generic_bidder_filing(conn, tmp_path: Path) -> Path:
     return source_path
 
 
+def _insert_relation_label_filing(conn, tmp_path: Path) -> Path:
+    text = (
+        "Background of the Merger\n\n"
+        "Shareholder A entered into a voting agreement in support of Parent. "
+        "Rollover Holder agreed to rollover equity into Parent. "
+        "Director B was appointed to the special committee. "
+        "Director C recused himself from the Board's evaluation.\n"
+    )
+    source_path = tmp_path / "relation-label-deal.md"
+    source_path.write_text(text, encoding="utf-8")
+    filing = CleanFiling(
+        filing_id=make_id("relation-label-deal", "filing", 1),
+        deal_slug="relation-label-deal",
+        source_path=str(source_path),
+        raw_sha256=quote_hash(text),
+        parser_version=1,
+        page_count=None,
+        section_count=1,
+        process_scope="target_full_proxy",
+    )
+    paragraph = Paragraph(
+        paragraph_id=make_id("relation-label-deal", "para", 1),
+        filing_id=filing.filing_id,
+        section="Background of the Merger",
+        page_hint=None,
+        char_start=0,
+        char_end=len(text),
+        paragraph_text=text,
+        paragraph_hash=quote_hash(text),
+    )
+    text_hash = quote_hash(text)
+    span = SourceSpan(
+        evidence_id=make_id("relation-label-deal", "evidence", 1),
+        filing_id=filing.filing_id,
+        paragraph_id=paragraph.paragraph_id,
+        span_basis="raw_md",
+        span_kind="paragraph_seed",
+        parent_evidence_id=None,
+        created_by_stage="ingest",
+        char_start=0,
+        char_end=len(text),
+        quote_text=text,
+        quote_text_hash=text_hash,
+        evidence_fingerprint=evidence_fingerprint(filing.filing_id, 0, len(text), text_hash),
+    )
+    conn.execute("INSERT INTO filings VALUES (?, ?, ?, ?, ?, ?, ?, ?)", tuple(filing.model_dump().values()))
+    conn.execute("INSERT INTO paragraphs VALUES (?, ?, ?, ?, ?, ?, ?, ?)", tuple(paragraph.model_dump().values()))
+    conn.execute("INSERT INTO spans VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", tuple(span.model_dump().values()))
+    return source_path
+
+
 def _insert_projection_leak_candidate(conn) -> None:
     deal_id, cycle_id = conn.execute(
         """
@@ -516,7 +627,7 @@ def _response_for_window(window) -> LLMExtractionResponse:
     payload = SemanticClaimsPayload(
         actor_claims=[
             ActorClaimPayload(
-                coverage_obligation_ids=[_first_obligation_id(window, "actor")],
+                coverage_obligation_id=_first_obligation_id(window, "actor"),
                 claim_type="actor",
                 actor_label="Party A",
                 actor_kind="organization",
@@ -529,7 +640,7 @@ def _response_for_window(window) -> LLMExtractionResponse:
         else [],
         event_claims=[
             EventClaimPayload(
-                coverage_obligation_ids=[_first_obligation_id(window, "event")],
+                coverage_obligation_id=_first_obligation_id(window, "event"),
                 claim_type="event",
                 event_type="transaction",
                 event_subtype="merger_agreement_executed",
@@ -545,7 +656,7 @@ def _response_for_window(window) -> LLMExtractionResponse:
         else [],
         bid_claims=[
             BidClaimPayload(
-                coverage_obligation_ids=[_first_obligation_id(window, "bid")],
+                coverage_obligation_id=_first_obligation_id(window, "bid"),
                 claim_type="bid",
                 bidder_label="Party A",
                 bid_date="2020-01-01",
@@ -563,7 +674,7 @@ def _response_for_window(window) -> LLMExtractionResponse:
         else [],
         participation_count_claims=[
             ParticipationCountClaimPayload(
-                coverage_obligation_ids=[_first_obligation_id(window, "participation_count")],
+                coverage_obligation_id=_first_obligation_id(window, "participation_count"),
                 claim_type="participation_count",
                 process_stage="contacted",
                 actor_class="financial",
@@ -578,7 +689,7 @@ def _response_for_window(window) -> LLMExtractionResponse:
         else [],
         actor_relation_claims=[
             ActorRelationClaimPayload(
-                coverage_obligation_ids=[_first_obligation_id(window, "actor_relation")],
+                coverage_obligation_id=_first_obligation_id(window, "actor_relation"),
                 claim_type="actor_relation",
                 subject_label="Parent",
                 object_label="Buyer Group",
@@ -596,7 +707,68 @@ def _response_for_window(window) -> LLMExtractionResponse:
         request_id=window.request_id,
         provider_name="linkflow",
         provider_model="gpt-5.5",
-        reasoning_effort="high",
+        reasoning_effort="medium",
+        payload=payload,
+        raw_response_sha256=quote_hash(json.dumps(payload.model_dump(mode="json"), sort_keys=True)),
+        finish_status="completed",
+    )
+
+
+def _relation_label_response(window) -> LLMExtractionResponse:
+    obligation_id = _first_obligation_id(window, "actor_relation")
+    payload = SemanticClaimsPayload(
+        actor_relation_claims=[
+            ActorRelationClaimPayload(
+                coverage_obligation_id=obligation_id,
+                claim_type="actor_relation",
+                subject_label="Shareholder A",
+                object_label="Parent",
+                relation_type="voting_support_for",
+                role_detail="voting agreement",
+                effective_date_first=None,
+                confidence="high",
+                quote_text="Shareholder A entered into a voting agreement in support of Parent",
+            ),
+            ActorRelationClaimPayload(
+                coverage_obligation_id=obligation_id,
+                claim_type="actor_relation",
+                subject_label="Rollover Holder",
+                object_label="Parent",
+                relation_type="rollover_holder_for",
+                role_detail="rollover equity",
+                effective_date_first=None,
+                confidence="high",
+                quote_text="Rollover Holder agreed to rollover equity into Parent",
+            ),
+            ActorRelationClaimPayload(
+                coverage_obligation_id=obligation_id,
+                claim_type="actor_relation",
+                subject_label="Director B",
+                object_label="special committee",
+                relation_type="committee_member_of",
+                role_detail="appointed",
+                effective_date_first=None,
+                confidence="high",
+                quote_text="Director B was appointed to the special committee",
+            ),
+            ActorRelationClaimPayload(
+                coverage_obligation_id=obligation_id,
+                claim_type="actor_relation",
+                subject_label="Director C",
+                object_label="Board's evaluation",
+                relation_type="recused_from",
+                role_detail="recused",
+                effective_date_first=None,
+                confidence="high",
+                quote_text="Director C recused himself from the Board's evaluation",
+            ),
+        ],
+    )
+    return LLMExtractionResponse(
+        request_id=window.request_id,
+        provider_name="linkflow",
+        provider_model="gpt-5.5",
+        reasoning_effort="medium",
         payload=payload,
         raw_response_sha256=quote_hash(json.dumps(payload.model_dump(mode="json"), sort_keys=True)),
         finish_status="completed",
@@ -611,7 +783,7 @@ def _generic_bidder_response(window) -> LLMExtractionResponse:
         actor_claims=[],
         event_claims=[
             EventClaimPayload(
-                coverage_obligation_ids=[event_obligation_id],
+                coverage_obligation_id=event_obligation_id,
                 claim_type="event",
                 event_type="transaction",
                 event_subtype="merger_agreement_executed",
@@ -625,7 +797,7 @@ def _generic_bidder_response(window) -> LLMExtractionResponse:
         ],
         bid_claims=[
             BidClaimPayload(
-                coverage_obligation_ids=[bid_obligation_id],
+                coverage_obligation_id=bid_obligation_id,
                 claim_type="bid",
                 bidder_label="Party A",
                 bid_date="2020-01-01",
@@ -639,7 +811,7 @@ def _generic_bidder_response(window) -> LLMExtractionResponse:
                 quote_text="Party A submitted a final proposal of $10.00 per share",
             ),
             BidClaimPayload(
-                coverage_obligation_ids=[bid_obligation_id],
+                coverage_obligation_id=bid_obligation_id,
                 claim_type="bid",
                 bidder_label="five parties",
                 bid_date="2020-01-02",
@@ -653,7 +825,7 @@ def _generic_bidder_response(window) -> LLMExtractionResponse:
                 quote_text="five parties submitted preliminary proposals",
             ),
             BidClaimPayload(
-                coverage_obligation_ids=[bid_obligation_id],
+                coverage_obligation_id=bid_obligation_id,
                 claim_type="bid",
                 bidder_label="six of the potentially interested parties",
                 bid_date="2020-01-03",
@@ -667,7 +839,7 @@ def _generic_bidder_response(window) -> LLMExtractionResponse:
                 quote_text="six of the potentially interested parties submitted revised bids",
             ),
             BidClaimPayload(
-                coverage_obligation_ids=[bid_obligation_id],
+                coverage_obligation_id=bid_obligation_id,
                 claim_type="bid",
                 bidder_label="potential bidders",
                 bid_date=None,
@@ -683,7 +855,7 @@ def _generic_bidder_response(window) -> LLMExtractionResponse:
         ],
         participation_count_claims=[
             ParticipationCountClaimPayload(
-                coverage_obligation_ids=[count_obligation_id],
+                coverage_obligation_id=count_obligation_id,
                 claim_type="participation_count",
                 process_stage="first_round",
                 actor_class="mixed",
@@ -694,7 +866,7 @@ def _generic_bidder_response(window) -> LLMExtractionResponse:
                 quote_text="five parties submitted preliminary proposals",
             ),
             ParticipationCountClaimPayload(
-                coverage_obligation_ids=[count_obligation_id],
+                coverage_obligation_id=count_obligation_id,
                 claim_type="participation_count",
                 process_stage="first_round",
                 actor_class="mixed",
@@ -711,7 +883,7 @@ def _generic_bidder_response(window) -> LLMExtractionResponse:
         request_id=window.request_id,
         provider_name="linkflow",
         provider_model="gpt-5.5",
-        reasoning_effort="high",
+        reasoning_effort="medium",
         payload=payload,
         raw_response_sha256=quote_hash(json.dumps(payload.model_dump(mode="json"), sort_keys=True)),
         finish_status="completed",

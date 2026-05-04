@@ -1,0 +1,180 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 56.12,
+  "input_chars": 24795,
+  "input_path": "inputs/stec/W2_MULTI_REGION/w2_sale_process_part1.json",
+  "input_text_sha256": "d2f9867b450572ef9c57d4e7f064519dd785af89e038524d9eee833b808aacd4",
+  "input_tokens": 6375,
+  "job_id": "stage4__stec__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_sale_process_part1__medium__r2",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 3,
+      "actor_relation_claims": 2,
+      "bid_claims": 0,
+      "event_claims": 4,
+      "participation_count_claims": 2
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 2,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 3,
+    "not_unique_in_source_window": 2,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 11,
+    "relation_types": {
+      "advises": 2
+    },
+    "strict_claim_total": 11,
+    "total_quotes": 11
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 5047,
+  "output_text_sha256": "f287a9bd6c35c61e43d10aa04d53041bace41a58cec77db1f76025a92aad251e",
+  "output_tokens": 2685,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "committee",
+        "actor_label": "sTec board of directors",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part1_obl_6",
+        "observability": "named",
+        "quote_text": "our board of directors"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "BofA Merrill Lynch",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part1_obl_7",
+        "observability": "named",
+        "quote_text": "BofA Merrill Lynch"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Gibson, Dunn & Crutcher LLP",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part1_obl_8",
+        "observability": "named",
+        "quote_text": "Gibson, Dunn & Crutcher LLP (\u201cGibson Dunn\u201d)"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part1_obl_7",
+        "effective_date_first": "2013-03-28",
+        "object_label": "sTec",
+        "quote_text": "On March 28, 2013, sTec entered into an engagement letter with BofA Merrill Lynch to provide financial advisory services.",
+        "relation_type": "advises",
+        "role_detail": "financial advisor",
+        "subject_label": "BofA Merrill Lynch"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part1_obl_8",
+        "effective_date_first": null,
+        "object_label": "sTec",
+        "quote_text": "Gibson, Dunn & Crutcher LLP (\u201cGibson Dunn\u201d), which had been engaged in October 2012 as the company\u2019s outside corporate counsel",
+        "relation_type": "advises",
+        "role_detail": "outside corporate counsel",
+        "subject_label": "Gibson, Dunn & Crutcher LLP"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "sTec board of directors",
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part1_obl_1",
+        "description": "The board authorized management to contact potential financial advisors regarding exploration of strategic alternatives, including a potential sale of the company.",
+        "event_date": null,
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "quote_text": "Consequently, in mid-November, 2012, our board of directors authorized management to contact potential financial advisors to explore their interest in representing the company in its exploration of strategic alternatives, including a potential sale of the company."
+      },
+      {
+        "actor_label": "sTec board of directors",
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part1_obl_1",
+        "description": "The board determined that sTec should confidentially approach likely strategic buyers and conduct a limited confirmatory exploration of financial buyer interest.",
+        "event_date": "2013-03-26",
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "quote_text": "In light of these and other factors, our board of directors determined that it was in the best interests of the company and its shareholders to confidentially approach strategic buyers that the board believed would be most likely to have interest in a potential acquisition of the company to explore their interest, but to also further conduct a limited confirmatory exploration of interest of financial buyers."
+      },
+      {
+        "actor_label": "BofA Merrill Lynch",
+        "actor_role": "advisor_for_target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part1_obl_1",
+        "description": "BofA Merrill Lynch began contacting potential acquirers of sTec at the special committee's direction.",
+        "event_date": "2013-04-01",
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "quote_text": "On April 1, 2013, as directed by the special committee, BofA Merrill Lynch began contacting potential acquirers of sTec."
+      },
+      {
+        "actor_label": null,
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part1_obl_2",
+        "description": "Three prospective acquirers submitted written indications of interest for a complete purchase of sTec.",
+        "event_date": null,
+        "event_subtype": "ioi_submitted",
+        "event_type": "process",
+        "quote_text": "Of these, three prospective acquirers (WDC, Company H, a participant in the storage industry, and Company D) submitted written indications of interest for a complete purchase of sTec"
+      }
+    ],
+    "participation_count_claims": [
+      {
+        "actor_class": "strategic",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": 3,
+        "count_min": 3,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "stec_w2_sale_process_part1_obl_2",
+        "process_stage": "ioi_submitted",
+        "quote_text": "Of these, three prospective acquirers (WDC, Company H, a participant in the storage industry, and Company D) submitted written indications of interest for a complete purchase of sTec"
+      },
+      {
+        "actor_class": "strategic",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": 4,
+        "count_min": 4,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "stec_w2_sale_process_part1_obl_3",
+        "process_stage": "first_round",
+        "quote_text": "During the weeks of April 8 through April 22, 2013, sTec held management presentations with representatives of WDC, Company D, Company G and Company E."
+      }
+    ]
+  },
+  "prompt_chars": 27076,
+  "prompt_sha256": "0cf1cf60cf995f3d16905ccfe37a783efbaa06826d4ddb708b481eb311b369a1",
+  "reasoning": "medium",
+  "reasoning_tokens": 1515,
+  "replica": "r2",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "stec",
+  "stage": "stage4",
+  "status": "completed",
+  "window_id": "w2_sale_process_part1",
+  "window_profile": "W2_MULTI_REGION"
+}

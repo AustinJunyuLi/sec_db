@@ -1,0 +1,137 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "V0_P8_BASELINE",
+  "duration_s": 23.39,
+  "input_chars": 24929,
+  "input_path": "inputs/petsmart-inc/W2_MULTI_REGION/w2_sale_process_part2.json",
+  "input_text_sha256": "183f1fbdc23d3159d0669b488047fc742d5704f38731e6f2311caaa442b26790",
+  "input_tokens": 6420,
+  "job_id": "stage1__petsmart-inc__V0_P8_BASELINE__W2_MULTI_REGION__w2_sale_process_part2__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 3,
+      "actor_relation_claims": 0,
+      "bid_claims": 1,
+      "coverage_results": 6,
+      "event_claims": 0,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 0.75,
+    "quotes_in_window": 3,
+    "relation_types": {},
+    "strict_claim_total": 4,
+    "total_quotes": 4
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 2927,
+  "output_text_sha256": "cc0a6bf96159d25e9ada4bf3393bf517cc25568c9497656a0bf64665e93759b7",
+  "output_tokens": 1190,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "committee",
+        "actor_label": "board",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_6",
+        "observability": "named",
+        "quote_text": "the board unanimously recommends that our stockholders vote **\u201cFOR\u201d** the merger proposal"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "outside financial advisors",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_7",
+        "observability": "anonymous_handle",
+        "quote_text": "after consultation with outside legal and financial advisors"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "outside legal advisors",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_8",
+        "observability": "anonymous_handle",
+        "quote_text": "after consultation with outside legal and financial advisors"
+      }
+    ],
+    "actor_relation_claims": [],
+    "bid_claims": [
+      {
+        "bid_date": null,
+        "bid_stage": "final",
+        "bid_value": 83.0,
+        "bid_value_lower": null,
+        "bid_value_unit": "USD per share",
+        "bid_value_upper": null,
+        "bidder_label": "Parent",
+        "claim_type": "bid",
+        "confidence": "medium",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_9",
+        "quote_text": "If the merger is completed, you will be entitled to receive $83.00 in cash, without interest and less any applicable withholding taxes, for each share of our common stock that you own."
+      }
+    ],
+    "coverage_results": [
+      {
+        "obligation_id": "petsmart-inc_w2_sale_process_part2_obl_1",
+        "reason": "The window describes post-signing no-solicitation, termination, special meeting Q&A, and merger consideration, but does not state when the sales process was initiated.",
+        "reason_code": "not_in_window",
+        "result": "no_supported_claim"
+      },
+      {
+        "obligation_id": "petsmart-inc_w2_sale_process_part2_obl_2",
+        "reason": "The window does not provide a bidder count at the indication-of-interest stage.",
+        "reason_code": "not_in_window",
+        "result": "no_supported_claim"
+      },
+      {
+        "obligation_id": "petsmart-inc_w2_sale_process_part2_obl_3",
+        "reason": "The window does not provide a bidder count at the first-round stage.",
+        "reason_code": "not_in_window",
+        "result": "no_supported_claim"
+      },
+      {
+        "obligation_id": "petsmart-inc_w2_sale_process_part2_obl_4",
+        "reason": "The window does not describe receipt of final-round bids.",
+        "reason_code": "not_in_window",
+        "result": "no_supported_claim"
+      },
+      {
+        "obligation_id": "petsmart-inc_w2_sale_process_part2_obl_5",
+        "reason": "The window contains no-solicitation provisions but does not state that exclusivity was granted during the sale process.",
+        "reason_code": "not_in_window",
+        "result": "no_supported_claim"
+      },
+      {
+        "obligation_id": "petsmart-inc_w2_sale_process_part2_obl_10",
+        "reason": "The window refers to Parent, Merger Sub, and the Buyer Group but does not identify buyer group members or describe buyer group composition.",
+        "reason_code": "not_in_window",
+        "result": "no_supported_claim"
+      }
+    ],
+    "event_claims": [],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 27274,
+  "prompt_sha256": "d58b2c53c8c41868edc342dafe4f42e2abb688287868d7b66e24f1fb1b89bc7e",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "891e4a5674ba114d92ee1d400df86fba7a95780231cc29bd539799ee3cd2af97",
+  "slug": "petsmart-inc",
+  "stage": "stage1",
+  "status": "completed",
+  "window_id": "w2_sale_process_part2",
+  "window_profile": "W2_MULTI_REGION"
+}

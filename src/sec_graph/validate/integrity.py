@@ -331,13 +331,16 @@ def _relation_supported_by_quote(relation_type: str, role_detail: str | None, qu
         terms.add(role_detail)
     relation_synonyms = {
         "acquisition_vehicle_of": ("acquisition vehicle", "vehicle of"),
-        "member_of": ("member of", "part of"),
+        "member_of": ("member of", "part of", "together we refer", "who together", "together as"),
         "affiliate_of": ("affiliate of", "affiliated with"),
-        "controls": ("controls", "controlled by"),
+        "controls": ("controls", "controlled by", "purchased by", "acquired by", "owned by"),
         "advises": ("advisor", "adviser", "advises"),
-        "finances": ("financing", "finances"),
-        "supports": ("support", "supports"),
-        "rollover_holder_of": ("rollover", "holder"),
+        "finances": ("financing", "finances", "provide capital", "capital required", "financing letter"),
+        "supports": ("support", "supports", "guarantee", "guarantees"),
+        "voting_support_for": ("voting agreement", "support agreement", "vote in favor", "agreed to vote", "voting and support"),
+        "rollover_holder_for": ("rollover", "rolled", "contribute", "retain equity", "equity rollover"),
+        "committee_member_of": ("committee", "member", "composed of", "appointed", "added"),
+        "recused_from": ("recuse", "recused", "exclude", "excluded", "not participate"),
     }
     terms.update(relation_synonyms.get(relation_type, ()))
     return any(_normalize_text(term) in folded for term in terms if term)

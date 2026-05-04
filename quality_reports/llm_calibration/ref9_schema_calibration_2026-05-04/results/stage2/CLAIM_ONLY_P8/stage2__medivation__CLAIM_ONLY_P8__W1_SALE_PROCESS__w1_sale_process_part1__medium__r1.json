@@ -1,0 +1,376 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 84.93,
+  "input_chars": 43927,
+  "input_path": "inputs/medivation/W1_SALE_PROCESS/w1_sale_process_part1.json",
+  "input_text_sha256": "6e49527f605ce7a5aa74b43ed971baf27ccc48a201711ac6c4677b421f832848",
+  "input_tokens": 10083,
+  "job_id": "stage2__medivation__CLAIM_ONLY_P8__W1_SALE_PROCESS__w1_sale_process_part1__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 8,
+      "actor_relation_claims": 6,
+      "bid_claims": 4,
+      "event_claims": 8,
+      "participation_count_claims": 2
+    },
+    "duplicate_quotes_within_response": 9,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 2,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 11,
+    "not_unique_in_source_window": 1,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 28,
+    "relation_types": {
+      "acquisition_vehicle_of": 1,
+      "advises": 4,
+      "affiliate_of": 1
+    },
+    "strict_claim_total": 28,
+    "total_quotes": 28
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 12072,
+  "output_text_sha256": "109d278d1717d81825f60208af7f237dc21bc935aac625b102b10d528c5e3433",
+  "output_tokens": 3375,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "organization",
+        "actor_label": "Medivation",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w1_sale_process_part1_obl_6",
+        "observability": "named",
+        "quote_text": "Medivation\u2019s Board of Directors"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Medivation Board of Directors",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w1_sale_process_part1_obl_6",
+        "observability": "named",
+        "quote_text": "Medivation\u2019s Board of Directors"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "J.P. Morgan Securities LLC",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w1_sale_process_part1_obl_7",
+        "observability": "named",
+        "quote_text": "J.P. Morgan Securities LLC (\u201cJ.P. Morgan\u201d) and Evercore Group L.L.C. (\u201cEvercore\u201d), financial advisors to Medivation"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Evercore Group L.L.C.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w1_sale_process_part1_obl_7",
+        "observability": "named",
+        "quote_text": "J.P. Morgan Securities LLC (\u201cJ.P. Morgan\u201d) and Evercore Group L.L.C. (\u201cEvercore\u201d), financial advisors to Medivation"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Cooley LLP",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w1_sale_process_part1_obl_8",
+        "observability": "named",
+        "quote_text": "Cooley LLP (\u201cCooley\u201d), a legal advisor to Medivation"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Wachtell, Lipton, Rosen & Katz",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w1_sale_process_part1_obl_8",
+        "observability": "named",
+        "quote_text": "Wachtell, Lipton, Rosen & Katz (\u201cWachtell Lipton\u201d), a legal advisor to Medivation"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Pfizer",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w1_sale_process_part1_obl_10",
+        "observability": "named",
+        "quote_text": "Pfizer, Purchaser and Medivation each executed the Merger Agreement on the afternoon of Saturday, August 20, 2016"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Purchaser",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w1_sale_process_part1_obl_10",
+        "observability": "named",
+        "quote_text": "Pfizer, Purchaser and Medivation each executed the Merger Agreement on the afternoon of Saturday, August 20, 2016"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w1_sale_process_part1_obl_7",
+        "effective_date_first": null,
+        "object_label": "Medivation",
+        "quote_text": "J.P. Morgan Securities LLC (\u201cJ.P. Morgan\u201d) and Evercore Group L.L.C. (\u201cEvercore\u201d), financial advisors to Medivation",
+        "relation_type": "advises",
+        "role_detail": "financial advisor",
+        "subject_label": "J.P. Morgan Securities LLC"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w1_sale_process_part1_obl_7",
+        "effective_date_first": null,
+        "object_label": "Medivation",
+        "quote_text": "J.P. Morgan Securities LLC (\u201cJ.P. Morgan\u201d) and Evercore Group L.L.C. (\u201cEvercore\u201d), financial advisors to Medivation",
+        "relation_type": "advises",
+        "role_detail": "financial advisor",
+        "subject_label": "Evercore Group L.L.C."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w1_sale_process_part1_obl_8",
+        "effective_date_first": null,
+        "object_label": "Medivation",
+        "quote_text": "Cooley LLP (\u201cCooley\u201d), a legal advisor to Medivation",
+        "relation_type": "advises",
+        "role_detail": "legal advisor",
+        "subject_label": "Cooley LLP"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w1_sale_process_part1_obl_8",
+        "effective_date_first": null,
+        "object_label": "Medivation",
+        "quote_text": "Wachtell, Lipton, Rosen & Katz (\u201cWachtell Lipton\u201d), a legal advisor to Medivation",
+        "relation_type": "advises",
+        "role_detail": "legal advisor",
+        "subject_label": "Wachtell, Lipton, Rosen & Katz"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w1_sale_process_part1_obl_10",
+        "effective_date_first": null,
+        "object_label": "Pfizer",
+        "quote_text": "Shares outstanding immediately prior to the Effective Time (other than treasury shares held by Medivation and any Shares owned by Pfizer, Purchaser, or any other direct or indirect wholly-owned subsidiary of Pfizer",
+        "relation_type": "affiliate_of",
+        "role_detail": "direct or indirect wholly-owned subsidiary",
+        "subject_label": "Purchaser"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w1_sale_process_part1_obl_10",
+        "effective_date_first": null,
+        "object_label": "Medivation",
+        "quote_text": "Purchaser will be merged with and into Medivation, with Medivation continuing as the surviving corporation in the Merger and as a wholly-owned subsidiary of Pfizer",
+        "relation_type": "acquisition_vehicle_of",
+        "role_detail": "merger acquisition vehicle",
+        "subject_label": "Purchaser"
+      }
+    ],
+    "bid_claims": [
+      {
+        "bid_date": "2016-04-15",
+        "bid_stage": "initial",
+        "bid_value": 52.5,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "Sanofi",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": null,
+        "coverage_obligation_id": "medivation_w1_sale_process_part1_obl_9",
+        "quote_text": "On April 15, 2016, Dr. David Hung, President and CEO of Medivation, received a letter dated April 13, 2016 from the Chief Executive Officer of Sanofi, setting forth a non-binding proposal to acquire Medivation for $52.50 per share."
+      },
+      {
+        "bid_date": "2016-08-08",
+        "bid_stage": "initial",
+        "bid_value": 65,
+        "bid_value_lower": null,
+        "bid_value_unit": "per Share",
+        "bid_value_upper": null,
+        "bidder_label": "Pfizer",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash consideration",
+        "coverage_obligation_id": "medivation_w1_sale_process_part1_obl_9",
+        "quote_text": "On August 8, 2016, Pfizer submitted a non-binding preliminary proposal to Medivation (the \u201cAugust 8 Proposal\u201d), subject to, among other conditions, satisfactory completion of Pfizer\u2019s due diligence, to acquire Medivation for cash consideration of $65.00 per Share."
+      },
+      {
+        "bid_date": "2016-08-19",
+        "bid_stage": "revised",
+        "bid_value": 77,
+        "bid_value_lower": null,
+        "bid_value_unit": "per Share",
+        "bid_value_upper": null,
+        "bidder_label": "Pfizer",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash consideration",
+        "coverage_obligation_id": "medivation_w1_sale_process_part1_obl_9",
+        "quote_text": "On August 19, 2016, Pfizer submitted a revised written proposal to acquire Medivation for cash consideration of $77.00 per Share."
+      },
+      {
+        "bid_date": "2016-08-20",
+        "bid_stage": "final",
+        "bid_value": 81.5,
+        "bid_value_lower": null,
+        "bid_value_unit": "per Share",
+        "bid_value_upper": null,
+        "bidder_label": "Pfizer",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash consideration",
+        "coverage_obligation_id": "medivation_w1_sale_process_part1_obl_9",
+        "quote_text": "Pfizer communicated a \u201cbest and final\u201d proposal to acquire Medivation for cash consideration of $81.50 per Share on August 20, 2016."
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "Sanofi",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w1_sale_process_part1_obl_1",
+        "description": "Sanofi submitted a non-binding proposal to acquire Medivation.",
+        "event_date": "2016-04-15",
+        "event_subtype": "ioi_submitted",
+        "event_type": "bid",
+        "quote_text": "On April 15, 2016, Dr. David Hung, President and CEO of Medivation, received a letter dated April 13, 2016 from the Chief Executive Officer of Sanofi, setting forth a non-binding proposal to acquire Medivation for $52.50 per share."
+      },
+      {
+        "actor_label": "Pfizer",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w1_sale_process_part1_obl_1",
+        "description": "Pfizer expressed interest in a possible transaction with Medivation.",
+        "event_date": "2016-05-02",
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "quote_text": "On May 2, 2016, Mr. Giordano and Dr. Hung spoke by phone. During this conversation, and in light of the public announcement on April 28 of Sanofi\u2019s proposal, Mr. Giordano expressed Pfizer\u2019s interest in a possible transaction when, and if, Medivation decided to pursue such a transaction."
+      },
+      {
+        "actor_label": "Pfizer",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w1_sale_process_part1_obl_1",
+        "description": "Pfizer executed a confidentiality and standstill agreement and was invited to participate in Medivation's potential sale process.",
+        "event_date": "2016-06-29",
+        "event_subtype": "nda_signed",
+        "event_type": "process",
+        "quote_text": "On June 29, 2016, Pfizer executed a confidentiality and standstill agreement with Medivation, and Medivation invited Pfizer to participate in a potential sale process."
+      },
+      {
+        "actor_label": "Pfizer",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w1_sale_process_part1_obl_3",
+        "description": "Pfizer submitted a non-binding preliminary proposal to acquire Medivation.",
+        "event_date": "2016-08-08",
+        "event_subtype": "first_round_bid",
+        "event_type": "bid",
+        "quote_text": "On August 8, 2016, Pfizer submitted a non-binding preliminary proposal to Medivation (the \u201cAugust 8 Proposal\u201d), subject to, among other conditions, satisfactory completion of Pfizer\u2019s due diligence, to acquire Medivation for cash consideration of $65.00 per Share."
+      },
+      {
+        "actor_label": "Pfizer",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w1_sale_process_part1_obl_4",
+        "description": "Pfizer submitted a revised written proposal to acquire Medivation.",
+        "event_date": "2016-08-19",
+        "event_subtype": "final_round_bid",
+        "event_type": "bid",
+        "quote_text": "On August 19, 2016, Pfizer submitted a revised written proposal to acquire Medivation for cash consideration of $77.00 per Share."
+      },
+      {
+        "actor_label": "Pfizer",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w1_sale_process_part1_obl_4",
+        "description": "Pfizer communicated its best and final proposal to acquire Medivation.",
+        "event_date": "2016-08-20",
+        "event_subtype": "final_round_bid",
+        "event_type": "bid",
+        "quote_text": "Pfizer communicated a \u201cbest and final\u201d proposal to acquire Medivation for cash consideration of $81.50 per Share on August 20, 2016."
+      },
+      {
+        "actor_label": "Pfizer",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w1_sale_process_part1_obl_4",
+        "description": "Medivation's board approved the transaction with Pfizer after Pfizer's best and final proposal.",
+        "event_date": null,
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "quote_text": "Following Pfizer\u2019s \u201cbest and final\u201d proposal, the Medivation Board of Directors approved the transaction with Pfizer."
+      },
+      {
+        "actor_label": "Pfizer",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w1_sale_process_part1_obl_10",
+        "description": "Pfizer, Purchaser and Medivation executed the merger agreement.",
+        "event_date": "2016-08-20",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "quote_text": "Pfizer, Purchaser and Medivation each executed the Merger Agreement on the afternoon of Saturday, August 20, 2016."
+      }
+    ],
+    "participation_count_claims": [
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "medium",
+        "count_max": null,
+        "count_min": 3,
+        "count_qualifier": "lower_bound",
+        "coverage_obligation_id": "medivation_w1_sale_process_part1_obl_2",
+        "process_stage": "nda_signed",
+        "quote_text": "Medivation issued a press release announcing that it had entered into confidentiality agreements with several parties, including Sanofi"
+      },
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "medium",
+        "count_max": null,
+        "count_min": 4,
+        "count_qualifier": "lower_bound",
+        "coverage_obligation_id": "medivation_w1_sale_process_part1_obl_3",
+        "process_stage": "first_round",
+        "quote_text": "Medivation notified Pfizer that it was inviting Pfizer to a subsequent round of the potential sale process, together with several other interested parties"
+      }
+    ]
+  },
+  "prompt_chars": 46274,
+  "prompt_sha256": "bdab43f967a8caebef197e60e51dc43b82ba514c7fa7e9f00beae4da1fc75b9d",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "medivation",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w1_sale_process_part1",
+  "window_profile": "W1_SALE_PROCESS"
+}

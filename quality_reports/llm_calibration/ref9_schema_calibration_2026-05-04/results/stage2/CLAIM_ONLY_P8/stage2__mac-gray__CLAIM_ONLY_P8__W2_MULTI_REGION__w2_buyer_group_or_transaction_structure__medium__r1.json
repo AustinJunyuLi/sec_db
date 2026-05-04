@@ -1,0 +1,291 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 109.63,
+  "input_chars": 22000,
+  "input_path": "inputs/mac-gray/W2_MULTI_REGION/w2_buyer_group_or_transaction_structure.json",
+  "input_text_sha256": "21481ea0965d73ee4d872242b79d64b1454ffebd6620ccc27d24207969671ba7",
+  "input_tokens": 6620,
+  "job_id": "stage2__mac-gray__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_buyer_group_or_transaction_structure__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 5,
+      "actor_relation_claims": 9,
+      "bid_claims": 0,
+      "event_claims": 7,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 4,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 7,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 21,
+    "relation_types": {
+      "acquisition_vehicle_of": 1,
+      "affiliate_of": 1,
+      "controls": 4,
+      "member_of": 3
+    },
+    "strict_claim_total": 21,
+    "total_quotes": 21
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 8985,
+  "output_text_sha256": "37dcb1982e1120ac3233aae493b6731ac81a0e95adbac10c903fe230400706db",
+  "output_tokens": 4680,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "organization",
+        "actor_label": "Spin Holdco Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_text": "the term \"Parent\" refers to Spin Holdco Inc."
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "CSC Fenway, Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_text": "the term \"Merger Subsidiary\" refers to CSC Fenway, Inc."
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "CSC ServiceWorks Holdings, Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_text": "the term \"Holdings\" refers to CSC ServiceWorks Holdings, Inc."
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "CSC ServiceWorks, Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_text": "the term \"CSC\" refers to CSC ServiceWorks, Inc."
+      },
+      {
+        "actor_kind": "group",
+        "actor_label": "Buyer Entity",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_text": "the term \"Buyer Entity\" refers to any of Parent, Holdings or CSC, as applicable"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Buyer Entity",
+        "quote_text": "the term \"Buyer Entity\" refers to any of Parent, Holdings or CSC, as applicable",
+        "relation_type": "member_of",
+        "role_detail": "Parent",
+        "subject_label": "Spin Holdco Inc."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Buyer Entity",
+        "quote_text": "the term \"Buyer Entity\" refers to any of Parent, Holdings or CSC, as applicable",
+        "relation_type": "member_of",
+        "role_detail": "Holdings",
+        "subject_label": "CSC ServiceWorks Holdings, Inc."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Buyer Entity",
+        "quote_text": "the term \"Buyer Entity\" refers to any of Parent, Holdings or CSC, as applicable",
+        "relation_type": "member_of",
+        "role_detail": "CSC",
+        "subject_label": "CSC ServiceWorks, Inc."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "CSC ServiceWorks, Inc.",
+        "quote_text": "**CSC ServiceWorks Holdings, Inc.** is a Delaware corporation and the sole stockholder of CSC.",
+        "relation_type": "controls",
+        "role_detail": "sole stockholder",
+        "subject_label": "CSC ServiceWorks Holdings, Inc."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Spin Holdco Inc.",
+        "quote_text": "**Spin Holdco Inc.** is a Delaware corporation and a wholly-owned subsidiary of CSC.",
+        "relation_type": "controls",
+        "role_detail": "wholly-owned subsidiary",
+        "subject_label": "CSC ServiceWorks, Inc."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "CSC Fenway, Inc.",
+        "quote_text": "**CSC Fenway, Inc.** is a Delaware corporation and a wholly-owned subsidiary of Parent.",
+        "relation_type": "controls",
+        "role_detail": "wholly-owned subsidiary",
+        "subject_label": "Spin Holdco Inc."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Spin Holdco Inc.",
+        "quote_text": "**Spin Holdco Inc.** is a Delaware corporation and a wholly-owned subsidiary of CSC.",
+        "relation_type": "affiliate_of",
+        "role_detail": "wholly-owned subsidiary of CSC",
+        "subject_label": "Spin Holdco Inc."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Spin Holdco Inc.",
+        "quote_text": "**CSC Fenway, Inc.** is a Delaware corporation and a wholly-owned subsidiary of Parent.",
+        "relation_type": "acquisition_vehicle_of",
+        "role_detail": "Merger Subsidiary; wholly-owned subsidiary of Parent",
+        "subject_label": "CSC Fenway, Inc."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Mac-Gray Corporation",
+        "quote_text": "Mac-Gray will be the surviving corporation, which we refer to as the surviving corporation, in the merger and will continue as a wholly-owned subsidiary of Parent.",
+        "relation_type": "controls",
+        "role_detail": "Mac-Gray will continue as a wholly-owned subsidiary of Parent in the merger",
+        "subject_label": "Spin Holdco Inc."
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": null,
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_buyer_group_or_transaction_structure_obl_3",
+        "description": "Agreement and Plan of Merger executed by and among Mac-Gray, Parent, Merger Subsidiary, Holdings and CSC.",
+        "event_date": "2013-10-14",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "quote_text": "Agreement and Plan of Merger, dated as of October 14, 2013, by and among Mac-Gray, Parent, Merger Subsidiary, Holdings and CSC"
+      },
+      {
+        "actor_label": "Mac-Gray Corporation",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_buyer_group_or_transaction_structure_obl_3",
+        "description": "Mac-Gray was a party to the merger agreement.",
+        "event_date": "2013-10-14",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "quote_text": "Agreement and Plan of Merger, dated as of October 14, 2013, by and among Mac-Gray, Parent, Merger Subsidiary, Holdings and CSC"
+      },
+      {
+        "actor_label": "Spin Holdco Inc.",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_buyer_group_or_transaction_structure_obl_3",
+        "description": "Parent was a party to the merger agreement.",
+        "event_date": "2013-10-14",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "quote_text": "Agreement and Plan of Merger, dated as of October 14, 2013, by and among Mac-Gray, Parent, Merger Subsidiary, Holdings and CSC"
+      },
+      {
+        "actor_label": "CSC Fenway, Inc.",
+        "actor_role": "acquisition_sub",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_buyer_group_or_transaction_structure_obl_3",
+        "description": "Merger Subsidiary was a party to the merger agreement.",
+        "event_date": "2013-10-14",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "quote_text": "Agreement and Plan of Merger, dated as of October 14, 2013, by and among Mac-Gray, Parent, Merger Subsidiary, Holdings and CSC"
+      },
+      {
+        "actor_label": "CSC ServiceWorks Holdings, Inc.",
+        "actor_role": "group_member",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_buyer_group_or_transaction_structure_obl_3",
+        "description": "Holdings was a party to the merger agreement.",
+        "event_date": "2013-10-14",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "quote_text": "Agreement and Plan of Merger, dated as of October 14, 2013, by and among Mac-Gray, Parent, Merger Subsidiary, Holdings and CSC"
+      },
+      {
+        "actor_label": "CSC ServiceWorks, Inc.",
+        "actor_role": "group_member",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_buyer_group_or_transaction_structure_obl_3",
+        "description": "CSC was a party to the merger agreement.",
+        "event_date": "2013-10-14",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "quote_text": "Agreement and Plan of Merger, dated as of October 14, 2013, by and among Mac-Gray, Parent, Merger Subsidiary, Holdings and CSC"
+      },
+      {
+        "actor_label": "CSC Fenway, Inc.",
+        "actor_role": "acquisition_sub",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_buyer_group_or_transaction_structure_obl_3",
+        "description": "Merger Subsidiary will merge with and into Mac-Gray, with Mac-Gray surviving as a wholly-owned subsidiary of Parent.",
+        "event_date": "2013-10-14",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "quote_text": "The Agreement and Plan of Merger, dated as of October 14, 2013, which we refer to as the merger agreement, by and among Mac-Gray, the Buyer Entities and Merger Subsidiary provides that Merger Subsidiary will merge with and into Mac-Gray, which we refer to as the merger."
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23947,
+  "prompt_sha256": "dbfb0e47250579413759d957076605fa0b2ebbe06dd3458b36e33dfc26d9861a",
+  "reasoning": "medium",
+  "reasoning_tokens": 2547,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "mac-gray",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_buyer_group_or_transaction_structure",
+  "window_profile": "W2_MULTI_REGION"
+}

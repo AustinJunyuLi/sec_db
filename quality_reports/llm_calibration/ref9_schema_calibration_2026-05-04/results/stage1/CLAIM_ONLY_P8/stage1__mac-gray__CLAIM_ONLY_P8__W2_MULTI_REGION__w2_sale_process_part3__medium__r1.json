@@ -1,0 +1,356 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 56.15,
+  "input_chars": 10870,
+  "input_path": "inputs/mac-gray/W2_MULTI_REGION/w2_sale_process_part3.json",
+  "input_text_sha256": "8dd8272d24e6cdea7dddeff3aa3c8c894de6894089872399a2a69c67fd3c9094",
+  "input_tokens": 3799,
+  "job_id": "stage1__mac-gray__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_sale_process_part3__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 11,
+      "actor_relation_claims": 4,
+      "bid_claims": 3,
+      "event_claims": 9,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 3,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 7,
+    "not_unique_in_source_window": 2,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 27,
+    "relation_types": {
+      "advises": 1,
+      "finances": 1,
+      "member_of": 2
+    },
+    "strict_claim_total": 27,
+    "total_quotes": 27
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 11288,
+  "output_text_sha256": "c8357bc3712b5541a601c20b830570678fb303a27e2331c012010e0a4235c16d",
+  "output_tokens": 3490,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "committee",
+        "actor_label": "Special Committee",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_6",
+        "observability": "named",
+        "quote_text": "The Special Committee then authorized the Transaction Committee"
+      },
+      {
+        "actor_kind": "committee",
+        "actor_label": "Transaction Committee",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_6",
+        "observability": "named",
+        "quote_text": "the members of the Transaction Committee called the representative of CSC/Pamplona"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "BofA Merrill Lynch",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_7",
+        "observability": "named",
+        "quote_text": "representatives of BofA Merrill Lynch"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Goodwin Procter",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_8",
+        "observability": "named",
+        "quote_text": "authorized the Transaction Committee and Goodwin Procter to negotiate the terms of such exclusivity"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Mac-Gray",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_6",
+        "observability": "named",
+        "quote_text": "Mac-Gray was prepared to move forward with CSC/Pamplona"
+      },
+      {
+        "actor_kind": "group",
+        "actor_label": "CSC/Pamplona",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_10",
+        "observability": "named",
+        "quote_text": "CSC/Pamplona final proposal"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "CSC",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_10",
+        "observability": "named",
+        "quote_text": "CSC, Pamplona and Mac-Gray executed the exclusivity agreement"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Pamplona",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_10",
+        "observability": "named",
+        "quote_text": "Pamplona was committing to fund 100% of the capital needed for closing"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Kirkland & Ellis LLP",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_10",
+        "observability": "named",
+        "quote_text": "Kirkland & Ellis LLP, outside legal counsel to CSC/Pamplona"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Moab",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_10",
+        "observability": "named",
+        "quote_text": "Moab would not rollover any Moab shares in the transaction"
+      },
+      {
+        "actor_kind": "person",
+        "actor_label": "Mr. MacDonald",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_6",
+        "observability": "named",
+        "quote_text": "Mr. MacDonald indicated that he would be supportive of a price of $21.25 per share"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_10",
+        "effective_date_first": null,
+        "object_label": "CSC/Pamplona",
+        "quote_text": "CSC, Pamplona and Mac-Gray executed the exclusivity agreement",
+        "relation_type": "member_of",
+        "role_detail": null,
+        "subject_label": "CSC"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_10",
+        "effective_date_first": null,
+        "object_label": "CSC/Pamplona",
+        "quote_text": "CSC, Pamplona and Mac-Gray executed the exclusivity agreement",
+        "relation_type": "member_of",
+        "role_detail": null,
+        "subject_label": "Pamplona"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_10",
+        "effective_date_first": null,
+        "object_label": "CSC/Pamplona",
+        "quote_text": "Pamplona was committing to fund 100% of the capital needed for closing",
+        "relation_type": "finances",
+        "role_detail": "committing to fund 100% of the capital needed for closing",
+        "subject_label": "Pamplona"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_10",
+        "effective_date_first": null,
+        "object_label": "CSC/Pamplona",
+        "quote_text": "Kirkland & Ellis LLP, outside legal counsel to CSC/Pamplona",
+        "relation_type": "advises",
+        "role_detail": "outside legal counsel",
+        "subject_label": "Kirkland & Ellis LLP"
+      }
+    ],
+    "bid_claims": [
+      {
+        "bid_date": null,
+        "bid_stage": "revised",
+        "bid_value": 20.75,
+        "bid_value_lower": null,
+        "bid_value_unit": "USD per share",
+        "bid_value_upper": null,
+        "bidder_label": "CSC/Pamplona",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": null,
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_9",
+        "quote_text": "CSC/Pamplona should be in a position to increase their offer price above $20.75"
+      },
+      {
+        "bid_date": "2013-09-21",
+        "bid_stage": "final",
+        "bid_value": 21.25,
+        "bid_value_lower": null,
+        "bid_value_unit": "USD per share",
+        "bid_value_upper": null,
+        "bidder_label": "CSC/Pamplona",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "all-cash",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_9",
+        "quote_text": "CSC/Pamplona were willing to increase their all-cash purchase price to $21.25 per share as a last and best offer"
+      },
+      {
+        "bid_date": null,
+        "bid_stage": "final",
+        "bid_value": 21.25,
+        "bid_value_lower": null,
+        "bid_value_unit": "USD per share",
+        "bid_value_upper": null,
+        "bidder_label": "CSC/Pamplona",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_9",
+        "quote_text": "the CSC/Pamplona final proposal with the Special Committee, including the $21.25 per share cash consideration"
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "CSC/Pamplona",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_4",
+        "description": "CSC/Pamplona confirmed it was willing to increase its all-cash purchase price to $21.25 per share as its last and best offer, conditioned on exclusivity.",
+        "event_date": "2013-09-21",
+        "event_subtype": "final_round_bid",
+        "event_type": "bid",
+        "quote_text": "Later that same day, the representative of CSC/Pamplona called the members of the Transaction Committee to confirm that CSC/Pamplona were willing to increase their all-cash purchase price to $21.25 per share as a last and best offer, provided that Mac-Gray agree to a two week period of exclusive negotiations."
+      },
+      {
+        "actor_label": "Mac-Gray",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_5",
+        "description": "Mac-Gray proposed moving forward with CSC/Pamplona on an exclusive basis for two weeks if CSC/Pamplona increased its all-cash purchase price to $21.25 per share.",
+        "event_date": "2013-09-21",
+        "event_subtype": "exclusivity_grant",
+        "event_type": "process",
+        "quote_text": "On September 21, 2013, the members of the Transaction Committee called the representative of CSC/Pamplona to propose that Mac-Gray was prepared to move forward with CSC/Pamplona on an exclusive basis for two weeks subject to CSC/Pamplona increasing their all-cash purchase price to $21.25 per share."
+      },
+      {
+        "actor_label": "Special Committee",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_5",
+        "description": "The Special Committee authorized Mac-Gray to enter into an exclusivity agreement for exclusive negotiations until 5 p.m. ET on October 12, 2013.",
+        "event_date": "2013-09-23",
+        "event_subtype": "exclusivity_grant",
+        "event_type": "process",
+        "quote_text": "After discussion, the Special Committee authorized Mac-Gray to enter into an exclusivity agreement providing for exclusive negotiations until 5 p.m. ET on October 12, 2013 on the terms included in the CSC/Pamplona final proposal"
+      },
+      {
+        "actor_label": "CSC, Pamplona and Mac-Gray",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_5",
+        "description": "CSC, Pamplona and Mac-Gray executed the exclusivity agreement providing for exclusive negotiations until 5 p.m. ET on October 12, 2013.",
+        "event_date": "2013-09-24",
+        "event_subtype": "exclusivity_grant",
+        "event_type": "process",
+        "quote_text": "On September 24, 2013, CSC, Pamplona and Mac-Gray executed the exclusivity agreement providing for exclusive negotiations until 5 p.m. ET on October 12, 2013"
+      },
+      {
+        "actor_label": "Goodwin Procter",
+        "actor_role": "sender",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_8",
+        "description": "Goodwin Procter delivered the initial draft of the merger agreement to Kirkland & Ellis LLP, outside legal counsel to CSC/Pamplona.",
+        "event_date": "2013-09-25",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "quote_text": "On September 25, 2013, Goodwin Procter delivered to Kirkland & Ellis LLP, outside legal counsel to CSC/Pamplona, whom we refer to as Kirkland, the initial draft of the merger agreement."
+      },
+      {
+        "actor_label": "CSC and Pamplona",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_10",
+        "description": "CSC and Pamplona received full access to the electronic data site and management access and conducted confirmatory business and legal due diligence on Mac-Gray.",
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "Also during this time, CSC and Pamplona were granted full access to the electronic data site and access to certain members of management and conducted confirmatory business and legal due diligence on Mac-Gray."
+      },
+      {
+        "actor_label": "Moab",
+        "actor_role": "rollover_holder",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_10",
+        "description": "Moab determined that it would not roll over any Moab shares in the transaction.",
+        "event_date": null,
+        "event_subtype": "advancement_declined",
+        "event_type": "process",
+        "quote_text": "As a result of such discussions, it was determined that Moab would not rollover any Moab shares in the transaction."
+      },
+      {
+        "actor_label": "Mr. MacDonald, his wife and one of his trusts",
+        "actor_role": "support_shareholder",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_6",
+        "description": "Mr. MacDonald, his wife and one of his trusts entered into the MacDonald voting agreements on September 27, 2013, effective upon entry into the merger agreement.",
+        "event_date": "2013-09-27",
+        "event_subtype": "advancement_admitted",
+        "event_type": "transaction",
+        "quote_text": "Kirkland and outside counsel to Mr. MacDonald negotiated the terms of the MacDonald voting agreements, which were entered into by Mr. MacDonald, his wife and one of his trusts on September 27, 2013, and which became effective upon entry into the merger agreement."
+      },
+      {
+        "actor_label": "Pamplona",
+        "actor_role": "equity_financing_source",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_10",
+        "description": "Pamplona committed to fund 100% of the capital needed for closing.",
+        "event_date": null,
+        "event_subtype": "financing_committed",
+        "event_type": "transaction",
+        "quote_text": "Pamplona was committing to fund 100% of the capital needed for closing"
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 13195,
+  "prompt_sha256": "1e26844305d5b898628e197a7bc2bcbd156958a6b5512cbbaa803e6de6f5dbd6",
+  "reasoning": "medium",
+  "reasoning_tokens": 769,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "mac-gray",
+  "stage": "stage1",
+  "status": "completed",
+  "window_id": "w2_sale_process_part3",
+  "window_profile": "W2_MULTI_REGION"
+}

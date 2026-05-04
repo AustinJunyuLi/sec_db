@@ -1,0 +1,334 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_CLAIM_ONLY_P8",
+  "duration_s": 46.11,
+  "input_chars": 24921,
+  "input_path": "inputs/petsmart-inc/W2_MULTI_REGION/w2_sale_process_part1.json",
+  "input_text_sha256": "a45c87b90ed93b50552f72fda49c0b14e4553fe05444cd9bd1eff0c5cd598fac",
+  "input_tokens": 7202,
+  "job_id": "stage1__petsmart-inc__EXPANDED_CLAIM_ONLY_P8__W2_MULTI_REGION__w2_sale_process_part1__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 11,
+      "actor_relation_claims": 9,
+      "bid_claims": 1,
+      "event_claims": 3,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 4,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 2,
+    "not_unique_in_source_window": 2,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 24,
+    "relation_types": {
+      "advises": 1,
+      "affiliate_of": 1,
+      "controls": 2,
+      "member_of": 5
+    },
+    "strict_claim_total": 24,
+    "total_quotes": 24
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 11366,
+  "output_text_sha256": "ff8fb87f3b649bcb76d8e4207d2a2500fa4d567b67a38b6bf32b1da3213b2c03",
+  "output_tokens": 3149,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "PetSmart, Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part1_obl_6",
+        "observability": "named",
+        "quote_text": "\u201cPetSmart,\u201d the \u201cCompany,\u201d \u201cwe,\u201d \u201cour,\u201d or \u201cus\u201d refer to PetSmart, Inc., a Delaware corporation;"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "committee",
+        "actor_label": "board of directors of the Company",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part1_obl_6",
+        "observability": "named",
+        "quote_text": "the \u201cboard\u201d refers to the board of directors of the Company;"
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "J.P. Morgan Securities LLC",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part1_obl_7",
+        "observability": "named",
+        "quote_text": "J.P. Morgan Securities LLC (\u201cJ.P. Morgan\u201d)"
+      },
+      {
+        "actor_class": "mixed",
+        "actor_kind": "group",
+        "actor_label": "Buyer Group",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part1_obl_10",
+        "observability": "named",
+        "quote_text": "the \u201cBuyer Group\u201d refers to a consortium of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and, at all times after December 12, 2014, Longview Asset Management, LLC;"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "BC Partners, Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part1_obl_10",
+        "observability": "named",
+        "quote_text": "BC Partners, Inc."
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part1_obl_10",
+        "observability": "named",
+        "quote_text": "La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "GIC Special Investments Pte Ltd",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part1_obl_10",
+        "observability": "named",
+        "quote_text": "GIC Special Investments Pte Ltd"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "StepStone Group LP",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part1_obl_10",
+        "observability": "named",
+        "quote_text": "StepStone Group LP"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Longview Asset Management, LLC",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part1_obl_10",
+        "observability": "named",
+        "quote_text": "Longview Asset Management, LLC"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Argos Holdings Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part1_obl_10",
+        "observability": "named",
+        "quote_text": "\u201cParent\u201d refers to Argos Holdings Inc., a Delaware corporation"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Argos Merger Sub Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part1_obl_10",
+        "observability": "named",
+        "quote_text": "\u201cMerger Sub\u201d refers to Argos Merger Sub Inc., a Delaware corporation;"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part1_obl_7",
+        "effective_date_first": null,
+        "object_label": "board of directors of the Company",
+        "quote_text": "J.P. Morgan Securities LLC (\u201cJ.P. Morgan\u201d) rendered its oral opinion, subsequently confirmed in writing on December 14, 2014, to the board",
+        "relation_type": "advises",
+        "role_detail": "rendered fairness opinion to the board",
+        "subject_label": "J.P. Morgan Securities LLC"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part1_obl_10",
+        "effective_date_first": null,
+        "object_label": "Buyer Group",
+        "quote_text": "the \u201cBuyer Group\u201d refers to a consortium of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and, at all times after December 12, 2014, Longview Asset Management, LLC;",
+        "relation_type": "member_of",
+        "role_detail": "consortium of funds advised by BC Partners, Inc.",
+        "subject_label": "funds advised by BC Partners, Inc."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part1_obl_10",
+        "effective_date_first": null,
+        "object_label": "Buyer Group",
+        "quote_text": "the \u201cBuyer Group\u201d refers to a consortium of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and, at all times after December 12, 2014, Longview Asset Management, LLC;",
+        "relation_type": "member_of",
+        "role_detail": null,
+        "subject_label": "La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part1_obl_10",
+        "effective_date_first": null,
+        "object_label": "Buyer Group",
+        "quote_text": "the \u201cBuyer Group\u201d refers to a consortium of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and, at all times after December 12, 2014, Longview Asset Management, LLC;",
+        "relation_type": "member_of",
+        "role_detail": "affiliates of GIC Special Investments Pte Ltd",
+        "subject_label": "affiliates of GIC Special Investments Pte Ltd"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part1_obl_10",
+        "effective_date_first": null,
+        "object_label": "Buyer Group",
+        "quote_text": "the \u201cBuyer Group\u201d refers to a consortium of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and, at all times after December 12, 2014, Longview Asset Management, LLC;",
+        "relation_type": "member_of",
+        "role_detail": "affiliates of StepStone Group LP",
+        "subject_label": "affiliates of StepStone Group LP"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part1_obl_10",
+        "effective_date_first": "2014-12-12",
+        "object_label": "Buyer Group",
+        "quote_text": "at all times after December 12, 2014, Longview Asset Management, LLC",
+        "relation_type": "member_of",
+        "role_detail": null,
+        "subject_label": "Longview Asset Management, LLC"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part1_obl_10",
+        "effective_date_first": null,
+        "object_label": "BC Partners, Inc.",
+        "quote_text": "Parent and Merger Sub are currently affiliates of funds advised by BC Partners, Inc. (\u201cBC Partners\u201d)",
+        "relation_type": "affiliate_of",
+        "role_detail": "currently affiliates of funds advised by BC Partners, Inc.",
+        "subject_label": "Parent and Merger Sub"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part1_obl_10",
+        "effective_date_first": null,
+        "object_label": "Buyer Group",
+        "quote_text": "At the closing of the transactions contemplated by the merger agreement, Parent will be owned by the Buyer Group.",
+        "relation_type": "controls",
+        "role_detail": "Parent will be owned by the Buyer Group at closing",
+        "subject_label": "Buyer Group"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part1_obl_10",
+        "effective_date_first": null,
+        "object_label": "Parent",
+        "quote_text": "Argos Merger Sub Inc. is a Delaware corporation and a wholly owned subsidiary of Parent.",
+        "relation_type": "controls",
+        "role_detail": "wholly owned subsidiary",
+        "subject_label": "Parent"
+      }
+    ],
+    "bid_claims": [
+      {
+        "bid_date": null,
+        "bid_formality": "formal",
+        "bid_stage": "final",
+        "bid_value": 83,
+        "bid_value_lower": null,
+        "bid_value_unit": "USD per share",
+        "bid_value_upper": null,
+        "bidder_label": "Parent",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part1_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_text": "each outstanding share of common stock (other than shares owned by the Company, any subsidiary of the Company, Parent, any direct or indirect holding company of Parent, Merger Sub and holders who are entitled to and properly exercise appraisal rights under Delaware law), will be converted into the right to receive $83.00 in cash (the \u201cmerger consideration\u201d)."
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "board of directors of the Company",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part1_obl_6",
+        "description": "The board unanimously approved the merger agreement and recommended stockholders adopt it.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_text": "The board unanimously (i) determined that the merger agreement and the merger are advisable and in the best interests of the Company and its stockholders, (ii) approved the execution, delivery and performance of the merger agreement, and (iii) resolved to recommend the adoption of the merger agreement by the stockholders of the Company"
+      },
+      {
+        "actor_label": "J.P. Morgan Securities LLC",
+        "actor_role": "advisor_for_target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part1_obl_7",
+        "description": "J.P. Morgan rendered an oral fairness opinion to the board on December 13, 2014, later confirmed in writing on December 14, 2014.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-12-13",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_text": "At the meeting of the board on December 13, 2014, J.P. Morgan Securities LLC (\u201cJ.P. Morgan\u201d) rendered its oral opinion, subsequently confirmed in writing on December 14, 2014, to the board that, as of such date and based upon and subject to the factors, assumptions and limitations set forth in its opinion, the merger consideration to be paid to the holders of the Company\u2019s common stock in the merger was fair, from a financial point of view, to such holders."
+      },
+      {
+        "actor_label": "Parent",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part1_obl_9",
+        "description": "The merger agreement provides for each outstanding share of common stock to be converted into the right to receive $83.00 in cash.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_text": "The merger agreement provides that at the effective time of the merger each outstanding share of common stock (other than shares owned by the Company, any subsidiary of the Company, Parent, any direct or indirect holding company of Parent, Merger Sub and holders who are entitled to and properly exercise appraisal rights under Delaware law), will be converted into the right to receive $83.00 in cash (the \u201cmerger consideration\u201d)."
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 27451,
+  "prompt_sha256": "f35714054ae0557e93e1b5e2be8ce056383d8d5d511a8a15eaa782574f9a0db0",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "80c516a8b3401128674672619998677e77e1705c31b2f7b7ea8a4f8856bd14eb",
+  "slug": "petsmart-inc",
+  "stage": "stage1",
+  "status": "completed",
+  "window_id": "w2_sale_process_part1",
+  "window_profile": "W2_MULTI_REGION"
+}

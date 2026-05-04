@@ -1,0 +1,618 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "PLAIN_RECALL_SIDECAR",
+  "duration_s": 105.45,
+  "input_chars": 120000,
+  "input_path": "inputs/providence-worcester/W4_PLAIN_RECALL/w4_plain_recall.json",
+  "input_text_sha256": "0053dee372c87561f9dc9994ae100034eacebf60c5d02e71bc5333af6d88e0db",
+  "input_tokens": 24126,
+  "job_id": "stage1__providence-worcester__PLAIN_RECALL_SIDECAR__W4_PLAIN_RECALL__w4_plain_recall__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actors": 13,
+      "bids": 14,
+      "chronology": 22,
+      "counts": 9,
+      "relations": 14,
+      "source_limitations": 5,
+      "uncertain_or_missing": 6
+    },
+    "duplicate_quotes_within_response": 2,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 1,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 77,
+    "relation_types": {},
+    "sidecar_total_items": 83,
+    "strict_claim_total": 0,
+    "total_quotes": 77
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 36666,
+  "output_text_sha256": "23eed32779dd879cd9948082ca405d218ff31d105ffee5b64939cd933b643b4e",
+  "output_tokens": 7776,
+  "parsed": {
+    "actors": [
+      {
+        "date": null,
+        "description": "Genesee & Wyoming Inc. (G&W) is the buyer; Merger Sub will merge into Providence and Worcester Railroad Company, leaving the Company as surviving corporation and wholly-owned subsidiary of G&W.",
+        "exact_quote": "Under the terms and conditions set forth in the merger agreement, Merger Sub will merge with and into the Company, with the Company being the surviving corporation and becoming a wholly-owned subsidiary of G&W.",
+        "importance": "core",
+        "label": "G&W / Merger Sub"
+      },
+      {
+        "date": "Q4 2015",
+        "description": "Party A was a Class I rail partner that initially raised possible strategic arrangements and interest in acquiring equity.",
+        "exact_quote": "In the fourth quarter of 2015, Robert H. Eder (the Company\u2019s Chairman and Chief Executive Officer) and Frank K. Rogers (the Company\u2019s Vice President and Chief Commercial Officer) met with one of the Company\u2019s Class I rail partners (\u201cParty A\u201d) to discuss joint commercial opportunities. During the meeting, Party A suggested possible joint venture arrangements and expressed some interest in acquiring equity in the Company to further develop strategic opportunities and enhance regional connectivity.",
+        "importance": "core",
+        "label": "Party A"
+      },
+      {
+        "date": "2016-04-21",
+        "description": "Party B was another potential strategic buyer that entered the process and later became G&W\u2019s principal competing bidder at $24.00 per share.",
+        "exact_quote": "Subsequently, on April 21, 2016, the Company and representatives of GHF held an introductory meeting with another potential strategic buyer (\u201cParty B\u201d).",
+        "importance": "core",
+        "label": "Party B"
+      },
+      {
+        "date": "2016-07",
+        "description": "Party C was a strategic buyer that approached after the original process began, submitted a $21.00 IOI, then a $19.30 LOI.",
+        "exact_quote": "In early July 2016, a potential strategic buyer that had not previously been part of the process (\u201cParty C\u201d) approached the Company\u2019s management and expressed interest in acquiring the Company.",
+        "importance": "useful",
+        "label": "Party C"
+      },
+      {
+        "date": "2016-07",
+        "description": "Party D was a financial buyer that submitted a $21.00 LOI and later revised to $24.00 but did not proceed when the Company would not commit not to sign with another bidder during diligence.",
+        "exact_quote": "Party D (a financial buyer) submitted an LOI to acquire the Company for a price of $21.00 per share (subject to a four-week diligence period).",
+        "importance": "core",
+        "label": "Party D"
+      },
+      {
+        "date": "2016-07",
+        "description": "Party E was a strategic buyer that submitted a $21.26 LOI and later revised to $23.81 with financing support from Party F, then withdrew the revised proposal but confirmed its original proposal.",
+        "exact_quote": "Party E (a strategic buyer) submitted an LOI to acquire the Company for a price of $21.26 per share (subject to a 60-day exclusivity period for due diligence and negotiation of definitive documentation).",
+        "importance": "core",
+        "label": "Party E"
+      },
+      {
+        "date": "2016-08-01",
+        "description": "Party F supplied financing support to Party E\u2019s revised $23.81 proposal; Party F also independently submitted a $19.20 LOI as a strategic buyer.",
+        "exact_quote": "On August 1, 2016, Party D submitted a revised LOI at a price of $24.00 per share and Party E submitted a revised LOI, along with financing support, from Party F, at a price of $23.81 per share.",
+        "importance": "useful",
+        "label": "Party F"
+      },
+      {
+        "date": "2016-03-14",
+        "description": "The Board formed a Transaction Committee of independent directors Frank W. Barrett, Richard W. Anderson, and James C. Garvey to supervise the process and recommend to the full Board, but not approve a transaction.",
+        "exact_quote": "the Board appointed a special committee of independent directors of the Board (which we refer to as the \u201cTransaction Committee\u201d), composed of Frank W. Barrett (Chair), Richard W. Anderson and James C. Garvey, for the purpose of assisting in the supervision and oversight of the process on the full Board\u2019s behalf and making a recommendation to the full Board. The Transaction Committee did not have the authority to approve or enter into a change of control transaction",
+        "importance": "core",
+        "label": "Transaction Committee"
+      },
+      {
+        "date": "2016-01-27",
+        "description": "GHF was engaged as financial advisor; GHF\u2019s business was later acquired by BMO, which acted as financial advisor and delivered fairness opinion.",
+        "exact_quote": "the subcommittee recommended to the Board that the Company retain GHF as its investment banking firm.",
+        "importance": "core",
+        "label": "GHF / BMO"
+      },
+      {
+        "date": null,
+        "description": "Hinckley Allen served as Company legal counsel.",
+        "exact_quote": "the Company\u2019s legal counsel, Hinckley, Allen & Snyder LLP (which we refer to as \u201cHinckley Allen\u201d)",
+        "importance": "useful",
+        "label": "Hinckley Allen"
+      },
+      {
+        "date": "2016-08-10",
+        "description": "Simpson Thacher & Bartlett LLP served as G&W\u2019s legal counsel.",
+        "exact_quote": "representatives of Hinckley Allen and Simpson Thacher & Bartlett LLP (which we refer to as \u201cSimpson Thacher\u201d), G&W\u2019s legal counsel, discussed various provisions of the draft merger agreement and voting agreement",
+        "importance": "useful",
+        "label": "Simpson Thacher"
+      },
+      {
+        "date": "2016-07-27",
+        "description": "Director Alfred P. Smith recused himself due to his role at GATX, which owned 4.92% of the Company\u2019s common stock and might be a potential buyer.",
+        "exact_quote": "Director Smith is Vice President and Group Executive, Locomotive Group of GATX Corporation (\u201cGATX\u201d), which owns 4.92% of the Company\u2019s common stock. In order to avoid any potential conflict, Mr. Smith elected to recuse himself from participating in this and other Board meetings at which the bidding process and any potential transaction were to be discussed because of the possibility that GATX might be a potential buyer of the Company.",
+        "importance": "core",
+        "label": "Director Smith / GATX"
+      },
+      {
+        "date": null,
+        "description": "The Eder Trusts were significant shareholders that entered a voting agreement with G&W and the Company.",
+        "exact_quote": "The Eder Trusts have executed a voting agreement with G&W and the Company under which the Eder Trusts have agreed to vote their shares in favor of approving the merger agreement.",
+        "importance": "core",
+        "label": "Eder Trusts"
+      }
+    ],
+    "bids": [
+      {
+        "date": "2016-05-19 to 2016-06-01",
+        "description": "Nine initial written IOIs were received, with per-share prices from $17.93 to $26.50 and implied equity values from $90 million to $134 million.",
+        "exact_quote": "Between May 19, 2016 and June 1, 2016, the Company received nine written indications of interest (\u201cIOIs\u201d) from potential buyers, with offer prices per share ranging from $17.93 to $26.50 (assuming the conversion of preferred stock into common stock), implying equity values of $90 million to $134 million.",
+        "importance": "core",
+        "label": "Initial IOIs"
+      },
+      {
+        "date": "2016-07-12",
+        "description": "Party C submitted an IOI at $21.00 per share, implying $108 million equity value.",
+        "exact_quote": "On July 12, 2016, Party C submitted an IOI with an offer price per share of $21.00 (implying an equity value of $108 million).",
+        "importance": "useful",
+        "label": "Party C IOI"
+      },
+      {
+        "date": "late July 2016",
+        "description": "Six LOIs were received, with per-share prices from $19.20 to $24.00 and implied equity values from $96 million to $121 million.",
+        "exact_quote": "In late July 2016, the Company received six LOIs with offer prices per share ranging from $19.20 to $24.00 (implying equity values of $96 million to $121 million).",
+        "importance": "core",
+        "label": "LOI round"
+      },
+      {
+        "date": "late July 2016",
+        "description": "Party B submitted the highest late-July LOI at $24.00 per share, subject to expedited diligence.",
+        "exact_quote": "Party B submitted an LOI to acquire the Company for a price of $24.00 per share (subject to an expedited diligence review).",
+        "importance": "core",
+        "label": "Party B LOI"
+      },
+      {
+        "date": "2016-07-21",
+        "description": "G&W\u2019s initial LOI was $21.15 per share, consisting of $20.02 cash and $1.13 CVR tied to sale of the South Quay property, subject to three-week exclusive diligence.",
+        "exact_quote": "G&W submitted an LOI on July 21, 2016 to acquire the Company for a price of $21.15 per share (subject to a three-week exclusive diligence period). The price included $20.02 cash at closing and $1.13 in the form of a contingent value right, the value of which was based on the subsequent sale of the Company\u2019s South Quay property (\u201cCVR\u201d).",
+        "importance": "core",
+        "label": "G&W initial LOI"
+      },
+      {
+        "date": "2016-07-26",
+        "description": "G&W increased its offer to $22.15 per share after feedback that price and CVR structure were not competitive.",
+        "exact_quote": "On July 26, 2016, in response to feedback from representatives of GHF indicating its price and CVR structure were not competitive, G&W submitted a revised LOI, which increased its offer to $22.15 per share (including $21.02 in cash and $1.13 CVR).",
+        "importance": "core",
+        "label": "G&W revised LOI"
+      },
+      {
+        "date": "late July 2016",
+        "description": "Party E submitted a $21.26 per share LOI subject to a 60-day exclusivity period.",
+        "exact_quote": "Party E (a strategic buyer) submitted an LOI to acquire the Company for a price of $21.26 per share (subject to a 60-day exclusivity period for due diligence and negotiation of definitive documentation).",
+        "importance": "core",
+        "label": "Party E LOI"
+      },
+      {
+        "date": "late July 2016",
+        "description": "Party D submitted a $21.00 per share LOI subject to a four-week diligence period.",
+        "exact_quote": "Party D (a financial buyer) submitted an LOI to acquire the Company for a price of $21.00 per share (subject to a four-week diligence period).",
+        "importance": "useful",
+        "label": "Party D LOI"
+      },
+      {
+        "date": "late July 2016",
+        "description": "Party C submitted a $19.30 per share LOI subject to a 30-day diligence period.",
+        "exact_quote": "Party C submitted an LOI to acquire the Company for a price of $19.30 per share (subject to a 30-day diligence period).",
+        "importance": "useful",
+        "label": "Party C LOI"
+      },
+      {
+        "date": "late July 2016",
+        "description": "Party F submitted a $19.20 per share LOI subject to a 30-day due diligence period.",
+        "exact_quote": "Party F (a strategic buyer) submitted an LOI to acquire the Company for a price of $19.20 per share (subject to a 30-day due diligence period).",
+        "importance": "useful",
+        "label": "Party F LOI"
+      },
+      {
+        "date": "2016-08-01",
+        "description": "Party D revised its LOI to $24.00 per share, but required a 30-day diligence period and a commitment not to sign with another bidder during that period.",
+        "exact_quote": "On August 1, 2016, Party D submitted a revised LOI at a price of $24.00 per share",
+        "importance": "core",
+        "label": "Party D revised LOI"
+      },
+      {
+        "date": "2016-08-01",
+        "description": "Party E revised its proposal to $23.81 per share with financing support from Party F, then withdrew the revised proposal on August 2 while confirming the original $21.26 proposal.",
+        "exact_quote": "Party E withdrew its revised proposal on August 2, 2016 (but confirmed its original proposal of $21.26 per share)",
+        "importance": "core",
+        "label": "Party E revised proposal withdrawal"
+      },
+      {
+        "date": "2016-08-12",
+        "description": "G&W submitted final revised LOI at $25.00 per share in cash, eliminating the prior CVR; offer expired at 6:00 p.m. the next day.",
+        "exact_quote": "G&W submitted a revised LOI to acquire the Company for a price of $25.00 per share in cash, which excluded the previously proposed CVR, together with mark-ups of the merger agreement and the voting agreement. G&W\u2019s LOI further indicated that the offer would expire at 6:00 p.m. on the following day.",
+        "importance": "core",
+        "label": "G&W final offer"
+      },
+      {
+        "date": "2016-08-12",
+        "description": "Party B was asked to increase its $24.00 offer but refused, leading the Board to determine G&W\u2019s offer was superior.",
+        "exact_quote": "At the request of the Board, representatives of BMO then contacted Party B to determine if it would increase its offer price. Party B indicated that it would not increase its price.",
+        "importance": "core",
+        "label": "Party B no increase"
+      }
+    ],
+    "chronology": [
+      {
+        "date": "Q4 2015",
+        "description": "Initial strategic discussions with Party A triggered Board consideration of advisors and potential strategic options.",
+        "exact_quote": "Upon receiving a report of this meeting, in recognition of its public company obligations, the Board appointed a subcommittee of two independent directors, Frank W. Barrett and Richard W. Anderson, to interview potential investment bankers to represent the Company in possible negotiations with Party A and to assist the Board in evaluating additional strategic options for the realization of shareholder value, including potential change in control transactions.",
+        "importance": "core",
+        "label": "Process initiated"
+      },
+      {
+        "date": "2016-01-27",
+        "description": "At the Board\u2019s quarterly meeting, the subcommittee recommended GHF; GHF discussed qualifications and proposed process; Board approved engaging GHF.",
+        "exact_quote": "During the executive session of the Board\u2019s regular quarterly meeting held on January 27, 2016 (which Director Alfred P. Smith did not attend), the subcommittee recommended to the Board that the Company retain GHF as its investment banking firm.",
+        "importance": "core",
+        "label": "GHF engagement approved"
+      },
+      {
+        "date": "2016-03-14",
+        "description": "Board authorized a process involving Party A and solicitation of other third parties for a change in control transaction; Transaction Committee was appointed.",
+        "exact_quote": "Representatives of GHF then proposed a process pursuant to which the Company would proceed with discussions with Party A and also solicit interest from other potential third parties regarding a change in control transaction.",
+        "importance": "core",
+        "label": "Sale process authorized"
+      },
+      {
+        "date": "2016-03-22 to 2016-03-23",
+        "description": "Company management met with representatives of Party A.",
+        "exact_quote": "On March 22, 2016 and March 23, 2016, Daniel T. Noreck (the Company\u2019s Chief Financial Officer and Treasurer) and other members of the senior management team of the Company met with various representatives of Party A.",
+        "importance": "useful",
+        "label": "Party A meetings"
+      },
+      {
+        "date": "2016-03-24",
+        "description": "Transaction Committee authorized GHF to contact Party A and other potential buyers.",
+        "exact_quote": "The Transaction Committee authorized GHF to contact Party A as well as other potential buyers to determine their level of interest in a change in control transaction.",
+        "importance": "core",
+        "label": "Outreach authorization"
+      },
+      {
+        "date": "week of 2016-03-28",
+        "description": "GHF contacted 11 strategic buyers and 18 financial buyers; later, all 11 strategic and 14 financial buyers executed confidentiality agreements.",
+        "exact_quote": "During the week of March 28, 2016, in accordance with the Transaction Committee\u2019s directives, representatives of GHF contacted 11 potential strategic buyers (including Party A) and 18 potential financial buyers. Each of the potential strategic buyers and 14 potential financial buyers subsequently executed confidentiality agreements.",
+        "importance": "core",
+        "label": "Broad outreach"
+      },
+      {
+        "date": "2016-04-03 to 2016-04-06",
+        "description": "GHF and management held introductory meetings with five strategic buyers, including G&W, at the 2016 Connections Convention.",
+        "exact_quote": "Between April 3, 2016 and April 6, 2016, representatives of GHF and members of the Company\u2019s management held a series of introductory meetings with five potential strategic buyers (including G&W) at the American Short Line and Regional Railroad Association\u2019s 2016 Connections Convention",
+        "importance": "core",
+        "label": "G&W initial meeting"
+      },
+      {
+        "date": "2016-04-07",
+        "description": "Transaction Committee authorized follow-up with interested convention parties, other strategic buyers including Class I railroads, and private equity firms that had signed confidentiality agreements; management also approached two additional Class I railroads.",
+        "exact_quote": "After discussion, the Transaction Committee authorized representatives of GHF, on behalf of the Company, to contact each of the five interested parties with whom management had met at the 2016 Connections Convention, as well as other potential strategic buyers (including certain Class I railroads) and private equity firms who had entered into confidentiality agreements with the Company to confirm their continuing interest.",
+        "importance": "core",
+        "label": "Follow-up outreach"
+      },
+      {
+        "date": "2016-04-22 to 2016-04-27",
+        "description": "Transaction Committee and Board reviewed process status; potential buyers were told to submit non-binding IOIs by May 10, later extended to May 19.",
+        "exact_quote": "the Board met in executive session (without Mr. Eder present) with representatives of GHF and discussed the status of the process, including that each potential buyer had been advised to submit a non-binding indication of interest by May 10, 2016 (which deadline was subsequently postponed to May 19, 2016 to ensure the potential buyers had sufficient time to formulate their most compelling offers).",
+        "importance": "core",
+        "label": "IOI deadline"
+      },
+      {
+        "date": "2016-05-23 and 2016-06-01",
+        "description": "Transaction Committee reviewed nine IOIs, excluded two low bidders, and authorized management presentations and diligence for remaining seven potential buyers.",
+        "exact_quote": "The Transaction Committee authorized representatives of GHF to schedule in-person management presentations with the remaining seven potential buyers and allow these parties to conduct additional due diligence.",
+        "importance": "core",
+        "label": "Seven bidders advanced"
+      },
+      {
+        "date": "mid-June 2016",
+        "description": "GHF instructed bidders to submit LOIs by July 20 with merger agreement, disclosure letter and voting agreement markups.",
+        "exact_quote": "In mid-June 2016, at the direction of the Transaction Committee, representatives of GHF instructed all potential buyers to submit non-binding letters of intent (\u201cLOIs\u201d) by July 20, 2016, together with mark-ups of the forms of merger agreement, disclosure letter and voting agreement",
+        "importance": "core",
+        "label": "LOI request"
+      },
+      {
+        "date": "2016-06-29 to 2016-07-11",
+        "description": "Company posted draft merger agreement, Eder Trusts voting agreement, and disclosure letter to the data site.",
+        "exact_quote": "On June 29, 2016, the Company posted an initial draft of merger agreement to the internet data site, and on June 30, 2016, the Company posted an initial draft of voting agreement with respect to the common stock and preferred stock held by the Eder Trusts. On July 11, 2016, the Company posted an initial draft of disclosure letter to the internet data site.",
+        "importance": "useful",
+        "label": "Draft documents posted"
+      },
+      {
+        "date": "2016-06 to 2016-07",
+        "description": "Potential buyers and advisors conducted due diligence, including management meetings.",
+        "exact_quote": "Over the course of June and July 2016, each of the potential buyers and their respective advisors engaged in due diligence of the Company\u2019s business and financial condition, including holding meetings with certain members of the Company\u2019s management team.",
+        "importance": "useful",
+        "label": "Diligence period"
+      },
+      {
+        "date": "2016-07-22 and 2016-07-27",
+        "description": "Transaction Committee reviewed LOIs and decided to proceed with confirmatory diligence and negotiations with G&W and Party B due to their higher offers; other bidders were told they were no longer in process.",
+        "exact_quote": "The Transaction Committee concluded that the Company should proceed with confirmatory due diligence and negotiations with G&W and Party B because of the higher offers made by each of G&W and Party B relative to the other potential buyers. At the direction of the Transaction Committee, representatives of GHF subsequently contacted the remaining bidders to inform them that they were no longer involved in the process.",
+        "importance": "core",
+        "label": "G&W and Party B selected"
+      },
+      {
+        "date": "2016-08-01 to 2016-08-02",
+        "description": "Party D and Party E attempted to reengage with revised proposals; Party E withdrew its revision, and Party D did not proceed after Company refused standstill-like commitment not to sign elsewhere during diligence.",
+        "exact_quote": "In light of the active interest of Party B and G&W, the Company declined to make such a commitment, at which point Party D indicated that it would not proceed with further due diligence at that time.",
+        "importance": "core",
+        "label": "Reengagement unsuccessful"
+      },
+      {
+        "date": "2016-08-04",
+        "description": "Transaction Committee directed management and advisors to continue with both G&W and Party B but prioritize Party B because of its higher price.",
+        "exact_quote": "the Transaction Committee directed the management team and representatives of each of BMO and Hinckley Allen to continue diligence and negotiations with both G&W and Party B, but given the higher price offered by Party B, to prioritize Party B and proceed to complete the negotiation of the merger agreement with Party B.",
+        "importance": "core",
+        "label": "Party B prioritized"
+      },
+      {
+        "date": "2016-07-27 to 2016-08-11",
+        "description": "Party B and G&W conducted on-site financial, legal and environmental diligence including hi-rail trips.",
+        "exact_quote": "From July 27, 2016 through August 11, 2016, Party B and G&W conducted on-site financial, legal and environmental due diligence, including hi-rail trips to inspect the Company\u2019s track infrastructure.",
+        "importance": "useful",
+        "label": "On-site diligence"
+      },
+      {
+        "date": "2016-08-09",
+        "description": "Transaction Committee directed BMO to tell G&W the Company intended to sign with another bidder, but G&W was allowed to continue diligence to facilitate a possible improved offer.",
+        "exact_quote": "Following that discussion, the Transaction Committee directed representatives of BMO to inform G&W that the Company intended to enter into a merger agreement with another bidder. G&W requested that it be allowed to continue its due diligence, including physical due diligence on August 10 and August 11, 2016, to potentially facilitate an improved offer, which request was granted.",
+        "importance": "core",
+        "label": "G&W warned / diligence continued"
+      },
+      {
+        "date": "2016-08-12",
+        "description": "G&W submitted $25.00 all-cash revised LOI; Transaction Committee told Party B another party had made a higher offer; Board compared Party B and G&W agreements and regulatory paths.",
+        "exact_quote": "Following that discussion, the Transaction Committee directed representatives of BMO to inform Party B that another party had submitted a revised LOI at a higher price.",
+        "importance": "core",
+        "label": "Final competitive tension"
+      },
+      {
+        "date": "2016-08-12",
+        "description": "Board determined G&W was superior and approved the merger agreement; BMO delivered oral fairness opinion later confirmed in writing.",
+        "exact_quote": "The Board determined that the G&W offer represented the superior proposal.",
+        "importance": "core",
+        "label": "Board approval"
+      },
+      {
+        "date": "2016-08-15",
+        "description": "The transaction was publicly announced before NASDAQ trading opened.",
+        "exact_quote": "The Company issued a press release publicly announcing the transaction on Monday, August 15, 2016 prior to the opening of trading of the Company\u2019s common stock on the NASDAQ.",
+        "importance": "useful",
+        "label": "Announcement"
+      },
+      {
+        "date": "2016-09-06",
+        "description": "After BMO later identified an affiliate\u2019s participation in G&W\u2019s debt facility, the Board considered the information and confirmed BMO\u2019s independence and opinion comfort.",
+        "exact_quote": "On September 6, 2016, the Board considered this new information, determined this relationship was not material to BMO\u2019s independence and confirmed that the Board remained comfortable with the engagement and opinion of BMO.",
+        "importance": "useful",
+        "label": "BMO relationship review"
+      }
+    ],
+    "counts": [
+      {
+        "date": "week of 2016-03-28",
+        "description": "Initial outreach comprised 29 potential buyers: 11 strategic and 18 financial.",
+        "exact_quote": "representatives of GHF contacted 11 potential strategic buyers (including Party A) and 18 potential financial buyers.",
+        "importance": "core",
+        "label": "29 contacted"
+      },
+      {
+        "date": null,
+        "description": "25 potential buyers signed confidentiality agreements: all 11 strategic buyers and 14 financial buyers.",
+        "exact_quote": "Each of the potential strategic buyers and 14 potential financial buyers subsequently executed confidentiality agreements.",
+        "importance": "core",
+        "label": "25 NDAs"
+      },
+      {
+        "date": "2016-04-03 to 2016-04-06",
+        "description": "Five potential strategic buyers, including G&W, held introductory meetings at the 2016 Connections Convention.",
+        "exact_quote": "held a series of introductory meetings with five potential strategic buyers (including G&W)",
+        "importance": "useful",
+        "label": "5 convention meetings"
+      },
+      {
+        "date": "2016-05-19 to 2016-06-01",
+        "description": "Nine written IOIs were received.",
+        "exact_quote": "the Company received nine written indications of interest (\u201cIOIs\u201d) from potential buyers",
+        "importance": "core",
+        "label": "9 IOIs"
+      },
+      {
+        "date": "2016-06-01",
+        "description": "Two low bidders were excluded; seven potential buyers advanced to management presentations and additional due diligence.",
+        "exact_quote": "the Transaction Committee concluded that the two low bidders should be excluded from that process. The Transaction Committee authorized representatives of GHF to schedule in-person management presentations with the remaining seven potential buyers",
+        "importance": "core",
+        "label": "7 advanced"
+      },
+      {
+        "date": "late July 2016",
+        "description": "Six LOIs were received.",
+        "exact_quote": "In late July 2016, the Company received six LOIs",
+        "importance": "core",
+        "label": "6 LOIs"
+      },
+      {
+        "date": "late July 2016",
+        "description": "Party B, G&W and Party D provided merger agreement and voting agreement markups; Party E provided a material-issues summary instead.",
+        "exact_quote": "Party B, G&W and another bidder (\u201cParty D\u201d) also provided mark-ups of the draft merger agreement and voting agreement. One bidder (\u201cParty E\u201d) provided a summary of material issues and proposed changes to the merger agreement and voting agreement with respect to those issues.",
+        "importance": "useful",
+        "label": "Markup counts"
+      },
+      {
+        "date": "late July 2016",
+        "description": "One strategic buyer and one financial buyer chose not to submit an LOI.",
+        "exact_quote": "One strategic buyer and one financial buyer elected not to submit an LOI.",
+        "importance": "useful",
+        "label": "2 no-bids"
+      },
+      {
+        "date": null,
+        "description": "Board described process as involving 25 parties with confidentiality agreements and six LOIs.",
+        "exact_quote": "25 of whom entered into confidentiality agreements with the Company and received information related to the Company and six of whom submitted non-binding letters of intent",
+        "importance": "core",
+        "label": "Board process count"
+      }
+    ],
+    "relations": [
+      {
+        "date": null,
+        "description": "Eder Trusts voting agreement covered 842,742 common shares (17.3%) and 500 preferred shares (78.1%).",
+        "exact_quote": "As of the record date, the Eder Trusts held 842,742 shares of common stock, representing approximately 17.3% of the outstanding shares of common stock, and 500 shares of preferred stock, representing approximately 78.1% of the outstanding shares of preferred stock.",
+        "importance": "core",
+        "label": "Voting agreement support"
+      },
+      {
+        "date": null,
+        "description": "Directors/executive officers and affiliates owned 1,107,002 common shares and 500 preferred shares, representing 22.7% common and 78.1% preferred; management expected to vote for proposals except only Mr. Eder was obligated.",
+        "exact_quote": "As of the record date, the directors and executive officers of the Company and their affiliates collectively beneficially owned 1,107,002 shares of common stock (excluding common stock issuable upon conversion of the preferred stock) and 500 shares of preferred stock, or approximately 22.7% of the outstanding common stock and approximately 78.1% of the outstanding preferred stock. We currently expect that each of these individuals will vote all of his or her shares of common stock and preferred stock in favor of each of the proposals to be presented at the special meeting, although none of them other than Mr. Eder are obligated to do so.",
+        "importance": "core",
+        "label": "Management ownership/vote expectation"
+      },
+      {
+        "date": null,
+        "description": "Confidentiality agreements did not include standstill provisions restricting acquisition proposals or offers.",
+        "exact_quote": "The confidentiality agreements did not contain any \u201cstandstill\u201d or similar provision that would prohibit a potential buyer from submitting a proposal or making an offer to acquire the Company.",
+        "importance": "core",
+        "label": "No standstills"
+      },
+      {
+        "date": "2016-08-12",
+        "description": "Both Party B and G&W draft agreements contained non-solicitation restrictions with fiduciary outs for unsolicited superior proposals.",
+        "exact_quote": "both Party B\u2019s and G&W\u2019s draft merger agreements restricted the Company from soliciting a competing proposal, subject to a \u201cfiduciary out\u201d for an unsolicited superior proposal",
+        "importance": "core",
+        "label": "No-shop / fiduciary out"
+      },
+      {
+        "date": "2016-08-12",
+        "description": "Termination fee for G&W was 3% of transaction value, negotiated down from 3.85%; Party B\u2019s fee was 3% plus expenses capped at 1%.",
+        "exact_quote": "which required the Company to pay a termination fee equal to 3% of the transaction value in the case of G&W (which the Company had negotiated down from 3.85%) and 3% plus Party B\u2019s transaction expenses (capped at 1% of transaction value) in the case of Party B",
+        "importance": "core",
+        "label": "Termination fee comparison"
+      },
+      {
+        "date": null,
+        "description": "Merger agreement termination fee is $3.785 million, approximately 3% of transaction value.",
+        "exact_quote": "obligates the Company to pay to G&W a termination fee of $3.785 million (approximately 3% of the transaction value)",
+        "importance": "core",
+        "label": "G&W termination fee"
+      },
+      {
+        "date": null,
+        "description": "Merger agreement has no financing condition, and G&W represented financial wherewithal.",
+        "exact_quote": "the absence of a financing condition in the merger agreement and the representation of G&W in the merger agreement as to its financial wherewithal",
+        "importance": "core",
+        "label": "No financing condition"
+      },
+      {
+        "date": null,
+        "description": "G&W agreed to seek STB approval to close into a voting trust if necessary to avoid regulatory-delay risk for Company shareholders.",
+        "exact_quote": "the agreement of G&W in the merger agreement to seek STB approval to close into a voting trust, if necessary, to ensure that the merger can be completed as promptly as possible and ensure that the risk of regulatory delays is not borne by the Company or its shareholders",
+        "importance": "useful",
+        "label": "STB voting trust"
+      },
+      {
+        "date": "2016-08-12",
+        "description": "Board concluded regulatory timing/likelihood was not materially different between G&W and Party B despite different STB process because G&W owned connecting railroads.",
+        "exact_quote": "Based upon that discussion, the Board determined that the timeframe for, and the likelihood of, obtaining the required regulatory approval was not materially different for a transaction with G&W versus a transaction with Party B.",
+        "importance": "useful",
+        "label": "Regulatory comparison"
+      },
+      {
+        "date": "2016-08-12",
+        "description": "BMO confirmed before issuing opinion that it had no existing or contemplated material financial advisory or financing relationships with G&W, but later found an affiliate\u2019s participation in G&W secured syndicated debt facility.",
+        "exact_quote": "At the request of the Board, BMO confirmed that it did not have any existing or contemplated material relationships with G&W in connection with the provision of any financial advisory or financing services to G&W.",
+        "importance": "useful",
+        "label": "BMO independence check"
+      },
+      {
+        "date": null,
+        "description": "BMO affiliate had about 5% participation in G&W\u2019s syndicated facility and received $1 million to $5 million in fees and interest since January 1, 2014.",
+        "exact_quote": "G&W has a Second Amended and Restated Senior Secured Syndicated Facility Agreement dated as of March 20, 2015 under which an affiliate of BMO is a lender with an approximately 5% participation in the syndicate and for which such affiliate has been paid revenue (fees and interest) between $1 million and $5 million, in the aggregate, since January 1, 2014.",
+        "importance": "useful",
+        "label": "BMO affiliate lender relationship"
+      },
+      {
+        "date": null,
+        "description": "G&W deal consideration is $25.00 per share cash; preferred stock converts into common at 100:1 before receiving consideration, except dissenting preferred holders.",
+        "exact_quote": "At the effective time of the merger, each share of preferred stock outstanding immediately prior to the effective time of the merger, other than preferred stock held by a holder who is entitled to and makes a proper demand for dissenters\u2019 rights, shall be deemed to be automatically converted, along with the aggregate accrued or accumulated and unpaid dividends thereon, into 100 shares of common stock (based on the existing conversion ratio of the preferred stock)",
+        "importance": "core",
+        "label": "Preferred conversion / cash consideration"
+      },
+      {
+        "date": null,
+        "description": "The merger requires approval by majority of outstanding common and preferred shares, each voting separately as a class.",
+        "exact_quote": "the merger is subject to the approval of the merger agreement by the affirmative vote of a majority of the outstanding shares of the Company\u2019s common stock and preferred stock, each voting separately as a class, entitled to vote thereon",
+        "importance": "core",
+        "label": "Shareholder approval condition"
+      },
+      {
+        "date": null,
+        "description": "Transaction is structured as a merger, not a tender offer; proxy statement solicits shareholder votes for merger agreement, compensation proposal, and possible adjournment.",
+        "exact_quote": "THE BOARD OF DIRECTORS RECOMMENDS THAT THE SHAREHOLDERS VOTE \u201cFOR\u201d APPROVAL OF THE MERGER AGREEMENT AND THE TRANSACTIONS CONTEMPLATED THEREBY, INCLUDING THE MERGER AND THE PLAN OF MERGER ATTACHED AS EXHIBIT A TO THE MERGER AGREEMENT.",
+        "importance": "useful",
+        "label": "Proxy vote perspective"
+      }
+    ],
+    "source_limitations": [
+      "The excerpt provides anonymized bidder labels (Party A through Party F) but does not disclose their actual identities, except for G&W and references to categories such as strategic, financial, Class I railroad, or GATX as a possible buyer.",
+      "The window begins mid-proxy materials and ends during the merger agreement termination section, so later termination provisions and closing developments may be outside the source window.",
+      "The source gives broad sale-process history but does not identify all 29 initially contacted parties or all nine IOI submitters.",
+      "The excerpt describes a shareholder-vote merger process, not a tender offer; no tender-offer mechanics are present in this window.",
+      "The excerpt states some LOI terms were based on different assumptions regarding expenses/change-in-control payments but does not quantify those adjustments by bidder."
+    ],
+    "uncertain_or_missing": [
+      {
+        "date": null,
+        "description": "Actual identity of Party A is not disclosed beyond being one of the Company\u2019s Class I rail partners.",
+        "exact_quote": "one of the Company\u2019s Class I rail partners (\u201cParty A\u201d)",
+        "importance": "uncertain",
+        "label": "Party A identity missing"
+      },
+      {
+        "date": null,
+        "description": "Actual identities of Parties B, C, D, E and F are not disclosed in the window.",
+        "exact_quote": "another potential strategic buyer (\u201cParty B\u201d)",
+        "importance": "uncertain",
+        "label": "Anonymous bidders"
+      },
+      {
+        "date": "late July 2016",
+        "description": "The source notes LOI prices used different assumptions affecting ultimate price but does not detail those assumptions for each bidder.",
+        "exact_quote": "In addition to various due diligence requirements, the LOI prices were based on different assumptions and requirements related to transaction expenses and change in control payments, which GHF and the Transaction Committee observed could affect the ultimate offer price.",
+        "importance": "uncertain",
+        "label": "Bid assumption differences"
+      },
+      {
+        "date": "2016-08-01",
+        "description": "Party D\u2019s exact revised diligence/standstill request is described, but it is unclear whether Party D formally withdrew or merely declined further diligence at that time.",
+        "exact_quote": "Party D declined to shorten its due diligence period and requested that the Company commit that it would not enter into an agreement with another bidder during its 30-day due diligence period.",
+        "importance": "uncertain",
+        "label": "Party D status"
+      },
+      {
+        "date": null,
+        "description": "The source does not disclose whether any post-signing competing proposal emerged in the excerpt.",
+        "exact_quote": null,
+        "importance": "uncertain",
+        "label": "Post-signing topping bids not shown"
+      },
+      {
+        "date": null,
+        "description": "The excerpt does not disclose rollover equity arrangements; consideration is described as cash for shares and equity awards.",
+        "exact_quote": "will be canceled and will be converted automatically into the right to receive $25.00 in cash, without interest.",
+        "importance": "uncertain",
+        "label": "No rollover evidence in window"
+      }
+    ]
+  },
+  "prompt_chars": 120750,
+  "prompt_sha256": "ffb48efcce7ee8ff817348942430adb2a0f0f4ab6dbcbeecaefc26ba10eca354",
+  "reasoning": "medium",
+  "reasoning_tokens": 23,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "395ec9adc1244cf05f88f704783e6cc5565bc76e2584cde5245ec75b525f8e4c",
+  "slug": "providence-worcester",
+  "stage": "stage1",
+  "status": "completed",
+  "window_id": "w4_plain_recall",
+  "window_profile": "W4_PLAIN_RECALL"
+}

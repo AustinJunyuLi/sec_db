@@ -1,0 +1,134 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 29.79,
+  "input_chars": 18286,
+  "input_path": "inputs/mac-gray/W2_MULTI_REGION/w2_committee_or_conflict.json",
+  "input_text_sha256": "19cf4bbdf20ce6fe1ec8e61a5238f49cfcebc977cff0da0f4b51881a0efa0dde",
+  "input_tokens": 6091,
+  "job_id": "stage2__mac-gray__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_committee_or_conflict__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 3,
+      "actor_relation_claims": 2,
+      "bid_claims": 0,
+      "event_claims": 2,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 2,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 7,
+    "relation_types": {
+      "advises": 1,
+      "member_of": 1
+    },
+    "strict_claim_total": 7,
+    "total_quotes": 7
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 4419,
+  "output_text_sha256": "ed508d6f3606fcd6c57b0c048b2346cf2dfcc31c2d180d62ce4ef5755002bd84",
+  "output_tokens": 1404,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "committee",
+        "actor_label": "special committee",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_committee_or_conflict_obl_1",
+        "observability": "named",
+        "quote_text": "The Mac-Gray Board of Directors formed a special committee of six disinterested and independent directors to, among other things, review and evaluate the merger agreement proposal, consider and evaluate alternatives available to Mac-Gray and alleviate any potential conflicts of interest."
+      },
+      {
+        "actor_kind": "group",
+        "actor_label": "six disinterested and independent directors",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_committee_or_conflict_obl_1",
+        "observability": "count_only",
+        "quote_text": "The Mac-Gray Board of Directors formed a special committee of six disinterested and independent directors to, among other things, review and evaluate the merger agreement proposal, consider and evaluate alternatives available to Mac-Gray and alleviate any potential conflicts of interest."
+      },
+      {
+        "actor_kind": "committee",
+        "actor_label": "Mac-Gray Board of Directors",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_committee_or_conflict_obl_1",
+        "observability": "named",
+        "quote_text": "The Mac-Gray Board of Directors formed a special committee of six disinterested and independent directors to, among other things, review and evaluate the merger agreement proposal, consider and evaluate alternatives available to Mac-Gray and alleviate any potential conflicts of interest."
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_committee_or_conflict_obl_2",
+        "effective_date_first": null,
+        "object_label": "special committee",
+        "quote_text": "The Mac-Gray Board of Directors formed a special committee of six disinterested and independent directors to, among other things, review and evaluate the merger agreement proposal, consider and evaluate alternatives available to Mac-Gray and alleviate any potential conflicts of interest.",
+        "relation_type": "member_of",
+        "role_detail": "committee members",
+        "subject_label": "six disinterested and independent directors"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_committee_or_conflict_obl_2",
+        "effective_date_first": null,
+        "object_label": "Mac-Gray Board of Directors",
+        "quote_text": "After careful consideration, our Board of Directors, upon the unanimous recommendation of the special committee, unanimously approved the merger agreement and determined that the merger and the other transactions contemplated by the merger agreement are advisable and in the best interests of Mac-Gray and our stockholders.",
+        "relation_type": "advises",
+        "role_detail": "unanimous recommendation",
+        "subject_label": "special committee"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "Mac-Gray Board of Directors",
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_committee_or_conflict_obl_3",
+        "description": "The Mac-Gray Board of Directors formed a special committee of six disinterested and independent directors to review and evaluate the merger agreement proposal, consider alternatives available to Mac-Gray, and alleviate potential conflicts of interest.",
+        "event_date": null,
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "quote_text": "The Mac-Gray Board of Directors formed a special committee of six disinterested and independent directors to, among other things, review and evaluate the merger agreement proposal, consider and evaluate alternatives available to Mac-Gray and alleviate any potential conflicts of interest."
+      },
+      {
+        "actor_label": "special committee",
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_committee_or_conflict_obl_3",
+        "description": "The special committee unanimously recommended the merger agreement to the Board of Directors before the Board approved it.",
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "After careful consideration, our Board of Directors, upon the unanimous recommendation of the special committee, unanimously approved the merger agreement and determined that the merger and the other transactions contemplated by the merger agreement are advisable and in the best interests of Mac-Gray and our stockholders."
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 20108,
+  "prompt_sha256": "ae88532e6e4fe5dfda374a9a98626cb11caae2ebea8907d3b56b7c22d43b7105",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "mac-gray",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_committee_or_conflict",
+  "window_profile": "W2_MULTI_REGION"
+}

@@ -1,0 +1,217 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_MULTI_QUOTE_P8",
+  "duration_s": 62.42,
+  "input_chars": 22000,
+  "input_path": "inputs/penford/W2_MULTI_REGION/w2_buyer_group_or_transaction_structure.json",
+  "input_text_sha256": "f3603d82e0dcefcfea2a8e7eb86c72809adc72fd4c33102577993f509dbe7991",
+  "input_tokens": 6229,
+  "job_id": "stage2__penford__EXPANDED_MULTI_QUOTE_P8__W2_MULTI_REGION__w2_buyer_group_or_transaction_structure__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 4,
+      "actor_relation_claims": 3,
+      "bid_claims": 0,
+      "event_claims": 4,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 3,
+    "not_unique_in_source_window": 3,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 11,
+    "relation_types": {
+      "acquisition_vehicle_of": 1,
+      "controls": 1,
+      "voting_support_for": 1
+    },
+    "strict_claim_total": 11,
+    "total_quotes": 11
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 5653,
+  "output_text_sha256": "a858d24a79ba100f603837eb88b8ead5630f3c16ea7608047a7a9cdca751cf5e",
+  "output_tokens": 1870,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Penford Corporation",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Penford Corporation"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Ingredion Incorporated",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Ingredion Incorporated"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Prospect Sub, Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Prospect Sub, Inc."
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "SEACOR Holdings Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_buyer_group_or_transaction_structure_obl_2",
+        "observability": "named",
+        "quote_texts": [
+          "SEACOR Holdings Inc."
+        ]
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Ingredion Incorporated",
+        "quote_texts": [
+          "Prospect Sub, Inc., a wholly owned subsidiary of Ingredion (referred to as Merger Sub)"
+        ],
+        "relation_type": "controls",
+        "role_detail": "wholly owned subsidiary",
+        "subject_label": "Prospect Sub, Inc."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Ingredion Incorporated",
+        "quote_texts": [
+          "Prospect Sub, Inc., a wholly owned subsidiary of Ingredion (referred to as Merger Sub), was organized solely for the purpose of entering into the Agreement and Plan of Merger, dated as of October 14, 2014, by and among Penford, Ingredion and Merger Sub (as it may be amended from time to time, referred to as the merger agreement) and completing the proposed merger contemplated by the merger agreement (referred to as the merger)."
+        ],
+        "relation_type": "acquisition_vehicle_of",
+        "role_detail": "organized solely for entering into the merger agreement and completing the proposed merger",
+        "subject_label": "Prospect Sub, Inc."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": "2014-10-14",
+        "object_label": "Ingredion Incorporated",
+        "quote_texts": [
+          "In connection with the merger agreement, Ingredion, SEACOR Holdings Inc. (referred to as SEACOR), the owner of approximately 9.28% of Penford\u2019s outstanding common stock, and Penford entered into a voting and support agreement dated as of October 14, 2014 pursuant to which SEACOR has agreed, among other things, to vote the shares it owns to approve the merger agreement"
+        ],
+        "relation_type": "voting_support_for",
+        "role_detail": "SEACOR agreed to vote its shares to approve the merger agreement",
+        "subject_label": "SEACOR Holdings Inc."
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": null,
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_buyer_group_or_transaction_structure_obl_3",
+        "description": "Penford, Ingredion and Merger Sub entered into the Agreement and Plan of Merger dated as of October 14, 2014.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-10-14",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "the Agreement and Plan of Merger, dated as of October 14, 2014, by and among Penford, Ingredion and Merger Sub"
+        ]
+      },
+      {
+        "actor_label": "Prospect Sub, Inc.",
+        "actor_role": "acquisition_sub",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_buyer_group_or_transaction_structure_obl_3",
+        "description": "Under the merger agreement, Merger Sub will merge with and into Penford, with Penford continuing as the surviving corporation.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "Under the merger agreement, Merger Sub will merge with and into Penford, with Penford continuing as the surviving corporation of the merger."
+        ]
+      },
+      {
+        "actor_label": "Ingredion Incorporated",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_buyer_group_or_transaction_structure_obl_3",
+        "description": "After completion of the merger, Ingredion will own 100% of Penford\u2019s outstanding common stock.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "After completion of the merger, Ingredion will own 100% of the shares of Penford\u2019s outstanding common stock."
+        ]
+      },
+      {
+        "actor_label": null,
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_buyer_group_or_transaction_structure_obl_3",
+        "description": "Ingredion, SEACOR and Penford entered into a voting and support agreement dated as of October 14, 2014.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-10-14",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "Ingredion, SEACOR Holdings Inc. (referred to as SEACOR), the owner of approximately 9.28% of Penford\u2019s outstanding common stock, and Penford entered into a voting and support agreement dated as of October 14, 2014"
+        ]
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 24156,
+  "prompt_sha256": "3f78464edcef1c3b7b651cbd33d5dc79486947e09f0413c88a77a388737536be",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "0e783020c5768c044a886e0c68312d3e78a57555f4637885fb098049de8a7824",
+  "slug": "penford",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_buyer_group_or_transaction_structure",
+  "window_profile": "W2_MULTI_REGION"
+}

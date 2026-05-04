@@ -1,0 +1,171 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 41.65,
+  "input_chars": 22000,
+  "input_path": "inputs/petsmart-inc/W2_MULTI_REGION/w2_go_shop_or_post_signing_solicitation.json",
+  "input_text_sha256": "6549f68f5ab80c5a061e27795864aded8db157aebea6756388464160e8391786",
+  "input_tokens": 5546,
+  "job_id": "stage4__petsmart-inc__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_go_shop_or_post_signing_solicitation__medium__r2",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 2,
+      "actor_relation_claims": 0,
+      "bid_claims": 0,
+      "event_claims": 8,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 1,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 10,
+    "relation_types": {},
+    "strict_claim_total": 10,
+    "total_quotes": 10
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 6974,
+  "output_text_sha256": "b22f10ac16c14ffa95707e3e8dfc4e42e498e6b7fa9eefc4df80313491ea75d8",
+  "output_tokens": 2370,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "person",
+        "actor_label": "any person that has made, or is considering making an alternative proposal",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "petsmart-inc_w2_go_shop_or_post_signing_solicitation_obl_2",
+        "observability": "anonymous_handle",
+        "quote_text": "any person that has made, or is considering making an alternative proposal"
+      },
+      {
+        "actor_kind": "person",
+        "actor_label": "third party",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "petsmart-inc_w2_go_shop_or_post_signing_solicitation_obl_2",
+        "observability": "anonymous_handle",
+        "quote_text": "third party"
+      }
+    ],
+    "actor_relation_claims": [],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "Company",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "The Company and its affiliates and representatives are prohibited from soliciting, initiating, encouraging or facilitating alternative proposals or related inquiries, discussions or offers.",
+        "event_date": null,
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "quote_text": "solicit, initiate or knowingly encourage or facilitate the making or submission of an alternative proposal (defined below under The Merger Agreement \u2014 Other Covenants and Agreements \u2014 No Solicitation ) or any inquiries, discussions or offers that constitute or could reasonably expected to lead to any alternative proposal;"
+      },
+      {
+        "actor_label": "Company",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "The Company and its affiliates and representatives are prohibited from participating in discussions or negotiations or furnishing nonpublic information regarding an alternative proposal, except to notify the person of the non-solicitation provisions.",
+        "event_date": null,
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "quote_text": "participate in any discussions or negotiations regarding an alternative proposal with, or furnish any nonpublic information regarding the Company or its subsidiaries in connection with an alternative proposal to, any person that has made, or is considering making an alternative proposal (except to notify such person as to the non-solicitation provisions of the merger agreement);"
+      },
+      {
+        "actor_label": "Company",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "The Company and its affiliates and representatives are prohibited from entering into agreements relating to or providing for alternative proposals, except for permitted confidentiality agreements.",
+        "event_date": null,
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "quote_text": "enter into any letter of intent, agreement in principle, merger or acquisition agreement or any other agreement relating to or providing for any alternative proposal (except for confidentiality agreements permitted under the merger agreement)."
+      },
+      {
+        "actor_label": "third party",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "If the Company receives an unsolicited alternative proposal from a third party that constitutes or could reasonably be expected to result in a superior proposal, the Company may provide nonpublic information after entering into an acceptable confidentiality agreement.",
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "provide nonpublic information to the third party after entering into a confidentiality agreement acceptable under the terms of the merger agreement;"
+      },
+      {
+        "actor_label": "third party",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "If the Company receives an unsolicited alternative proposal from a third party that constitutes or could reasonably be expected to result in a superior proposal, the Company may engage in discussions or negotiations with the third party.",
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "engage in discussions or negotiations with a third party with respect to the alternative proposal."
+      },
+      {
+        "actor_label": "Parent",
+        "actor_role": "recipient",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Before changing its recommendation or terminating the merger agreement to accept a superior proposal, the Company must give Parent written notice describing the superior proposal.",
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "provide Parent written notice of the board\u2019s intention to make a change in recommendation or to terminate the merger agreement with a description of the terms of the superior proposal;"
+      },
+      {
+        "actor_label": "Parent",
+        "actor_role": "recipient",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Before changing its recommendation or terminating the merger agreement for a superior proposal, the Company must give Parent three business days to propose changes and negotiate in good faith.",
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "provide Parent with three business days to propose changes to the terms of the merger agreement (which will be extended for additional two business day periods for any material change in the superior proposal), and during this period negotiate with Parent in good faith to make adjustments to the terms and conditions of the merger agreement."
+      },
+      {
+        "actor_label": "Company",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "The Company may terminate the merger agreement to accept a superior proposal before the Company stockholder meeting if it pays the termination fee and promptly enters into a definitive agreement for that proposal.",
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "at any time prior to the Company stockholder meeting to accept a \u201csuperior proposal\u201d (defined below under The Merger Agreement \u2014 Other Covenants and Agreements \u2014 No Solicitation ) so\n\n7\n<!-- PAGE 15 -->\nTABLE OF CONTENTS\n\nlong as (i) prior to or substantially concurrent with such termination, the Company has paid a termination fee of $255 million to Parent and (ii) promptly after such termination, the Company enters into a definitive agreement with respect to such superior proposal;"
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23782,
+  "prompt_sha256": "ea22a86a563f1771933f4af289cbfafd485b3f50d59102d0f7fd54a08dfdf4da",
+  "reasoning": "medium",
+  "reasoning_tokens": 978,
+  "replica": "r2",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "petsmart-inc",
+  "stage": "stage4",
+  "status": "completed",
+  "window_id": "w2_go_shop_or_post_signing_solicitation",
+  "window_profile": "W2_MULTI_REGION"
+}

@@ -1,0 +1,231 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 36.78,
+  "input_chars": 10908,
+  "input_path": "inputs/zep/W2_MULTI_REGION/w2_financing.json",
+  "input_text_sha256": "d8fc6c4604189715ea84e1261f442a9167dfef476bcbcf2b80849a59a6d3896c",
+  "input_tokens": 3679,
+  "job_id": "stage4__zep__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_financing__medium__r2",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 5,
+      "actor_relation_claims": 7,
+      "bid_claims": 0,
+      "event_claims": 4,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 5,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 2,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 16,
+    "relation_types": {
+      "finances": 5,
+      "member_of": 2
+    },
+    "strict_claim_total": 16,
+    "total_quotes": 16
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 7968,
+  "output_text_sha256": "ec969539d0d4206467eb81f5f90f799bbc0d8199acb80b1068c37e8efc4a7c07",
+  "output_tokens": 2261,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "organization",
+        "actor_label": "New Mountain Partners IV",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_financing_obl_1",
+        "observability": "named",
+        "quote_text": "New Mountain Partners IV committed to purchase (or cause to be purchased) from Parent equity securities of Parent having an aggregate purchase price in cash of $382.5 million."
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Jefferies Finance LLC",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_financing_obl_1",
+        "observability": "named",
+        "quote_text": "Jefferies Finance LLC, KeyBank National Association and KeyBanc Capital Markets Inc. (Jefferies Finance LLC and KeyBank National Association being collectively referred to as the \"Lenders\")"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "KeyBank National Association",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_financing_obl_1",
+        "observability": "named",
+        "quote_text": "Jefferies Finance LLC, KeyBank National Association and KeyBanc Capital Markets Inc. (Jefferies Finance LLC and KeyBank National Association being collectively referred to as the \"Lenders\")"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "KeyBanc Capital Markets Inc.",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "zep_w2_financing_obl_1",
+        "observability": "named",
+        "quote_text": "Parent has obtained a commitment letter (as amended from time to time in accordance with the merger agreement, the \"debt commitment letter\") from Jefferies Finance LLC, KeyBank National Association and KeyBanc Capital Markets Inc."
+      },
+      {
+        "actor_kind": "group",
+        "actor_label": "Lenders",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_financing_obl_1",
+        "observability": "named",
+        "quote_text": "Jefferies Finance LLC and KeyBank National Association being collectively referred to as the \"Lenders\""
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_financing_obl_2",
+        "effective_date_first": "2015-04-07",
+        "object_label": "Parent",
+        "quote_text": "On April 7, 2015, New Mountain Partners IV entered into an equity commitment letter (which we refer to as the \"equity commitment letters\" and, together with the debt commitment letter described below, the \"commitment letter\") with Parent pursuant to which New Mountain Partners IV committed to purchase (or cause to be purchased) from Parent equity securities of Parent having an aggregate purchase price in cash of $382.5 million.",
+        "relation_type": "finances",
+        "role_detail": "equity commitment letter; aggregate purchase price in cash of $382.5 million",
+        "subject_label": "New Mountain Partners IV"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_financing_obl_2",
+        "effective_date_first": null,
+        "object_label": "Parent",
+        "quote_text": "Parent has obtained a commitment letter (as amended from time to time in accordance with the merger agreement, the \"debt commitment letter\") from Jefferies Finance LLC, KeyBank National Association and KeyBanc Capital Markets Inc.",
+        "relation_type": "finances",
+        "role_detail": "debt commitment letter",
+        "subject_label": "Jefferies Finance LLC"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_financing_obl_2",
+        "effective_date_first": null,
+        "object_label": "Parent",
+        "quote_text": "Parent has obtained a commitment letter (as amended from time to time in accordance with the merger agreement, the \"debt commitment letter\") from Jefferies Finance LLC, KeyBank National Association and KeyBanc Capital Markets Inc.",
+        "relation_type": "finances",
+        "role_detail": "debt commitment letter",
+        "subject_label": "KeyBank National Association"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "medium",
+        "coverage_obligation_id": "zep_w2_financing_obl_2",
+        "effective_date_first": null,
+        "object_label": "Parent",
+        "quote_text": "Parent has obtained a commitment letter (as amended from time to time in accordance with the merger agreement, the \"debt commitment letter\") from Jefferies Finance LLC, KeyBank National Association and KeyBanc Capital Markets Inc.",
+        "relation_type": "finances",
+        "role_detail": "debt commitment letter",
+        "subject_label": "KeyBanc Capital Markets Inc."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_financing_obl_2",
+        "effective_date_first": null,
+        "object_label": "Parent",
+        "quote_text": "the Lenders commit to provide, severally but not jointly, upon the terms and subject to the conditions set forth in the debt commitment letter, in the aggregate up to $402.5 million in debt financing",
+        "relation_type": "finances",
+        "role_detail": "aggregate up to $402.5 million in debt financing",
+        "subject_label": "Lenders"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_financing_obl_2",
+        "effective_date_first": null,
+        "object_label": "Lenders",
+        "quote_text": "Jefferies Finance LLC and KeyBank National Association being collectively referred to as the \"Lenders\"",
+        "relation_type": "member_of",
+        "role_detail": null,
+        "subject_label": "Jefferies Finance LLC"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_financing_obl_2",
+        "effective_date_first": null,
+        "object_label": "Lenders",
+        "quote_text": "Jefferies Finance LLC and KeyBank National Association being collectively referred to as the \"Lenders\"",
+        "relation_type": "member_of",
+        "role_detail": null,
+        "subject_label": "KeyBank National Association"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": null,
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_financing_obl_3",
+        "description": "The consummation of the merger is not subject to a financing condition.",
+        "event_date": null,
+        "event_subtype": "financing_committed",
+        "event_type": "transaction",
+        "quote_text": "The consummation of the merger is not subject to a financing condition"
+      },
+      {
+        "actor_label": "New Mountain Partners IV",
+        "actor_role": "equity_financing_source",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_financing_obl_3",
+        "description": "New Mountain Partners IV entered into an equity commitment letter with Parent and committed to purchase Parent equity securities for $382.5 million in cash.",
+        "event_date": "2015-04-07",
+        "event_subtype": "financing_committed",
+        "event_type": "transaction",
+        "quote_text": "On April 7, 2015, New Mountain Partners IV entered into an equity commitment letter (which we refer to as the \"equity commitment letters\" and, together with the debt commitment letter described below, the \"commitment letter\") with Parent pursuant to which New Mountain Partners IV committed to purchase (or cause to be purchased) from Parent equity securities of Parent having an aggregate purchase price in cash of $382.5 million."
+      },
+      {
+        "actor_label": "Lenders",
+        "actor_role": "debt_financing_source",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_financing_obl_3",
+        "description": "The Lenders committed to provide up to $402.5 million in debt financing.",
+        "event_date": null,
+        "event_subtype": "financing_committed",
+        "event_type": "transaction",
+        "quote_text": "the Lenders commit to provide, severally but not jointly, upon the terms and subject to the conditions set forth in the debt commitment letter, in the aggregate up to $402.5 million in debt financing"
+      },
+      {
+        "actor_label": "Parent",
+        "actor_role": "recipient",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_financing_obl_3",
+        "description": "Parent had obtained a debt commitment letter from Jefferies Finance LLC, KeyBank National Association and KeyBanc Capital Markets Inc.",
+        "event_date": null,
+        "event_subtype": "financing_committed",
+        "event_type": "transaction",
+        "quote_text": "Parent has obtained a commitment letter (as amended from time to time in accordance with the merger agreement, the \"debt commitment letter\") from Jefferies Finance LLC, KeyBank National Association and KeyBanc Capital Markets Inc."
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 12575,
+  "prompt_sha256": "88b3752c581999cf26934e1306559d85f7da7d3f52895f6d63a58459af8c908f",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r2",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "zep",
+  "stage": "stage4",
+  "status": "completed",
+  "window_id": "w2_financing",
+  "window_profile": "W2_MULTI_REGION"
+}

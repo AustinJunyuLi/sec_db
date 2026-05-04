@@ -1,0 +1,102 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_CLAIM_ONLY_P8",
+  "duration_s": 19.36,
+  "input_chars": 22000,
+  "input_path": "inputs/zep/W2_MULTI_REGION/w2_tender_source_perspective.json",
+  "input_text_sha256": "b6e49733437cfac96ab0df49caf41ed879e6e888eaa0bae01d078051129512d1",
+  "input_tokens": 6384,
+  "job_id": "stage2__zep__EXPANDED_CLAIM_ONLY_P8__W2_MULTI_REGION__w2_tender_source_perspective__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 3,
+      "actor_relation_claims": 0,
+      "bid_claims": 0,
+      "event_claims": 1,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 2,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 1,
+    "not_unique_in_source_window": 2,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 4,
+    "relation_types": {},
+    "strict_claim_total": 4,
+    "total_quotes": 4
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 1319,
+  "output_text_sha256": "4c62cb8afb68850e7f8c9dce006ac7edb97249b3802cb5d216f323d2162bd0bc",
+  "output_tokens": 881,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "ZEP INC.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "CP=\"ZEP INC.\""
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Parent",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "Parent and Merger Sub"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Merger Sub",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "Parent and Merger Sub"
+      }
+    ],
+    "actor_relation_claims": [],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": null,
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_tender_source_perspective_obl_3",
+        "description": "The go-shop period ended at 11:59 p.m., New York time on May 7, 2015.",
+        "drop_agency": "mutual_or_process",
+        "drop_reason": null,
+        "event_date": "2015-05-07",
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "initiation_side": "mutual_or_process",
+        "quote_text": "the go-shop period ended at 11:59 p.m., New York time on May 7, 2015"
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23930,
+  "prompt_sha256": "80674e39e63d4f78e489c4bc5bd1552f587fb2cc7e6be6612942b86c5fcafc4e",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "80c516a8b3401128674672619998677e77e1705c31b2f7b7ea8a4f8856bd14eb",
+  "slug": "zep",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_tender_source_perspective",
+  "window_profile": "W2_MULTI_REGION"
+}

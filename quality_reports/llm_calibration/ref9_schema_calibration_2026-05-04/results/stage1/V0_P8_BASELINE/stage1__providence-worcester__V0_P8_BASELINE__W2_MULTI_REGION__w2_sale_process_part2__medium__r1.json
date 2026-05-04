@@ -1,0 +1,139 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "V0_P8_BASELINE",
+  "duration_s": 25.2,
+  "input_chars": 3196,
+  "input_path": "inputs/providence-worcester/W2_MULTI_REGION/w2_sale_process_part2.json",
+  "input_text_sha256": "f9b009ff94078ba80a4c1b0d4ab436d7c5291c76c48e71c01a2660c0b7b3491a",
+  "input_tokens": 2196,
+  "job_id": "stage1__providence-worcester__V0_P8_BASELINE__W2_MULTI_REGION__w2_sale_process_part2__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 2,
+      "actor_relation_claims": 1,
+      "bid_claims": 0,
+      "coverage_results": 8,
+      "event_claims": 0,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 3,
+    "relation_types": {
+      "advises": 1
+    },
+    "strict_claim_total": 3,
+    "total_quotes": 3
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 3731,
+  "output_text_sha256": "f80ab8972c48ad0e2e20a90cf2761e97da1100b18ad46ef82ad8548817fa95ae",
+  "output_tokens": 1370,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "committee",
+        "actor_label": "the Board",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_sale_process_part2_obl_6",
+        "observability": "named",
+        "quote_text": "The Board determined that the G&W offer represented the superior proposal."
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "BMO",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_sale_process_part2_obl_7",
+        "observability": "named",
+        "quote_text": "At the request of the Board, representatives of BMO reviewed BMO\u2019s financial analyses supporting its opinion to the Board as to the fairness, from a financial point of view, to the holders of our common stock of the consideration to be received by those holders (other than the Eder Trusts) in the merger pursuant to the merger agreement as of August 12, 2016."
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_sale_process_part2_obl_7",
+        "effective_date_first": null,
+        "object_label": "the Board",
+        "quote_text": "At the request of the Board, representatives of BMO reviewed BMO\u2019s financial analyses supporting its opinion to the Board as to the fairness, from a financial point of view, to the holders of our common stock of the consideration to be received by those holders (other than the Eder Trusts) in the merger pursuant to the merger agreement as of August 12, 2016.",
+        "relation_type": "advises",
+        "role_detail": "financial advisor",
+        "subject_label": "BMO"
+      }
+    ],
+    "bid_claims": [],
+    "coverage_results": [
+      {
+        "obligation_id": "providence-worcester_w2_sale_process_part2_obl_1",
+        "reason": "The source window discusses the Board's determination, BMO's fairness opinion, execution of transaction documents, and a later independence-related update, but does not describe initiation of the sales process.",
+        "reason_code": "not_in_window",
+        "result": "no_supported_claim"
+      },
+      {
+        "obligation_id": "providence-worcester_w2_sale_process_part2_obl_2",
+        "reason": "The source window does not state any indication-of-interest stage bidder count.",
+        "reason_code": "not_in_window",
+        "result": "no_supported_claim"
+      },
+      {
+        "obligation_id": "providence-worcester_w2_sale_process_part2_obl_3",
+        "reason": "The source window does not state any first-round bidder count.",
+        "reason_code": "not_in_window",
+        "result": "no_supported_claim"
+      },
+      {
+        "obligation_id": "providence-worcester_w2_sale_process_part2_obl_4",
+        "reason": "The source window references the G&W offer being deemed superior, but does not state that a final-round bid was received or provide a final-round bid receipt event.",
+        "reason_code": "not_in_window",
+        "result": "no_supported_claim"
+      },
+      {
+        "obligation_id": "providence-worcester_w2_sale_process_part2_obl_5",
+        "reason": "The source window does not state that exclusivity was granted.",
+        "reason_code": "not_in_window",
+        "result": "no_supported_claim"
+      },
+      {
+        "obligation_id": "providence-worcester_w2_sale_process_part2_obl_8",
+        "reason": "The source window names Hinckley Allen and Simpson Thacher as finalizing transaction documents, but does not clearly identify a legal advisor for the target.",
+        "reason_code": "ambiguous_role",
+        "result": "ambiguous"
+      },
+      {
+        "obligation_id": "providence-worcester_w2_sale_process_part2_obl_9",
+        "reason": "The source window references merger consideration and the G&W offer, but does not state a final bid price.",
+        "reason_code": "not_in_window",
+        "result": "no_supported_claim"
+      },
+      {
+        "obligation_id": "providence-worcester_w2_sale_process_part2_obl_10",
+        "reason": "The source window mentions the Company, G&W and the Eder Trusts executed a voting agreement, but does not clearly describe buyer group composition.",
+        "reason_code": "not_in_window",
+        "result": "no_supported_claim"
+      }
+    ],
+    "event_claims": [],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 5629,
+  "prompt_sha256": "89c52c4a511698e90d977b25d834652163ec3e4b20b032d10a73f34e87ac88c1",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "891e4a5674ba114d92ee1d400df86fba7a95780231cc29bd539799ee3cd2af97",
+  "slug": "providence-worcester",
+  "stage": "stage1",
+  "status": "completed",
+  "window_id": "w2_sale_process_part2",
+  "window_profile": "W2_MULTI_REGION"
+}

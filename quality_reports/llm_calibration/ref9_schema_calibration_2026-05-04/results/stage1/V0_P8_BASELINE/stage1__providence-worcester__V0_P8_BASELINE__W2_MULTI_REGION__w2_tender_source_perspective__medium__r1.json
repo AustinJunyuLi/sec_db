@@ -1,0 +1,116 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "V0_P8_BASELINE",
+  "duration_s": 48.36,
+  "input_chars": 22000,
+  "input_path": "inputs/providence-worcester/W2_MULTI_REGION/w2_tender_source_perspective.json",
+  "input_text_sha256": "2471f8291545bc06068917f15ef7769b098f74e7c6d7d5e3b65619a1cc7fb5d5",
+  "input_tokens": 5758,
+  "job_id": "stage1__providence-worcester__V0_P8_BASELINE__W2_MULTI_REGION__w2_tender_source_perspective__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 4,
+      "actor_relation_claims": 0,
+      "bid_claims": 1,
+      "coverage_results": 1,
+      "event_claims": 0,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 5,
+    "relation_types": {},
+    "strict_claim_total": 5,
+    "total_quotes": 5
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 2359,
+  "output_text_sha256": "9e6379258e1f5b8b290631211c9f73a03fca99aefbc0b77cd12081fcace3ba4b",
+  "output_tokens": 2084,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "organization",
+        "actor_label": "the Company",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "Merger Sub will merge with and into the Company, with the Company being the surviving corporation and becoming a wholly-owned subsidiary of G&W"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "G&W",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "Merger Sub will merge with and into the Company, with the Company being the surviving corporation and becoming a wholly-owned subsidiary of G&W"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Merger Sub",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "Merger Sub will merge with and into the Company, with the Company being the surviving corporation and becoming a wholly-owned subsidiary of G&W"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "paying agent",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "providence-worcester_w2_tender_source_perspective_obl_1",
+        "observability": "anonymous_handle",
+        "quote_text": "paying agent requires that such holders first deliver an executed letter of transmittal to the paying agent in order to receive the merger consideration"
+      }
+    ],
+    "actor_relation_claims": [],
+    "bid_claims": [
+      {
+        "bid_date": null,
+        "bid_stage": "final",
+        "bid_value": 25,
+        "bid_value_lower": null,
+        "bid_value_unit": "USD per share",
+        "bid_value_upper": null,
+        "bidder_label": "G&W",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "providence-worcester_w2_tender_source_perspective_obl_2",
+        "quote_text": "will be canceled and will be converted automatically into the right to receive $25.00 in cash, without interest"
+      }
+    ],
+    "coverage_results": [
+      {
+        "obligation_id": "providence-worcester_w2_tender_source_perspective_obl_3",
+        "reason": "The source window describes a merger process and merger consideration, but does not state a tender offer commencement, expiration, or minimum-condition event.",
+        "reason_code": "no_tender_offer_event_in_window",
+        "result": "no_supported_claim"
+      }
+    ],
+    "event_claims": [],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23813,
+  "prompt_sha256": "239fa3e6f89d8b0169afe109853e43c258610cb7d8e4917c4b0cf8d564b2925b",
+  "reasoning": "medium",
+  "reasoning_tokens": 1537,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "891e4a5674ba114d92ee1d400df86fba7a95780231cc29bd539799ee3cd2af97",
+  "slug": "providence-worcester",
+  "stage": "stage1",
+  "status": "completed",
+  "window_id": "w2_tender_source_perspective",
+  "window_profile": "W2_MULTI_REGION"
+}

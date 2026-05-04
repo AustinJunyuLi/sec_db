@@ -1,0 +1,660 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "PLAIN_RECALL_SIDECAR",
+  "duration_s": 120.1,
+  "input_chars": 120000,
+  "input_path": "inputs/penford/W4_PLAIN_RECALL/w4_plain_recall.json",
+  "input_text_sha256": "bb86ffba9c499ec365e58e92c2a8bf6feaa3575e1677b00798dc7a34ff4f75c1",
+  "input_tokens": 24963,
+  "job_id": "stage2__penford__PLAIN_RECALL_SIDECAR__W4_PLAIN_RECALL__w4_plain_recall__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actors": 19,
+      "bids": 13,
+      "chronology": 27,
+      "counts": 8,
+      "relations": 10,
+      "source_limitations": 5,
+      "uncertain_or_missing": 7
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 1,
+    "quote_match_rate": 0.9277,
+    "quotes_in_window": 77,
+    "relation_types": {},
+    "sidecar_total_items": 89,
+    "strict_claim_total": 0,
+    "total_quotes": 83
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 42846,
+  "output_text_sha256": "20ecfabf67a2964820ad5a9a11de728a9178e4ddebf33bb6be4573ba81de2c7a",
+  "output_tokens": 8642,
+  "parsed": {
+    "actors": [
+      {
+        "date": null,
+        "description": "Penford Corporation is the target company; management and board regularly reviewed strategic options including acquisitions, divestitures and sale of Penford.",
+        "exact_quote": "Penford\u2019s management and its board of directors have regularly reviewed the Company\u2019s strategic options to enhance shareholder value as part of Penford\u2019s ongoing strategic planning. These strategic options included potential acquisitions and divestitures, as well as potential strategic transactions involving the acquisition of Penford.",
+        "importance": "core",
+        "label": "Penford / target"
+      },
+      {
+        "date": null,
+        "description": "Ingredion was the ultimate buyer and strategic bidder; its CEO was Ilene Gordon and CFO was Jack Fortnum.",
+        "exact_quote": "On July 17, 2014, Mr. Malkoski and Ms. Gordon met for lunch, during which meeting Ms. Gordon advised Mr. Malkoski of Ingredion\u2019s interest in acquiring Penford.",
+        "importance": "core",
+        "label": "Ingredion / buyer"
+      },
+      {
+        "date": null,
+        "description": "Thomas Malkoski was Penford's CEO and central management negotiator/contact in the process.",
+        "exact_quote": "On July 8, 2014, Ilene Gordon, Ingredion\u2019s Chairman and Chief Executive Officer, left a voicemail message for Penford\u2019s Chief Executive Officer Thomas Malkoski, seeking a meeting.",
+        "importance": "useful",
+        "label": "Thomas D. Malkoski"
+      },
+      {
+        "date": null,
+        "description": "Paul Hatfield was chairman of Penford's board and used the Executive Committee for expedited updates; he also contacted SEACOR's board representative about potential acquisition interest.",
+        "exact_quote": "In order to update and gather insight from certain board members on an expedited basis, Mr. Hatfield decided to utilize the Executive Committee to discuss recent developments, due to the Executive Committee\u2019s ability to meet with little advance notice and the authority vested in this committee under the Company\u2019s bylaws.",
+        "importance": "useful",
+        "label": "Paul Hatfield"
+      },
+      {
+        "date": null,
+        "description": "SEACOR was a significant shareholder, held approximately 9.28% of Penford stock at signing, had nominated directors, was considered a potential counterparty, declined participation in sale process, and later signed a voting and support agreement.",
+        "exact_quote": "In connection with the merger agreement, Ingredion, SEACOR , the owner of approximately 9.28% of Penford\u2019s outstanding common stock, and Penford entered into a voting and support agreement, dated as of October 14, 2014, pursuant to which SEACOR has agreed, among other things, to vote the shares it owns to approve the merger agreement",
+        "importance": "core",
+        "label": "SEACOR / major shareholder"
+      },
+      {
+        "date": null,
+        "description": "Mr. Behrens was SEACOR's representative on Penford's board and was asked to confirm SEACOR's interest; potential recusal was discussed if SEACOR pursued a deal.",
+        "exact_quote": "since SEACOR had been identified by Penford\u2019s financial advisor as a potential counterparty, the Executive Committee determined that Mr. Hatfield should promptly contact Mr. Behrens, the SEACOR representative on the board, to discuss whether SEACOR had an interest in acquiring the Company.",
+        "importance": "useful",
+        "label": "Mr. Behrens"
+      },
+      {
+        "date": null,
+        "description": "Deutsche Bank was Penford's financial advisor, selected to advise on shareholder matters, strategic alternatives, market check and fairness opinion.",
+        "exact_quote": "the Executive Committee directed management to proceed to retain Deutsche Bank as the Company\u2019s financial advisor and to advise on shareholder matters and to evaluate strategic alternatives",
+        "importance": "core",
+        "label": "Deutsche Bank"
+      },
+      {
+        "date": null,
+        "description": "J.P. Morgan Securities was Ingredion's financial advisor.",
+        "exact_quote": "members of Penford\u2019s management team provided a presentation to Ms. Gordon, Mr. Fortnum, and certain other members of Ingredion\u2019s senior management and representatives of J.P. Morgan Securities, Ingredion\u2019s financial advisor.",
+        "importance": "useful",
+        "label": "J.P. Morgan Securities"
+      },
+      {
+        "date": null,
+        "description": "Perkins Coie was Penford's legal counsel in the sale process and merger negotiations.",
+        "exact_quote": "representatives of Perkins Coie LLP (referred to as Perkins Coie), Penford\u2019s legal counsel, were present.",
+        "importance": "useful",
+        "label": "Perkins Coie"
+      },
+      {
+        "date": null,
+        "description": "Sidley Austin was Ingredion's legal counsel.",
+        "exact_quote": "Perkins Coie sent a revised draft of the merger agreement to Sidley Austin LLP (referred to as Sidley Austin), Ingredion\u2019s legal counsel.",
+        "importance": "useful",
+        "label": "Sidley Austin"
+      },
+      {
+        "date": null,
+        "description": "Milbank was legal counsel to SEACOR for the voting and support agreement discussions.",
+        "exact_quote": "Perkins Coie contacted Milbank, Tweed, Hadley & McCloy, LLP (referred to as Milbank), legal counsel to SEACOR, regarding Ingredion\u2019s request for SEACOR to enter into a voting and support agreement",
+        "importance": "useful",
+        "label": "Milbank"
+      },
+      {
+        "date": null,
+        "description": "Party A was an anonymous company in Penford's industry that informally discussed potential acquisition/combination interest and ultimately submitted a lower formal indication of interest.",
+        "exact_quote": "On August 1, 2014, a representative acting on behalf of a company in the industry (referred to as Party A) sent Mr. Malkoski an email asking for a call.",
+        "importance": "core",
+        "label": "Party A"
+      },
+      {
+        "date": null,
+        "description": "Party B was an anonymous strategic counterparty contacted in the market check that initially expressed interest but declined to proceed or sign an NDA.",
+        "exact_quote": "another strategic counterparty contacted by Deutsche Bank (referred to as Party B) expressed interest in further discussions, and Deutsche Bank forwarded a nondisclosure and standstill agreement to proceed with additional discussions with Party B.",
+        "importance": "useful",
+        "label": "Party B"
+      },
+      {
+        "date": null,
+        "description": "Party C was an anonymous strategic counterparty that executed an NDA/standstill, received information, and attended a management presentation.",
+        "exact_quote": "On September 15, 2014, Penford and Party C executed a nondisclosure and standstill agreement",
+        "importance": "useful",
+        "label": "Party C"
+      },
+      {
+        "date": null,
+        "description": "Party D was an anonymous strategic counterparty that executed an NDA/standstill but later did not proceed.",
+        "exact_quote": "On September 23, 2014, Penford and Party D executed a nondisclosure and standstill agreement",
+        "importance": "useful",
+        "label": "Party D"
+      },
+      {
+        "date": null,
+        "description": "Party E was an anonymous strategic counterparty for which Deutsche Bank left voicemails and received no response.",
+        "exact_quote": "Deutsche Bank also left several other voicemails for Party E regarding a potential transaction and received no response.",
+        "importance": "useful",
+        "label": "Party E"
+      },
+      {
+        "date": null,
+        "description": "Party F was one of the two largest companies in Penford's industry and was contacted; it declined further discussions due to lack of strategic fit.",
+        "exact_quote": "On September 29, 2014, Party F communicated to Deutsche Bank that a combination with Penford was not a suitable strategic fit and declined to pursue further discussions regarding a transaction.",
+        "importance": "useful",
+        "label": "Party F"
+      },
+      {
+        "date": null,
+        "description": "Party G was one of the two largest companies in Penford's industry but the board decided not to contact it.",
+        "exact_quote": "the board determined that Party F should be approached regarding a potential transaction with Penford, but due to the factors noted above, Party G should not be contacted.",
+        "importance": "useful",
+        "label": "Party G"
+      },
+      {
+        "date": null,
+        "description": "Okapi Partners was retained as proxy solicitor, with fee not to exceed $18,000 plus expenses.",
+        "exact_quote": "we have retained Okapi Partners to aid in the solicitation of proxies, provide solicitation-related consulting services and verify records relating to the solicitation. Okapi Partners will receive a fee for its services of an amount not to exceed $18,000, plus out-of-pocket expenses.",
+        "importance": "useful",
+        "label": "Okapi Partners"
+      }
+    ],
+    "bids": [
+      {
+        "date": "2007 and 2009",
+        "description": "Penford received unsolicited indications of interest to acquire the company from two industry parties; discussions and information exchanges did not result in offers.",
+        "exact_quote": "In 2007 and 2009, the Company received unsolicited indications of interest to acquire Penford from two parties engaged in the Company\u2019s industry. In each case, the Company entered into a confidentiality agreement and engaged in discussions and exchanged information with the party expressing interest. These discussions did not result in offers to acquire the Company.",
+        "importance": "useful",
+        "label": "Prior unsolicited indications"
+      },
+      {
+        "date": "July 17, 2014",
+        "description": "Ingredion expressed acquisition interest but gave no specific price; it referenced Penford's 52-week high around $16 and current trading price around $12.",
+        "exact_quote": "When Mr. Malkoski asked about potential valuation, Ms. Gordon did not cite a specific number but noted Penford\u2019s 52-week high of approximately $16.00 per share and the current trading price of approximately $12.00 per share.",
+        "importance": "core",
+        "label": "Ingredion initial valuation discussion"
+      },
+      {
+        "date": "August 6, 2014",
+        "description": "Ingredion indicated it was prepared to submit a proposal; Fortnum suggested $17.00 per share fully diluted could likely get Ingredion board support; Malkoski said likely insufficient for Penford board support.",
+        "exact_quote": "Mr. Fortnum suggested that a price of $17.00 per share on a fully diluted basis could likely get support from Ingredion\u2019s board. Mr. Malkoski responded that, in his opinion, the proposed price would probably not be high enough to get support from Penford\u2019s board of directors.",
+        "importance": "core",
+        "label": "Ingredion $17.00 discussion"
+      },
+      {
+        "date": "August 10, 2014",
+        "description": "Ingredion provided an indicative cash valuation of $18.00 per share for all outstanding Penford capital stock on a fully diluted basis; premium was 49% to the prior business day's closing price of $12.10.",
+        "exact_quote": "providing an indicative valuation of $18.00 per share in cash for all of the outstanding capital stock of Penford on a fully diluted basis. Based on the $12.10 per share closing price of Penford\u2019s common stock on August 8, 2014, the last business day prior to receiving this indication of interest, the indication of interest represented a premium of 49%.",
+        "importance": "core",
+        "label": "Ingredion $18.00 indication"
+      },
+      {
+        "date": "August 11, 2014",
+        "description": "Party A informally discussed potential interest but indicated value would only be at typical takeover premium based on current trading price, not strategic plan or future synergies.",
+        "exact_quote": "Party A\u2019s Chief Executive Officer also informally discussed Party A\u2019s potential interest in acquiring or combining with Penford. Party A noted that it saw value in Penford but only at a typical takeover premium based on current trading price",
+        "importance": "useful",
+        "label": "Party A informal interest"
+      },
+      {
+        "date": "September 17, 2014",
+        "description": "Ingredion orally indicated it could potentially increase its proposal from $18.00 to $18.25 or $18.50 per share fully diluted; premiums were 24% and 26% to prior business day's $14.70 close.",
+        "exact_quote": "Mr. Fortnum indicated during the conversation that Ingredion could potentially increase its proposal from $18.00 to $18.25 or $18.50 per share on a fully diluted basis. Based on the $14.70 per share closing price of Penford\u2019s common stock on September 16, 2014, the last business day prior to receiving the revised indication of interest, a price of $18.25 to $18.50 represented a 24% premium and 26% premium, respectively.",
+        "importance": "core",
+        "label": "Ingredion $18.25-$18.50 range"
+      },
+      {
+        "date": "October 1, 2014",
+        "description": "Penford board wanted a purchase price of at least $20.00 per share; Deutsche Bank conveyed this to J.P. Morgan.",
+        "exact_quote": "Deutsche Bank further explained that Penford\u2019s board of directors had wanted a purchase price of at least $20.00 per share.",
+        "importance": "useful",
+        "label": "Penford price objective"
+      },
+      {
+        "date": "October 2, 2014",
+        "description": "Ingredion stated it was prepared to move forward at $18.50 per share fully diluted; Malkoski responded that likely was not high enough for board recommendation.",
+        "exact_quote": "Mr. Fortnum then stated that Ingredion was prepared to move forward based on a proposed price of $18.50 per share on a fully diluted basis. Mr. Malkoski responded that that price was unlikely to be high enough for Penford\u2019s board of directors to recommend the transaction to shareholders.",
+        "importance": "core",
+        "label": "Ingredion $18.50 statement"
+      },
+      {
+        "date": "October 2, 2014",
+        "description": "Ingredion increased its indication to $19.00 per share on a fully diluted basis; premium was 49% to October 1 closing price of $12.77.",
+        "exact_quote": "Penford received a letter from Ingredion regarding its indication of interest and increasing the proposed price to $19.00 per share of outstanding Penford capital stock on a fully diluted basis. Based on the $12.77 per share closing price of Penford\u2019s common stock on October 1, 2014, the last business day prior to receiving this revised indication of interest, the proposed price of $19.00 represented a 49% premium.",
+        "importance": "core",
+        "label": "Ingredion $19.00 revised indication"
+      },
+      {
+        "date": "October 4, 2014",
+        "description": "Party A indicated any offer would be below $17.50-$18.00 per share in cash; Deutsche Bank encouraged a letter of interest.",
+        "exact_quote": "Party A indicated any offer would be below $17.50 - $18.00 per share in cash. Deutsche Bank encouraged Party A to submit a letter of interest that could be reviewed by the board of directors.",
+        "importance": "core",
+        "label": "Party A below $17.50-$18.00"
+      },
+      {
+        "date": "October 13, 2014",
+        "description": "Party A reduced its value range from $17.50-$18.00 to $16.00-$18.00 per share due to increased market volatility.",
+        "exact_quote": "representatives of Party A, who indicated that its value range for a potential transaction had been reduced from $17.50 - $18.00 per share to $16.00 - $18.00 per share, due to increased volatility in the markets.",
+        "importance": "core",
+        "label": "Party A reduced range"
+      },
+      {
+        "date": "October 14, 2014",
+        "description": "Party A submitted a formal indication at $16.00 per share, representing a 45% premium to the October 13 closing price of $11.07.",
+        "exact_quote": "Party A provided a formal letter with its indication of interest with respect to an acquisition of the Company at a price of $16.00 per share, citing increased volatility in the markets as the reason for the decrease in the offer price. Based on the $11.07 per share closing price of Penford\u2019s common stock as of October 13, 2014, the day immediately prior to receiving this indication of interest, the offer price of $16.00 per share represented a 45% premium.",
+        "importance": "core",
+        "label": "Party A $16.00 formal indication"
+      },
+      {
+        "date": "October 14, 2014",
+        "description": "Final merger consideration was $19.00 per share in cash; board materials cited 72% premium over last trading day prior to announcement and 25% premium to 52-week high.",
+        "exact_quote": "The opportunity for our shareholders to realize substantial value based on the receipt of $19.00 in cash per share of our common stock, representing a 72% premium over the closing price of our common stock on the NASDAQ Global Market on the last trading day prior to the announcement of the merger and a 25% premium to the 52-week high trading price for our common stock",
+        "importance": "core",
+        "label": "Final $19.00 cash merger consideration"
+      }
+    ],
+    "chronology": [
+      {
+        "date": "July 11, 2014",
+        "description": "SEACOR filed an amended Schedule 13D stating its intent to nominate four candidates for Penford board election at the next annual meeting.",
+        "exact_quote": "SEACOR filed an amendment to its Schedule 13D (referred to as the SEACOR Filing) with the Securities and Exchange Commission (referred to as the SEC) in which SEACOR stated its intent to nominate four candidates for election as directors of our board at Penford\u2019s next annual meeting of shareholders.",
+        "importance": "useful",
+        "label": "SEACOR 13D / nominations"
+      },
+      {
+        "date": "July 20, 2014",
+        "description": "Penford and Ingredion executed a secrecy agreement for limited confidential information exchange and confidentiality of discussions.",
+        "exact_quote": "Penford and Ingredion executed a Secrecy Agreement, effective as of July 20, 2014, providing for limited exchange of confidential information and obligating the companies to keep their discussions confidential",
+        "importance": "core",
+        "label": "Ingredion secrecy agreement"
+      },
+      {
+        "date": "July 24, 2014",
+        "description": "Penford Executive Committee discussed Ingredion's oral indication and SEACOR filing; directed management to retain Deutsche Bank as financial advisor to advise on shareholder matters and strategic alternatives.",
+        "exact_quote": "The Executive Committee discussed the oral indication of interest from Ingredion... the Executive Committee directed management to proceed to retain Deutsche Bank as the Company\u2019s financial advisor and to advise on shareholder matters and to evaluate strategic alternatives",
+        "importance": "core",
+        "label": "Executive Committee advisor decision"
+      },
+      {
+        "date": "August 11, 2014",
+        "description": "Executive Committee reviewed Ingredion's $18 indication, potential alternatives and counterparties, including strategic and financial sponsor categories; determined to proceed with further review of Ingredion's indication.",
+        "exact_quote": "Following further discussion among the Executive Committee members, the Executive Committee unanimously determined that it would be in the best interests of the Company and its shareholders to proceed with further review and investigation of Ingredion\u2019s indication of interest to acquire Penford.",
+        "importance": "core",
+        "label": "Review of Ingredion proposal"
+      },
+      {
+        "date": "August 12-13, 2014",
+        "description": "SEACOR, through Behrens, stated and confirmed that it was not interested in participating in a potential sale process at that time.",
+        "exact_quote": "Mr. Behrens confirmed that SEACOR was not interested in participating in any potential sale process at that time.",
+        "importance": "core",
+        "label": "SEACOR declines sale-process participation"
+      },
+      {
+        "date": "August 13, 2014",
+        "description": "Penford board considered possible next steps including providing information to Ingredion and later running a market check if progress and acceptable price were achieved; board directed management to further investigate and develop Ingredion's proposal.",
+        "exact_quote": "potential next steps, including sharing information with Ingredion to identify additional areas that may add to the value of the Company and, assuming progress was made with Ingredion with respect to a transaction and Penford received an acceptable offer price, engaging in a \u201cmarket check\u201d process to contact potential counterparties regarding an alternative transaction.",
+        "importance": "core",
+        "label": "Board process direction"
+      },
+      {
+        "date": "August 14, 2014",
+        "description": "Penford told Ingredion the $18 proposal did not reflect full value but authorized engagement and information sharing; Penford declined exclusivity.",
+        "exact_quote": "Mr. Fortnum asked whether Penford would consider whether to enter into exclusive negotiations with Ingredion. Mr. Malkoski indicated that the current status of negotiations and the proposed price did not justify providing exclusivity.",
+        "importance": "core",
+        "label": "No exclusivity"
+      },
+      {
+        "date": "August 21, 2014",
+        "description": "Penford and Ingredion executed a nondisclosure and standstill agreement superseding the earlier secrecy agreement; Penford again declined exclusivity.",
+        "exact_quote": "Penford again declined to enter into exclusive negotiations with Ingredion. On August 21, 2014, Ingredion and Penford executed a nondisclosure and standstill agreement that superseded the prior Secrecy Agreement.",
+        "importance": "core",
+        "label": "Ingredion NDA/standstill"
+      },
+      {
+        "date": "August 21, 2014",
+        "description": "Penford management gave Ingredion a management presentation covering operations, strategy, business segments, technologies, markets, supply chain, facilities, historical performance, projections and additional diligence topics.",
+        "exact_quote": "This presentation provided information regarding Penford\u2019s operations, corporate strategy, business segments, product applications and technologies, end markets, supply chain and manufacturing, facilities, historical financial performance and financial projections, as well as additional information on key leadership, headcount, pension obligations and information technology systems.",
+        "importance": "useful",
+        "label": "Ingredion management presentation"
+      },
+      {
+        "date": "August 28, 2014",
+        "description": "Board authorized management and Deutsche Bank to proceed with a market check process while continuing negotiations and diligence with Ingredion.",
+        "exact_quote": "Following discussion, the board directed management to continue negotiations with Ingredion and engage in the due diligence process with Ingredion. The board also authorized management and Deutsche Bank to proceed with the market check process as described at the meeting.",
+        "importance": "core",
+        "label": "Market check authorized"
+      },
+      {
+        "date": "early September 2014",
+        "description": "Penford opened an online dataroom for Ingredion and continued diligence calls, meetings, and site visits to encourage an improved proposal.",
+        "exact_quote": "Starting in early September, Penford provided Ingredion access to an online dataroom to review due diligence materials and continued to respond to the initial and supplemental due diligence requests and inquiries from Ingredion.",
+        "importance": "useful",
+        "label": "Ingredion dataroom/diligence"
+      },
+      {
+        "date": "September 6, 2014",
+        "description": "Ingredion's advisor provided initial merger agreement draft, which contemplated voting and support agreements by certain significant shareholders.",
+        "exact_quote": "J.P. Morgan Securities provided Deutsche Bank with an initial draft of a merger agreement, that, among other things, contemplated the entry by certain significant shareholders into a voting and support agreement with Ingredion.",
+        "importance": "useful",
+        "label": "Initial merger agreement draft"
+      },
+      {
+        "date": "early to mid-September 2014",
+        "description": "Deutsche Bank contacted six potential strategic counterparties in same or similar industries as part of market check.",
+        "exact_quote": "Throughout early- to mid-September, in accordance with the board\u2019s authorization, Deutsche Bank contacted six potential strategic counterparties in the same or similar industries to gauge initial interest regarding a potential transaction with Penford.",
+        "importance": "core",
+        "label": "Six-party market check"
+      },
+      {
+        "date": "September 12, 2014",
+        "description": "Party B dropped out, deciding not to proceed or sign an NDA.",
+        "exact_quote": "Party B informed Deutsche Bank that it had decided not to move forward with discussions or sign a nondisclosure agreement with respect to a potential transaction.",
+        "importance": "useful",
+        "label": "Party B withdrawal"
+      },
+      {
+        "date": "September 15, 2014",
+        "description": "Party C signed NDA/standstill and received information regarding Penford, including strategy, business segments, technologies, markets, facilities, historical performance and projections.",
+        "exact_quote": "Penford provided Party C with information regarding Penford including, but not limited to, information regarding Penford\u2019s corporate strategy, business segments, product applications and technologies, end markets, supply chain and manufacturing facilities, historical financial performance and financial projections.",
+        "importance": "useful",
+        "label": "Party C NDA/information"
+      },
+      {
+        "date": "September 23, 2014",
+        "description": "Party D signed an NDA/standstill.",
+        "exact_quote": "On September 23, 2014, Penford and Party D executed a nondisclosure and standstill agreement, which included standard confidentiality restrictions and a standstill provision",
+        "importance": "useful",
+        "label": "Party D NDA"
+      },
+      {
+        "date": "September 24, 2014",
+        "description": "Board discussed whether to contact Parties F and G, the two largest industry companies; it decided to contact Party F but not Party G due to confidentiality, misuse of information, likely interest and ability to proceed concerns.",
+        "exact_quote": "the board discussed with management and Deutsche Bank whether the two largest companies in Penford\u2019s industry (referred to as Party F and Party G) should be approached... The board determined that Party F should be approached regarding a potential transaction with Penford, but due to the factors noted above, Party G should not be contacted.",
+        "importance": "core",
+        "label": "Party F contacted / Party G not contacted"
+      },
+      {
+        "date": "September 25, 2014",
+        "description": "Penford management provided Party C with a management presentation.",
+        "exact_quote": "members of Penford\u2019s management team provided a presentation to Party C regarding Penford\u2019s operations, specialty products, technology, supply chain and manufacturing, business segments, strategy, facilities, financial performance and financial projections.",
+        "importance": "useful",
+        "label": "Party C management presentation"
+      },
+      {
+        "date": "September 29, 2014",
+        "description": "Party F declined to pursue discussions, saying a combination with Penford was not a suitable strategic fit.",
+        "exact_quote": "Party F communicated to Deutsche Bank that a combination with Penford was not a suitable strategic fit and declined to pursue further discussions regarding a transaction.",
+        "importance": "useful",
+        "label": "Party F declines"
+      },
+      {
+        "date": "September 30, 2014",
+        "description": "Party A signed NDA/standstill and received information; Deutsche Bank told Party A no in-person presentation unless its offer price would likely be over $20.00 per share.",
+        "exact_quote": "Deutsche Bank informed Party A that Penford would not provide in-person management presentations unless there was an indication that Party A\u2019s proposed offer price would be competitive, which Deutsche Bank advised would likely be over $20.00 per share.",
+        "importance": "core",
+        "label": "Party A NDA / competitive price threshold"
+      },
+      {
+        "date": "October 3, 2014",
+        "description": "Board directed management to negotiate and finalize a definitive agreement with Ingredion after market check update showed no competing proposal at or above $19.00.",
+        "exact_quote": "After further discussion, with input from Deutsche Bank, the directors present at the board meeting unanimously directed management to proceed to negotiate and finalize a definitive agreement with Ingredion.",
+        "importance": "core",
+        "label": "Proceed with Ingredion definitive agreement"
+      },
+      {
+        "date": "October 8, 2014",
+        "description": "Party D informed Deutsche Bank that it did not intend to continue discussions.",
+        "exact_quote": "Deutsche Bank met with representatives from Party D, who indicated that it did not intend to move forward with discussions regarding a potential transaction involving the Company.",
+        "importance": "useful",
+        "label": "Party D withdrawal"
+      },
+      {
+        "date": "October 9, 2014",
+        "description": "Penford and Ingredion teams and advisors met in Chicago to negotiate remaining merger agreement issues including closing conditions, reps, interim covenants, non-solicitation, termination fee, and antitrust-related divestiture/restrictions.",
+        "exact_quote": "met in person in Chicago at the offices of Sidley Austin to assist in reviewing and negotiating remaining open issues in the draft merger agreement, including with respect to the delivery of fiscal 2014 financial statements as a closing condition, the scope of certain representations and warranties of the Company, the scope of the restrictions on the operations of Penford prior to the closing of the merger agreement, the non-solicitation obligations of the Company with respect to acquisition proposals, the circumstances under which a termination fee would be payable by the Company and the requirement to divest or otherwise agree to any business restrictions in the context of antitrust approvals.",
+        "importance": "core",
+        "label": "Merger agreement negotiation"
+      },
+      {
+        "date": "October 11-13, 2014",
+        "description": "Penford delivered draft fiscal 2014 financials showing lower volume, revenue and EBITDA than strategic plan materials; Ingredion considered this might adversely affect valuation, but later confirmed the $19 price.",
+        "exact_quote": "Penford provided Ingredion with draft financial statements for the fiscal year ended August 31, 2014... which reflected lower volume, lower revenue and lower EBITDA than was projected in the materials previously provided to Ingredion from Penford\u2019s strategic plan.",
+        "importance": "core",
+        "label": "FY2014 draft financials issue"
+      },
+      {
+        "date": "October 14, 2014",
+        "description": "Ingredion confirmed the $19.00 price and desire to finalize and proceed.",
+        "exact_quote": "Mr. Fortnum called Mr. Malkoski to confirm the proposed price of $19.00 and discuss finalizing the draft merger agreement and proceeding with the transaction as previously planned.",
+        "importance": "core",
+        "label": "Ingredion confirms $19.00"
+      },
+      {
+        "date": "October 14, 2014",
+        "description": "Penford board approved the merger agreement, voting and support agreement, merger and related transactions and recommended shareholder approval.",
+        "exact_quote": "the Penford board unanimously determined that the merger agreement, the voting and support agreement, the merger and other transactions contemplated thereby were in the best interest of Penford and its shareholders and approved the merger agreement and the merger and recommended approval of the merger agreement to Penford\u2019s shareholders.",
+        "importance": "core",
+        "label": "Board approval"
+      },
+      {
+        "date": "October 14-15, 2014",
+        "description": "Penford and Ingredion executed the merger agreement; Penford, Ingredion and SEACOR executed voting and support agreement; transaction announced before market open on October 15.",
+        "exact_quote": "During the evening on October 14, 2014, Penford and Ingredion finalized and executed the merger agreement, and Penford, Ingredion and SEACOR executed the voting and support agreement. Penford and Ingredion issued press releases announcing the transaction on October 15, 2014 prior to the opening of trading.",
+        "importance": "core",
+        "label": "Signing and announcement"
+      }
+    ],
+    "counts": [
+      {
+        "date": "2007 and 2009",
+        "description": "Two industry parties previously submitted unsolicited indications of interest, neither resulting in offers.",
+        "exact_quote": "the Company received unsolicited indications of interest to acquire Penford from two parties engaged in the Company\u2019s industry... These discussions did not result in offers to acquire the Company.",
+        "importance": "useful",
+        "label": "2 prior industry indications"
+      },
+      {
+        "date": "July 11, 2014",
+        "description": "SEACOR intended to nominate four candidates for Penford board election.",
+        "exact_quote": "SEACOR stated its intent to nominate four candidates for election as directors of our board at Penford\u2019s next annual meeting of shareholders.",
+        "importance": "useful",
+        "label": "4 SEACOR nominees"
+      },
+      {
+        "date": "October 14, 2014",
+        "description": "Deutsche Bank contacted six potential counterparties in the market check; two declined NDAs, one never returned voicemail, and three either did not move forward timely or made lower value indication.",
+        "exact_quote": "Deutsche Bank reported that as part of the market check process, it had contacted a total of six potential counterparties, two of which declined to enter into nondisclosure agreements, one of which never returned Deutsche Bank\u2019s voicemail regarding a potential transaction and the remaining three of which either did not move forward in a timely manner or made a lower indication of value.",
+        "importance": "core",
+        "label": "Market check outcome counts"
+      },
+      {
+        "date": "September 24, 2014",
+        "description": "Two potential counterparties had executed NDAs by September 24, with a third reviewing a draft NDA.",
+        "exact_quote": "Deutsche Bank reported that based on discussions with all of the companies contacted in connection with the market process, the general level of interest of those companies in pursuing a transaction with Penford was not particularly strong.",
+        "importance": "useful",
+        "label": "Weak interest in market process"
+      },
+      {
+        "date": "September 24, 2014",
+        "description": "The board discussed contacting the two largest companies in Penford's industry, Parties F and G; only Party F was contacted.",
+        "exact_quote": "the two largest companies in Penford\u2019s industry (referred to as Party F and Party G) should be approached regarding a potential transaction",
+        "importance": "useful",
+        "label": "2 largest industry companies considered"
+      },
+      {
+        "date": "October 14, 2014",
+        "description": "SEACOR owned approximately 9.28% of Penford outstanding common stock at time of voting and support agreement.",
+        "exact_quote": "SEACOR , the owner of approximately 9.28% of Penford\u2019s outstanding common stock",
+        "importance": "core",
+        "label": "SEACOR 9.28% ownership"
+      },
+      {
+        "date": "July 17, 2014",
+        "description": "Zell funds had owned approximately 9.80% of Penford outstanding common stock before recent sales.",
+        "exact_quote": "the recent sales of shares of Penford common stock by the Zell funds, the owners of, prior to such sales, approximately 9.80% of the Company\u2019s outstanding common stock",
+        "importance": "useful",
+        "label": "Zell funds 9.80% prior ownership"
+      },
+      {
+        "date": "October 14, 2014",
+        "description": "Termination fee if Penford accepted superior proposal, changed recommendation, or certain post-termination alternative agreement circumstances was $7.6 million; separate shareholder approval failure fee was $2.0 million.",
+        "exact_quote": "it would have to pay Ingredion a termination fee of $7.6 million.",
+        "importance": "useful",
+        "label": "Termination fees"
+      }
+    ],
+    "relations": [
+      {
+        "date": "October 14, 2014",
+        "description": "Voting and support agreement among Ingredion, SEACOR and Penford required SEACOR to vote its Penford shares for merger approval and stop soliciting proxies for SEACOR director nominees during the specified period/conditions.",
+        "exact_quote": "SEACOR has agreed, among other things, to vote the shares it owns to approve the merger agreement and not to solicit proxies from shareholders of Penford in respect of the election of SEACOR\u2019s nominees as directors of our board of directors prior to the earlier of: (a) the termination of the merger agreement, (b) any amendment to the merger agreement that reduces the amount or changes the form of the merger consideration or (c) March 15, 2015.",
+        "importance": "core",
+        "label": "SEACOR voting/support obligations"
+      },
+      {
+        "date": "October 14, 2014",
+        "description": "Penford agreed not to call an annual or special meeting for director elections before merger completion or termination; if terminated, Penford would call an election meeting 60-90 days after termination.",
+        "exact_quote": "Penford agreed that, prior to the completion of the merger or the termination of the merger agreement, it will not call an annual or special meeting for the election of directors and, in the event that the merger agreement is terminated, it will call an annual or special meeting for the election of directors to be held on a date not earlier than 60 days nor later than 90 days after the date of termination of the merger agreement.",
+        "importance": "useful",
+        "label": "Penford meeting restriction in support agreement"
+      },
+      {
+        "date": "August 11, 2014",
+        "description": "Potential SEACOR conflict was recognized: if SEACOR had acquisition interest, Behrens should recuse from future sale-process board discussions.",
+        "exact_quote": "if SEACOR did have such an interest, Mr. Behrens should recuse himself from future board discussions related to a possible sale process due to the potential conflict between Mr. Behrens\u2019 duties to the Company\u2019s shareholders and his duties to SEACOR.",
+        "importance": "useful",
+        "label": "SEACOR conflict / Behrens recusal consideration"
+      },
+      {
+        "date": "August 28, 2014",
+        "description": "Market check contacts were generally to be directed to CEOs of selected companies and substantive information sharing required acceptable NDAs.",
+        "exact_quote": "Deutsche Bank further noted that any inquiries to potential counterparties likely would be directed to the chief executive officers of selected companies, with any substantive exchanges of information about the Company to be subject to an acceptable nondisclosure agreement.",
+        "importance": "useful",
+        "label": "Market check protocol"
+      },
+      {
+        "date": "September 15 and September 23, 2014",
+        "description": "NDAs with Party C and Party D included standstill provisions that automatically expired upon public announcement of a definitive agreement for sale of 50% or more of Penford capital stock.",
+        "exact_quote": "a standstill provision that automatically expired upon the public announcement of the entering into a definitive agreement for a sale of 50% or more of the capital stock of Penford",
+        "importance": "useful",
+        "label": "Standstill fall-away"
+      },
+      {
+        "date": "October 14, 2014",
+        "description": "Deutsche Bank rendered fairness opinion to Penford board that the merger consideration was fair from a financial point of view to holders of Penford common stock, subject to assumptions and limitations.",
+        "exact_quote": "Deutsche Bank rendered to the board its oral opinion that as of October 14, 2014 and based on and subject to various assumptions, limitations, qualifications and conditions stated in its opinion, the merger consideration (as defined in the merger agreement) provided pursuant to the merger agreement was fair, from a financial point of view, to the holders of the Company\u2019s common stock.",
+        "importance": "core",
+        "label": "Fairness opinion"
+      },
+      {
+        "date": null,
+        "description": "Ingredion's merger obligation was not subject to financing condition; expected funding from available funds, including cash and borrowings under revolving credit agreement.",
+        "exact_quote": "There is no financing condition to the merger. Ingredion expects to pay the merger consideration and merger-related costs with then-available funds, which funds may include available cash and proceeds from borrowings under Ingredion\u2019s revolving credit agreement.",
+        "importance": "core",
+        "label": "No financing condition"
+      },
+      {
+        "date": null,
+        "description": "Board cited support by major shareholder SEACOR as a factor supporting the merger.",
+        "exact_quote": "Support by Major Shareholder: The agreement entered into by SEACOR to vote in favor of the merger agreement.",
+        "importance": "useful",
+        "label": "Major shareholder support"
+      },
+      {
+        "date": null,
+        "description": "Board cited market check showing no non-binding indication equal to or above $19.00 per share from other potential counterparties.",
+        "exact_quote": "Market Check Process: Our board\u2019s knowledge of possible counterparties for a transaction with Penford... which did not include any non-binding indications of interest of equal to or more than the $19.00 per share agreed upon with Ingredion.",
+        "importance": "core",
+        "label": "No equal/higher market-check indication"
+      },
+      {
+        "date": null,
+        "description": "Merger agreement limited Penford's ability to solicit alternative proposals but allowed board changes/withdrawals in specified circumstances; termination fees could apply.",
+        "exact_quote": "The limitations under the merger agreement, subject to certain exceptions, on Penford\u2019s ability to solicit, initiate or encourage alternative third-party acquisition proposals and the related disincentives to do so",
+        "importance": "useful",
+        "label": "Non-solicitation / fiduciary out context"
+      }
+    ],
+    "source_limitations": [
+      "The provided window is a proxy statement excerpt focused on the sale process, board recommendation, fairness opinion and shareholder voting; it does not include the full merger agreement, full voting and support agreement, or all annexes.",
+      "Anonymous counterparties are identified only as Party A through Party G; the source does not disclose their real identities except Ingredion and SEACOR.",
+      "The window does not provide a tender-offer process because the transaction described is a merger requiring shareholder approval, not a tender offer.",
+      "The window summarizes due diligence and negotiations but does not include full bid letters, NDA texts, board minutes, or all communications.",
+      "Financing disclosure is high-level; it states no financing condition and possible use of cash/revolver borrowings, but does not provide committed financing documents or amounts."
+    ],
+    "uncertain_or_missing": [
+      {
+        "date": null,
+        "description": "No rollover arrangement is described in the provided window.",
+        "exact_quote": null,
+        "importance": "uncertain",
+        "label": "Rollover not found"
+      },
+      {
+        "date": null,
+        "description": "No special committee is described; the board used its Executive Committee for expedited updates, but this is not stated to be an independent/special committee.",
+        "exact_quote": "Mr. Hatfield decided to utilize the Executive Committee to discuss recent developments, due to the Executive Committee\u2019s ability to meet with little advance notice and the authority vested in this committee under the Company\u2019s bylaws.",
+        "importance": "uncertain",
+        "label": "No special committee stated"
+      },
+      {
+        "date": null,
+        "description": "No go-shop is described; instead, the board authorized a pre-signing market check and merger agreement imposed non-solicitation limits subject to exceptions.",
+        "exact_quote": "The limitations under the merger agreement, subject to certain exceptions, on Penford\u2019s ability to solicit, initiate or encourage alternative third-party acquisition proposals",
+        "importance": "uncertain",
+        "label": "No go-shop found"
+      },
+      {
+        "date": null,
+        "description": "No matching rights or detailed superior proposal procedure terms are included in this excerpt beyond references to responding to competing offers and termination fees.",
+        "exact_quote": "the process for responding to, and the limitations with respect to soliciting, any competing offers and the conditions to closing",
+        "importance": "uncertain",
+        "label": "Competing proposal details limited"
+      },
+      {
+        "date": null,
+        "description": "The source does not state whether any Penford directors or officers entered employment, retention, equity rollover, or post-closing arrangements with Ingredion in this window; it only notes potential differing interests are discussed elsewhere.",
+        "exact_quote": "certain directors and executive officers of Penford have interests with respect to the merger that are in addition to or different than their interests as shareholders of Penford generally. See \u201cInterests of Our Directors and Executive Officers in the Merger\u201d beginning on page 69 of this proxy statement.",
+        "importance": "uncertain",
+        "label": "Management interests not detailed in window"
+      },
+      {
+        "date": null,
+        "description": "Party G was not contacted, so no bid status from Party G exists in the window.",
+        "exact_quote": "Party G should not be contacted.",
+        "importance": "useful",
+        "label": "Party G not contacted"
+      },
+      {
+        "date": null,
+        "description": "Party E did not respond to Deutsche Bank's voicemails, so no indication of interest or decline rationale is available.",
+        "exact_quote": "received no response.",
+        "importance": "useful",
+        "label": "Party E no response"
+      }
+    ]
+  },
+  "prompt_chars": 120737,
+  "prompt_sha256": "c3a5afc63494ef287017d2ae35101dc03c72a9846f7682ebab2f0fef9f9c4fca",
+  "reasoning": "medium",
+  "reasoning_tokens": 22,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "395ec9adc1244cf05f88f704783e6cc5565bc76e2584cde5245ec75b525f8e4c",
+  "slug": "penford",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w4_plain_recall",
+  "window_profile": "W4_PLAIN_RECALL"
+}

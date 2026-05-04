@@ -1,0 +1,121 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_CLAIM_ONLY_P8",
+  "duration_s": 34.27,
+  "input_chars": 22000,
+  "input_path": "inputs/providence-worcester/W2_MULTI_REGION/w2_committee_or_conflict.json",
+  "input_text_sha256": "73448aaf07e2d7cec30d7aefff64f2e665e10994a1a5094330af794f81fa7e61",
+  "input_tokens": 5842,
+  "job_id": "stage2__providence-worcester__EXPANDED_CLAIM_ONLY_P8__W2_MULTI_REGION__w2_committee_or_conflict__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 2,
+      "actor_relation_claims": 1,
+      "bid_claims": 0,
+      "event_claims": 2,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 1,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 5,
+    "relation_types": {
+      "advises": 1
+    },
+    "strict_claim_total": 5,
+    "total_quotes": 5
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 3004,
+  "output_text_sha256": "beb24a1cb2c5221b809a704a1e78de68f259f5e5882715e98c5d47f74ad17fae",
+  "output_tokens": 1716,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "Company directors and executive officers",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_committee_or_conflict_obl_1",
+        "observability": "named",
+        "quote_text": "Company directors and executive officers may be deemed to have interests in the merger that are different from, or in addition to, the interests of the Company\u2019s shareholders generally and which may create potential conflicts of interest"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "Company\u2019s executive officers (other than Robert H. Eder)",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_committee_or_conflict_obl_1",
+        "observability": "named",
+        "quote_text": "each of the Company\u2019s executive officers (other than Robert H. Eder, our Chief Executive Officer) is party to a change in control agreement with the Company"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_committee_or_conflict_obl_2",
+        "effective_date_first": null,
+        "object_label": "Board",
+        "quote_text": "our financial advisor, BMO Capital Markets Corp., which we refer to as \u201cBMO,\u201d rendered to the Board its oral opinion",
+        "relation_type": "advises",
+        "role_detail": "financial advisor",
+        "subject_label": "BMO Capital Markets Corp."
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "BMO Capital Markets Corp.",
+        "actor_role": "advisor_for_target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_committee_or_conflict_obl_3",
+        "description": "BMO rendered its oral fairness opinion to the Board at the August 12, 2016 Board meeting, later confirmed in writing.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2016-08-12",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_text": "at the meeting of the Board on August 12, 2016, our financial advisor, BMO Capital Markets Corp., which we refer to as \u201cBMO,\u201d rendered to the Board its oral opinion, subsequently confirmed by delivery of a written opinion dated August 12, 2016"
+      },
+      {
+        "actor_label": "Board",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_committee_or_conflict_obl_3",
+        "description": "The Board was aware of and considered potential conflicts of interest of Company directors and executive officers in reaching its determination to approve the merger agreement.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_text": "The members of the Board were aware of and considered these interests in reaching the determination to approve the merger agreement and deem the merger agreement, the merger and the other transactions contemplated by the merger agreement to be advisable and in the best interests of the Company"
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 24031,
+  "prompt_sha256": "01d0efca6107708aeb7ffbf4c001d9a91798ccfce14046f31879b396dc5da0b1",
+  "reasoning": "medium",
+  "reasoning_tokens": 1034,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "80c516a8b3401128674672619998677e77e1705c31b2f7b7ea8a4f8856bd14eb",
+  "slug": "providence-worcester",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_committee_or_conflict",
+  "window_profile": "W2_MULTI_REGION"
+}

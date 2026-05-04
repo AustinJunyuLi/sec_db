@@ -1,0 +1,108 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 22.75,
+  "input_chars": 22000,
+  "input_path": "inputs/zep/W2_MULTI_REGION/w2_tender_source_perspective.json",
+  "input_text_sha256": "b6e49733437cfac96ab0df49caf41ed879e6e888eaa0bae01d078051129512d1",
+  "input_tokens": 6175,
+  "job_id": "stage2__zep__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_tender_source_perspective__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 3,
+      "actor_relation_claims": 0,
+      "bid_claims": 0,
+      "event_claims": 2,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 2,
+    "not_unique_in_source_window": 1,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 5,
+    "relation_types": {},
+    "strict_claim_total": 5,
+    "total_quotes": 5
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 2747,
+  "output_text_sha256": "afafb9fb55bb4190b17ac574d2d761aaeb5e77143cc19557246f00b7afc035d3",
+  "output_tokens": 1159,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "organization",
+        "actor_label": "ZEP INC.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "CP=\"ZEP INC.\""
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Parent",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "Similarly, Parent and Merger Sub have made customary representations and warranties to us in the merger agreement"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Merger Sub",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "Similarly, Parent and Merger Sub have made customary representations and warranties to us in the merger agreement"
+      }
+    ],
+    "actor_relation_claims": [],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": null,
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_tender_source_perspective_obl_3",
+        "description": "The go-shop period ended at 11:59 p.m. New York time on May 7, 2015, and no contacted party submitted a competing acquisition proposal or remained engaged in discussions or negotiations.",
+        "event_date": "2015-05-07",
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "quote_text": "As disclosed under \"\u2014Background of the Merger,\" the go-shop period ended at 11:59 p.m., New York time on May 7, 2015, and as of the end of the go-shop period, none of the parties contacted during the go-shop process had submitted a competing acquisition proposal to us or our representatives, and no such party remained engaged in discussions or negotiations with us or our representatives with respect to a potential acquisition proposal."
+      },
+      {
+        "actor_label": null,
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_tender_source_perspective_obl_3",
+        "description": "Existing acquisition proposal activities, discussions and negotiations were required to cease as of 11:59 p.m. New York City time on May 7, 2015, except for excluded parties.",
+        "event_date": "2015-05-07",
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "quote_text": "We have also agreed to (and to cause our subsidiaries and our and their respective representatives to) immediately cease and cause to be terminated as of 11:59 p.m. (New York City time) on May 7, 2015 all then-existing activities, discussions and negotiations, if any, with any third party and its representatives with respect to any acquisition proposal, other than any person who is an excluded party (but only for so long as such person remains an excluded party)."
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23769,
+  "prompt_sha256": "e5c037b0c00b1ec6f9f740e07e16e20586d030e67fcac4ec186c04cb07ce489b",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "zep",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_tender_source_perspective",
+  "window_profile": "W2_MULTI_REGION"
+}

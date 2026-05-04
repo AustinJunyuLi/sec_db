@@ -1,0 +1,170 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_CLAIM_ONLY_P8",
+  "duration_s": 60.79,
+  "input_chars": 14112,
+  "input_path": "inputs/medivation/W2_MULTI_REGION/w2_tender_source_perspective.json",
+  "input_text_sha256": "6965d0d7ae263580b3218c005ba7855ce358cd53acc188f3b5475d8a00064fbf",
+  "input_tokens": 4657,
+  "job_id": "stage2__medivation__EXPANDED_CLAIM_ONLY_P8__W2_MULTI_REGION__w2_tender_source_perspective__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 5,
+      "actor_relation_claims": 0,
+      "bid_claims": 2,
+      "event_claims": 2,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 4,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 2,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 0.8889,
+    "quotes_in_window": 8,
+    "relation_types": {},
+    "strict_claim_total": 9,
+    "total_quotes": 9
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 4372,
+  "output_text_sha256": "a7dee424a8203c66ae79bd1c35cf2f991d8a3e7ddc7c86df4c23962829f08eb8",
+  "output_tokens": 2172,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Montreal, Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "Montreal, Inc., a Delaware corporation (which we refer to as \u201cPurchaser\u201d)"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Pfizer Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "Pfizer Inc., a Delaware corporation (which we refer to as \u201cPfizer\u201d)"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Medivation, Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "Medivation, Inc., a Delaware corporation (which we refer to as \u201cMedivation\u201d or the \u201cCompany\u201d)"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Computershare Trust Company, N.A.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "Computershare Trust Company, N.A., in its capacity as depositary and paying agent for the Offer (which we refer to as the \u201cDepositary\u201d)"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Information Agent",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "medivation_w2_tender_source_perspective_obl_1",
+        "observability": "anonymous_handle",
+        "quote_text": "The Information Agent for the Offer is: 470 West Avenue Stamford, CT 06902 Banks and Brokerage Firms Call: (203) 658-9400 Shareholders Call Toll Free: (800) 662-5200 E-mail: tenderinfo@morrowco.com"
+      }
+    ],
+    "actor_relation_claims": [],
+    "bid_claims": [
+      {
+        "bid_date": null,
+        "bid_formality": "formal",
+        "bid_stage": "unspecified",
+        "bid_value": 81.5,
+        "bid_value_lower": null,
+        "bid_value_unit": "USD per Share",
+        "bid_value_upper": null,
+        "bidder_label": "Montreal, Inc.",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "medivation_w2_tender_source_perspective_obl_2",
+        "proposal_scope": "whole_company",
+        "quote_text": "All Outstanding Shares of Common Stock\n\n**of**\n\n**Medivation, Inc.**\n\n**at**\n\n**$81.50 Net Per Share**\n\n**by**\n\n**Montreal, Inc.**"
+      },
+      {
+        "bid_date": null,
+        "bid_formality": "formal",
+        "bid_stage": "unspecified",
+        "bid_value": 81.5,
+        "bid_value_lower": null,
+        "bid_value_unit": "USD per Share",
+        "bid_value_upper": null,
+        "bidder_label": "Montreal, Inc.",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "medivation_w2_tender_source_perspective_obl_2",
+        "proposal_scope": "whole_company",
+        "quote_text": "Price Offered Per Share $81.50 per Share, net to the seller in cash, without interest, subject to any required withholding of taxes (which we refer to as the \u201cOffer Price\u201d)."
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "Montreal, Inc.",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_tender_source_perspective_obl_3",
+        "description": "Offer and withdrawal rights are scheduled to expire at the end of the day, one minute after 11:59 p.m. Eastern Time on Tuesday, September 27, 2016, unless extended or earlier terminated.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2016-09-27",
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_text": "THE OFFER AND WITHDRAWAL RIGHTS WILL EXPIRE AT THE END OF THE DAY, ONE MINUTE AFTER 11:59 P.M. EASTERN TIME ON TUESDAY, SEPTEMBER 27, 2016, UNLESS THE OFFER IS EXTENDED OR EARLIER TERMINATED."
+      },
+      {
+        "actor_label": "Montreal, Inc.",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_tender_source_perspective_obl_3",
+        "description": "The scheduled expiration of the offer is at the end of the day, one minute after 11:59 p.m. Eastern Time, on Tuesday, September 27, 2016, unless extended or terminated.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2016-09-27",
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_text": "Scheduled Expiration of Offer At the end of the day, one minute after 11:59 p.m. Eastern Time, on Tuesday, September 27, 2016, unless the Offer is extended or terminated."
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 16070,
+  "prompt_sha256": "dfc1a1091a3e2af3b23e7d3660bfda4f9df6f86c7ffb46c3c085ad662149abd6",
+  "reasoning": "medium",
+  "reasoning_tokens": 1034,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "80c516a8b3401128674672619998677e77e1705c31b2f7b7ea8a4f8856bd14eb",
+  "slug": "medivation",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_tender_source_perspective",
+  "window_profile": "W2_MULTI_REGION"
+}

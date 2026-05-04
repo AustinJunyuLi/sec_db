@@ -1,0 +1,186 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_CLAIM_ONLY_P8",
+  "duration_s": 72.74,
+  "input_chars": 3626,
+  "input_path": "inputs/penford/W1_SALE_PROCESS/w1_sale_process_part2.json",
+  "input_text_sha256": "1f4c87c995150b6977de307922fd8b8d7cc9bdf0d0cd49210163392e43c8b41c",
+  "input_tokens": 2393,
+  "job_id": "stage2__penford__EXPANDED_CLAIM_ONLY_P8__W1_SALE_PROCESS__w1_sale_process_part2__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 3,
+      "actor_relation_claims": 1,
+      "bid_claims": 1,
+      "event_claims": 3,
+      "participation_count_claims": 2
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 5,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 4,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 10,
+    "relation_types": {
+      "supports": 1
+    },
+    "strict_claim_total": 10,
+    "total_quotes": 10
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 4961,
+  "output_text_sha256": "051dfffb470bc7bc1a42c55427c3309ea2ab61cded6607019c708b5d21e6f9a4",
+  "output_tokens": 2180,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "committee",
+        "actor_label": "Penford board",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w1_sale_process_part2_obl_6",
+        "observability": "named",
+        "quote_text": "the Penford board unanimously determined that the merger agreement, the voting and support agreement, the merger and other transactions contemplated thereby were in the best interest of Penford and its shareholders"
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "Deutsche Bank",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w1_sale_process_part2_obl_7",
+        "observability": "named",
+        "quote_text": "Deutsche Bank then reviewed with the board the key terms of the proposed transaction and the process that the Company followed after it was first contacted by Ingredion, including the market check process."
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Perkins Coie",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w1_sale_process_part2_obl_8",
+        "observability": "named",
+        "quote_text": "Perkins Coie provided a review, and led a discussion, of the fiduciary duties of Penford\u2019s board under Washington law, including in connection with strategic proposals involving a change in control of Penford."
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "medium",
+        "coverage_obligation_id": "penford_w1_sale_process_part2_obl_10",
+        "effective_date_first": "2014-10-14",
+        "object_label": "Ingredion",
+        "quote_text": "Penford, Ingredion and SEACOR executed the voting and support agreement.",
+        "relation_type": "supports",
+        "role_detail": "party to voting and support agreement",
+        "subject_label": "SEACOR"
+      }
+    ],
+    "bid_claims": [
+      {
+        "bid_date": "2014-10-14",
+        "bid_formality": null,
+        "bid_stage": "final",
+        "bid_value": 19,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "Ingredion",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": null,
+        "coverage_obligation_id": "penford_w1_sale_process_part2_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_text": "Ingredion had confirmed that it desired to promptly enter into the merger agreement and that the purchase price per share, on a fully diluted basis, remained at $19.00 per share"
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "Ingredion",
+        "actor_role": "sender",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w1_sale_process_part2_obl_1",
+        "description": "The Company was first contacted by Ingredion before the market check process.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "initiation_side": "bidder",
+        "quote_text": "the process that the Company followed after it was first contacted by Ingredion, including the market check process"
+      },
+      {
+        "actor_label": "Ingredion",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w1_sale_process_part2_obl_4",
+        "description": "Ingredion confirmed that it desired to promptly enter into the merger agreement and that the purchase price remained $19.00 per share.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-10-14",
+        "event_subtype": "final_round_bid",
+        "event_type": "bid",
+        "initiation_side": null,
+        "quote_text": "Mr. Malkoski then reported to the board on recent discussions and negotiations with Ingredion regarding the proposed transaction, including the lower than expected figures reflected in the 2014 draft financial statements, and that Ingredion had confirmed that it desired to promptly enter into the merger agreement and that the purchase price per share, on a fully diluted basis, remained at $19.00 per share"
+      },
+      {
+        "actor_label": "Penford and Ingredion",
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w1_sale_process_part2_obl_5",
+        "description": "Penford and Ingredion finalized and executed the merger agreement on the evening of October 14, 2014.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-10-14",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_text": "During the evening on October 14, 2014, Penford and Ingredion finalized and executed the merger agreement"
+      }
+    ],
+    "participation_count_claims": [
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "medium",
+        "count_max": 3,
+        "count_min": 1,
+        "count_qualifier": "range",
+        "coverage_obligation_id": "penford_w1_sale_process_part2_obl_2",
+        "process_stage": "ioi_submitted",
+        "quote_text": "the remaining three of which either did not move forward in a timely manner or made a lower indication of value"
+      },
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "medium",
+        "count_max": null,
+        "count_min": 6,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "penford_w1_sale_process_part2_obl_3",
+        "process_stage": "contacted",
+        "quote_text": "as part of the market check process, it had contacted a total of six potential counterparties"
+      }
+    ]
+  },
+  "prompt_chars": 6101,
+  "prompt_sha256": "9cb2885c2f8aa7043a9aed48e48f5efeebebc73714a7a67c5762b760827dcba1",
+  "reasoning": "medium",
+  "reasoning_tokens": 1034,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "80c516a8b3401128674672619998677e77e1705c31b2f7b7ea8a4f8856bd14eb",
+  "slug": "penford",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w1_sale_process_part2",
+  "window_profile": "W1_SALE_PROCESS"
+}

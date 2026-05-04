@@ -1,0 +1,708 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "PLAIN_RECALL_SIDECAR",
+  "duration_s": 208.82,
+  "input_chars": 120000,
+  "input_path": "inputs/mac-gray/W4_PLAIN_RECALL/w4_plain_recall.json",
+  "input_text_sha256": "1be989a6fa130fa916de4a28988346b2fe1600006e4c3f9c35ca8d82f8cc6f4b",
+  "input_tokens": 26707,
+  "job_id": "stage2__mac-gray__PLAIN_RECALL_SIDECAR__W4_PLAIN_RECALL__w4_plain_recall__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actors": 14,
+      "bids": 15,
+      "chronology": 28,
+      "counts": 11,
+      "relations": 16,
+      "source_limitations": 4,
+      "uncertain_or_missing": 7
+    },
+    "duplicate_quotes_within_response": 3,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 0.8462,
+    "quotes_in_window": 77,
+    "relation_types": {},
+    "sidecar_total_items": 95,
+    "strict_claim_total": 0,
+    "total_quotes": 91
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 42419,
+  "output_text_sha256": "4f6e7a9a2efc385ec18c8b5212c71a0fb3c95cdf55616db14934ae2daa98d49e",
+  "output_tokens": 8992,
+  "parsed": {
+    "actors": [
+      {
+        "date": null,
+        "description": "Mac-Gray Corporation is the target company and described as the second largest laundry facilities management contractor in the United States.",
+        "exact_quote": "Mac-Gray Corporation is the second largest laundry facilities management contractor in the United States.",
+        "importance": "core",
+        "label": "Mac-Gray Corporation"
+      },
+      {
+        "date": null,
+        "description": "CSC ServiceWorks, Inc. is a buyer entity and described as leading provider of multi-family housing/commercial laundry solutions and air vending services.",
+        "exact_quote": "CSC ServiceWorks, Inc., with over one million machines in service, is the leading provider of multi-family housing and commercial laundry solutions as well as the industry leader in air vending services at convenience stores and gas stations.",
+        "importance": "core",
+        "label": "CSC ServiceWorks, Inc."
+      },
+      {
+        "date": null,
+        "description": "CSC ServiceWorks Holdings, Inc. is the sole stockholder of CSC.",
+        "exact_quote": "CSC ServiceWorks Holdings, Inc. is a Delaware corporation and the sole stockholder of CSC.",
+        "importance": "useful",
+        "label": "CSC ServiceWorks Holdings, Inc."
+      },
+      {
+        "date": null,
+        "description": "Spin Holdco Inc. is a wholly owned CSC subsidiary.",
+        "exact_quote": "Spin Holdco Inc. is a Delaware corporation and a wholly-owned subsidiary of CSC.",
+        "importance": "useful",
+        "label": "Spin Holdco Inc."
+      },
+      {
+        "date": null,
+        "description": "CSC Fenway, Inc. is a wholly owned subsidiary of Parent.",
+        "exact_quote": "CSC Fenway, Inc. is a Delaware corporation and a wholly-owned subsidiary of Parent.",
+        "importance": "useful",
+        "label": "CSC Fenway, Inc."
+      },
+      {
+        "date": null,
+        "description": "BofA Merrill Lynch served as Mac-Gray's financial advisor in connection with the merger and strategic alternatives process.",
+        "exact_quote": "Mac-Gray has retained BofA Merrill Lynch to act as Mac-Gray's financial advisor in connection with the merger.",
+        "importance": "core",
+        "label": "BofA Merrill Lynch"
+      },
+      {
+        "date": null,
+        "description": "Goodwin Procter LLP served as outside legal counsel to Mac-Gray.",
+        "exact_quote": "representatives from BofA Merrill Lynch and Goodwin Procter LLP, outside legal counsel to Mac-Gray, were also in attendance",
+        "importance": "useful",
+        "label": "Goodwin Procter LLP"
+      },
+      {
+        "date": null,
+        "description": "Kirkland & Ellis LLP served as outside legal counsel to CSC/Pamplona.",
+        "exact_quote": "Goodwin Procter delivered to Kirkland & Ellis LLP, outside legal counsel to CSC/Pamplona, whom we refer to as Kirkland, the initial draft of the merger agreement.",
+        "importance": "useful",
+        "label": "Kirkland & Ellis LLP"
+      },
+      {
+        "date": "May 2013",
+        "description": "Pamplona purchased CSC before the Mac-Gray sale process accelerated.",
+        "exact_quote": "During the fall and winter of 2012, CSC engaged in a sale process and, ultimately, CSC was purchased by Pamplona in May 2013.",
+        "importance": "useful",
+        "label": "Pamplona"
+      },
+      {
+        "date": null,
+        "description": "Party A is an anonymous strategic party in the laundry facilities management industry.",
+        "exact_quote": "including opportunities with another strategic party, whom we refer to as Party A, in the laundry facilities management industry.",
+        "importance": "core",
+        "label": "Party A"
+      },
+      {
+        "date": null,
+        "description": "Party B is an anonymous financial bidder that entered into confidentiality/standstill and submitted bids.",
+        "exact_quote": "18 financial bidders (including Party B and Party C), entered into confidentiality agreements with Mac-Gray",
+        "importance": "core",
+        "label": "Party B"
+      },
+      {
+        "date": null,
+        "description": "Party C is an anonymous financial bidder that entered into confidentiality/standstill and submitted bids but later did not submit/reiterate a final revised indication.",
+        "exact_quote": "Party C did not submit a revised indication of interest or reiterate its prior indication of interest of an all-cash purchase price of $16.00 to $17.00 per share nor did it specify any reasons in connection therewith.",
+        "importance": "core",
+        "label": "Party C"
+      },
+      {
+        "date": null,
+        "description": "Moab Partners, L.P. and affiliates beneficially owned approximately 9% of Mac-Gray common stock and had board representation through Michael M. Rothenberg.",
+        "exact_quote": "At the time of this meeting, Moab beneficially owned approximately 9% of Mac-Gray's outstanding common stock.",
+        "importance": "core",
+        "label": "Moab"
+      },
+      {
+        "date": null,
+        "description": "Stewart G. MacDonald, Jr. was Mac-Gray's CEO and a significant stockholder; potential conflicts related to possible rollover/support were considered.",
+        "exact_quote": "in view of the significant stock ownership of Mr. MacDonald and his family, coupled with the possibility that the strategic alternatives process might result in third parties who would be interested in partnering with Mr. MacDonald (either through continued employment and/or contribution of some or all of his existing equity, a so-called equity \"rollover\"), Mr. MacDonald could have interests that would not be aligned with other Mac-Gray stockholders.",
+        "importance": "core",
+        "label": "Stewart G. MacDonald, Jr."
+      }
+    ],
+    "bids": [
+      {
+        "date": "June 21, 2013",
+        "description": "Party A submitted an unsolicited all-cash proposal to buy Mac-Gray for $17.00 to $19.00 per share.",
+        "exact_quote": "On June 21, 2013, Party A submitted an unsolicited proposal to the Mac-Gray Board of Directors offering to purchase Mac-Gray for an all-cash purchase price of $17.00 to $19.00 per share, which we refer to as the Party A June 21 proposal.",
+        "importance": "core",
+        "label": "Party A June 21 proposal"
+      },
+      {
+        "date": "July 23, 2013",
+        "description": "CSC/Pamplona submitted preliminary all-cash indication at $18.50 per share.",
+        "exact_quote": "On July 23, 2013, CSC/Pamplona submitted a preliminary indication of interest at an all-cash purchase price of $18.50 per share.",
+        "importance": "core",
+        "label": "CSC/Pamplona preliminary indication"
+      },
+      {
+        "date": "July 24, 2013",
+        "description": "Party B submitted preliminary all-cash indication at $17.00 to $18.00 per share.",
+        "exact_quote": "On July 24, 2013, Party B submitted a preliminary indication of interest at an all-cash purchase price of $17.00 to $18.00 per share.",
+        "importance": "core",
+        "label": "Party B preliminary indication"
+      },
+      {
+        "date": "July 24, 2013",
+        "description": "Party C orally presented preliminary all-cash indication at $15.00 to $17.00 per share.",
+        "exact_quote": "Also on July 24, 2013, representatives from Party C called BofA Merrill Lynch and presented an oral preliminary indication of interest at an all-cash purchase price of $15.00 to $17.00 per share.",
+        "importance": "core",
+        "label": "Party C oral preliminary indication"
+      },
+      {
+        "date": "July 25, 2013",
+        "description": "Party C later submitted written indication at $16.00 to $16.50 per share all-cash.",
+        "exact_quote": "Later on July 25, 2013, Party C submitted a written indication of interest at an all-cash purchase price of $16.00 to $16.50 per share.",
+        "importance": "core",
+        "label": "Party C written indication"
+      },
+      {
+        "date": "September 9, 2013",
+        "description": "CSC/Pamplona submitted revised all-cash $19.50 per share indication with Pamplona committed to provide 100% of capital and requested two-week exclusivity.",
+        "exact_quote": "On September 9, 2013, CSC/Pamplona submitted a revised indication of interest with an all-cash purchase price of $19.50 per share, indicating that Pamplona was committed to provide 100% of the capital required to consummate the transaction and requesting that CSC/Pamplona and Mac-Gray agree to exclusive negotiations for two weeks.",
+        "importance": "core",
+        "label": "CSC/Pamplona revised indication"
+      },
+      {
+        "date": "September 9, 2013",
+        "description": "Party B submitted revised all-cash $18.50 per share indication, with equity from affiliated funds and third-party debt, but no firm financing commitment.",
+        "exact_quote": "On September 9, 2013, Party B also submitted a revised indication of interest with an all-cash purchase price of $18.50 per share and proposed to finance the transaction with a combination of equity from affiliated funds and third party debt. Party B's revised indication of interest did not include a firm financing commitment.",
+        "importance": "core",
+        "label": "Party B revised indication"
+      },
+      {
+        "date": "September 10, 2013",
+        "description": "Party A submitted revised all-cash $18.00 to $19.00 per share indication financed by outstanding credit facilities or affiliated equity sources, but no firm financing commitment.",
+        "exact_quote": "On September 10, 2013, Party A submitted a revised indication of interest with an all-cash purchase price of $18.00 to $19.00 per share, to be financed by outstanding credit facilities or affiliated equity sources.",
+        "importance": "core",
+        "label": "Party A revised indication"
+      },
+      {
+        "date": "September 10, 2013",
+        "description": "Party C orally indicated revised all-cash $16.00 to $17.00 per share indication, but no firm financing commitment.",
+        "exact_quote": "Also on September 10, 2013, in a telephone call to a representative of BofA Merrill Lynch, a representative of Party C indicated that it was submitting a revised oral indication of interest with an all-cash purchase price of $16.00 to $17.00 per share. Neither Party A's nor Party C's revised indication of interest included a firm financing commitment.",
+        "importance": "core",
+        "label": "Party C revised oral indication"
+      },
+      {
+        "date": "September 18, 2013",
+        "description": "CSC/Pamplona submitted $20.75 per share all-cash proposal, reiterated Pamplona 100% capital commitment, and requested two-week exclusivity.",
+        "exact_quote": "On September 18, 2013, CSC/Pamplona submitted a proposal for an all-cash purchase price of $20.75 per share, reiterating that Pamplona was committed to provide 100% of the capital required to consummate the transaction and requesting that CSC/Pamplona and Mac-Gray agree to engage in exclusive negotiations for two weeks.",
+        "importance": "core",
+        "label": "CSC/Pamplona September 18 proposal"
+      },
+      {
+        "date": "September 18, 2013",
+        "description": "Party A stated its prior $18.00 to $19.00 per share indication was best and final.",
+        "exact_quote": "Also on September 18, 2013, Party A reiterated in a telephone call to a representative of BofA Merrill Lynch that its previous indication of interest with an all-cash purchase price of $18.00 to $19.00 per share was its best and final offer.",
+        "importance": "core",
+        "label": "Party A best and final"
+      },
+      {
+        "date": "September 18, 2013",
+        "description": "Party B submitted revised proposal valued by Party B at $21.50 per share, consisting of $19.00 cash plus options valued by Party B at $2.50 per share, representing 10% of new equity and vesting on performance targets.",
+        "exact_quote": "On September 18, 2013, Party B also submitted a revised indication of interest with a purchase price that Party B valued at $21.50 per share, including $19.00 of cash to be paid at closing and the remaining per share price to be paid in the form of options to be issued to Mac-Gray stockholders, representing 10% of the new equity with a strike price equal to Party B's initial cost basis.",
+        "importance": "core",
+        "label": "Party B option proposal"
+      },
+      {
+        "date": "September 18, 2013",
+        "description": "Party C dropped from the process by not submitting or reiterating a revised indication, and gave no reasons.",
+        "exact_quote": "Party C did not submit a revised indication of interest or reiterate its prior indication of interest of an all-cash purchase price of $16.00 to $17.00 per share nor did it specify any reasons in connection therewith.",
+        "importance": "core",
+        "label": "Party C no final bid"
+      },
+      {
+        "date": "September 21, 2013",
+        "description": "CSC/Pamplona increased its all-cash price to $21.25 per share as last and best offer subject to two weeks exclusivity.",
+        "exact_quote": "Later that same day, the representative of CSC/Pamplona called the members of the Transaction Committee to confirm that CSC/Pamplona were willing to increase their all-cash purchase price to $21.25 per share as a last and best offer, provided that Mac-Gray agree to a two week period of exclusive negotiations.",
+        "importance": "core",
+        "label": "CSC/Pamplona final price"
+      },
+      {
+        "date": "October 14, 2013",
+        "description": "Final merger agreement consideration was $21.25 per share; BofA fairness analysis compared valuation ranges to $21.25 consideration.",
+        "exact_quote": "This analysis indicated the following approximate implied per share equity value reference ranges for Mac-Gray (rounded to the nearest $0.25 per share), as compared to the merger consideration: ... Consideration ... $ 21.25",
+        "importance": "core",
+        "label": "Merger consideration"
+      }
+    ],
+    "chronology": [
+      {
+        "date": "October 23, 2012",
+        "description": "Mac-Gray engaged BofA Merrill Lynch in connection with considering a possible acquisition of CSC during 2011-2012 discussions.",
+        "exact_quote": "In connection with Mac-Gray's consideration of a possible acquisition of CSC, which we refer to as the 2011-2012 Discussions, Mac-Gray engaged BofA Merrill Lynch on October 23, 2012.",
+        "importance": "useful",
+        "label": "BofA engaged for 2011-2012 CSC discussions"
+      },
+      {
+        "date": "April 5, 2013",
+        "description": "Board discussed CSC sale to Pamplona and industry M&A and authorized management to work with BofA to explore transactional opportunities, including with Party A.",
+        "exact_quote": "at an in-person meeting of the Board on April 5, 2013, the Board discussed the sale of CSC to Pamplona as well as industry-wide merger and acquisition activity and dynamics, and authorized Mac-Gray management to work with BofA Merrill Lynch to explore transactional opportunities that might be available to Mac-Gray, including opportunities with another strategic party, whom we refer to as Party A",
+        "importance": "core",
+        "label": "Board authorizes exploration"
+      },
+      {
+        "date": "April 8, 2013",
+        "description": "BofA contacted Party A about a possible business combination, and Party A indicated it might consider one.",
+        "exact_quote": "On April 8, 2013, representatives of BofA Merrill Lynch, as instructed by the Board, telephoned a representative of Party A to discuss generally a possible business combination between Party A and Mac-Gray. During this call, the representative of Party A indicated that Party A might consider a business combination with Mac-Gray.",
+        "importance": "core",
+        "label": "Party A initial contact"
+      },
+      {
+        "date": "May 9, 2013",
+        "description": "Board reviewed strategic alternatives, including business plan, stock repurchase, acquisitions, and possible sale process; formed Transaction Committee to assist strategic alternatives review.",
+        "exact_quote": "BofA Merrill Lynch discussed CSC's sale process and the acquisition environment generally and provided an overview of strategic alternatives for Mac-Gray, including the continued pursuit of Mac-Gray's existing business plan, a significant stock repurchase program, acquisition opportunities and the possibility of a sale process.",
+        "importance": "core",
+        "label": "Strategic alternatives reviewed"
+      },
+      {
+        "date": "May 9, 2013",
+        "description": "Board formed a Transaction Committee of independent directors Thomas Bullock and Paul Daoust.",
+        "exact_quote": "To assist in the administration of the strategic alternatives review, the Board formed a transaction committee at this meeting, which we refer to as the Transaction Committee, and appointed Thomas Bullock and Paul Daoust, both independent directors, to serve as its members.",
+        "importance": "core",
+        "label": "Transaction Committee formed"
+      },
+      {
+        "date": "May 10, 2013",
+        "description": "Transaction Committee considered management conflicts due to possible MacDonald rollover and decided to recommend limiting MacDonald's process involvement.",
+        "exact_quote": "the Transaction Committee determined to recommend to the Board at an upcoming meeting that, as a general matter, Mr. MacDonald should not be permitted to participate in the Board's evaluation of strategic alternatives or any negotiations with any interested parties in a sale process.",
+        "importance": "core",
+        "label": "MacDonald conflict review"
+      },
+      {
+        "date": "May 15, 2013",
+        "description": "Mac-Gray terminated BofA's prior engagement for the 2011-2012 Discussions.",
+        "exact_quote": "On May 15, 2013, Mac-Gray sent a letter to BofA Merrill Lynch terminating their engagement in connection with the 2011-2012 Discussions.",
+        "importance": "useful",
+        "label": "Prior BofA engagement terminated"
+      },
+      {
+        "date": "May 30, 2013",
+        "description": "Board approved engaging BofA as financial advisor for exploration of strategic alternatives, including potential sale process.",
+        "exact_quote": "Based on the recommendation of the Transaction Committee, the Board unanimously approved the engagement of BofA Merrill Lynch on the terms discussed at this meeting.",
+        "importance": "core",
+        "label": "BofA selected"
+      },
+      {
+        "date": "May 31, 2013",
+        "description": "Mac-Gray entered BofA engagement letter; BofA agreed not to provide new acquisition financing to potential buyers without Mac-Gray's written consent.",
+        "exact_quote": "On May 31, 2013, Mac-Gray entered into an engagement letter with BofA Merrill Lynch with respect to the Board's undertaking a review of strategic alternatives, including a potential sale process, and in which BofA Merrill Lynch agreed not to engage as a possible source of new acquisition financing for any potential buyers in connection with any such sale process without Mac-Gray's prior written consent.",
+        "importance": "core",
+        "label": "BofA engagement letter"
+      },
+      {
+        "date": "June 24, 2013",
+        "description": "Board excluded MacDonald and Rothenberg from strategic alternatives evaluation due to possible rollover/partnering conflicts and formed six-member Special Committee.",
+        "exact_quote": "Following this discussion, the Board decided, and Mr. MacDonald and Mr. Rothenberg agreed, that it would be appropriate to exclude Mr. MacDonald and Mr. Rothenberg from the Board's evaluation of strategic alternatives and any negotiations with third parties that might take place.",
+        "importance": "core",
+        "label": "MacDonald/Rothenberg excluded"
+      },
+      {
+        "date": "June 24, 2013",
+        "description": "Special Committee formed with six independent/disinterested directors and authority to evaluate sale or other significant business transactions.",
+        "exact_quote": "the Board then established the Special Committee, comprised of the six independent and disinterested members of the Board (namely, Mr. Bullock, Mr. Daoust, Mr. Hyman, William F. Meagher, Bruce A. Percelay and Alastair G. Robinson), to, among other things, explore strategic alternatives to enhance value to Mac-Gray's stockholders and to recommend to the Board the advisability of any such strategic alternative.",
+        "importance": "core",
+        "label": "Special Committee formed"
+      },
+      {
+        "date": "June 24, 2013",
+        "description": "Special Committee determined to consider a sale of Mac-Gray relative to remaining standalone after weighing business risks and opportunities.",
+        "exact_quote": "the Special Committee concluded that it would be in the best interests of stockholders to consider a potential sale of Mac-Gray and to review this alternative as compared to Mac-Gray's continuing as a stand-alone company and the risks and opportunities associated with execution of Mac-Gray's strategic business plan.",
+        "importance": "core",
+        "label": "Sale process authorized"
+      },
+      {
+        "date": "June 24, 2013",
+        "description": "Special Committee determined to approach 50 potential acquirors: 15 strategic and 35 financial buyers, including CSC/Pamplona and Party A.",
+        "exact_quote": "the Special Committee determined to approach a total of 50 parties, including CSC and Pamplona, who together we refer to as CSC/Pamplona, and Party A, to solicit potential interest in a transaction with Mac-Gray, 15 of which were potential strategic buyers and 35 of which were potential financial buyers, including private equity firms.",
+        "importance": "core",
+        "label": "50 parties targeted"
+      },
+      {
+        "date": "June-August 2013",
+        "description": "20 potential bidders signed confidentiality agreements: two strategic bidders and 18 financial bidders.",
+        "exact_quote": "Over the next two months a total of 20 potential bidders, including two strategic bidders (Party A and CSC/Pamplona) and 18 financial bidders (including Party B and Party C), entered into confidentiality agreements with Mac-Gray",
+        "importance": "core",
+        "label": "20 NDAs"
+      },
+      {
+        "date": "July 6, 2013",
+        "description": "Special Committee denied request for Moab to partner exclusively with CSC/Pamplona at that stage so Moab rollover could remain available to other bidders.",
+        "exact_quote": "Because the objective of the sale process was to maximize value for Mac-Gray's stockholders, the Special Committee decided to deny the exclusivity request at this stage of the process so that the potential equity rollover of Moab's shares could be available as a source of capital for other potential bidders.",
+        "importance": "core",
+        "label": "Moab exclusivity denied"
+      },
+      {
+        "date": "July 25, 2013",
+        "description": "Special Committee reviewed preliminary indications and decided to stage disclosure of sensitive competitive information, especially for strategic bidders.",
+        "exact_quote": "the Special Committee concluded that it would be advisable to stage the disclosure of such information to each of the bidders to the extent that a bidder's indication of interest and other actions demonstrated its seriousness in acquiring Mac-Gray on terms viewed favorably by the Special Committee.",
+        "importance": "core",
+        "label": "Staged diligence"
+      },
+      {
+        "date": "August 5, 2013",
+        "description": "Party A entered confidentiality/standstill agreement after non-solicitation terms were resolved.",
+        "exact_quote": "On August 5, 2013, Party A entered into a confidentiality and standstill agreement with Mac-Gray and was provided with an informational package for the purpose of providing Party A with data to potentially improve the terms of the Party A June 21 proposal.",
+        "importance": "core",
+        "label": "Party A NDA"
+      },
+      {
+        "date": "August 6-14, 2013",
+        "description": "Party B, Party C, CSC/Pamplona, and Party A each attended management presentations at Goodwin Procter's Boston office.",
+        "exact_quote": "On August 15, 2013 ... BofA Merrill Lynch updated the Special Committee as to the current status of the strategic alternatives process, including the due diligence process and the management presentations with Party A, Party B, Party C and CSC/Pamplona.",
+        "importance": "useful",
+        "label": "Management presentations"
+      },
+      {
+        "date": "August 27, 2013",
+        "description": "BofA sent request letters to Party A, Party B, Party C and CSC/Pamplona for revised written proposals by September 9, 2013.",
+        "exact_quote": "On August 27, 2013, BofA Merrill Lynch, as instructed by the Special Committee, sent a letter to each of Party A, Party B, Party C and CSC/Pamplona instructing such bidders to submit revised written proposals no later than September 9, 2013",
+        "importance": "core",
+        "label": "Revised proposal request"
+      },
+      {
+        "date": "September 11, 2013",
+        "description": "Special Committee requested final indications by September 18 and indicated it might grant short exclusivity to a bidder based on price and deal certainty.",
+        "exact_quote": "the Special Committee instructed BofA Merrill Lynch to call each of Party A, Party B, Party C and CSC/Pamplona to request final indications of interest by September 18, 2013 and to indicate that Mac-Gray would consider engaging in a short period of exclusive negotiations with one of the bidders depending upon, among other things, the proposed purchase price and the level of deal certainty indicated in the bidder's final proposal.",
+        "importance": "core",
+        "label": "Final bid request"
+      },
+      {
+        "date": "September 19, 2013",
+        "description": "Special Committee concluded CSC/Pamplona proposal offered most value/certainty and less risk, but sought $21.25 due to synergies.",
+        "exact_quote": "Following a discussion, the Special Committee concluded that the revised indication of interest submitted by CSC/Pamplona had the potential of delivering the most value to stockholders, provided greater certainty and involved less potential risk than the other indications.",
+        "importance": "core",
+        "label": "CSC/Pamplona selected for negotiation"
+      },
+      {
+        "date": "September 24, 2013",
+        "description": "CSC, Pamplona and Mac-Gray executed exclusivity agreement until October 12, subject to conditions including no adverse change to final proposal.",
+        "exact_quote": "On September 24, 2013, CSC, Pamplona and Mac-Gray executed the exclusivity agreement providing for exclusive negotiations until 5 p.m. ET on October 12, 2013, subject to certain conditions, including that CSC and Pamplona not adversely change or modify the terms of the CSC/Pamplona final proposal.",
+        "importance": "core",
+        "label": "Exclusivity executed"
+      },
+      {
+        "date": "September 25-October 7, 2013",
+        "description": "Parties negotiated merger agreement and Pamplona commitment letter; CSC/Pamplona received full data-room access and confirmatory diligence.",
+        "exact_quote": "Between September 25, 2013 and October 7, 2013, the Transaction Committee and representatives from CSC/Pamplona, Goodwin Procter and Kirkland negotiated the terms of the merger agreement ... and the Pamplona commitment letter.",
+        "importance": "core",
+        "label": "Definitive agreement negotiations"
+      },
+      {
+        "date": "September 27, 2013",
+        "description": "MacDonald, his wife and one trust entered voting agreements effective upon merger agreement entry.",
+        "exact_quote": "Kirkland and outside counsel to Mr. MacDonald negotiated the terms of the MacDonald voting agreements, which were entered into by Mr. MacDonald, his wife and one of his trusts on September 27, 2013, and which became effective upon entry into the merger agreement.",
+        "importance": "core",
+        "label": "MacDonald voting agreements signed"
+      },
+      {
+        "date": "October 12, 2013",
+        "description": "Exclusivity was extended to October 15 after agreement on $11 million Mac-Gray termination fee.",
+        "exact_quote": "On October 12, 2013, CSC, Pamplona and Mac-Gray executed a letter agreement extending exclusivity until 11:59 p.m. ET on October 15, 2013.",
+        "importance": "useful",
+        "label": "Exclusivity extension"
+      },
+      {
+        "date": "October 14, 2013",
+        "description": "Special Committee recommended and Board approved the merger agreement; BofA delivered fairness opinion.",
+        "exact_quote": "the Special Committee unanimously determined to recommend to the Board that the merger agreement and the merger were advisable and in the best interests of Mac-Gray's stockholders",
+        "importance": "core",
+        "label": "Approval by Special Committee and Board"
+      },
+      {
+        "date": "October 14, 2013",
+        "description": "Merger agreement executed; Pamplona commitment letter delivered; Moab voting agreement executed; MacDonald voting agreements became effective.",
+        "exact_quote": "Later in the day, on October 14, 2013, the merger agreement was executed, the Pamplona commitment letter was delivered, Moab and Parent executed the Moab voting agreement and the Mac-Donald voting agreements became effective.",
+        "importance": "core",
+        "label": "Signing"
+      },
+      {
+        "date": "October 15, 2013",
+        "description": "Mac-Gray and CSC publicly announced the merger agreement before U.S. markets opened.",
+        "exact_quote": "On October 15, 2013, before the U.S. stock markets opened, Mac-Gray and CSC jointly announced the execution of the merger agreement.",
+        "importance": "core",
+        "label": "Announcement"
+      }
+    ],
+    "counts": [
+      {
+        "date": "June 24, 2013",
+        "description": "Special Committee comprised six independent/disinterested directors: Bullock, Daoust, Hyman, Meagher, Percelay, and Robinson.",
+        "exact_quote": "the Board then established the Special Committee, comprised of the six independent and disinterested members of the Board (namely, Mr. Bullock, Mr. Daoust, Mr. Hyman, William F. Meagher, Bruce A. Percelay and Alastair G. Robinson)",
+        "importance": "core",
+        "label": "6 Special Committee members"
+      },
+      {
+        "date": "May 9, 2013",
+        "description": "Transaction Committee had two independent directors, Thomas Bullock and Paul Daoust.",
+        "exact_quote": "appointed Thomas Bullock and Paul Daoust, both independent directors, to serve as its members.",
+        "importance": "useful",
+        "label": "2 Transaction Committee members"
+      },
+      {
+        "date": "June 24, 2013",
+        "description": "The process targeted 50 total parties: 15 potential strategic buyers and 35 potential financial buyers.",
+        "exact_quote": "approach a total of 50 parties ... 15 of which were potential strategic buyers and 35 of which were potential financial buyers, including private equity firms.",
+        "importance": "core",
+        "label": "50 parties contacted"
+      },
+      {
+        "date": "June-August 2013",
+        "description": "20 potential bidders entered confidentiality agreements: 2 strategic and 18 financial.",
+        "exact_quote": "a total of 20 potential bidders, including two strategic bidders (Party A and CSC/Pamplona) and 18 financial bidders (including Party B and Party C), entered into confidentiality agreements with Mac-Gray",
+        "importance": "core",
+        "label": "20 NDAs / 2 strategic / 18 financial"
+      },
+      {
+        "date": "June 2013",
+        "description": "Moab beneficially owned approximately 9% of Mac-Gray common stock.",
+        "exact_quote": "At the time of this meeting, Moab beneficially owned approximately 9% of Mac-Gray's outstanding common stock.",
+        "importance": "core",
+        "label": "Moab ownership"
+      },
+      {
+        "date": "September 23, 2013",
+        "description": "CSC/Pamplona final proposal included a $15 million reverse termination fee payable if regulatory clearance not obtained.",
+        "exact_quote": "the inclusion of a $15 million \"reverse\" termination fee payable by CSC/Pamplona to Mac-Gray in the event regulatory clearance is not obtained, which we refer to as the CSC reverse termination fee",
+        "importance": "core",
+        "label": "$15 million CSC reverse termination fee"
+      },
+      {
+        "date": "October 11, 2013",
+        "description": "Mac-Gray termination fee was negotiated down to $11 million, about 3.2% of total equity value.",
+        "exact_quote": "CSC/Pamplona would agree to a Mac-Gray termination fee of not more than $11 million, which represented approximately 3.2% of the total equity value of the transaction.",
+        "importance": "core",
+        "label": "$11 million Mac-Gray termination fee"
+      },
+      {
+        "date": "October 8-9, 2013",
+        "description": "Pamplona liability cap for certain damages was agreed at $50 million.",
+        "exact_quote": "The Transaction Committee reported that the parties had come to an agreement that Pamplona's liability for certain damages would be limited to $50 million",
+        "importance": "core",
+        "label": "$50 million Pamplona liability cap"
+      },
+      {
+        "date": null,
+        "description": "BofA merger fee estimated at approximately $8.1 million, with $0.75 million payable on opinion delivery and balance contingent on completion.",
+        "exact_quote": "Mac-Gray has agreed to pay BofA Merrill Lynch for its services in connection with the merger an aggregate fee currently estimated to be approximately $8.1 million, $0.75 million of which was payable upon delivery of its opinion and the balance of which is contingent upon the completion of the merger.",
+        "importance": "useful",
+        "label": "BofA fee"
+      },
+      {
+        "date": "January 1, 2011-September 30, 2013",
+        "description": "BofA derived approximately $3.8 million from Mac-Gray and affiliates for unrelated commercial/corporate/investment banking services.",
+        "exact_quote": "From January 1, 2011 through September 30, 2013, BofA Merrill Lynch and its affiliates derived aggregate revenues of approximately $3.8 million from Mac-Gray and its affiliates for commercial, corporate or investment banking services unrelated to the merger.",
+        "importance": "useful",
+        "label": "BofA Mac-Gray prior revenue"
+      },
+      {
+        "date": "January 1, 2011-September 30, 2013",
+        "description": "BofA derived approximately $2.2 million from Buyer Entities, Pamplona and certain affiliates/portfolio companies for unrelated banking services.",
+        "exact_quote": "From January 1, 2011 through September 30, 2013, BofA Merrill Lynch and its affiliates derived aggregate revenues of approximately $2.2 million from the Buyer Entities, Pamplona and certain of its affiliates and portfolio companies identified to BofA Merrill Lynch by the Buyer Entities for commercial, corporate or investment banking services unrelated to the merger.",
+        "importance": "useful",
+        "label": "BofA Pamplona/buyer prior revenue"
+      }
+    ],
+    "relations": [
+      {
+        "date": null,
+        "description": "Mac-Gray entered the merger agreement with the Buyer Entities and Merger Subsidiary.",
+        "exact_quote": "Mac-Gray is asking its stockholders to adopt the merger agreement that Mac-Gray has entered into with the Buyer Entities and Merger Subsidiary.",
+        "importance": "core",
+        "label": "Merger parties"
+      },
+      {
+        "date": "September 21-23, 2013",
+        "description": "CSC/Pamplona final proposal provided no financing contingency and Pamplona would fund 100% of required closing capital.",
+        "exact_quote": "the fact that there would be no financing contingency and that Pamplona was committing to fund 100% of the capital needed for closing",
+        "importance": "core",
+        "label": "No financing contingency / Pamplona funding"
+      },
+      {
+        "date": "September 18, 2013",
+        "description": "Pamplona repeatedly committed to provide all capital required to consummate the transaction.",
+        "exact_quote": "reiterating that Pamplona was committed to provide 100% of the capital required to consummate the transaction",
+        "importance": "core",
+        "label": "Pamplona capital commitment"
+      },
+      {
+        "date": "September 21, 2013",
+        "description": "CSC/Pamplona requested that MacDonald family shares be subject to customary voting agreement.",
+        "exact_quote": "The representative of CSC/Pamplona also requested that shares of Mac-Gray common stock owned beneficially and of record by Mr. MacDonald and his immediate family be subject to a customary voting agreement, which we refer to as the MacDonald voting agreements.",
+        "importance": "core",
+        "label": "MacDonald voting support request"
+      },
+      {
+        "date": "October 14, 2013",
+        "description": "Moab and Parent executed a voting agreement at signing.",
+        "exact_quote": "Moab and Parent executed the Moab voting agreement",
+        "importance": "core",
+        "label": "Moab voting agreement"
+      },
+      {
+        "date": "September 11, 2013",
+        "description": "Mr. MacDonald informed the Transaction Committee he was not interested in rolling over any shares.",
+        "exact_quote": "During this call, Mr. MacDonald indicated that he had decided that he was not interested in rolling over any of his shares in any transaction.",
+        "importance": "core",
+        "label": "MacDonald no rollover"
+      },
+      {
+        "date": "October 7, 2013",
+        "description": "Moab ultimately determined not to roll over shares in the transaction after discussions with Pamplona.",
+        "exact_quote": "Mr. Daoust reported to the Special Committee that, after discussions between Moab and representatives of Pamplona, it was determined that Moab would not rollover any Moab shares in the transaction.",
+        "importance": "core",
+        "label": "Moab no rollover"
+      },
+      {
+        "date": "July 3, 2013",
+        "description": "Moab sought flexibility to consider possible rollover with Pamplona, and Pamplona sought permission to discuss bid/evaluation material with Moab with Moab exclusively engaging with CSC/Pamplona.",
+        "exact_quote": "Pamplona would be requesting that any confidentiality agreement CSC/Pamplona execute with Mac-Gray permit CSC and Pamplona to discuss their bid and evaluation material with Moab, with Moab agreeing to exclusively engage with CSC/Pamplona.",
+        "importance": "core",
+        "label": "Moab potential rollover discussions"
+      },
+      {
+        "date": "July 25, 2013",
+        "description": "Rothenberg was to be recused for the duration of the sale process due to Moab's rollover interest.",
+        "exact_quote": "The Special Committee then discussed the potential conflict of interest arising from Moab's continuing desire to consider an equity rollover and decided that Mr. Rothenberg should be asked to recuse himself from participating in Board meetings for the duration of the sale process so he would not be privy to confidential information about Mac-Gray and our business.",
+        "importance": "core",
+        "label": "Rothenberg recusal"
+      },
+      {
+        "date": "June 28, 2013",
+        "description": "Party A indicated synergies and that it would speak with financing sources for a transaction.",
+        "exact_quote": "Party A ... expressed the view that there would be considerable synergies if Party A were to acquire Mac-Gray and that Party A would be speaking with certain financing sources with respect to funding such a transaction.",
+        "importance": "useful",
+        "label": "Party A synergies/financing"
+      },
+      {
+        "date": "June 28, 2013",
+        "description": "Pamplona expressed interest in acquiring Mac-Gray through portfolio company CSC and said diligence would be minimal due to familiarity.",
+        "exact_quote": "Pamplona ... expressed interest in a transaction, including an acquisition of Mac-Gray by its portfolio company, CSC. Pamplona emphasized that business and legal due diligence would be minimal given its familiarity with Mac-Gray and the industry generally.",
+        "importance": "core",
+        "label": "Pamplona/CSC portfolio acquisition"
+      },
+      {
+        "date": "September 19, 2013",
+        "description": "Special Committee preferred CSC/Pamplona over Party B because Party B's proposal involved options and financing risk, while CSC/Pamplona had Pamplona funding and no third-party financing need.",
+        "exact_quote": "Party B would likely be financing the transaction with a combination of equity from affiliated funds and third party debt capital, which would involve more risk than the Pamplona-funded CSC/Pamplona proposal, which did not require any third party financing.",
+        "importance": "core",
+        "label": "Deal certainty comparison"
+      },
+      {
+        "date": "September 23, 2013",
+        "description": "Exclusivity agreement would automatically terminate if CSC or Pamplona adversely changed final proposal terms.",
+        "exact_quote": "The parties also agreed that the exclusivity agreement would automatically terminate if CSC or Pamplona adversely changed any of the terms of the CSC/Pamplona final proposal.",
+        "importance": "useful",
+        "label": "Exclusivity termination condition"
+      },
+      {
+        "date": null,
+        "description": "Confidentiality agreements contained customary nondisclosure and standstill provisions with sunset provisions permitting confidential proposals after announcement of business combination/change in control in some cases.",
+        "exact_quote": "The confidentiality agreements contained customary non-disclosure provisions and a customary standstill provision that either expired or permitted the potential bidder to make confidential proposals to Mac-Gray (a so-called \"sunset\" provision) upon announcement of a business combination between Mac-Gray and a third party, and, in some instances upon announcement of a change in control.",
+        "importance": "useful",
+        "label": "NDA/standstill terms"
+      },
+      {
+        "date": null,
+        "description": "Stockholder approval requires majority of outstanding Mac-Gray common stock entitled to vote; abstention/failure to vote has same effect as against.",
+        "exact_quote": "Under applicable law, we cannot complete the merger without the vote of a majority of the outstanding shares of Mac-Gray common stock entitled to vote at the special meeting voting in favor of the proposal to adopt the merger agreement.",
+        "importance": "core",
+        "label": "Stockholder approval condition"
+      },
+      {
+        "date": null,
+        "description": "Board unanimously recommended stockholders vote for the merger agreement proposal.",
+        "exact_quote": "Accordingly, the Mac-Gray Board of Directors unanimously recommends that holders of Mac-Gray common stock vote \"FOR\" the proposal to adopt the merger agreement.",
+        "importance": "core",
+        "label": "Board recommendation"
+      }
+    ],
+    "source_limitations": [
+      "The source window begins mid-proxy and includes the Background of the Merger through projected financial information, but does not include the full merger agreement section beginning on page 60 or full definitions of all Buyer Entities/Parent relationships beyond company descriptions shown.",
+      "Some sale-process parties are anonymized as Party A, Party B, and Party C; their actual identities are not disclosed in this window.",
+      "The window is from a stockholder proxy perspective, not a tender-offer Schedule TO; no tender offer mechanics are described because the transaction appears presented as a merger requiring stockholder vote.",
+      "Financial projections and BofA analyses are included, but the excerpt omits portions of the 'Reasons' pages 42-44 content between headings, so not all board rationale text is visible."
+    ],
+    "uncertain_or_missing": [
+      {
+        "date": null,
+        "description": "Actual identities of Party A, Party B, and Party C are not provided.",
+        "exact_quote": "another strategic party, whom we refer to as Party A",
+        "importance": "uncertain",
+        "label": "Anonymous bidders"
+      },
+      {
+        "date": null,
+        "description": "Specific identities of the 35 financial buyers and 15 strategic buyers contacted are not disclosed, beyond CSC/Pamplona, Party A, Party B, and Party C.",
+        "exact_quote": "approach a total of 50 parties, including CSC and Pamplona, who together we refer to as CSC/Pamplona, and Party A ... 15 of which were potential strategic buyers and 35 of which were potential financial buyers",
+        "importance": "uncertain",
+        "label": "Undisclosed process participants"
+      },
+      {
+        "date": "September 18, 2013",
+        "description": "Party C did not explain why it failed to submit or reiterate a revised indication.",
+        "exact_quote": "Party C did not submit a revised indication of interest or reiterate its prior indication of interest of an all-cash purchase price of $16.00 to $17.00 per share nor did it specify any reasons in connection therewith.",
+        "importance": "core",
+        "label": "Party C withdrawal/drop reason missing"
+      },
+      {
+        "date": "September 10, 2013",
+        "description": "Party A and Party C revised indications lacked firm financing commitments.",
+        "exact_quote": "Neither Party A's nor Party C's revised indication of interest included a firm financing commitment.",
+        "importance": "core",
+        "label": "Financing uncertainty for Party A/C"
+      },
+      {
+        "date": "September 9, 2013",
+        "description": "Party B's revised indication did not include a firm financing commitment.",
+        "exact_quote": "Party B's revised indication of interest did not include a firm financing commitment.",
+        "importance": "core",
+        "label": "Party B financing uncertainty"
+      },
+      {
+        "date": null,
+        "description": "Party B's option component was considered uncertain due to contingent/deferred nature and measurement issues after current management would not control surviving corporation.",
+        "exact_quote": "The Special Committee discussed the risks and complexities of the Party B options, including their contingent and deferred nature and the uncertainties associated with how Mac-Gray's performance would be measured, especially in light of the fact that current Mac-Gray management would not be in control of the surviving corporation to monitor or drive the growth necessary to trigger payment under the Party B options.",
+        "importance": "core",
+        "label": "Party B option uncertainty"
+      },
+      {
+        "date": null,
+        "description": "No tender offer perspective is present; merger completion depends on stockholder vote rather than tendered shares in this window.",
+        "exact_quote": "Under applicable law, we cannot complete the merger without the vote of a majority of the outstanding shares of Mac-Gray common stock entitled to vote at the special meeting voting in favor of the proposal to adopt the merger agreement.",
+        "importance": "useful",
+        "label": "No tender offer details"
+      }
+    ]
+  },
+  "prompt_chars": 120738,
+  "prompt_sha256": "86602a6a8185a8256caee9a8907c9c7c359c8f5921e7752d5922480a96e4f4e8",
+  "reasoning": "medium",
+  "reasoning_tokens": 24,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "395ec9adc1244cf05f88f704783e6cc5565bc76e2584cde5245ec75b525f8e4c",
+  "slug": "mac-gray",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w4_plain_recall",
+  "window_profile": "W4_PLAIN_RECALL"
+}

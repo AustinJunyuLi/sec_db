@@ -1,0 +1,110 @@
+{
+  "char_end": 158788,
+  "char_start": 142717,
+  "coverage_obligations": [
+    {
+      "expected_claim_type": "event",
+      "importance": "required",
+      "obligation_id": "medivation_w1_sale_process_part2_obl_1",
+      "obligation_label": "Sales process initiation"
+    },
+    {
+      "expected_claim_type": "participation_count",
+      "importance": "required",
+      "obligation_id": "medivation_w1_sale_process_part2_obl_2",
+      "obligation_label": "Bidder count at IOI stage"
+    },
+    {
+      "expected_claim_type": "participation_count",
+      "importance": "important",
+      "obligation_id": "medivation_w1_sale_process_part2_obl_3",
+      "obligation_label": "Bidder count at first round"
+    },
+    {
+      "expected_claim_type": "event",
+      "importance": "required",
+      "obligation_id": "medivation_w1_sale_process_part2_obl_4",
+      "obligation_label": "Final round bid receipt"
+    },
+    {
+      "expected_claim_type": "event",
+      "importance": "required",
+      "obligation_id": "medivation_w1_sale_process_part2_obl_5",
+      "obligation_label": "Exclusivity grant"
+    },
+    {
+      "expected_claim_type": "actor",
+      "importance": "required",
+      "obligation_id": "medivation_w1_sale_process_part2_obl_6",
+      "obligation_label": "Target board"
+    },
+    {
+      "expected_claim_type": "actor",
+      "importance": "required",
+      "obligation_id": "medivation_w1_sale_process_part2_obl_7",
+      "obligation_label": "Financial advisor for target"
+    },
+    {
+      "expected_claim_type": "actor",
+      "importance": "required",
+      "obligation_id": "medivation_w1_sale_process_part2_obl_8",
+      "obligation_label": "Legal advisor for target"
+    },
+    {
+      "expected_claim_type": "bid",
+      "importance": "required",
+      "obligation_id": "medivation_w1_sale_process_part2_obl_9",
+      "obligation_label": "Final bid price"
+    },
+    {
+      "expected_claim_type": "actor_relation",
+      "importance": "important",
+      "obligation_id": "medivation_w1_sale_process_part2_obl_10",
+      "obligation_label": "Buyer group composition"
+    }
+  ],
+  "filing_path": "/Users/austinli/Projects/sec_graph/data/filings/medivation/raw.md",
+  "filing_sha256": "4b6c8004fb60b823d2d9c4a45076c2513aa750ef63a384976fc0fe154356f3f4",
+  "obligation_ids": [
+    "medivation_w1_sale_process_part2_obl_1",
+    "medivation_w1_sale_process_part2_obl_2",
+    "medivation_w1_sale_process_part2_obl_3",
+    "medivation_w1_sale_process_part2_obl_4",
+    "medivation_w1_sale_process_part2_obl_5",
+    "medivation_w1_sale_process_part2_obl_6",
+    "medivation_w1_sale_process_part2_obl_7",
+    "medivation_w1_sale_process_part2_obl_8",
+    "medivation_w1_sale_process_part2_obl_9",
+    "medivation_w1_sale_process_part2_obl_10"
+  ],
+  "paragraph_ids": [
+    "medivation_w1_sale_process_part2_calib_para_1",
+    "medivation_w1_sale_process_part2_calib_para_2",
+    "medivation_w1_sale_process_part2_calib_para_3",
+    "medivation_w1_sale_process_part2_calib_para_4",
+    "medivation_w1_sale_process_part2_calib_para_5",
+    "medivation_w1_sale_process_part2_calib_para_6",
+    "medivation_w1_sale_process_part2_calib_para_7",
+    "medivation_w1_sale_process_part2_calib_para_8",
+    "medivation_w1_sale_process_part2_calib_para_9",
+    "medivation_w1_sale_process_part2_calib_para_10",
+    "medivation_w1_sale_process_part2_calib_para_11",
+    "medivation_w1_sale_process_part2_calib_para_12",
+    "medivation_w1_sale_process_part2_calib_para_13",
+    "medivation_w1_sale_process_part2_calib_para_14",
+    "medivation_w1_sale_process_part2_calib_para_15",
+    "medivation_w1_sale_process_part2_calib_para_16",
+    "medivation_w1_sale_process_part2_calib_para_17"
+  ],
+  "region_kind": "sale_process",
+  "region_signals": [
+    "Background of the Offer",
+    "split_part_2"
+  ],
+  "slug": "medivation",
+  "source_perspective": "target_or_offer_primary",
+  "text": "*Directors\u2019 and Officers\u2019 Indemnification and Insurance* . The Merger Agreement provides for indemnification rights in favor of Medivation\u2019s and its subsidiaries\u2019 current directors and officers, who we refer to as \u201cindemnitees.\u201d Specifically, Pfizer has agreed that for a period of six years after the Effective Time, the rights to indemnification in the certificate of incorporation, bylaws and other charter and organizational documents of Medivation and its subsidiaries and as provided in any indemnification agreements between Medivation and its subsidiaries and such indemnitees will survive the Merger and will be observed by the Surviving Corporation and its subsidiaries to the fullest extent available under Delaware law. For a period of six years, Pfizer and the Surviving Corporation have agreed, to the extent described in the prior sentence, to hold harmless each indemnitee against all losses, claims, damages, liabilities, fees, expenses, judgments, or fines and advance reasonable and documented out-of-pocket costs and expenses (including reasonable and documented attorneys\u2019 fees) in connection with any proceeding arising out of or pertaining to the fact that such indemnitee is or was a director or officer.\n\nFrom the Effective Time until the sixth anniversary of the Effective Time, the Surviving Corporation will maintain, and will cause its subsidiaries to maintain, in effect, the existing policy of directors\u2019 and officers\u2019 liability insurance maintained by Medivation and its subsidiaries as of the date of the Merger Agreement for the benefit of the indemnitees on terms no less favorable than the existing policy. Alternatively, at or prior to the Effective Time, Pfizer or Medivation may purchase a six-year \u201ctail\u201d policy; provided, however, that in no event will the Surviving Corporation be required to expend an amount in excess of 300% of the annual premium currently payable.\n\n32\n<!-- PAGE 36 -->\n*Reasonable Best Efforts* . Medivation, Pfizer and Purchaser will use their respective reasonable best efforts to take, or cause to be taken, all actions, to file, or cause to be filed, all documents and to do, or cause to be done, and to assist and cooperate with the other parties in doing, all things necessary, proper or advisable under applicable antitrust laws to consummate and make effective the transactions as soon as reasonably practicable, and in any event prior to the End Date, including (i) the obtaining of all necessary actions or nonactions, waivers, consents, clearances, decisions, declarations, approvals and, expirations or terminations of waiting periods from governmental bodies and the making of all necessary registrations and filings and the taking of all steps as may be necessary to obtain any such consent, decision, declaration, approval, clearance or waiver, or expiration or termination of a waiting period by or from, or to avoid an action or proceeding by, any governmental body in connection with any antitrust law; (ii) the obtaining of all necessary consents, authorizations, approvals or waivers from third parties; and (iii) the execution and delivery of any additional instruments necessary to consummate the transactions.\n\nEach of Medivation and Pfizer have agreed to promptly take all actions required by any governmental body as a condition to granting any consent, permit, authorization, waiver, clearance and approvals, and to cause the expiration or termination of any applicable waiting period and to resolve objections, if any, as governmental bodies of any other jurisdiction for which consents, permits, authorizations, waivers, clearances, approvals and expirations or terminations of waiting periods are sought with respect to the transactions prior to the End Date, so as to obtain such consents, permits, authorizations, waivers, clearances, approvals or termination of the waiting period under the HSR Act or other antitrust laws, and to avoid the commencement of a lawsuit by the governmental bodies under antitrust laws, and to avoid the entry of any injunction or other order in any suit or proceeding which would otherwise have the effect of preventing the closing or delaying the Offer Acceptance Time beyond the End Date, *provided* that Medivation and its subsidiaries will only be required to take or commit to take any such action, or agree to any such condition or restriction, if such action, commitment, agreement, condition or restriction is binding on Medivation only in the event the closing occurs. Additionally, Pfizer has agreed to take all actions necessary to obtain antitrust approval, including, if necessary, the divestiture of certain products.\n\nSubject to the terms and conditions of the Merger Agreement, each of Medivation and Pfizer will: (i) promptly, but in no event later than September 7, 2016 unless Medivation and Pfizer otherwise agree, make an appropriate filing of all Premerger Notification and Report Forms (as defined below in Section 16 \u2014 \u201cCertain Legal Matters; Regulatory Approvals\u201d) as required by the HSR Act with respect to the transactions; and (ii) cooperate with each other in determining whether, and promptly preparing and making, any other filings or notifications or other consents are required to be made with, or obtained from, any other governmental bodies in connection with the transactions.\n\nDuring the period from the date of the Merger Agreement until the earlier of the Effective Time and the termination of the Merger Agreement, each of Medivation and Pfizer will use its reasonable best efforts to (i) cooperate in all respects and consult with each other in connection with any filing or submission in connection with any investigation or other inquiry, (ii) give the other parties prompt notice of the making or commencement of any request, inquiry, investigation, action or legal proceeding brought by a governmental body or brought by a third party before any governmental body, in each case, with respect to the transactions, (iii) keep the other parties informed as to the status of any such request, inquiry, investigation, action or legal proceeding, (iv) promptly inform the other parties of any communication to or from the FTC, DOJ or any other governmental body in connection with any such request, inquiry, investigation, action or legal proceeding, (v) promptly furnish to the other party with copies of documents provided to or received from any governmental body in connection with any such request, inquiry, investigation, action or legal proceeding, (vi) consult in advance and cooperate with the other parties and consider in good faith the views of the other parties in connection with any communication, analysis, appearance, presentation, memorandum, brief, argument, opinion or proposal to be made or submitted in connection with any such request, inquiry, investigation, action or legal proceeding, and (vii) except as may be prohibited by any legal requirement, in connection with any such request, inquiry, investigation, action or legal proceeding in respect of the transactions, each of Medivation and Pfizer will provide advance notice of and permit authorized representatives of the other party to be present at each meeting relating\n\n33\n<!-- PAGE 37 -->\nto such request, inquiry, investigation, action or legal proceeding and to have access to and be consulted in advance in connection with any argument, opinion or proposal to be made or submitted to any governmental body. Purchaser will pay all filing fees under the HSR Act and for any filings required under foreign Antitrust Laws.\n\n*Employee Matters* . From and after the Effective Time, Medivation will (and Pfizer will cause Medivation to) honor, and to the extent required by their terms, assume, all employee plans in accordance with their terms. For the first year following the Effective Time (or such shorter period of employment, as the case may be), each employee who continues to be employed by the Surviving Corporation or its affiliates (each, a \u201cContinuing Employee\u201d) will be eligible for compensation and benefits on the following terms:\n\n\u2022 each Continuing Employee will be provided with a base salary and base wages, short-term cash incentive compensation and commission opportunities, and severance payments and benefits, each in an amount no less favorable than that in effect immediately prior to the execution of the Merger Agreement, and Continuing Employees will be provided with other benefits, subject to certain exceptions, that are substantially comparable in the aggregate to the benefits provided to such Continuing Employees immediately prior to the execution of the Merger Agreement, and Continuing Employees will also be eligible to participate in Pfizer\u2019s equity plan on a basis consistent with similarly-situated employees of Pfizer and its subsidiaries;\n\n\u2022 each Continuing Employee will be given service credit for all purposes, including for eligibility to participate, benefit levels and eligibility for vesting under Pfizer employee benefit plans and arrangements with respect to such employee\u2019s length of service with Medivation (and its subsidiaries and predecessors) prior to the date on which the Merger is completed, subject to certain exceptions;\n\n\u2022 any liability for accrued but unused personal, sick or vacation time to which any Continuing Employee is entitled pursuant to the policies applicable to such Continuing Employee immediately prior to the Effective Time will be assumed by the Surviving Corporation, Pfizer or its affiliates, as applicable, and such Continuing Employee may use such accrued personal, sick or vacation time in accordance with the practice and policies of Medivation, as they may be amended from time to time; and\n\n\u2022 each Continuing Employee will be eligible to continue to participate in the Surviving Corporation\u2019s health and welfare benefit plans (to the same extent that such Continuing Employee was eligible to participate under Medivation\u2019s health and welfare benefit plans immediately prior to the Effective Time). Pfizer will use commercially reasonable efforts to, (i) waive all pre-existing condition limitations, exclusions and waiting periods applicable to the Continuing Employees, to the extent that they would not apply under a similar employee benefit plan in which such employees participated prior to the Effective Time, and (ii) ensure that such health or welfare benefit plan will, for purposes of eligibility, vesting, deductibles, co-payments and out-of-pocket maximums and allowances (including paid time off), credit Continuing Employees for service and amounts paid prior to the Effective Time with Medivation to the same extent that such service and amounts paid were recognized prior to the Effective Time under the corresponding health or welfare benefit plan of Medivation, except, in each case, as would result in a duplication of benefits.\n\nImmediately prior to the Effective Time, Medivation may pay to each of its employees or each employee of any of its subsidiaries actively employed as of immediately prior to the Effective Time and then participating in any annual bonus plan (which we refer to as an \u201cAnnual Bonus Plan\u201d), a bonus equal to the product obtained by multiplying (i) such employee\u2019s full-year bonus entitlement under all such Annual Bonus Plans for Medivation\u2019s calendar year in which the Effective Time will occur, based on the greater of (A) deemed performance at \u201ctarget\u201d levels and (B) actual performance through the latest practicable date prior to the Effective Time, extrapolated through the end of such fiscal year, and (ii) a fraction, the numerator of which equals the number of days that have elapsed during such fiscal year through the Effective Time and the denominator of which equals 365. Any employee who is paid a bonus in accordance with the foregoing provision under the Merger Agreement will not thereafter be entitled to any amount for such fiscal year under any annual bonus plan of the Surviving Corporation or Pfizer to the extent it relates to service or performance occurring prior to the Effective Time. If\n\n34\n<!-- PAGE 38 -->\nthe Effective Time occurs during 2017, then, in addition to making the payments pursuant to the preceding sentence in respect of the 2017 calendar year, Medivation may pay to each of its employees and each employee of its subsidiaries actively employed on December 31, 2016, a full bonus under the applicable Annual Bonus Plan in respect of Medivation\u2019s 2016 calendar year based on actual performance during such year, with such payment to be made at the earlier of (x) immediately prior to the Effective Time and (y) in the ordinary course of business consistent with past practice.\n\nNo provision of the Merger Agreement establishes, amends or adopts any benefit plan, program, agreement or arrangement maintained or sponsored by Pfizer or Medivation or any of their respective affiliates, or limits the ability of Pfizer or Medivation or any of their affiliates to discharge or terminate the employment or services of any current or former employee, director or other service provider at any time or for any reason whatsoever.\n\n*Acquisition Proposals* . Medivation has agreed to, and to cause its subsidiaries and it and their respective officers, directors, employees, attorneys, accountants, investment bankers, consultants, agents, financial advisors, other advisors and other representatives not to (i) continue any solicitation, knowing encouragement, discussions or negotiations with any persons that may be ongoing with respect to an Acquisition Proposal (as defined below) or (ii) (A) solicit, initiate or knowingly facilitate or encourage (including by way of furnishing non-public information) any inquiries regarding, or the making of any proposal or offer that constitutes, or could reasonably be expected to lead to, an Acquisition Proposal, (B) engage in, continue or otherwise participate in any discussions or negotiations regarding, or furnish to any other person any non-public information in connection with or for the purpose of knowingly encouraging or facilitating, an Acquisition Proposal or any proposal or offer that could reasonably be expected to lead to an Acquisition Proposal or (C) enter into any letter of intent, acquisition agreement, agreement in principle or similar agreement with respect to an Acquisition Proposal or any proposal or offer that could reasonably be expected to lead to an Acquisition Proposal.\n\nIf at any time prior to the Offer Acceptance Time if any of Medivation, its subsidiaries and it and their respective officers, directors, employees, attorneys, accountants, investment bankers, consultants, agents, financial advisors, other advisors and other representatives receive an unsolicited *bona fide* written Acquisition Proposal from any person or group of persons, which Acquisition Proposal was made or renewed on or after the date of the Merger Agreement and did not result from any breach of the Merger Agreement, (i) Medivation and its representatives may contact such person or group to clarify the terms and conditions thereof and (ii) if the Medivation Board of Directors determines in good faith, after consultation with financial advisors and outside legal counsel, that such Acquisition Proposal constitutes or could reasonably be expected to lead to a Superior Offer (as defined below), then Medivation and its representatives may (x) furnish, pursuant to any customary confidentiality agreement, information (including non-public information) with respect to Medivation and its subsidiaries to the person or group who has made such Acquisition Proposal, *provided* that Medivation will as promptly as practicable (and no later than within 48 hours) provide to Pfizer any non-public information concerning Medivation and its subsidiaries that is provided to any person given such access which was not previously provided to Pfizer or its representatives and (y) engage in or otherwise participate in discussions or negotiations with the person or group of persons making such Acquisi",
+  "text_sha256": "3ba8c9a2ff119f019fd188610fffe3b8e14b0eb4a49ad40ff53caf85c9e0d8d9",
+  "window_id": "w1_sale_process_part2",
+  "window_profile": "W1_SALE_PROCESS"
+}

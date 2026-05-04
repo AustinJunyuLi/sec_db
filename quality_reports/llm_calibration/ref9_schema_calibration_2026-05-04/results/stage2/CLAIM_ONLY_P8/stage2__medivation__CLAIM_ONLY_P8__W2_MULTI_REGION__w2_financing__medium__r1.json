@@ -1,0 +1,124 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 35.87,
+  "input_chars": 25000,
+  "input_path": "inputs/medivation/W2_MULTI_REGION/w2_financing.json",
+  "input_text_sha256": "55c087ed69ca2f63301bf0a1f80589206c15ae4ec1353562e8240bc724358bf2",
+  "input_tokens": 6626,
+  "job_id": "stage2__medivation__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_financing__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 2,
+      "actor_relation_claims": 2,
+      "bid_claims": 0,
+      "event_claims": 2,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 6,
+    "relation_types": {
+      "finances": 2
+    },
+    "strict_claim_total": 6,
+    "total_quotes": 6
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 3921,
+  "output_text_sha256": "68b374769ccbf01fb68e2858c2eba69f5e5fcdb4e5aa651e6615a6a4fd932fbf",
+  "output_tokens": 1336,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "organization",
+        "actor_label": "Pfizer",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_financing_obl_1",
+        "observability": "named",
+        "quote_text": "Pfizer and Purchaser currently have, and will have, available to them, through a variety of sources, including cash on hand, funds necessary for the payment of the aggregate Offer Price and the aggregate Merger Consideration (as defined below) and to satisfy all of their payment obligations under the Merger Agreement and resulting from the transactions contemplated thereby."
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Purchaser",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_financing_obl_1",
+        "observability": "named",
+        "quote_text": "Pfizer and Purchaser currently have, and will have, available to them, through a variety of sources, including cash on hand, funds necessary for the payment of the aggregate Offer Price and the aggregate Merger Consideration (as defined below) and to satisfy all of their payment obligations under the Merger Agreement and resulting from the transactions contemplated thereby."
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_financing_obl_2",
+        "effective_date_first": null,
+        "object_label": "payment obligations under the Merger Agreement",
+        "quote_text": "Pfizer and Purchaser currently have, and will have, available to them, through a variety of sources, including cash on hand, funds necessary for the payment of the aggregate Offer Price and the aggregate Merger Consideration (as defined below) and to satisfy all of their payment obligations under the Merger Agreement and resulting from the transactions contemplated thereby.",
+        "relation_type": "finances",
+        "role_detail": "has and will have funds necessary for payment obligations",
+        "subject_label": "Pfizer"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_financing_obl_2",
+        "effective_date_first": null,
+        "object_label": "payment obligations under the Merger Agreement",
+        "quote_text": "Pfizer and Purchaser currently have, and will have, available to them, through a variety of sources, including cash on hand, funds necessary for the payment of the aggregate Offer Price and the aggregate Merger Consideration (as defined below) and to satisfy all of their payment obligations under the Merger Agreement and resulting from the transactions contemplated thereby.",
+        "relation_type": "finances",
+        "role_detail": "has and will have funds necessary for payment obligations",
+        "subject_label": "Purchaser"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "Pfizer and Purchaser",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_financing_obl_3",
+        "description": "Consummation of the Offer is not subject to any financing condition.",
+        "event_date": null,
+        "event_subtype": "financing_committed",
+        "event_type": "transaction",
+        "quote_text": "Consummation of the Offer is not subject to any financing condition."
+      },
+      {
+        "actor_label": "Pfizer and Purchaser",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_financing_obl_3",
+        "description": "Pfizer and Purchaser have and will have funds necessary for the aggregate Offer Price, aggregate Merger Consideration, and payment obligations under the Merger Agreement.",
+        "event_date": null,
+        "event_subtype": "financing_committed",
+        "event_type": "transaction",
+        "quote_text": "Pfizer and Purchaser currently have, and will have, available to them, through a variety of sources, including cash on hand, funds necessary for the payment of the aggregate Offer Price and the aggregate Merger Consideration (as defined below) and to satisfy all of their payment obligations under the Merger Agreement and resulting from the transactions contemplated thereby."
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 26695,
+  "prompt_sha256": "93e69e8e04815df61bf2aee8a7d1d9500651ae7c71329cf60ad3b6f1800abd40",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "medivation",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_financing",
+  "window_profile": "W2_MULTI_REGION"
+}

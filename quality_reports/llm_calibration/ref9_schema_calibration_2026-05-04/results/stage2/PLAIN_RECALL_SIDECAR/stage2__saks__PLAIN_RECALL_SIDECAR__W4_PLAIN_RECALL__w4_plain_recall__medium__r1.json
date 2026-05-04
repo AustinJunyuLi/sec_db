@@ -1,0 +1,687 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "PLAIN_RECALL_SIDECAR",
+  "duration_s": 118.33,
+  "input_chars": 120000,
+  "input_path": "inputs/saks/W4_PLAIN_RECALL/w4_plain_recall.json",
+  "input_text_sha256": "e5469a0a8159d58cfdc3cddde47d2d1018547bedc917bdc0bf6bcdb65aab6fbf",
+  "input_tokens": 24506,
+  "job_id": "stage2__saks__PLAIN_RECALL_SIDECAR__W4_PLAIN_RECALL__w4_plain_recall__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actors": 18,
+      "bids": 10,
+      "chronology": 24,
+      "counts": 11,
+      "relations": 14,
+      "source_limitations": 4,
+      "uncertain_or_missing": 11
+    },
+    "duplicate_quotes_within_response": 3,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 0.8864,
+    "quotes_in_window": 78,
+    "relation_types": {},
+    "sidecar_total_items": 92,
+    "strict_claim_total": 0,
+    "total_quotes": 88
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 39034,
+  "output_text_sha256": "fbf35ae7c7e5da2e5449452990e6eb8e5488e062cc6b953fdb2649713c81bcb3",
+  "output_tokens": 7816,
+  "parsed": {
+    "actors": [
+      {
+        "date": null,
+        "description": "Saks Incorporated is the target company; its board and senior management evaluated strategic alternatives including sale, acquisition of Company B, and standalone operation.",
+        "exact_quote": "As part of their ongoing evaluation of Saks\u2019 business, the board and Saks\u2019 senior management periodically review, consider and assess Saks\u2019 operations and financial performance and industry conditions as they may affect Saks\u2019 long-term strategic goals and plans, including the consideration of potential opportunities for business combinations, acquisitions and other financial and strategic alternatives.",
+        "importance": "core",
+        "label": "Saks / target"
+      },
+      {
+        "date": null,
+        "description": "Hudson\u2019s Bay is the acquiror; Merger Sub would merge into Saks, and Saks would become indirectly wholly owned by Hudson\u2019s Bay.",
+        "exact_quote": "Merger Sub will be merged with and into the Company with the Company being the surviving corporation in the merger.",
+        "importance": "core",
+        "label": "Hudson\u2019s Bay / buyer"
+      },
+      {
+        "date": "April 1, 2013",
+        "description": "Richard Baker was the Director, Governor, and CEO of Hudson\u2019s Bay and contacted Saks CEO Stephen Sadove regarding a potential acquisition.",
+        "exact_quote": "On April 1, 2013, Mr. Sadove met with Richard Baker, the Director, Governor, and Chief Executive Officer of Hudson\u2019s Bay, at the request of Mr. Baker and discussed a potential acquisition of Saks by Hudson\u2019s Bay.",
+        "importance": "core",
+        "label": "Richard Baker"
+      },
+      {
+        "date": null,
+        "description": "Stephen I. Sadove was Saks\u2019 Chairman and CEO and was central in contacts with bidders and board updates.",
+        "exact_quote": "Stephen I. Sadove, Saks\u2019 Chairman and Chief Executive Officer, received an unsolicited phone call from a representative of a private equity firm, which we refer to as Sponsor A, expressing interest in a potential acquisition of Saks.",
+        "importance": "core",
+        "label": "Stephen I. Sadove"
+      },
+      {
+        "date": null,
+        "description": "Goldman Sachs was a longstanding Saks financial advisor and participated in sale-process discussions and go-shop outreach.",
+        "exact_quote": "For the past several years, Goldman Sachs, one of Saks\u2019 longstanding financial advisors, has participated in these reviews.",
+        "importance": "core",
+        "label": "Goldman Sachs"
+      },
+      {
+        "date": null,
+        "description": "Wachtell Lipton served as Saks external counsel in sale-process meetings and merger agreement negotiations.",
+        "exact_quote": "representatives of Goldman Sachs and Wachtell, Lipton, Rosen & Katz, referred to as Wachtell Lipton, Saks\u2019 external counsel.",
+        "importance": "useful",
+        "label": "Wachtell Lipton"
+      },
+      {
+        "date": null,
+        "description": "Morgan Stanley was a long-time advisor to Saks and attended late-stage board meetings.",
+        "exact_quote": "Morgan Stanley & Co. LLC (a long-time advisor to Saks, referred to as \u201cMorgan Stanley\u201d)",
+        "importance": "useful",
+        "label": "Morgan Stanley"
+      },
+      {
+        "date": "February 2013",
+        "description": "Sponsor A was a private equity firm that made an unsolicited expression of interest in acquiring Saks and later participated with Sponsor E, then returned as a primary participant after Sponsor G dropped out.",
+        "exact_quote": "received an unsolicited phone call from a representative of a private equity firm, which we refer to as Sponsor A, expressing interest in a potential acquisition of Saks.",
+        "importance": "core",
+        "label": "Sponsor A"
+      },
+      {
+        "date": "April 2013",
+        "description": "Sponsor E was a private equity firm discussed as participating with Sponsor A in a potential joint acquisition of Saks, later with Sponsor G, and again with Sponsor A.",
+        "exact_quote": "A private equity firm that we refer to as Sponsor E and that Sponsor A had stated was in discussions with Sponsor A regarding participation in a potential joint acquisition of Saks also participated in the meeting with Sponsor A.",
+        "importance": "core",
+        "label": "Sponsor E"
+      },
+      {
+        "date": "July 2013",
+        "description": "Sponsor G was a private equity firm that entered discussions with Sponsor E for a joint acquisition but later ceased participating.",
+        "exact_quote": "Sponsor E had entered into discussions with Sponsor G, a private equity firm, regarding a potential joint acquisition of Saks.",
+        "importance": "useful",
+        "label": "Sponsor G"
+      },
+      {
+        "date": "June 2013",
+        "description": "Company F was a privately held retail company interested in participating with Sponsor A and Sponsor E, conducted diligence, but did not participate in final offer submitted by Sponsor A and Sponsor G.",
+        "exact_quote": "Company F, had indicated interest in participating with Sponsor A and Sponsor E in a potential acquisition of Saks. Company F engaged in due diligence of Saks. However, no meetings were held between representatives of Saks and representatives of Company F, and Company F did not participate in the offer that was ultimately submitted by Sponsor A and Sponsor G.",
+        "importance": "useful",
+        "label": "Company F"
+      },
+      {
+        "date": null,
+        "description": "Company B was a privately held retail company that Saks considered acquiring as a strategic alternative during the sale process.",
+        "exact_quote": "the potential for Saks to make a strategic acquisition of a privately held retail company, which we refer to as Company B.",
+        "importance": "useful",
+        "label": "Company B"
+      },
+      {
+        "date": null,
+        "description": "Sponsors C and D were private equity firms approached about providing equity financing for Saks\u2019 potential acquisition of Company B, not bidders for Saks.",
+        "exact_quote": "representatives of Saks management and of Goldman Sachs met separately with representatives of two private equity firms, which we refer to as Sponsor C and Sponsor D, respectively, to discuss the possibility of their providing equity financing for an acquisition of Company B.",
+        "importance": "useful",
+        "label": "Sponsors C and D"
+      },
+      {
+        "date": "July 21, 2013",
+        "description": "Company H was an unknown privately held U.S. company that sent an unsupported letter purporting to propose to acquire Saks for $2.6 billion cash; no follow-up contact was achieved.",
+        "exact_quote": "Saks received a letter from Company H, a privately held company based in the U.S. unknown to Saks and its advisors, purporting to propose to acquire Saks for an aggregate price of $2.6 billion in cash, with no details or further information.",
+        "importance": "useful",
+        "label": "Company H"
+      },
+      {
+        "date": "Go-shop period",
+        "description": "Company I was the only go-shop party that signed a confidentiality agreement and conducted diligence; it did not submit an acquisition proposal.",
+        "exact_quote": "only one of the six (which we refer to as Company I) executed a confidentiality agreement with, and conducted a due diligence investigation of, Saks. None of the parties contacted as part of the go shop process, including Company I, has submitted an acquisition proposal for Saks.",
+        "importance": "core",
+        "label": "Company I"
+      },
+      {
+        "date": null,
+        "description": "Teachers\u2019 and the Equity Provider committed equity financing to Hudson\u2019s Bay, with Teachers\u2019 guaranteeing the Equity Provider\u2019s obligation.",
+        "exact_quote": "Hudson\u2019s Bay entered into an equity investment agreement (the \u201cTeachers\u2019 Investment Agreement\u201d) with Teachers\u2019 and the Equity Provider, pursuant to which Hudson\u2019s Bay agreed to issue an aggregate of up to the Canadian dollar equivalent of $500 million of Hudson\u2019s Bay\u2019s common shares",
+        "importance": "useful",
+        "label": "Teachers\u2019 / Equity Provider"
+      },
+      {
+        "date": null,
+        "description": "Funds advised by West Face committed equity financing to Hudson\u2019s Bay.",
+        "exact_quote": "Hudson\u2019s Bay also entered into an equity investment agreement ... with funds advised by West Face pursuant to which Hudson\u2019s Bay agreed to issue an aggregate of up to the Canadian dollar equivalent of $250 million of Hudson\u2019s Bay common shares",
+        "importance": "useful",
+        "label": "West Face"
+      },
+      {
+        "date": null,
+        "description": "Bank of America, N.A. and Royal Bank of Canada were lenders under Hudson\u2019s Bay debt commitment letter.",
+        "exact_quote": "Bank of America, N.A. and Royal Bank of Canada (and, in some cases, certain of their affiliates) (collectively, the \u201cLenders\u201d) have agreed to provide debt financing",
+        "importance": "useful",
+        "label": "Debt financing lenders"
+      }
+    ],
+    "bids": [
+      {
+        "date": "Week of April 15, 2013",
+        "description": "Hudson\u2019s Bay and Sponsor A each indicated they were considering offers of at least $15 per share cash.",
+        "exact_quote": "Each of Hudson\u2019s Bay and Sponsor A indicated that they were considering making an offer to acquire Saks for at least $15 per share, in cash.",
+        "importance": "core",
+        "label": "Initial indications at least $15"
+      },
+      {
+        "date": "Week of June 3, 2013",
+        "description": "Hudson\u2019s Bay was preliminarily prepared to submit an indicative acquisition proposal at $15 to $15.25 per share.",
+        "exact_quote": "Hudson\u2019s Bay, on the one hand, and Sponsor A and Sponsor E, on the other hand, were each preliminarily prepared to proceed with the submission of a proposal to acquire Saks at indicative price ranges of $15 to $15.25 per share of common stock (in the case of Hudson\u2019s Bay) and $15 to $16 per share of common stock (in the case of Sponsor A and Sponsor E).",
+        "importance": "core",
+        "label": "Hudson\u2019s Bay indicative range"
+      },
+      {
+        "date": "Week of June 3, 2013",
+        "description": "Sponsor A and Sponsor E were preliminarily prepared to submit an indicative acquisition proposal at $15 to $16 per share.",
+        "exact_quote": "indicative price ranges of $15 to $15.25 per share of common stock (in the case of Hudson\u2019s Bay) and $15 to $16 per share of common stock (in the case of Sponsor A and Sponsor E).",
+        "importance": "core",
+        "label": "Sponsor A/E indicative range"
+      },
+      {
+        "date": "July 11, 2013",
+        "description": "Hudson\u2019s Bay submitted a proposal at $15.25 per share with revised merger agreement and financing information/documentation.",
+        "exact_quote": "Hudson\u2019s Bay\u2019s proposal included a price of $15.25 per share of common stock, a revised draft merger agreement and information and documentation relating to Hudson\u2019s Bay\u2019s committed debt and equity financing for the potential transaction.",
+        "importance": "core",
+        "label": "Hudson\u2019s Bay $15.25 proposal"
+      },
+      {
+        "date": "July 11, 2013",
+        "description": "Sponsor E and Sponsor G submitted an indicative proposal at $14.50\u2013$15.50 per share, needing more diligence and lacking merger agreement comments and financing support.",
+        "exact_quote": "The joint proposal from Sponsor E and Sponsor G included an indicative price range of $14.50\u2013$15.50 per share of common stock, but noted that the parties would require several weeks to continue their due diligence evaluation in order to submit a more definitive proposal and did not include a revised draft merger agreement or any documents supporting availability of financing for the proposal.",
+        "importance": "core",
+        "label": "Sponsor E/G indicative proposal"
+      },
+      {
+        "date": "July 21, 2013",
+        "description": "Company H purportedly proposed $2.6 billion cash aggregate price but gave no details and did not respond to follow-up.",
+        "exact_quote": "purporting to propose to acquire Saks for an aggregate price of $2.6 billion in cash, with no details or further information.",
+        "importance": "useful",
+        "label": "Company H purported $2.6B offer"
+      },
+      {
+        "date": "July 23, 2013",
+        "description": "Saks told Hudson\u2019s Bay that it would need to increase to at least $16 per share.",
+        "exact_quote": "Goldman Sachs informed Hudson\u2019s Bay\u2019s financial advisor that Hudson\u2019s Bay would need to increase the per share price of its offer to at least $16 per share of common stock",
+        "importance": "core",
+        "label": "Saks demand for $16"
+      },
+      {
+        "date": "July 24, 2013",
+        "description": "Hudson\u2019s Bay advised Goldman Sachs it was prepared to offer $16 per share, subject to definitive agreement, and agreed to Saks\u2019 positions on substantially all significant issues.",
+        "exact_quote": "Hudson\u2019s Bay was prepared to offer $16 per share of common stock and was agreeable to Saks\u2019 position on substantially all of the significant issues in the draft merger agreement and the draft agreements relating to Hudson\u2019s Bay\u2019s committed financing of the merger",
+        "importance": "core",
+        "label": "Hudson\u2019s Bay $16 offer"
+      },
+      {
+        "date": "July 28, 2013",
+        "description": "Board approved merger consideration of $16 per share cash; Goldman Sachs delivered fairness opinion.",
+        "exact_quote": "Goldman Sachs\u2019s oral opinion, subsequently confirmed in writing, that, as of such date and based upon and subject to the various limitations and assumptions set forth in the opinion, the $16 per share of common stock in cash to be paid to the holders of common stock pursuant to the merger agreement was fair, from a financial point of view, to such holders.",
+        "importance": "core",
+        "label": "Final $16 cash consideration"
+      },
+      {
+        "date": "Go-shop period ended September 6, 2013",
+        "description": "No go-shop contacted party submitted an acquisition proposal, including Company I.",
+        "exact_quote": "None of the parties contacted as part of the go shop process, including Company I, has submitted an acquisition proposal for Saks.",
+        "importance": "core",
+        "label": "No go-shop bids"
+      }
+    ],
+    "chronology": [
+      {
+        "date": "December 2012",
+        "description": "Saks board and senior management conducted a strategic review with Goldman Sachs participating.",
+        "exact_quote": "For the past several years, Goldman Sachs, one of Saks\u2019 longstanding financial advisors, has participated in these reviews. One such review took place in December 2012.",
+        "importance": "useful",
+        "label": "Strategic review"
+      },
+      {
+        "date": "February 2013",
+        "description": "Sponsor A made an unsolicited call to Saks CEO Stephen Sadove expressing interest in acquiring Saks.",
+        "exact_quote": "In February 2013, Stephen I. Sadove ... received an unsolicited phone call from a representative of a private equity firm, which we refer to as Sponsor A, expressing interest in a potential acquisition of Saks.",
+        "importance": "core",
+        "label": "Sponsor A unsolicited contact"
+      },
+      {
+        "date": "Early March 2013",
+        "description": "Sadove met Sponsor A; no proposal or terms were discussed.",
+        "exact_quote": "In early March 2013, Mr. Sadove met with senior representatives of Sponsor A to discuss the possibility of a potential transaction. No specific proposals were made by Sponsor A, and no specific transaction terms were discussed.",
+        "importance": "core",
+        "label": "Sponsor A meeting"
+      },
+      {
+        "date": "March 7, 2013",
+        "description": "Board discussed Sponsor A contact, potential sale, potential acquisition of Company B, and asked Finance committee for ongoing updates and guidance.",
+        "exact_quote": "The board requested that Saks\u2019 advisors and senior management provide the Finance committee of the board with ongoing updates with respect to these matters, and that the Finance committee provide guidance to Saks\u2019 advisors and senior management throughout the process",
+        "importance": "core",
+        "label": "Board process delegation"
+      },
+      {
+        "date": "April 1, 2013",
+        "description": "Sadove met Hudson\u2019s Bay CEO Richard Baker about a potential acquisition of Saks; no proposal or terms were discussed.",
+        "exact_quote": "On April 1, 2013, Mr. Sadove met with Richard Baker ... and discussed a potential acquisition of Saks by Hudson\u2019s Bay. No specific proposals were made by Hudson\u2019s Bay, and no specific transaction terms were discussed.",
+        "importance": "core",
+        "label": "Hudson\u2019s Bay initial meeting"
+      },
+      {
+        "date": "April 4, 2013",
+        "description": "Board reviewed expressions of interest from Hudson\u2019s Bay and Sponsor A and directed management to continue exploring potential transactions.",
+        "exact_quote": "The board discussed these expressions of interest, as well as a potential strategic acquisition of Company B. The board directed Mr. Sadove and Saks management to continue exploring these potential transactions.",
+        "importance": "core",
+        "label": "Board directs exploration"
+      },
+      {
+        "date": "April 11, 2013",
+        "description": "Finance and Executive committees met with Goldman Sachs and Wachtell Lipton; Sadove updated them on Hudson\u2019s Bay, Sponsor A and Company B.",
+        "exact_quote": "Mr. Sadove updated the committee members on discussions with Hudson\u2019s Bay and Sponsor A regarding a potential acquisition of Saks, and discussed with the committee members the potential acquisition of Company B.",
+        "importance": "useful",
+        "label": "Committee update"
+      },
+      {
+        "date": "April 17-30, 2013",
+        "description": "Saks entered confidentiality agreements with Sponsors C and D for Company B financing, with Sponsor A and Sponsor E for potential Saks acquisition, and with Hudson\u2019s Bay.",
+        "exact_quote": "On April 26, 2013, Saks entered into a confidentiality agreement with each of Sponsor A and Sponsor E, who were considering participating in a potential joint acquisition of Saks. On April 30, 2013, Saks and Hudson\u2019s Bay entered into a confidentiality agreement.",
+        "importance": "core",
+        "label": "Confidentiality agreements"
+      },
+      {
+        "date": "After confidentiality agreements",
+        "description": "Saks opened an online dataroom to Sponsor A, Sponsor E, and Hudson\u2019s Bay and they conducted due diligence and management meetings.",
+        "exact_quote": "Following each party\u2019s entry into a confidentiality agreement, Saks made an online dataroom available to Sponsor A, Sponsor E and Hudson\u2019s Bay. Sponsor A, Sponsor E and Hudson\u2019s Bay each engaged in due diligence and meetings with Saks\u2019 management over the next several weeks.",
+        "importance": "core",
+        "label": "Dataroom and diligence"
+      },
+      {
+        "date": "May 15, 2013",
+        "description": "Finance committee granted Hudson\u2019s Bay request to contact limited potential equity financing sources, subject to confidentiality agreement terms.",
+        "exact_quote": "Following discussion, the Finance committee agreed to grant Hudson\u2019s Bay\u2019s request, subject to compliance with the terms of the confidentiality agreement.",
+        "importance": "useful",
+        "label": "Hudson\u2019s Bay equity financing outreach permitted"
+      },
+      {
+        "date": "Late May 2013",
+        "description": "Media reports stated Saks had engaged Goldman Sachs to explore a potential sale.",
+        "exact_quote": "In late May 2013, media reports began to appear stating that Saks had engaged Goldman Sachs to explore a potential sale of Saks.",
+        "importance": "useful",
+        "label": "Media speculation"
+      },
+      {
+        "date": "June 5, 2013",
+        "description": "Board authorized a process to seek offers from potential acquirors that had signed confidentiality agreements and authorized a revised proposal for Company B.",
+        "exact_quote": "authorized (1) the implementation of a process to determine whether a transaction with one of the potential acquirors which had executed a confidentiality agreement could be reached on terms that would offer attractive value to Saks shareholders and (2) the submission of a revised proposal to acquire Company B.",
+        "importance": "core",
+        "label": "Formal sale process authorized"
+      },
+      {
+        "date": "July 2, 2013",
+        "description": "Goldman Sachs sent draft merger agreement and process details to Hudson\u2019s Bay, Sponsor A and Sponsor E, requesting all-cash acquisition offers by July 11.",
+        "exact_quote": "Goldman Sachs distributed a draft merger agreement and process details to each of Hudson\u2019s Bay, Sponsor A and Sponsor E, with a request for submission of offers for an all-cash acquisition of Saks, along with comments on the draft merger agreement, no later than July 11, 2013.",
+        "importance": "core",
+        "label": "Bid instructions"
+      },
+      {
+        "date": "July 8, 2013",
+        "description": "Saks entered a confidentiality agreement with Sponsor G after Sponsor E indicated Sponsor A was no longer intending to be a primary participant and Sponsor E was discussing a joint acquisition with Sponsor G.",
+        "exact_quote": "In early July 2013, Sponsor E informed Saks that Sponsor A was no longer intending to be a primary participant in a potential transaction and that Sponsor E had entered into discussions with Sponsor G, a private equity firm, regarding a potential joint acquisition of Saks. On July 8, 2013, Saks entered into a confidentiality agreement with Sponsor G.",
+        "importance": "core",
+        "label": "Sponsor G enters process"
+      },
+      {
+        "date": "July 11, 2013",
+        "description": "Hudson\u2019s Bay and Sponsor E/Sponsor G submitted proposals; Sponsor G later exited and Sponsor A rejoined Sponsor E as primary participant.",
+        "exact_quote": "Saks was subsequently informed that Sponsor G was no longer participating in the process, and that Sponsor E would again be joined in its proposal by Sponsor A as a primary participant.",
+        "importance": "core",
+        "label": "Bid receipt and participant change"
+      },
+      {
+        "date": "July 17, 2013",
+        "description": "Board reviewed Hudson\u2019s Bay proposal and Sponsor E/Sponsor A joint proposal, determined initial prices were insufficient, and authorized revised merger draft to Hudson\u2019s Bay.",
+        "exact_quote": "The board authorized Goldman Sachs to inform each of Hudson\u2019s Bay, on the one hand, and Sponsor E and Sponsor A, on the other hand, that their initial price proposals were insufficient and authorized Wachtell Lipton to provide a revised draft of the merger agreement to Hudson\u2019s Bay and its counsel.",
+        "importance": "core",
+        "label": "Initial bids rejected as insufficient"
+      },
+      {
+        "date": "July 21, 2013",
+        "description": "Company H sent an unsolicited unsupported purported $2.6 billion cash offer; Goldman Sachs could not reach Company H and received no further communications.",
+        "exact_quote": "Goldman Sachs subsequently attempted on more than one occasion to contact the appropriate person at Company H both by telephone and by e-mail to discuss the purported offer further but was unsuccessful in making contact with such person. Neither Saks nor Goldman Sachs received any subsequent communications from Company H.",
+        "importance": "useful",
+        "label": "Company H dead end"
+      },
+      {
+        "date": "July 23, 2013",
+        "description": "Board concluded it would not make a Company B acquisition offer at or above Company B shareholders\u2019 minimum price and instructed Hudson\u2019s Bay that Saks required at least $16 per share plus resolution of merger and financing issues.",
+        "exact_quote": "The board concluded that it would not be willing to make an offer to acquire Company B at or above the minimum price indicated by the principal shareholders of Company B. The board then authorized Goldman Sachs and Mr. Sadove to communicate to Hudson\u2019s Bay that the board would not agree to an acquisition of Saks at a price below $16 per share of common stock",
+        "importance": "core",
+        "label": "Board pivots to $16 Hudson\u2019s Bay requirement"
+      },
+      {
+        "date": "July 23, 2013",
+        "description": "Saks ceased discussions with Company B after declining to meet Company B shareholders\u2019 minimum price.",
+        "exact_quote": "Following this communication, Saks and Company B\u2019s principal shareholders ceased discussion of a potential acquisition of Company B by Saks.",
+        "importance": "useful",
+        "label": "Company B discussions ended"
+      },
+      {
+        "date": "Evening July 23, 2013",
+        "description": "Sponsor A and Sponsor E did not indicate willingness to increase beyond $14.50-$15.50 or complete diligence faster.",
+        "exact_quote": "There was no indication from Sponsor A or Sponsor E that they were prepared to increase their indicated price beyond their initially indicated range of $14.50 to $15.50 per share of common stock, nor did it appear likely that Sponsor A and Sponsor E would be prepared to conclude their diligence more quickly than they had previously indicated.",
+        "importance": "core",
+        "label": "Sponsor A/E stalled"
+      },
+      {
+        "date": "July 24-28, 2013",
+        "description": "Hudson\u2019s Bay increased to $16, parties negotiated final merger and financing documents, board approved the merger on July 28, and documents were executed later that day.",
+        "exact_quote": "Following the board\u2019s approval of the merger and the merger agreement, Saks, Hudson\u2019s Bay and Merger Sub finalized and executed the merger agreement and other transaction documents later on July 28, 2013.",
+        "importance": "core",
+        "label": "Final negotiation and execution"
+      },
+      {
+        "date": "July 29, 2013",
+        "description": "Saks and Hudson\u2019s Bay publicly announced the transaction.",
+        "exact_quote": "On July 29, 2013, Saks and Hudson\u2019s Bay issued a joint press release announcing entry into the transaction.",
+        "importance": "core",
+        "label": "Announcement"
+      },
+      {
+        "date": "September 6, 2013",
+        "description": "Go-shop period ended with no excluded party and no acquisition proposal.",
+        "exact_quote": "The go shop period ended on September 6, 2013, and no party has been designated by Saks as an excluded party.",
+        "importance": "core",
+        "label": "Go-shop ended"
+      },
+      {
+        "date": "As of proxy statement date",
+        "description": "Saks had not received any third-party communication determined by the board to constitute a superior proposal.",
+        "exact_quote": "As of the date of this proxy statement, Saks has not received any communications regarding any potential alternative transaction from any third party that the board has determined constitutes a \u201csuperior proposal\u201d under the merger agreement.",
+        "importance": "core",
+        "label": "No superior proposal"
+      }
+    ],
+    "counts": [
+      {
+        "date": "Go-shop period",
+        "description": "Goldman Sachs contacted 58 potentially interested third parties during the go-shop.",
+        "exact_quote": "During the go shop process, Goldman Sachs, on behalf of Saks, contacted 58 potentially interested third parties, including private equity firms, companies involved in the retail industry and other potential acquirors.",
+        "importance": "core",
+        "label": "58 go-shop contacts"
+      },
+      {
+        "date": "Go-shop period",
+        "description": "Only six of 58 contacted go-shop parties expressed interest.",
+        "exact_quote": "Of those contacted, only six parties expressed interest",
+        "importance": "core",
+        "label": "6 expressed interest"
+      },
+      {
+        "date": "Go-shop period",
+        "description": "Only one go-shop party, Company I, signed a confidentiality agreement and conducted due diligence.",
+        "exact_quote": "only one of the six (which we refer to as Company I) executed a confidentiality agreement with, and conducted a due diligence investigation of, Saks.",
+        "importance": "core",
+        "label": "1 go-shop NDA/diligence party"
+      },
+      {
+        "date": "Go-shop period",
+        "description": "No go-shop party, including Company I, submitted an acquisition proposal.",
+        "exact_quote": "None of the parties contacted as part of the go shop process, including Company I, has submitted an acquisition proposal for Saks.",
+        "importance": "core",
+        "label": "0 go-shop proposals"
+      },
+      {
+        "date": "July 28, 2013",
+        "description": "Board unanimously approved the merger agreement and recommended shareholder approval.",
+        "exact_quote": "Following extensive discussion, the board unanimously agreed to approve the merger and the merger agreement, and the transactions contemplated thereby, substantially in the form presented to the board, and to recommend the approval of the merger agreement by Saks\u2019 shareholders.",
+        "importance": "core",
+        "label": "Unanimous board approval"
+      },
+      {
+        "date": null,
+        "description": "Company termination fee was $73.5 million, reduced to $40.1 million in specified go-shop circumstances; Hudson\u2019s Bay reverse termination fee was $173.8 million.",
+        "exact_quote": "payment of a termination fee of $73.5 million (which amount is reduced to $40.1 million under specified circumstances relating to the go shop period)",
+        "importance": "useful",
+        "label": "Termination fees"
+      },
+      {
+        "date": null,
+        "description": "Hudson\u2019s Bay reverse termination fee of $173.8 million applied under specified failure-to-consummate circumstances.",
+        "exact_quote": "in the event of a failure of the merger to be consummated under specified circumstances, Hudson\u2019s Bay will pay the Company a termination fee of $173.8 million",
+        "importance": "useful",
+        "label": "Reverse termination fee"
+      },
+      {
+        "date": null,
+        "description": "Go-shop period was 40 days with ability to continue discussions with certain go-shop bidders for an additional 20 days.",
+        "exact_quote": "the Company\u2019s right to solicit offers with respect to alternative acquisition proposals during a 40-day go shop period and to continue discussions with certain third parties that make acquisition proposals during the go shop period for an additional period of 20 days following the go shop period;",
+        "importance": "useful",
+        "label": "40-day go-shop / 20-day tail"
+      },
+      {
+        "date": null,
+        "description": "Goldman Sachs transaction fee was approximately $23.5 million, principal portion contingent on closing.",
+        "exact_quote": "the Company has agreed to pay Goldman Sachs a transaction fee of approximately $23.5 million, the principal portion of which is contingent upon consummation of the merger",
+        "importance": "useful",
+        "label": "Goldman Sachs fee"
+      },
+      {
+        "date": null,
+        "description": "D.F. King proxy solicitation fee was approximately $50,000 plus expenses.",
+        "exact_quote": "we will pay D.F. King & Co., Inc. approximately $50,000 plus reimbursement of out-of-pocket expenses.",
+        "importance": "useful",
+        "label": "Proxy solicitor fee"
+      },
+      {
+        "date": null,
+        "description": "Estimated total funds required for merger and related fees and expenses were approximately $3 billion.",
+        "exact_quote": "The Company and Hudson\u2019s Bay estimate that the total amount of funds required to complete the merger and related transactions and pay related fees and expenses will be approximately $3 billion.",
+        "importance": "useful",
+        "label": "Funding need"
+      }
+    ],
+    "relations": [
+      {
+        "date": null,
+        "description": "The transaction is a cash-out merger at $16 per share, after which Saks common stock will be delisted and deregistered, and Saks will be indirectly wholly owned by Hudson\u2019s Bay.",
+        "exact_quote": "Upon the consummation of the merger, each share of common stock issued and outstanding immediately prior to the effective time ... will be converted into the right to receive $16 in cash, without interest and less any applicable withholding taxes.",
+        "importance": "core",
+        "label": "Cash merger structure"
+      },
+      {
+        "date": null,
+        "description": "There was no financing condition in the merger agreement.",
+        "exact_quote": "the absence of a financing condition in the merger agreement;",
+        "importance": "core",
+        "label": "No financing condition"
+      },
+      {
+        "date": "July 11, 2013",
+        "description": "Hudson\u2019s Bay provided information and documentation about committed debt and equity financing with its $15.25 proposal.",
+        "exact_quote": "Hudson\u2019s Bay\u2019s proposal included ... information and documentation relating to Hudson\u2019s Bay\u2019s committed debt and equity financing for the potential transaction.",
+        "importance": "core",
+        "label": "Committed financing support"
+      },
+      {
+        "date": "July 11, 2013",
+        "description": "Sponsor E/G proposal lacked revised merger agreement and financing support and required several more weeks of diligence.",
+        "exact_quote": "would require several weeks to continue their due diligence evaluation in order to submit a more definitive proposal and did not include a revised draft merger agreement or any documents supporting availability of financing for the proposal.",
+        "importance": "core",
+        "label": "Sponsor bid weakness"
+      },
+      {
+        "date": "July 11, 2013",
+        "description": "Saks negotiations with Hudson\u2019s Bay, Sponsor A and Sponsor E did not include post-closing employment terms for executives or senior management.",
+        "exact_quote": "Saks\u2019 negotiations with Hudson\u2019s Bay, Sponsor A and Sponsor E did not include any discussions regarding post-closing employment terms for the Company\u2019s executives or senior management.",
+        "importance": "useful",
+        "label": "No management employment negotiations"
+      },
+      {
+        "date": "September 13, 2013",
+        "description": "Sadove and Frasch entered letter agreements with Hudson\u2019s Bay and Merger Sub acknowledging expected termination upon merger completion and entitlement to benefits under employment agreements.",
+        "exact_quote": "On September 13, 2013, each of Messrs. Sadove and Frasch entered into a letter agreement with Hudson\u2019s Bay and Merger Sub, pursuant to which each of Hudson\u2019s Bay and Merger Sub acknowledged and agreed that the expected termination of Mr. Sadove\u2019s and Mr. Frasch\u2019s employment upon the completion of the merger would entitle each of them to the rights and benefits due under their respective employment agreements",
+        "importance": "useful",
+        "label": "Executive termination letter agreements"
+      },
+      {
+        "date": null,
+        "description": "Hudson\u2019s Bay intended to fund the transaction through equity investments, debt financing, and cash on hand.",
+        "exact_quote": "Hudson\u2019s Bay intends to fund this amount through some portion of a combination of the following: \u2022 equity investments ... \u2022 debt financing ... and \u2022 available cash on hand.",
+        "importance": "core",
+        "label": "Financing sources"
+      },
+      {
+        "date": null,
+        "description": "Equity financing included approximately $1 billion, including $500 million from the Equity Provider and $250 million from West Face-advised funds, plus subscription receipt proceeds.",
+        "exact_quote": "equity investments in an aggregate amount of approximately $1 billion, including investments of $500 million and $250 million by the Equity Provider and funds advised by West Face, respectively, and CDN $275.3 million of gross proceeds raised in an underwritten prospectus offering",
+        "importance": "core",
+        "label": "Equity financing"
+      },
+      {
+        "date": null,
+        "description": "Debt financing was described as $2.3 billion secured term debt and $950 million senior secured asset-based revolving facility.",
+        "exact_quote": "debt financing comprised of $2.3 billion of secured term debt and a $950 million senior secured asset-based revolving facility.",
+        "importance": "core",
+        "label": "Debt financing summary"
+      },
+      {
+        "date": "July 28, 2013",
+        "description": "Hudson\u2019s Bay entered equity investment agreement with Teachers\u2019 and Equity Provider for up to Canadian dollar equivalent of $500 million of shares plus warrants; Teachers\u2019 guaranteed Equity Provider obligation.",
+        "exact_quote": "Teachers\u2019 is providing to Hudson\u2019s Bay a guarantee of the Equity Provider\u2019s obligation to pay the aggregate purchase price for the Hudson\u2019s Bay common shares and warrants to be issued to the Equity Provider thereunder.",
+        "importance": "useful",
+        "label": "Teachers\u2019 guarantee"
+      },
+      {
+        "date": "July 28, 2013",
+        "description": "Hudson\u2019s Bay entered equity investment agreement with funds advised by West Face for up to Canadian dollar equivalent of $250 million of shares plus warrants.",
+        "exact_quote": "the \u201cWest Face Investment Agreement\u201d ... with funds advised by West Face pursuant to which Hudson\u2019s Bay agreed to issue an aggregate of up to the Canadian dollar equivalent of $250 million of Hudson\u2019s Bay common shares, as well as share purchase warrants for an additional 1.75 million Hudson\u2019s Bay common shares.",
+        "importance": "useful",
+        "label": "West Face agreement"
+      },
+      {
+        "date": "Debt commitment",
+        "description": "Bank of America and RBC agreed to provide debt financing including term loan facilities, asset-based revolvers, and senior unsecured notes/bridge-related financing.",
+        "exact_quote": "the \u201cLenders\u201d have agreed to provide debt financing comprised of (1) $1.9 billion of term loan facilities ... (3) a $950 million asset-based revolving facility ... and (4) $900 million of senior unsecured notes",
+        "importance": "useful",
+        "label": "Debt commitment letter"
+      },
+      {
+        "date": "August 28, 2013",
+        "description": "FTC granted early termination of HSR waiting period, satisfying the antitrust waiting-period closing condition.",
+        "exact_quote": "On August 28, 2013, the FTC granted early termination of the applicable waiting period. As a result, the condition to the closing of the merger relating to the expiration or termination of the applicable waiting period under the HSR Act has been satisfied.",
+        "importance": "useful",
+        "label": "HSR early termination"
+      },
+      {
+        "date": null,
+        "description": "The merger agreement preserved ability to respond to certain unsolicited proposals after go-shop and before shareholder approval.",
+        "exact_quote": "the Company\u2019s right, subject to certain conditions, to respond to and negotiate with respect to certain unsolicited acquisition proposals made after the end of the go shop period and prior to the time the Company\u2019s shareholders approve the proposal to approve the merger agreement;",
+        "importance": "useful",
+        "label": "Post-go-shop fiduciary out / unsolicited proposals"
+      }
+    ],
+    "source_limitations": [
+      "Source window is from a proxy statement excerpt; it does not include the full merger agreement text, full financing commitment letters, or all annexes.",
+      "Some parties are anonymized by the filing as Sponsor A, Sponsor C, Sponsor D, Sponsor E, Sponsor G, Company B, Company F, Company H, and Company I; underlying identities are not provided in the source window.",
+      "The excerpt provides sale-process narrative and selected financing summaries but not all negotiation details, all bidders contacted pre-signing, or complete terms of confidentiality agreements.",
+      "The source uses at least one potentially inconsistent phrase stating Company F did not participate in the offer ultimately submitted by Sponsor A and Sponsor G, while nearby text states the July 11 joint proposal was submitted by Sponsor E and Sponsor G and later Sponsor A rejoined Sponsor E."
+    ],
+    "uncertain_or_missing": [
+      {
+        "date": null,
+        "description": "Sponsor A\u2019s identity is not disclosed.",
+        "exact_quote": "a private equity firm, which we refer to as Sponsor A",
+        "importance": "uncertain",
+        "label": "Sponsor A anonymous"
+      },
+      {
+        "date": null,
+        "description": "Sponsor E\u2019s identity is not disclosed.",
+        "exact_quote": "A private equity firm that we refer to as Sponsor E",
+        "importance": "uncertain",
+        "label": "Sponsor E anonymous"
+      },
+      {
+        "date": null,
+        "description": "Sponsor G\u2019s identity is not disclosed.",
+        "exact_quote": "Sponsor G, a private equity firm",
+        "importance": "uncertain",
+        "label": "Sponsor G anonymous"
+      },
+      {
+        "date": null,
+        "description": "Company B\u2019s identity is not disclosed.",
+        "exact_quote": "a privately held retail company, which we refer to as Company B",
+        "importance": "uncertain",
+        "label": "Company B anonymous"
+      },
+      {
+        "date": null,
+        "description": "Company F\u2019s identity is not disclosed.",
+        "exact_quote": "a privately held retail company, which we refer to as Company F",
+        "importance": "uncertain",
+        "label": "Company F anonymous"
+      },
+      {
+        "date": null,
+        "description": "Company H\u2019s identity is not disclosed and was unknown to Saks and its advisors.",
+        "exact_quote": "Company H, a privately held company based in the U.S. unknown to Saks and its advisors",
+        "importance": "uncertain",
+        "label": "Company H anonymous/unknown"
+      },
+      {
+        "date": null,
+        "description": "Company I\u2019s identity is not disclosed.",
+        "exact_quote": "which we refer to as Company I",
+        "importance": "uncertain",
+        "label": "Company I anonymous"
+      },
+      {
+        "date": "July 21, 2013",
+        "description": "Company H purported offer lacked details and could not be verified through follow-up contact.",
+        "exact_quote": "purporting to propose to acquire Saks for an aggregate price of $2.6 billion in cash, with no details or further information.",
+        "importance": "uncertain",
+        "label": "Company H offer uncertainty"
+      },
+      {
+        "date": "After go-shop",
+        "description": "Company I complained about limited go-shop duration and information access, while Saks disputed those characterizations in correspondence.",
+        "exact_quote": "Saks received a letter from Company I raising issues concerning what Company I characterized as the \u201climited\u201d duration of the go shop period and its inability to obtain certain information from Saks.",
+        "importance": "useful",
+        "label": "Company I go-shop complaint"
+      },
+      {
+        "date": null,
+        "description": "No party was designated as an excluded party after the go-shop period.",
+        "exact_quote": "The go shop period ended on September 6, 2013, and no party has been designated by Saks as an excluded party.",
+        "importance": "core",
+        "label": "No excluded party"
+      },
+      {
+        "date": null,
+        "description": "No superior proposal had been determined by the board as of the proxy statement date.",
+        "exact_quote": "Saks has not received any communications regarding any potential alternative transaction from any third party that the board has determined constitutes a \u201csuperior proposal\u201d under the merger agreement.",
+        "importance": "core",
+        "label": "No superior proposal"
+      }
+    ]
+  },
+  "prompt_chars": 120734,
+  "prompt_sha256": "3fdeabf3e6d7311af1b4e11e34c4c755eaf66195aba7da511a8041d393871fbf",
+  "reasoning": "medium",
+  "reasoning_tokens": 26,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "395ec9adc1244cf05f88f704783e6cc5565bc76e2584cde5245ec75b525f8e4c",
+  "slug": "saks",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w4_plain_recall",
+  "window_profile": "W4_PLAIN_RECALL"
+}

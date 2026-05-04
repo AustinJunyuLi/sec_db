@@ -6,7 +6,7 @@ import argparse
 import os
 from pathlib import Path
 
-from sec_graph.extract.llm.models import LLMProviderConfig
+from sec_graph.extract.llm.models import DEFAULT_REQUEST_MODE, LLMProviderConfig
 from sec_graph.extract.pipeline import run_extract
 from sec_graph.schema import DEFAULT_DB_PATH, connect
 
@@ -20,11 +20,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--run-id", required=True, help="explicit top-level run id")
     parser.add_argument("--llm-provider", choices=["linkflow"], help="optional LLM typed-claim provider")
     parser.add_argument("--llm-model", default="gpt-5.5", help="LLM model name")
-    parser.add_argument("--llm-reasoning-effort", choices=["low", "medium", "high", "xhigh"], default="high")
+    parser.add_argument("--llm-reasoning-effort", choices=["low", "medium", "high", "xhigh"], default="medium")
     parser.add_argument(
         "--request-mode",
-        choices=["semantic_claims_v1"],
-        default="semantic_claims_v1",
+        choices=[DEFAULT_REQUEST_MODE],
+        default=DEFAULT_REQUEST_MODE,
         help="fixed semantic claim request mode",
     )
     return parser

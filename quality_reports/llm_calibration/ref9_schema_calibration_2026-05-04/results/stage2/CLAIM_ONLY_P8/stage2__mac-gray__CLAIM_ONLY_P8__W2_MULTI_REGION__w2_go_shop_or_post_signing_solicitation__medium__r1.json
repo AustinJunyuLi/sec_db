@@ -1,0 +1,102 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 27.51,
+  "input_chars": 22000,
+  "input_path": "inputs/mac-gray/W2_MULTI_REGION/w2_go_shop_or_post_signing_solicitation.json",
+  "input_text_sha256": "2522ed8a1d47baa29a87b2662fa4811d810297126719db930aab750370e9f6e3",
+  "input_tokens": 6168,
+  "job_id": "stage2__mac-gray__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_go_shop_or_post_signing_solicitation__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 1,
+      "actor_relation_claims": 0,
+      "bid_claims": 0,
+      "event_claims": 3,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 4,
+    "relation_types": {},
+    "strict_claim_total": 4,
+    "total_quotes": 4
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 4023,
+  "output_text_sha256": "0177c9a8ff7111065ac7485a98283aa744b93c40c980aa81cbfa2d656824ab31",
+  "output_tokens": 1311,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "organization",
+        "actor_label": "third party",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_go_shop_or_post_signing_solicitation_obl_2",
+        "observability": "anonymous_handle",
+        "quote_text": "any third party"
+      }
+    ],
+    "actor_relation_claims": [],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "Mac-Gray",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Under the merger agreement, Mac-Gray and its subsidiaries and representatives are not permitted, except under limited circumstances, to engage in specified actions relating to competing acquisition proposals.",
+        "event_date": null,
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "quote_text": "Under the merger agreement, Mac-Gray, its subsidiaries and their respective representatives are not permitted to (except under limited circumstances described below), among other things:"
+      },
+      {
+        "actor_label": "Mac-Gray",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Mac-Gray must immediately cease and terminate any existing solicitation, encouragement, discussion or negotiation with any third party regarding an acquisition proposal and request return or destruction of non-public information previously provided.",
+        "event_date": null,
+        "event_subtype": "excluded_by_target",
+        "event_type": "process",
+        "quote_text": "Under the merger agreement, Mac-Gray will, and will cause its subsidiaries and representatives to, immediately cease and terminate any existing solicitation, encouragement, discussion or negotiation with any third party with respect to an acquisition proposal and request that all non-public information previously provided by or on behalf of Mac-Gray to any such third party be returned or destroyed."
+      },
+      {
+        "actor_label": "third party",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Before stockholder adoption, if Mac-Gray receives an unsolicited bona fide written acquisition proposal after the merger agreement date that meets specified superior-proposal and fiduciary-duty criteria, Mac-Gray may furnish non-public information, provide access, and participate in discussions or negotiations with the third party.",
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "Notwithstanding the restrictions described above, prior to the adoption of the merger agreement by Mac-Gray stockholders, if Mac-Gray receives an unsolicited bona fide acquisition proposal in writing from a third party after the date of the merger agreement that did not, directly or indirectly, result from or arise out of a breach of the non-solicitation provisions of the merger agreement, and that the Mac-Gray Board of Directors (acting upon the recommendation of the Special Committee) determines in good faith, after consultation with its outside legal counsel and financial advisor, constitutes or would be reasonably likely to lead to a superior proposal (as defined in the section entitled The Merger Agreement\u2014Non-Solicitation; Competing Acquisition Proposals) and that the failure to act would be reasonably likely to be inconsistent with the directors' fiduciary duties under applicable laws, then Mac-Gray may furnish to such third party non-public information relating to Mac-Gray pursuant to a confidentiality agreement meeting certain requirements as set forth in the merger agreement and afford such third party access to the businesses, properties, assets and personnel of Mac-Gray or any of its subsidiaries and enter into, maintain and participate in discussions or negotiations with such third party or otherwise cooperate with or assist or participate in, or facilitate, any such discussions or negotiations"
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23770,
+  "prompt_sha256": "fea538e9d27080de2dcfad1bc81a49b5e142a71ee75206c9f12efd473269f456",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "mac-gray",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_go_shop_or_post_signing_solicitation",
+  "window_profile": "W2_MULTI_REGION"
+}

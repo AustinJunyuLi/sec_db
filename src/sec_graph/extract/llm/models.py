@@ -23,8 +23,9 @@ from sec_graph.schema.models.extraction import (
 )
 
 ReasoningEffort = Literal["low", "medium", "high", "xhigh"]
+RequestMode = Literal["claim_only_p8_relation_v1"]
+DEFAULT_REQUEST_MODE: RequestMode = "claim_only_p8_relation_v1"
 FinishStatus = Literal["completed", "provider_rejected", "provider_incomplete", "contract_invalid"]
-CoverageResultKind = Literal["claims_emitted", "no_supported_claim", "ambiguous", "missed"]
 
 
 class LLMContractError(RuntimeError):
@@ -69,15 +70,15 @@ class LLMWindowRequest(BaseModel):
     allowed_claim_types: list[ClaimType] = Field(min_length=1)
     schema_version: int
     extract_version: int
-    request_mode: str
+    request_mode: RequestMode
 
 
 class ClaimAttribution(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
-    coverage_obligation_ids: list[str] = Field(
+    coverage_obligation_id: str = Field(
         min_length=1,
-        description="Exact coverage obligation ids this claim supports.",
+        description="Exact coverage obligation id this claim supports.",
     )
 
 
@@ -148,15 +149,6 @@ class ActorRelationClaimPayload(ClaimAttribution):
     quote_text: str
 
 
-class CoverageResultPayload(BaseModel):
-    model_config = ConfigDict(frozen=True, extra="forbid")
-
-    obligation_id: str
-    result: Literal["claims_emitted", "no_supported_claim", "ambiguous"]
-    reason_code: str
-    reason: str
-
-
 class SemanticClaimsPayload(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
@@ -165,7 +157,6 @@ class SemanticClaimsPayload(BaseModel):
     bid_claims: list[BidClaimPayload] = Field(default_factory=list)
     participation_count_claims: list[ParticipationCountClaimPayload] = Field(default_factory=list)
     actor_relation_claims: list[ActorRelationClaimPayload] = Field(default_factory=list)
-    coverage_results: list[CoverageResultPayload] = Field(default_factory=list)
 
 
 class ProviderUsage(BaseModel):
@@ -196,7 +187,7 @@ class LLMProviderConfig(BaseModel):
 
     provider_name: Literal["linkflow"]
     model: str = "gpt-5.5"
-    reasoning_effort: ReasoningEffort = "high"
+    reasoning_effort: ReasoningEffort = "medium"
     base_url: str = "https://www.linkflow.run/v1"
     api_key_env: str = "LINKFLOW_API_KEY"
     timeout_seconds: int = 3600

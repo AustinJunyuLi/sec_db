@@ -1,0 +1,120 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "V0_P8_BASELINE",
+  "duration_s": 42.11,
+  "input_chars": 21999,
+  "input_path": "inputs/mac-gray/W2_MULTI_REGION/w2_rollover.json",
+  "input_text_sha256": "5a6af5ee17cb45ba0e56beae01b3eeb4d9094fba5b4f81aeb3c951d21ac1ea39",
+  "input_tokens": 5866,
+  "job_id": "stage1__mac-gray__V0_P8_BASELINE__W2_MULTI_REGION__w2_rollover__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 2,
+      "actor_relation_claims": 3,
+      "bid_claims": 0,
+      "coverage_results": 1,
+      "event_claims": 0,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 2,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 2,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 5,
+    "relation_types": {
+      "affiliate_of": 1,
+      "rollover_holder_of": 2
+    },
+    "strict_claim_total": 5,
+    "total_quotes": 5
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 2423,
+  "output_text_sha256": "7baa088182f7e9d690b4f6034b8410f56c2de67122ab442c4601f20dd99e5b89",
+  "output_tokens": 1606,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "person",
+        "actor_label": "Mr. MacDonald",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_rollover_obl_1",
+        "observability": "named",
+        "quote_text": "Mr. MacDonald (either through continued employment and/or contribution of some or all of his existing equity, a so-called equity \"rollover\")"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Moab",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_rollover_obl_1",
+        "observability": "named",
+        "quote_text": "Moab might have an interest in an equity rollover of all or a portion of Moab's shares of Mac-Gray common stock"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "medium",
+        "coverage_obligation_id": "mac-gray_w2_rollover_obl_2",
+        "effective_date_first": "2013-05-10",
+        "object_label": "Mac-Gray",
+        "quote_text": "Mr. MacDonald (either through continued employment and/or contribution of some or all of his existing equity, a so-called equity \"rollover\")",
+        "relation_type": "rollover_holder_of",
+        "role_detail": "potential equity rollover through contribution of some or all of existing equity",
+        "subject_label": "Mr. MacDonald"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "medium",
+        "coverage_obligation_id": "mac-gray_w2_rollover_obl_2",
+        "effective_date_first": "2013-06-12",
+        "object_label": "Mac-Gray common stock",
+        "quote_text": "Moab might have an interest in an equity rollover of all or a portion of Moab's shares of Mac-Gray common stock",
+        "relation_type": "rollover_holder_of",
+        "role_detail": "potential equity rollover of all or a portion of shares",
+        "subject_label": "Moab"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_rollover_obl_2",
+        "effective_date_first": null,
+        "object_label": "Moab",
+        "quote_text": "Mr. Rothenberg is a co-founder and the General Partner of Moab",
+        "relation_type": "affiliate_of",
+        "role_detail": "co-founder and General Partner",
+        "subject_label": "Mr. Rothenberg"
+      }
+    ],
+    "bid_claims": [],
+    "coverage_results": [
+      {
+        "obligation_id": "mac-gray_w2_rollover_obl_3",
+        "reason": "The window discusses potential equity rollover interests and related exclusions from the strategic alternatives process, but does not state that any rollover was executed, rejected, or that there was a no-rollover fact.",
+        "reason_code": "no_rollover_execution_rejection_or_no_rollover_fact_stated",
+        "result": "no_supported_claim"
+      }
+    ],
+    "event_claims": [],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23669,
+  "prompt_sha256": "cc8ac72335c3ba71bf6d2c6d8f343595005ed6e35dee32b11d66292483a0e57f",
+  "reasoning": "medium",
+  "reasoning_tokens": 1034,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "891e4a5674ba114d92ee1d400df86fba7a95780231cc29bd539799ee3cd2af97",
+  "slug": "mac-gray",
+  "stage": "stage1",
+  "status": "completed",
+  "window_id": "w2_rollover",
+  "window_profile": "W2_MULTI_REGION"
+}

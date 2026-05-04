@@ -1,0 +1,170 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "V0_P8_BASELINE",
+  "duration_s": 55.0,
+  "input_chars": 22000,
+  "input_path": "inputs/providence-worcester/W2_MULTI_REGION/w2_go_shop_or_post_signing_solicitation.json",
+  "input_text_sha256": "cba3fe2779b4e1f5cd0bfa13ff624dc25a347180d32e90e87c9ff3c94319ed84",
+  "input_tokens": 5623,
+  "job_id": "stage1__providence-worcester__V0_P8_BASELINE__W2_MULTI_REGION__w2_go_shop_or_post_signing_solicitation__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 3,
+      "actor_relation_claims": 0,
+      "bid_claims": 0,
+      "coverage_results": 0,
+      "event_claims": 7,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 10,
+    "relation_types": {},
+    "strict_claim_total": 10,
+    "total_quotes": 10
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 6298,
+  "output_text_sha256": "791df91a33bff80b122ca2552ef30e5472469b83547d996b7acfdaec901c8fa5",
+  "output_tokens": 2729,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "organization",
+        "actor_label": "third party making such takeover proposal",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "providence-worcester_w2_go_shop_or_post_signing_solicitation_obl_2",
+        "observability": "anonymous_handle",
+        "quote_text": "third party making such takeover proposal"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "any person",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "providence-worcester_w2_go_shop_or_post_signing_solicitation_obl_2",
+        "observability": "anonymous_handle",
+        "quote_text": "furnish to any person any confidential information"
+      },
+      {
+        "actor_kind": "group",
+        "actor_label": "person making a takeover proposal or its representatives",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "providence-worcester_w2_go_shop_or_post_signing_solicitation_obl_2",
+        "observability": "anonymous_handle",
+        "quote_text": "person making a takeover proposal or its representatives"
+      }
+    ],
+    "actor_relation_claims": [],
+    "bid_claims": [],
+    "coverage_results": [],
+    "event_claims": [
+      {
+        "actor_label": "Company",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "The merger agreement restricts the Company from soliciting or negotiating with a third party about acquiring a significant interest in the Company.",
+        "event_date": null,
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "quote_text": "The merger agreement restricts the Company\u2019s ability to solicit or engage in discussions or negotiations with a third party regarding a proposal to acquire a significant interest in the Company."
+      },
+      {
+        "actor_label": "Company",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "The Company agreed not to solicit, initiate, encourage, or facilitate takeover proposals.",
+        "event_date": null,
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "quote_text": "solicit, initiate or knowingly encourage, or take any other action to knowingly facilitate, the making of any proposal that constitutes or is reasonably likely to lead to a takeover proposal"
+      },
+      {
+        "actor_label": "Company",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "The Company agreed not to enter into, continue, or participate in discussions or negotiations, or furnish confidential information, regarding takeover proposals.",
+        "event_date": null,
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "quote_text": "enter into, continue or otherwise participate in any discussions or negotiations regarding, or furnish to any person any confidential information with respect to or that could reasonably be expected to lead to, any takeover proposal;"
+      },
+      {
+        "actor_label": "Board",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "If the Company receives a bona fide unsolicited written takeover proposal and has not breached its non-solicitation covenants, the Board may provide information and participate in discussions and negotiations under certain circumstances.",
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "However, if the Company receives a bona fide unsolicited written takeover proposal and the Company has not breached any of the non-solicitation prohibitions in the merger agreement, the Board may furnish certain information with respect to the Company and its subsidiaries to the third party making such takeover proposal and participate in discussions and negotiations regarding the unsolicited takeover proposal under certain circumstances"
+      },
+      {
+        "actor_label": "Company",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "The Company may not terminate the merger agreement to enter a superior proposal agreement unless it complies with specified procedures, including good-faith negotiations with G&W.",
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "The Company is not entitled to terminate the merger agreement to enter into an agreement for a superior proposal unless it has complied with certain procedures in the merger agreement, including engaging in good faith negotiations with G&W during a specified period."
+      },
+      {
+        "actor_label": "Company",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "If the Company terminates the merger agreement to enter a superior proposal agreement, it must pay G&W a $3,785,000 termination fee.",
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "If the Company terminates the merger agreement in order to enter into an agreement with respect to a superior proposal, it must pay a $3,785,000 termination fee to G&W."
+      },
+      {
+        "actor_label": "Board",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Before shareholder approval, in response to a bona fide unsolicited written takeover proposal, the Board may take otherwise restricted actions if it determines fiduciary duties require the action and that the proposal is a superior proposal.",
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "unless, prior to receipt of our shareholders\u2019 approval of the merger agreement and in response to a bona fide unsolicited written takeover proposal, after consultation with its outside counsel, the Board determines that the failure to take such action would be inconsistent with its fiduciary duties under applicable law and after consultation with its financial advisor and outside counsel, the Board determines in good faith that the takeover proposal constitutes a superior proposal."
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23782,
+  "prompt_sha256": "065066ce16a38bcdbf1d76d00857738d311fa98c3a0718c83ccbf9cd57d5b35e",
+  "reasoning": "medium",
+  "reasoning_tokens": 1442,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "891e4a5674ba114d92ee1d400df86fba7a95780231cc29bd539799ee3cd2af97",
+  "slug": "providence-worcester",
+  "stage": "stage1",
+  "status": "completed",
+  "window_id": "w2_go_shop_or_post_signing_solicitation",
+  "window_profile": "W2_MULTI_REGION"
+}

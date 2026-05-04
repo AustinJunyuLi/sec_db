@@ -1,0 +1,255 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_CLAIM_ONLY_P8",
+  "duration_s": 34.94,
+  "input_chars": 10870,
+  "input_path": "inputs/mac-gray/W2_MULTI_REGION/w2_sale_process_part3.json",
+  "input_text_sha256": "8dd8272d24e6cdea7dddeff3aa3c8c894de6894089872399a2a69c67fd3c9094",
+  "input_tokens": 4008,
+  "job_id": "stage1__mac-gray__EXPANDED_CLAIM_ONLY_P8__W2_MULTI_REGION__w2_sale_process_part3__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 6,
+      "actor_relation_claims": 4,
+      "bid_claims": 2,
+      "event_claims": 3,
+      "participation_count_claims": 1
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 11,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 5,
+    "not_unique_in_source_window": 6,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 16,
+    "relation_types": {
+      "finances": 2,
+      "member_of": 2
+    },
+    "strict_claim_total": 16,
+    "total_quotes": 16
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 6277,
+  "output_text_sha256": "25a143c935abf6a3bbd535db9bae62350a63dda061dce43b3e909e97742891fb",
+  "output_tokens": 2090,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "committee",
+        "actor_label": "Special Committee",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_6",
+        "observability": "named",
+        "quote_text": "The Special Committee"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "BofA Merrill Lynch",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_7",
+        "observability": "named",
+        "quote_text": "BofA Merrill Lynch"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Goodwin Procter",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_8",
+        "observability": "named",
+        "quote_text": "Goodwin Procter"
+      },
+      {
+        "actor_class": "mixed",
+        "actor_kind": "group",
+        "actor_label": "CSC/Pamplona",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_10",
+        "observability": "named",
+        "quote_text": "CSC/Pamplona"
+      },
+      {
+        "actor_class": "s",
+        "actor_kind": "organization",
+        "actor_label": "CSC",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_10",
+        "observability": "named",
+        "quote_text": "CSC"
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "Pamplona",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_10",
+        "observability": "named",
+        "quote_text": "Pamplona"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_10",
+        "effective_date_first": null,
+        "object_label": "CSC/Pamplona",
+        "quote_text": "CSC/Pamplona",
+        "relation_type": "member_of",
+        "role_detail": null,
+        "subject_label": "CSC"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_10",
+        "effective_date_first": null,
+        "object_label": "CSC/Pamplona",
+        "quote_text": "CSC/Pamplona",
+        "relation_type": "member_of",
+        "role_detail": null,
+        "subject_label": "Pamplona"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_10",
+        "effective_date_first": null,
+        "object_label": "CSC/Pamplona",
+        "quote_text": "the Pamplona-funded CSC/Pamplona proposal",
+        "relation_type": "finances",
+        "role_detail": null,
+        "subject_label": "Pamplona"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_10",
+        "effective_date_first": null,
+        "object_label": "capital needed for closing",
+        "quote_text": "Pamplona was committing to fund 100% of the capital needed for closing",
+        "relation_type": "finances",
+        "role_detail": "committing to fund 100% of the capital needed for closing",
+        "subject_label": "Pamplona"
+      }
+    ],
+    "bid_claims": [
+      {
+        "bid_date": "2013-09-21",
+        "bid_formality": "formal",
+        "bid_stage": "final",
+        "bid_value": 21.25,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "CSC/Pamplona",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "all-cash",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_text": "CSC/Pamplona were willing to increase their all-cash purchase price to $21.25 per share as a last and best offer"
+      },
+      {
+        "bid_date": "2013-09-23",
+        "bid_formality": "formal",
+        "bid_stage": "final",
+        "bid_value": 21.25,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "CSC/Pamplona",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_text": "the CSC/Pamplona final proposal with the Special Committee, including the $21.25 per share cash consideration"
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "CSC/Pamplona",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_4",
+        "description": "CSC/Pamplona confirmed it was willing to increase its all-cash purchase price to $21.25 per share as a last and best offer, conditioned on a two-week exclusivity period.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-09-21",
+        "event_subtype": "final_round_bid",
+        "event_type": "bid",
+        "initiation_side": "bidder",
+        "quote_text": "Later that same day, the representative of CSC/Pamplona called the members of the Transaction Committee to confirm that CSC/Pamplona were willing to increase their all-cash purchase price to $21.25 per share as a last and best offer, provided that Mac-Gray agree to a two week period of exclusive negotiations."
+      },
+      {
+        "actor_label": "Special Committee",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_5",
+        "description": "The Special Committee authorized Mac-Gray to enter into an exclusivity agreement with CSC/Pamplona until 5 p.m. ET on October 12, 2013.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-09-23",
+        "event_subtype": "exclusivity_grant",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_text": "the Special Committee authorized Mac-Gray to enter into an exclusivity agreement providing for exclusive negotiations until 5 p.m. ET on October 12, 2013 on the terms included in the CSC/Pamplona final proposal"
+      },
+      {
+        "actor_label": "Mac-Gray",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_5",
+        "description": "CSC, Pamplona and Mac-Gray executed an exclusivity agreement for exclusive negotiations until 5 p.m. ET on October 12, 2013.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-09-24",
+        "event_subtype": "exclusivity_grant",
+        "event_type": "process",
+        "initiation_side": "mutual_or_process",
+        "quote_text": "On September 24, 2013, CSC, Pamplona and Mac-Gray executed the exclusivity agreement providing for exclusive negotiations until 5 p.m. ET on October 12, 2013"
+      }
+    ],
+    "participation_count_claims": [
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "medium",
+        "count_max": null,
+        "count_min": 2,
+        "count_qualifier": "lower_bound",
+        "coverage_obligation_id": "mac-gray_w2_sale_process_part3_obl_2",
+        "process_stage": "ioi_submitted",
+        "quote_text": "the indication of interest submitted by Party B, including the Party B options, was on its face higher than the CSC/Pamplona proposal"
+      }
+    ]
+  },
+  "prompt_chars": 13356,
+  "prompt_sha256": "13d138fd3189d8c62df95233c5d6cba5decee35b5fc64d4cbe531d99b57557b2",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "80c516a8b3401128674672619998677e77e1705c31b2f7b7ea8a4f8856bd14eb",
+  "slug": "mac-gray",
+  "stage": "stage1",
+  "status": "completed",
+  "window_id": "w2_sale_process_part3",
+  "window_profile": "W2_MULTI_REGION"
+}

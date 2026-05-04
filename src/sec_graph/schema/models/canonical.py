@@ -17,7 +17,10 @@ RelationType = Literal[
     "advises",
     "finances",
     "supports",
-    "rollover_holder_of",
+    "voting_support_for",
+    "rollover_holder_for",
+    "committee_member_of",
+    "recused_from",
 ]
 Confidence = Literal["low", "medium", "high"]
 EventType = Literal["process", "bid", "transaction"]
@@ -266,7 +269,7 @@ CREATE TABLE actor_relations (
   deal_id VARCHAR NOT NULL,
   subject_actor_id VARCHAR NOT NULL,
   object_actor_id VARCHAR NOT NULL,
-  relation_type VARCHAR NOT NULL CHECK (relation_type IN ('member_of', 'affiliate_of', 'controls', 'acquisition_vehicle_of', 'advises', 'finances', 'supports', 'rollover_holder_of')),
+  relation_type VARCHAR NOT NULL CHECK (relation_type IN ('member_of', 'affiliate_of', 'controls', 'acquisition_vehicle_of', 'advises', 'finances', 'supports', 'voting_support_for', 'rollover_holder_for', 'committee_member_of', 'recused_from')),
   role_detail VARCHAR,
   cycle_id_first_observed VARCHAR,
   cycle_id_last_observed VARCHAR,

@@ -1,0 +1,531 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_MULTI_QUOTE_P8",
+  "duration_s": 64.19,
+  "input_chars": 22470,
+  "input_path": "inputs/penford/W2_MULTI_REGION/w2_sale_process_part2.json",
+  "input_text_sha256": "20c366721c82f4ddfc453a26b6403836e431d70169cbcac16d95e13387317b74",
+  "input_tokens": 6272,
+  "job_id": "stage2__penford__EXPANDED_MULTI_QUOTE_P8__W2_MULTI_REGION__w2_sale_process_part2__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 5,
+      "actor_relation_claims": 4,
+      "bid_claims": 6,
+      "event_claims": 13,
+      "participation_count_claims": 2
+    },
+    "duplicate_quotes_within_response": 3,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 25,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 20,
+    "not_unique_in_source_window": 5,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 30,
+    "relation_types": {
+      "advises": 2,
+      "supports": 1,
+      "voting_support_for": 1
+    },
+    "strict_claim_total": 30,
+    "total_quotes": 30
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 13765,
+  "output_text_sha256": "cbbb885dae8e31846af7cfee25d7e3099a0bf2c79a63a8932af0f597f234f6dc",
+  "output_tokens": 4574,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "committee",
+        "actor_label": "Penford board of directors",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_6",
+        "observability": "named",
+        "quote_texts": [
+          "Penford\u2019s board of directors"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "Deutsche Bank",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_7",
+        "observability": "named",
+        "quote_texts": [
+          "Deutsche Bank"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Perkins Coie",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_8",
+        "observability": "named",
+        "quote_texts": [
+          "Perkins Coie"
+        ]
+      },
+      {
+        "actor_class": "s",
+        "actor_kind": "organization",
+        "actor_label": "Ingredion",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_10",
+        "observability": "named",
+        "quote_texts": [
+          "Ingredion"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "SEACOR",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_10",
+        "observability": "named",
+        "quote_texts": [
+          "SEACOR"
+        ]
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_7",
+        "effective_date_first": null,
+        "object_label": "Penford",
+        "quote_texts": [
+          "representatives of Penford\u2019s legal and financial advisors were present"
+        ],
+        "relation_type": "advises",
+        "role_detail": "financial advisor",
+        "subject_label": "Deutsche Bank"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_8",
+        "effective_date_first": null,
+        "object_label": "Penford",
+        "quote_texts": [
+          "representatives of Penford\u2019s legal and financial advisors were present"
+        ],
+        "relation_type": "advises",
+        "role_detail": "legal advisor",
+        "subject_label": "Perkins Coie"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_10",
+        "effective_date_first": "2014-10-14",
+        "object_label": "transaction",
+        "quote_texts": [
+          "Penford, Ingredion and SEACOR executed the voting and support agreement"
+        ],
+        "relation_type": "voting_support_for",
+        "role_detail": "party to voting and support agreement",
+        "subject_label": "SEACOR"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_10",
+        "effective_date_first": "2014-10-14",
+        "object_label": "voting and support agreement",
+        "quote_texts": [
+          "Penford, Ingredion and SEACOR executed the voting and support agreement"
+        ],
+        "relation_type": "supports",
+        "role_detail": "party to voting and support agreement",
+        "subject_label": "Ingredion"
+      }
+    ],
+    "bid_claims": [
+      {
+        "bid_date": "2014-09-17",
+        "bid_formality": "informal",
+        "bid_stage": "revised",
+        "bid_value": null,
+        "bid_value_lower": 18.25,
+        "bid_value_unit": "per share",
+        "bid_value_upper": 18.5,
+        "bidder_label": "Ingredion",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": null,
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "Ingredion could potentially increase its proposal from $18.00 to $18.25 or $18.50 per share on a fully diluted basis"
+        ]
+      },
+      {
+        "bid_date": "2014-10-02",
+        "bid_formality": "formal",
+        "bid_stage": "revised",
+        "bid_value": 19,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "Ingredion",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": null,
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "Penford received a letter from Ingredion regarding its indication of interest and increasing the proposed price to $19.00 per share of outstanding Penford capital stock on a fully diluted basis"
+        ]
+      },
+      {
+        "bid_date": "2014-10-04",
+        "bid_formality": "informal",
+        "bid_stage": "revised",
+        "bid_value": null,
+        "bid_value_lower": 17.5,
+        "bid_value_unit": "per share",
+        "bid_value_upper": 18,
+        "bidder_label": "Party A",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_2",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "Party A indicated any offer would be below $17.50 - $18.00 per share in cash"
+        ]
+      },
+      {
+        "bid_date": "2014-10-13",
+        "bid_formality": "informal",
+        "bid_stage": "revised",
+        "bid_value": null,
+        "bid_value_lower": 16,
+        "bid_value_unit": "per share",
+        "bid_value_upper": 18,
+        "bidder_label": "Party A",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": null,
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_2",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "its value range for a potential transaction had been reduced from $17.50 - $18.00 per share to $16.00 - $18.00 per share"
+        ]
+      },
+      {
+        "bid_date": "2014-10-14",
+        "bid_formality": "formal",
+        "bid_stage": "final",
+        "bid_value": 16,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "Party A",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": null,
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_2",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "Party A provided a formal letter with its indication of interest with respect to an acquisition of the Company at a price of $16.00 per share"
+        ]
+      },
+      {
+        "bid_date": "2014-10-14",
+        "bid_formality": "informal",
+        "bid_stage": "final",
+        "bid_value": 19,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "Ingredion",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": null,
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "Ingredion had confirmed that it desired to promptly enter into the merger agreement and that the purchase price per share, on a fully diluted basis, remained at $19.00 per share"
+        ]
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "Ingredion",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_1",
+        "description": "Penford's process followed after it was first contacted by Ingredion.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "the process that the Company followed after it was first contacted by Ingredion"
+        ]
+      },
+      {
+        "actor_label": "Party C",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_2",
+        "description": "Penford and Party C executed a nondisclosure and standstill agreement.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-09-15",
+        "event_subtype": "nda_signed",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "On September 15, 2014, Penford and Party C executed a nondisclosure and standstill agreement"
+        ]
+      },
+      {
+        "actor_label": "Party D",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_2",
+        "description": "Penford and Party D executed a nondisclosure and standstill agreement.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-09-23",
+        "event_subtype": "nda_signed",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "On September 23, 2014, Penford and Party D executed a nondisclosure and standstill agreement"
+        ]
+      },
+      {
+        "actor_label": "Party F",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_2",
+        "description": "Deutsche Bank contacted Party F regarding a potential transaction with Penford.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-09-24",
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "On September 24, 2014, in accordance with the board\u2019s authorization, Deutsche Bank contacted Party F regarding a potential transaction with Penford."
+        ]
+      },
+      {
+        "actor_label": "Party F",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_2",
+        "description": "Party F declined to pursue further transaction discussions.",
+        "drop_agency": "bidder",
+        "drop_reason": "other",
+        "event_date": "2014-09-29",
+        "event_subtype": "advancement_declined",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "On September 29, 2014, Party F communicated to Deutsche Bank that a combination with Penford was not a suitable strategic fit and declined to pursue further discussions regarding a transaction."
+        ]
+      },
+      {
+        "actor_label": "Party A",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_2",
+        "description": "Penford and Party A executed a nondisclosure and standstill agreement.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-09-30",
+        "event_subtype": "nda_signed",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "On September 30, 2014, Penford and Party A executed a nondisclosure and standstill agreement"
+        ]
+      },
+      {
+        "actor_label": "Penford board of directors",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_5",
+        "description": "The directors directed management to proceed to negotiate and finalize a definitive agreement with Ingredion.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-10-03",
+        "event_subtype": "exclusivity_grant",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "the directors present at the board meeting unanimously directed management to proceed to negotiate and finalize a definitive agreement with Ingredion"
+        ]
+      },
+      {
+        "actor_label": "Party D",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_2",
+        "description": "Party D indicated it did not intend to move forward with discussions.",
+        "drop_agency": "bidder",
+        "drop_reason": "withdrew",
+        "event_date": "2014-10-08",
+        "event_subtype": "withdrawn_by_bidder",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "Party D, who indicated that it did not intend to move forward with discussions regarding a potential transaction involving the Company"
+        ]
+      },
+      {
+        "actor_label": "Ingredion",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_4",
+        "description": "Ingredion confirmed the proposed price of $19.00.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-10-14",
+        "event_subtype": "final_round_bid",
+        "event_type": "bid",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "On October 14, 2014, Mr. Fortnum called Mr. Malkoski to confirm the proposed price of $19.00"
+        ]
+      },
+      {
+        "actor_label": "Party A",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_2",
+        "description": "Party A provided a formal indication of interest at $16.00 per share.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-10-14",
+        "event_subtype": "ioi_submitted",
+        "event_type": "bid",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "Party A provided a formal letter with its indication of interest with respect to an acquisition of the Company at a price of $16.00 per share"
+        ]
+      },
+      {
+        "actor_label": "Penford board of directors",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_6",
+        "description": "The Penford board unanimously determined the merger agreement and related transactions were in the best interest of Penford and its shareholders and approved the merger agreement and merger.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-10-14",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "the Penford board unanimously determined that the merger agreement, the voting and support agreement, the merger and other transactions contemplated thereby were in the best interest of Penford and its shareholders and approved the merger agreement and the merger and recommended approval of the merger agreement to Penford\u2019s shareholders"
+        ]
+      },
+      {
+        "actor_label": "Penford and Ingredion",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_4",
+        "description": "Penford and Ingredion finalized and executed the merger agreement.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-10-14",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "During the evening on October 14, 2014, Penford and Ingredion finalized and executed the merger agreement"
+        ]
+      },
+      {
+        "actor_label": "SEACOR",
+        "actor_role": "support_shareholder",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_10",
+        "description": "Penford, Ingredion and SEACOR executed the voting and support agreement.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2014-10-14",
+        "event_subtype": "rollover_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "Penford, Ingredion and SEACOR executed the voting and support agreement"
+        ]
+      }
+    ],
+    "participation_count_claims": [
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 2,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_2",
+        "process_stage": "nda_signed",
+        "quote_texts": [
+          "nondisclosure agreements had been executed with two potential counterparties"
+        ]
+      },
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 6,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "penford_w2_sale_process_part2_obl_3",
+        "process_stage": "contacted",
+        "quote_texts": [
+          "as part of the market check process, it had contacted a total of six potential counterparties"
+        ]
+      }
+    ]
+  },
+  "prompt_chars": 24997,
+  "prompt_sha256": "c4995d8a398fe783dcb7220ed62e6bc365d93d3827334925f0a6d53a6d2d4403",
+  "reasoning": "medium",
+  "reasoning_tokens": 1245,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "0e783020c5768c044a886e0c68312d3e78a57555f4637885fb098049de8a7824",
+  "slug": "penford",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_sale_process_part2",
+  "window_profile": "W2_MULTI_REGION"
+}

@@ -1,0 +1,129 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_CLAIM_ONLY_P8",
+  "duration_s": 21.15,
+  "input_chars": 24929,
+  "input_path": "inputs/petsmart-inc/W2_MULTI_REGION/w2_sale_process_part2.json",
+  "input_text_sha256": "183f1fbdc23d3159d0669b488047fc742d5704f38731e6f2311caaa442b26790",
+  "input_tokens": 6572,
+  "job_id": "stage1__petsmart-inc__EXPANDED_CLAIM_ONLY_P8__W2_MULTI_REGION__w2_sale_process_part2__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 3,
+      "actor_relation_claims": 2,
+      "bid_claims": 1,
+      "event_claims": 0,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 2,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 2,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 0.8333,
+    "quotes_in_window": 5,
+    "relation_types": {
+      "acquisition_vehicle_of": 1,
+      "controls": 1
+    },
+    "strict_claim_total": 6,
+    "total_quotes": 6
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 2224,
+  "output_text_sha256": "1f92fcda44432da6151b658ba63a79e211b20f018fbabbc13dca3c00b765975c",
+  "output_tokens": 1038,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "committee",
+        "actor_label": "the board",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_6",
+        "observability": "named",
+        "quote_text": "the board unanimously recommends that our stockholders vote **\u201cFOR\u201d** the merger proposal"
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "group",
+        "actor_label": "outside financial advisors",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_7",
+        "observability": "anonymous_handle",
+        "quote_text": "after consultation with outside legal and financial advisors"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "outside legal advisors",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_8",
+        "observability": "anonymous_handle",
+        "quote_text": "after consultation with outside legal and financial advisors"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_10",
+        "effective_date_first": null,
+        "object_label": "Parent",
+        "quote_text": "Merger Sub, a wholly owned subsidiary of Parent",
+        "relation_type": "acquisition_vehicle_of",
+        "role_detail": "wholly owned subsidiary",
+        "subject_label": "Merger Sub"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_10",
+        "effective_date_first": null,
+        "object_label": "Merger Sub",
+        "quote_text": "Merger Sub, a wholly owned subsidiary of Parent",
+        "relation_type": "controls",
+        "role_detail": "wholly owned subsidiary",
+        "subject_label": "Parent"
+      }
+    ],
+    "bid_claims": [
+      {
+        "bid_date": null,
+        "bid_formality": null,
+        "bid_stage": "final",
+        "bid_value": 83.0,
+        "bid_value_lower": null,
+        "bid_value_unit": "USD per share",
+        "bid_value_upper": null,
+        "bidder_label": "Parent",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "petsmart-inc_w2_sale_process_part2_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_text": "you will be entitled to receive $83.00 in cash, without interest and less any applicable withholding taxes, for each share of our common stock that you own"
+      }
+    ],
+    "event_claims": [],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 27459,
+  "prompt_sha256": "4d0fac77cddc68e3f3a985596bc12aa76d5466e21f3d42b2139a28fbb65f1375",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "80c516a8b3401128674672619998677e77e1705c31b2f7b7ea8a4f8856bd14eb",
+  "slug": "petsmart-inc",
+  "stage": "stage1",
+  "status": "completed",
+  "window_id": "w2_sale_process_part2",
+  "window_profile": "W2_MULTI_REGION"
+}

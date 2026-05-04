@@ -1,0 +1,158 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_MULTI_QUOTE_P8",
+  "duration_s": 30.62,
+  "input_chars": 22000,
+  "input_path": "inputs/saks/W2_MULTI_REGION/w2_go_shop_or_post_signing_solicitation.json",
+  "input_text_sha256": "3165243e9de3a6d8a198bfc14f4b1a2103b0feb957dc6a95419c2c3b24ca2236",
+  "input_tokens": 5864,
+  "job_id": "stage2__saks__EXPANDED_MULTI_QUOTE_P8__W2_MULTI_REGION__w2_go_shop_or_post_signing_solicitation__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 0,
+      "actor_relation_claims": 0,
+      "bid_claims": 0,
+      "event_claims": 6,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 10,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 6,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 6,
+    "relation_types": {},
+    "strict_claim_total": 6,
+    "total_quotes": 6
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 6177,
+  "output_text_sha256": "732881f580e63bd39cf4528340c8ff5654344f4eb09e0b46f03a9ae64537b20d",
+  "output_tokens": 1877,
+  "parsed": {
+    "actor_claims": [],
+    "actor_relation_claims": [],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "the Company and its subsidiaries, and their respective representatives",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "During the go shop period, the Company and its subsidiaries and representatives were permitted to initiate, solicit or encourage inquiries or proposals constituting alternative proposals.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-09-06",
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "Pursuant to the merger agreement, until 12:01 a.m., New York time, on September 6, 2013 (the \u201cgo shop period\u201d), the Company and its subsidiaries, and their respective representatives, were permitted to:\n\n\u2022 initiate, solicit or encourage any inquiry or the making of any proposal or offer that constitutes an alternative proposal"
+        ]
+      },
+      {
+        "actor_label": "the Company and its subsidiaries, and their respective representatives",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "During the go shop period, the Company and its subsidiaries and representatives were permitted to participate in discussions or negotiations regarding alternative proposals.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-09-06",
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "\u2022 engage in, enter into, continue or otherwise participate in any discussions or negotiations with any person or group of persons with respect to any alternative proposals, and cooperate with or assist or participate in or facilitate any such inquiries, proposals, discussions or negotiations or any effort or attempt to make any alternative proposal."
+        ]
+      },
+      {
+        "actor_label": "the Company",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "The Company announced that the go shop period expired on September 6, 2013 and that no party had been designated as an excluded party.",
+        "drop_agency": "mutual_or_process",
+        "drop_reason": "other",
+        "event_date": "2013-09-10",
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "initiation_side": "mutual_or_process",
+        "quote_texts": [
+          "On September 10, 2013, the Company announced that the go shop period expired on September 6, 2013, and no party had been designated by the Company as an excluded party."
+        ]
+      },
+      {
+        "actor_label": "the Company and its subsidiaries",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "After 12:01 a.m. New York time on September 6, 2013, the Company and its subsidiaries were required to cease go-shop activities and ongoing discussions or negotiations regarding alternative proposals, subject to exceptions for excluded parties and permitted provisions.",
+        "drop_agency": "mutual_or_process",
+        "drop_reason": "other",
+        "event_date": "2013-09-06",
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "initiation_side": "mutual_or_process",
+        "quote_texts": [
+          "Except as may have related to any excluded party (but only for so long as such person or group is an excluded party) until September 26, 2013 or as permitted by the provisions of the merger agreement, since 12:01 a.m., New York time, on September 6, 2013, the Company and its subsidiaries have been and are required to, and the Company has been and is required to cause its and its subsidiaries\u2019 representatives to, cease any activities described above and any discussions or negotiations with any person or group that may have been ongoing with respect to any alternative proposals."
+        ]
+      },
+      {
+        "actor_label": "the Company",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "After 12:01 a.m. New York time on September 6, 2013 and before shareholder approval, if the Company received a written alternative proposal, it and its representatives could contact the bidder to clarify terms and, if the board determined the proposal constituted or could reasonably be expected to result in a superior proposal, could provide information and engage in discussions or negotiations.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-09-06",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "Notwithstanding the provisions of the merger agreement described above, if following 12:01 a.m., New York time, on September 6, 2013 and prior to obtaining the required vote of the Company\u2019s shareholders to approve the merger agreement, the Company receives a written alternative proposal, the Company and its representatives may contact the person who has made the alternative proposal to clarify the terms and conditions thereof and, if the board determines in good faith that the alternative proposal constitutes or could reasonably be expected to result in a superior proposal"
+        ]
+      },
+      {
+        "actor_label": "the Company",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Since 12:01 a.m. New York time on September 6, 2013, the Company was required to notify Hudson\u2019s Bay within 48 hours of entry into a qualifying confidentiality agreement or receipt of an alternative proposal or related proposal or offer.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-09-06",
+        "event_subtype": "nda_signed",
+        "event_type": "process",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "Since 12:01 a.m., New York time, on September 6, 2013, the Company has been and is required to promptly (and in any event within 48 hours) notify Hudson\u2019s Bay of its entry into a confidentiality agreement meeting certain requirements or its receipt of an alternative proposal or amendment thereto, or a proposal or offer that could"
+        ]
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23971,
+  "prompt_sha256": "4fa19ffcdd6b6c66588cce26893074f88ec6748f0219a37be81a10fc36ec5756",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "0e783020c5768c044a886e0c68312d3e78a57555f4637885fb098049de8a7824",
+  "slug": "saks",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_go_shop_or_post_signing_solicitation",
+  "window_profile": "W2_MULTI_REGION"
+}

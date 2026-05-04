@@ -1,0 +1,120 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 24.8,
+  "input_chars": 4284,
+  "input_path": "inputs/imprivata/W2_MULTI_REGION/w2_sale_process_part3.json",
+  "input_text_sha256": "97f1ab9549e62ab2c96d3d9f379a7f2c446c64f48eb2a11c37f1240081b1a2f2",
+  "input_tokens": 2297,
+  "job_id": "stage2__imprivata__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_sale_process_part3__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 4,
+      "actor_relation_claims": 0,
+      "bid_claims": 1,
+      "event_claims": 1,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 1,
+    "not_unique_in_source_window": 2,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 6,
+    "relation_types": {},
+    "strict_claim_total": 6,
+    "total_quotes": 6
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 2211,
+  "output_text_sha256": "4b386d0ebb64be5150bea4c267c0309ceef6335573466f5c2288ad96f5f38604",
+  "output_tokens": 1060,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "committee",
+        "actor_label": "Special Committee",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part3_obl_6",
+        "observability": "named",
+        "quote_text": "the Special Committee held a meeting"
+      },
+      {
+        "actor_kind": "committee",
+        "actor_label": "Board",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part3_obl_6",
+        "observability": "named",
+        "quote_text": "the Board held a meeting"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Barclays",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part3_obl_7",
+        "observability": "named",
+        "quote_text": "representatives of Barclays"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Goodwin",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part3_obl_8",
+        "observability": "named",
+        "quote_text": "representatives of Barclays and Goodwin"
+      }
+    ],
+    "actor_relation_claims": [],
+    "bid_claims": [
+      {
+        "bid_date": null,
+        "bid_stage": "final",
+        "bid_value": 19.25,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "Thoma Bravo",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part3_obl_9",
+        "quote_text": "Thoma Bravo\u2019s offer of $19.25 per share"
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "Thoma Bravo",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part3_obl_4",
+        "description": "The Board was informed that the strategic alternatives review culminated in Thoma Bravo's offer of $19.25 per share.",
+        "event_date": "2016-07-12",
+        "event_subtype": "final_round_bid",
+        "event_type": "bid",
+        "quote_text": "Later on July 12, 2016, the Board held a meeting. Members of Company management, Mr. Linnemann and representatives of Barclays and Goodwin were in attendance. Representatives of Barclays reviewed with the Board the Special Committee\u2019s review of the Company\u2019s strategic alternatives since the last Board meeting on June 17, 2016, including the events of the subsequent weeks that culminated in Thoma Bravo\u2019s offer of $19.25 per share."
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 6620,
+  "prompt_sha256": "70ee9e403b3f564dd0f2a860a6941092ff7b93863f7dc90ce584f4f1c16f3d8e",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "imprivata",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_sale_process_part3",
+  "window_profile": "W2_MULTI_REGION"
+}

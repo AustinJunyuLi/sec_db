@@ -1,0 +1,119 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_CLAIM_ONLY_P8",
+  "duration_s": 34.35,
+  "input_chars": 21998,
+  "input_path": "inputs/stec/W2_MULTI_REGION/w2_tender_source_perspective.json",
+  "input_text_sha256": "cb53cb40ba7ca360e7d4d44013c4e8135bc5d91fa204f3aad483bf2778254f50",
+  "input_tokens": 5866,
+  "job_id": "stage2__stec__EXPANDED_CLAIM_ONLY_P8__W2_MULTI_REGION__w2_tender_source_perspective__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 3,
+      "actor_relation_claims": 0,
+      "bid_claims": 1,
+      "event_claims": 1,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 1,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 5,
+    "relation_types": {},
+    "strict_claim_total": 5,
+    "total_quotes": 5
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 2333,
+  "output_text_sha256": "b9fcfe83491684be402584ece52e20153e716a58a7914a785d862d5fa5265492",
+  "output_tokens": 1607,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "sTec",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "The merger agreement contemplates the merger of Merger Sub, a wholly-owned subsidiary of WDC, with and into sTec, with sTec surviving the merger."
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "WDC",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "The merger agreement contemplates the merger of Merger Sub, a wholly-owned subsidiary of WDC, with and into sTec, with sTec surviving the merger."
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Merger Sub",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "The merger agreement contemplates the merger of Merger Sub, a wholly-owned subsidiary of WDC, with and into sTec, with sTec surviving the merger."
+      }
+    ],
+    "actor_relation_claims": [],
+    "bid_claims": [
+      {
+        "bid_date": null,
+        "bid_formality": null,
+        "bid_stage": "unspecified",
+        "bid_value": 6.85,
+        "bid_value_lower": null,
+        "bid_value_unit": "USD per share",
+        "bid_value_upper": null,
+        "bidder_label": "WDC",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "stec_w2_tender_source_perspective_obl_2",
+        "proposal_scope": "whole_company",
+        "quote_text": "Upon completion of the merger, holders of our common stock will be entitled to receive $6.85 in cash, without interest and less applicable withholding taxes, in exchange for each share of our common stock held at the effective time of the merger."
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": null,
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "medium",
+        "coverage_obligation_id": "stec_w2_tender_source_perspective_obl_3",
+        "description": "The merger will be completed only if specified conditions are satisfied or waived.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_text": "The merger will be completed only if certain conditions are satisfied or waived, including the following:"
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23932,
+  "prompt_sha256": "01d5793b54dea5a7986592e20e85c7d1e693531561cfc0684ab96d16e19935b7",
+  "reasoning": "medium",
+  "reasoning_tokens": 1034,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "80c516a8b3401128674672619998677e77e1705c31b2f7b7ea8a4f8856bd14eb",
+  "slug": "stec",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_tender_source_perspective",
+  "window_profile": "W2_MULTI_REGION"
+}

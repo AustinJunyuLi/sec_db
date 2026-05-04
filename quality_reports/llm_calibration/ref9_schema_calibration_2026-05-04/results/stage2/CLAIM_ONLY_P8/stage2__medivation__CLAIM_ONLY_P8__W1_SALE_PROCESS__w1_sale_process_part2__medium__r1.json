@@ -1,0 +1,83 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 22.76,
+  "input_chars": 16071,
+  "input_path": "inputs/medivation/W1_SALE_PROCESS/w1_sale_process_part2.json",
+  "input_text_sha256": "3ba8c9a2ff119f019fd188610fffe3b8e14b0eb4a49ad40ff53caf85c9e0d8d9",
+  "input_tokens": 4512,
+  "job_id": "stage2__medivation__CLAIM_ONLY_P8__W1_SALE_PROCESS__w1_sale_process_part2__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 3,
+      "actor_relation_claims": 0,
+      "bid_claims": 0,
+      "event_claims": 0,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 1,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 3,
+    "relation_types": {},
+    "strict_claim_total": 3,
+    "total_quotes": 3
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 838,
+  "output_text_sha256": "4d3ed86646fd6e02f7f0b35a0518df3786949014184b6ec52208605610a47637",
+  "output_tokens": 719,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "committee",
+        "actor_label": "Medivation Board of Directors",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w1_sale_process_part2_obl_6",
+        "observability": "named",
+        "quote_text": "Medivation Board of Directors"
+      },
+      {
+        "actor_kind": "group",
+        "actor_label": "financial advisors",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "medivation_w1_sale_process_part2_obl_7",
+        "observability": "anonymous_handle",
+        "quote_text": "financial advisors"
+      },
+      {
+        "actor_kind": "group",
+        "actor_label": "outside legal counsel",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "medivation_w1_sale_process_part2_obl_8",
+        "observability": "anonymous_handle",
+        "quote_text": "outside legal counsel"
+      }
+    ],
+    "actor_relation_claims": [],
+    "bid_claims": [],
+    "event_claims": [],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 18418,
+  "prompt_sha256": "00393dc6ce41111938e9451faa8f0702382d31919a362c49955a13675428d4d0",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "medivation",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w1_sale_process_part2",
+  "window_profile": "W1_SALE_PROCESS"
+}

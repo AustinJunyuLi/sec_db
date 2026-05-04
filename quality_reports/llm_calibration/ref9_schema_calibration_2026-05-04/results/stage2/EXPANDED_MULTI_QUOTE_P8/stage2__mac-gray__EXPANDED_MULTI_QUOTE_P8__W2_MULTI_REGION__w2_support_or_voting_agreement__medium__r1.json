@@ -1,0 +1,98 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_MULTI_QUOTE_P8",
+  "duration_s": 26.73,
+  "input_chars": 22000,
+  "input_path": "inputs/mac-gray/W2_MULTI_REGION/w2_support_or_voting_agreement.json",
+  "input_text_sha256": "9c11643a1737549d7125e7b9de93eddfa03a501795dcf60119a8b32412609a1d",
+  "input_tokens": 7056,
+  "job_id": "stage2__mac-gray__EXPANDED_MULTI_QUOTE_P8__W2_MULTI_REGION__w2_support_or_voting_agreement__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 1,
+      "actor_relation_claims": 1,
+      "bid_claims": 0,
+      "event_claims": 0,
+      "participation_count_claims": 1
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 1,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 3,
+    "relation_types": {
+      "voting_support_for": 1
+    },
+    "strict_claim_total": 3,
+    "total_quotes": 3
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 1403,
+  "output_text_sha256": "5fa695ca34aeadd4bcd9ce0bb0069cd274604917d1cf1fe474c5ca28aed58f51",
+  "output_tokens": 762,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "certain stockholders of Mac-Gray",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_support_or_voting_agreement_obl_1",
+        "observability": "anonymous_handle",
+        "quote_texts": [
+          "certain stockholders of Mac-Gray entered into a voting agreement"
+        ]
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_support_or_voting_agreement_obl_2",
+        "effective_date_first": null,
+        "object_label": "adoption of the merger agreement",
+        "quote_texts": [
+          "certain stockholders of Mac-Gray entered into a voting agreement agreeing to vote in favor of the adoption of the merger agreement."
+        ],
+        "relation_type": "voting_support_for",
+        "role_detail": "entered into a voting agreement agreeing to vote in favor",
+        "subject_label": "certain stockholders of Mac-Gray"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [],
+    "participation_count_claims": [
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 15,
+        "count_qualifier": "approximate",
+        "coverage_obligation_id": "mac-gray_w2_support_or_voting_agreement_obl_3",
+        "process_stage": "exclusivity",
+        "quote_texts": [
+          "As of November 27, 2013, the record date for the special meeting, these stockholders collectively owned approximately 15% of the Mac-Gray common stock entitled to vote at the special meeting."
+        ]
+      }
+    ]
+  },
+  "prompt_chars": 24055,
+  "prompt_sha256": "9d556a9f3407eb1ad72b610d5bcd6e85668ca10dfe102a5a1d33a55c08c809a6",
+  "reasoning": "medium",
+  "reasoning_tokens": 420,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "0e783020c5768c044a886e0c68312d3e78a57555f4637885fb098049de8a7824",
+  "slug": "mac-gray",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_support_or_voting_agreement",
+  "window_profile": "W2_MULTI_REGION"
+}

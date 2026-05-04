@@ -1,0 +1,143 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_CLAIM_ONLY_P8",
+  "duration_s": 74.03,
+  "input_chars": 21999,
+  "input_path": "inputs/zep/W2_MULTI_REGION/w2_committee_or_conflict.json",
+  "input_text_sha256": "11d3e2e4043e508e49be8437984913d8a0de04a60ae53aa7e72d5f6d94991441",
+  "input_tokens": 6005,
+  "job_id": "stage2__zep__EXPANDED_CLAIM_ONLY_P8__W2_MULTI_REGION__w2_committee_or_conflict__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 2,
+      "actor_relation_claims": 3,
+      "bid_claims": 0,
+      "event_claims": 2,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 2,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 3,
+    "not_unique_in_source_window": 1,
+    "quote_match_rate": 0.8571,
+    "quotes_in_window": 6,
+    "relation_types": {
+      "advises": 3
+    },
+    "strict_claim_total": 7,
+    "total_quotes": 7
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 3566,
+  "output_text_sha256": "946df54eec4a9f4583c5e0b24e2a14e071d41c8e68a4afe5b4cb5a26378e6452",
+  "output_tokens": 3259,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "committee",
+        "actor_label": "transaction committee",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_committee_or_conflict_obl_1",
+        "observability": "named",
+        "quote_text": "transaction committee"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "committee",
+        "actor_label": "our board of directors",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_committee_or_conflict_obl_1",
+        "observability": "named",
+        "quote_text": "our board of directors"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_committee_or_conflict_obl_2",
+        "effective_date_first": "2015-04-06",
+        "object_label": "our board of directors",
+        "quote_text": "At this meeting, at the request of our board of directors, representatives of BofA Merrill Lynch reviewed and discussed with our board of directors certain financial matters, including the financial analyses of the merger consideration.",
+        "relation_type": "advises",
+        "role_detail": "financial matters, including the financial analyses of the merger consideration",
+        "subject_label": "BofA Merrill Lynch"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_committee_or_conflict_obl_2",
+        "effective_date_first": "2015-04-06",
+        "object_label": "the board",
+        "quote_text": "King & Spalding discussed with the board remaining open issues in the merger agreement, including the terms of the \"go-shop\" provision and the size of the termination fees.",
+        "relation_type": "advises",
+        "role_detail": "remaining open issues in the merger agreement",
+        "subject_label": "King & Spalding"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_committee_or_conflict_obl_2",
+        "effective_date_first": null,
+        "object_label": "our board of directors",
+        "quote_text": "our board of directors consulted with our management and our outside legal and financial advisors",
+        "relation_type": "advises",
+        "role_detail": "outside legal and financial advisors",
+        "subject_label": "our outside legal and financial advisors"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "our board of directors",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_committee_or_conflict_obl_3",
+        "description": "The board determined not to form a transaction committee because the full board would remain actively involved in overseeing negotiations with New Mountain Capital.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2015-02-26",
+        "event_subtype": "advancement_declined",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_text": "our board of directors also determined not to form a transaction committee because the full board would remain actively involved in overseeing the negotiations with New Mountain Capital."
+      },
+      {
+        "actor_label": "our board of directors",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_committee_or_conflict_obl_3",
+        "description": "The board authorized letters to waive don't ask to waive provisions in confidentiality agreements and permit confidential acquisition proposals.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_text": "our board of directors authorized letters to be delivered to those parties waiving the \"don't ask to waive\" provisions in their respective confidentiality agreements, and permitting those parties to make confidential proposals to acquire the Company."
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23962,
+  "prompt_sha256": "06d11b04f0964214eb5263bf9ed52b306985ac8b10467127cfb20ce033efec68",
+  "reasoning": "medium",
+  "reasoning_tokens": 2494,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "80c516a8b3401128674672619998677e77e1705c31b2f7b7ea8a4f8856bd14eb",
+  "slug": "zep",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_committee_or_conflict",
+  "window_profile": "W2_MULTI_REGION"
+}

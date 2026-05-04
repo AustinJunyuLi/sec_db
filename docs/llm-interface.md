@@ -1,7 +1,7 @@
 # LLM Extraction Interface
 
-**Status:** Binding Linkflow typed-claim contract for the 2026-05-03 hard
-reset.
+**Status:** Binding relation-revised claim-only P8 Linkflow contract for the
+2026-05-04 schema freeze.
 
 Linkflow GPT-5.5 is the primary live provider. Official OpenAI Responses API
 and structured-output behavior inform the request shape, but this repository
@@ -25,27 +25,79 @@ Each request contains:
 - coverage obligations;
 - allowed claim types;
 - schema and extract versions;
-- fixed request mode.
+- request mode `claim_only_p8_relation_v1`.
 
 The model sees one filing and one deal only. It receives no cross-deal context.
-Default live Linkflow reasoning effort is `high`.
+Default live Linkflow reasoning effort is `medium`. The only production request
+mode is `claim_only_p8_relation_v1`; no legacy request mode is accepted.
 
 ## Response Shape
 
-The model returns strict JSON with typed families:
+The model returns strict JSON with claim arrays only:
 
 - `actor_claims`;
 - `event_claims`;
 - `bid_claims`;
 - `participation_count_claims`;
-- `actor_relation_claims`;
-- `coverage_results`.
+- `actor_relation_claims`.
 
-Every claim includes exact `quote_text` and one or more
-`coverage_obligation_ids` naming the specific obligations supported by that
-claim. The model never returns source coordinates, canonical ids, projection
-rows, or provider-specific canonical fields. V0 quote binding accepts contiguous
-quote text copied from one ordered paragraph.
+Every claim includes exact `quote_text` and one scalar
+`coverage_obligation_id` naming the specific same-type obligation supported by
+that claim. The request-specific schema constrains claim-family obligation ids,
+so an actor claim cannot name an actor-relation obligation. The model never
+returns source coordinates, canonical ids, projection rows, or provider-specific
+canonical fields. P8 quote binding accepts one contiguous exact quote copied
+from one ordered paragraph.
+
+Provider responses are prohibited from containing:
+
+```text
+coverage_results
+actor_claims.actor_class
+bid_claims.bid_formality
+bid_claims.proposal_scope
+event_claims.drop_agency
+event_claims.drop_reason
+event_claims.initiation_side
+source offsets
+canonical ids
+projection rows
+```
+
+The final actor relation enum is:
+
+```text
+member_of
+affiliate_of
+controls
+acquisition_vehicle_of
+advises
+finances
+supports
+voting_support_for
+rollover_holder_for
+committee_member_of
+recused_from
+```
+
+Relation directions are source-facing:
+
+```text
+voting_support_for: subject is the shareholder, officer, director, trust, or
+supporting party; object is the buyer, parent, transaction, merger agreement,
+or voting proposal named in the quote.
+
+rollover_holder_for: subject is the holder rolling, contributing, or retaining
+equity; object is the buyer vehicle, surviving company, target, transaction, or
+rolled-security context named in the quote.
+
+committee_member_of: subject is the person, director, representative, or named
+member group; object is the committee or board named in the quote.
+
+recused_from: subject is the recused or excluded person; object is the board,
+committee, meeting, process, negotiation, evaluation, or transaction context
+named in the quote.
+```
 
 ## Python Proof
 
@@ -56,14 +108,16 @@ Python validates every provider result before insertion:
 3. Each `quote_text` resolves uniquely in the assembled source window.
 4. The quote resolves to source spans owned by Python.
 5. Closed enums validate.
-6. Each claim's `coverage_obligation_ids` exist in the request and match the
+6. Each claim's `coverage_obligation_id` exists in the request and matches the
    claim's type.
 7. The claim is inserted with relational `claim_evidence`.
 
 Coverage proof is obligation-specific. Python assigns `claims_emitted` only
 from validated claim-to-obligation links, never from broad `claim_type` counts.
-Provider `coverage_results` may account for unsupported or ambiguous obligations
-only when no validated claim links to that obligation.
+Python assigns `missed` when Linkflow returns no validated claim linked to an
+obligation. Linkflow does not return coverage results; Python alone writes the
+`coverage_results` table after quote binding and claim-to-obligation
+validation.
 
 The same quote may support multiple distinct claims when the source text
 warrants that reuse. Quote reuse across claims is valid only when the quote
@@ -75,7 +129,8 @@ rejected. They are not salvaged into canonical rows.
 Sanitized artifacts may contain run id, request id, deal slug, window id,
 provider name, model, reasoning effort, finish status, attempt count, latency,
 token usage when exposed, response digest, claim counts, inserted-claim count,
-and sanitized error type/status.
+coverage obligation counts sourced from the request, and sanitized error
+type/status.
 
 Artifacts must not contain API keys, authorization headers, raw provider
 bodies, full window text, paragraph text, or quote text.

@@ -1,0 +1,99 @@
+{
+  "char_end": 154048,
+  "char_start": 147878,
+  "coverage_obligations": [
+    {
+      "expected_claim_type": "event",
+      "importance": "required",
+      "obligation_id": "stec_w2_sale_process_part3_obl_1",
+      "obligation_label": "Sales process initiation"
+    },
+    {
+      "expected_claim_type": "participation_count",
+      "importance": "required",
+      "obligation_id": "stec_w2_sale_process_part3_obl_2",
+      "obligation_label": "Bidder count at IOI stage"
+    },
+    {
+      "expected_claim_type": "participation_count",
+      "importance": "important",
+      "obligation_id": "stec_w2_sale_process_part3_obl_3",
+      "obligation_label": "Bidder count at first round"
+    },
+    {
+      "expected_claim_type": "event",
+      "importance": "required",
+      "obligation_id": "stec_w2_sale_process_part3_obl_4",
+      "obligation_label": "Final round bid receipt"
+    },
+    {
+      "expected_claim_type": "event",
+      "importance": "required",
+      "obligation_id": "stec_w2_sale_process_part3_obl_5",
+      "obligation_label": "Exclusivity grant"
+    },
+    {
+      "expected_claim_type": "actor",
+      "importance": "required",
+      "obligation_id": "stec_w2_sale_process_part3_obl_6",
+      "obligation_label": "Target board"
+    },
+    {
+      "expected_claim_type": "actor",
+      "importance": "required",
+      "obligation_id": "stec_w2_sale_process_part3_obl_7",
+      "obligation_label": "Financial advisor for target"
+    },
+    {
+      "expected_claim_type": "actor",
+      "importance": "required",
+      "obligation_id": "stec_w2_sale_process_part3_obl_8",
+      "obligation_label": "Legal advisor for target"
+    },
+    {
+      "expected_claim_type": "bid",
+      "importance": "required",
+      "obligation_id": "stec_w2_sale_process_part3_obl_9",
+      "obligation_label": "Final bid price"
+    },
+    {
+      "expected_claim_type": "actor_relation",
+      "importance": "important",
+      "obligation_id": "stec_w2_sale_process_part3_obl_10",
+      "obligation_label": "Buyer group composition"
+    }
+  ],
+  "filing_path": "/Users/austinli/Projects/sec_graph/data/filings/stec/raw.md",
+  "filing_sha256": "db4902289b088e0677a3978d4ce90158587f392a88771d2c56c8f6eef1e434f6",
+  "obligation_ids": [
+    "stec_w2_sale_process_part3_obl_1",
+    "stec_w2_sale_process_part3_obl_2",
+    "stec_w2_sale_process_part3_obl_3",
+    "stec_w2_sale_process_part3_obl_4",
+    "stec_w2_sale_process_part3_obl_5",
+    "stec_w2_sale_process_part3_obl_6",
+    "stec_w2_sale_process_part3_obl_7",
+    "stec_w2_sale_process_part3_obl_8",
+    "stec_w2_sale_process_part3_obl_9",
+    "stec_w2_sale_process_part3_obl_10"
+  ],
+  "paragraph_ids": [
+    "stec_w2_sale_process_part3_calib_para_1",
+    "stec_w2_sale_process_part3_calib_para_2",
+    "stec_w2_sale_process_part3_calib_para_3",
+    "stec_w2_sale_process_part3_calib_para_4",
+    "stec_w2_sale_process_part3_calib_para_5",
+    "stec_w2_sale_process_part3_calib_para_6"
+  ],
+  "region_kind": "sale_process",
+  "region_signals": [
+    "Background of the Merger",
+    "split_part_3"
+  ],
+  "slug": "stec",
+  "source_perspective": "target_or_offer_primary",
+  "text": "On June 23, 2013, the special committee held a telephonic meeting. Messrs. Cook, Saman and Morales and representatives from BofA Merrill Lynch and Gibson Dunn were in attendance. Gibson Dunn reviewed with the directors the terms and conditions of the proposed form of merger agreement. The special committee reviewed with representatives of BofA Merrill Lynch the process that had been conducted and the contacts with the potential acquirers. The special committee discussed the potential ability and interest of Company E, Company F and Company H to make a superior proposal to the $6.85 per share proposal of WDC, and the special committee determined that the possibility of such a proposal was remote and that it was in the best interests of the shareholders to continue with the WDC transaction notwithstanding the \u201cdon\u2019t ask don\u2019t waive\u201d provisions in such parties\u2019 non-disclosure agreements. BofA Merrill Lynch then reviewed its financial analysis of the merger consideration. Gibson Dunn reviewed the significant terms and conditions of the ancillary agreements to be entered into by Messrs. Moshayedi, including the covenant not to sue and the consulting agreements, and the financial terms thereof. The directors discussed the terms of the merger agreement, such ancillary agreements and the letter agreements proposed by Messrs. Moshayedi to be entered into relating to the terms and conditions of payments under their existing severance and change in control agreements. Following further discussion, the special committee unanimously determined that the merger agreement and the transactions contemplated thereby, including the merger, were in the best interests of the company\u2019s shareholders, and approved and adopted the merger agreement, and unanimously determined to recommend to our board of directors that the board approve and adopt the merger and the merger agreement and that the board recommend that the shareholders vote in favor of the approval and adoption of the merger agreement and the merger.\n\nImmediately thereafter, on June 23, 2013, our board of directors held a telephonic special meeting. Messrs. Cook, Saman, Higa and Morales and representatives from BofA Merrill Lynch and Gibson Dunn were in attendance. Dr. Daly reported on the special committee\u2019s decision. The board reviewed with BofA Merrill Lynch the process that had been conducted at the board\u2019s direction and the contacts with each of the potential acquirers. BofA Merrill Lynch then reviewed its financial analysis of the merger consideration and delivered to our board of directors an oral opinion, which was confirmed by delivery of a written opinion dated June 23, 2013, to the effect that, as of that date and based on and subject to various assumptions and limitations described in its opinion, the merger consideration to be received by holders of sTec common stock (other than sTec, WDC, Merger Sub and their respective affiliates and dissenting shareholders) was fair, from a financial point of view, to such holders. Gibson Dunn reviewed the significant terms and conditions of the merger agreement, including, but not limited to, certain operating restrictions on sTec from the signing date of the merger agreement until the closing date of the transaction, the ability of and conditions under which our board of directors could terminate the agreement to accept a superior proposal or change its recommendation of the merger, the situations in which sTec may have to pay a termination fee, the amount of such a termination fee, the situations in which WDC may have to pay a termination fee, the amount of such a termination fee and related considerations, and the conditions to closing of the transaction. Gibson Dunn reviewed with our board of directors its fiduciary duties and related\n\n34\n<!-- PAGE 43 -->\nTable of Contents\n\nterms and conditions of the merger agreement and other transaction considerations. Our board of directors discussed the potential ability and interest of Company E, Company F and Company H to make a superior proposal to the $6.85 per share proposal of WDC, and our board of directors determined that the possibility of such a proposal was remote and that it was in the best interests of the shareholders to continue with the WDC transaction notwithstanding the \u201cdon\u2019t ask don\u2019t waive\u201d provisions in such parties\u2019 non-disclosure agreements. Gibson Dunn then reviewed with our board of directors the terms of the ancillary agreements, including the voting agreements, and the shares subject to such agreements, and the ancillary agreements to be entered into by WDC with Messrs. Moshayedi, including the covenant not to sue and the consulting agreements, and the financial terms thereof. Finally, Gibson Dunn reviewed the terms of the letter agreements proposed by Messrs. Moshayedi to be entered into relating to the terms and conditions of payments under their existing severance and change in control agreements. The directors discussed the terms of the merger agreement, the ancillary agreements and the letter agreements. Following further discussion, our board of directors unanimously determined that the merger agreement and the transactions contemplated thereby, including the merger, were in the best interests of the company\u2019s shareholders, and approved and adopted the merger agreement. Our board of directors also unanimously recommended that the company\u2019s shareholders approve and adopt the merger agreement.\n\nOn June 23, 2013, sTec, WDC, and Merger Sub executed the merger agreement; each of our officers and directors executed their respective voting agreements with WDC; Mr. Manouch Moshayedi and WDC executed the covenant not to sue, the consulting services agreement and a non-competition agreement; Mr. Mark Moshayedi and WDC executed the technical services agreement and a non-competition agreement; sTec and Messrs. Moshayedi executed the letter agreements; and an affiliate of Messrs. Moshayedi and WDC executed a landlord\u2019s consent to assignment.\n\nOn June 24, 2013, prior to the opening of trading on the U.S. stock exchanges, WDC and sTec announced in a joint press release the execution of the merger agreement.",
+  "text_sha256": "e2ba49d99f6cdb96122c5994686571d543c36e5e27a32ba81ca4eac297987233",
+  "window_id": "w2_sale_process_part3",
+  "window_profile": "W2_MULTI_REGION"
+}

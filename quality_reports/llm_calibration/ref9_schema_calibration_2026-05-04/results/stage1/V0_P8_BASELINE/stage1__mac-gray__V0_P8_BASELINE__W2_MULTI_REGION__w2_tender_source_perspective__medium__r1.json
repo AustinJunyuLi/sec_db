@@ -1,0 +1,186 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "V0_P8_BASELINE",
+  "duration_s": 46.6,
+  "input_chars": 22000,
+  "input_path": "inputs/mac-gray/W2_MULTI_REGION/w2_tender_source_perspective.json",
+  "input_text_sha256": "d6509737b09deabd39acfde5c4c7d7b2e8b8f81063cb692d3eca7cfe112ef028",
+  "input_tokens": 6044,
+  "job_id": "stage1__mac-gray__V0_P8_BASELINE__W2_MULTI_REGION__w2_tender_source_perspective__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 4,
+      "actor_relation_claims": 0,
+      "bid_claims": 6,
+      "coverage_results": 1,
+      "event_claims": 0,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 4,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 10,
+    "relation_types": {},
+    "strict_claim_total": 10,
+    "total_quotes": 10
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 4470,
+  "output_text_sha256": "004e887824a61a007256d1af12f0f2ea0bf56ae8209563e3247c368501b6fc10",
+  "output_tokens": 2197,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "organization",
+        "actor_label": "CSC",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "On September 24, 2013, CSC, Pamplona and Mac-Gray executed the exclusivity agreement"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Pamplona",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "On September 24, 2013, CSC, Pamplona and Mac-Gray executed the exclusivity agreement"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Mac-Gray",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "On September 24, 2013, CSC, Pamplona and Mac-Gray executed the exclusivity agreement"
+      },
+      {
+        "actor_kind": "group",
+        "actor_label": "CSC/Pamplona",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "CSC/Pamplona submitted a proposal for an all-cash purchase price of $20.75 per share"
+      }
+    ],
+    "actor_relation_claims": [],
+    "bid_claims": [
+      {
+        "bid_date": "2013-09-18",
+        "bid_stage": "unspecified",
+        "bid_value": 20.75,
+        "bid_value_lower": null,
+        "bid_value_unit": "USD per share",
+        "bid_value_upper": null,
+        "bidder_label": "CSC/Pamplona",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "all-cash",
+        "coverage_obligation_id": "mac-gray_w2_tender_source_perspective_obl_2",
+        "quote_text": "On September 18, 2013, CSC/Pamplona submitted a proposal for an all-cash purchase price of $20.75 per share"
+      },
+      {
+        "bid_date": "2013-09-18",
+        "bid_stage": "final",
+        "bid_value": null,
+        "bid_value_lower": 18,
+        "bid_value_unit": "USD per share",
+        "bid_value_upper": 19,
+        "bidder_label": "Party A",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "all-cash",
+        "coverage_obligation_id": "mac-gray_w2_tender_source_perspective_obl_2",
+        "quote_text": "Party A reiterated in a telephone call to a representative of BofA Merrill Lynch that its previous indication of interest with an all-cash purchase price of $18.00 to $19.00 per share was its best and final offer"
+      },
+      {
+        "bid_date": "2013-09-18",
+        "bid_stage": "revised",
+        "bid_value": 21.5,
+        "bid_value_lower": null,
+        "bid_value_unit": "USD per share",
+        "bid_value_upper": null,
+        "bidder_label": "Party B",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash and options",
+        "coverage_obligation_id": "mac-gray_w2_tender_source_perspective_obl_2",
+        "quote_text": "On September 18, 2013, Party B also submitted a revised indication of interest with a purchase price that Party B valued at $21.50 per share"
+      },
+      {
+        "bid_date": null,
+        "bid_stage": "unspecified",
+        "bid_value": null,
+        "bid_value_lower": 16,
+        "bid_value_unit": "USD per share",
+        "bid_value_upper": 17,
+        "bidder_label": "Party C",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "all-cash",
+        "coverage_obligation_id": "mac-gray_w2_tender_source_perspective_obl_2",
+        "quote_text": "Party C did not submit a revised indication of interest or reiterate its prior indication of interest of an all-cash purchase price of $16.00 to $17.00 per share"
+      },
+      {
+        "bid_date": "2013-09-21",
+        "bid_stage": "final",
+        "bid_value": 21.25,
+        "bid_value_lower": null,
+        "bid_value_unit": "USD per share",
+        "bid_value_upper": null,
+        "bidder_label": "CSC/Pamplona",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "all-cash",
+        "coverage_obligation_id": "mac-gray_w2_tender_source_perspective_obl_2",
+        "quote_text": "CSC/Pamplona were willing to increase their all-cash purchase price to $21.25 per share as a last and best offer"
+      },
+      {
+        "bid_date": null,
+        "bid_stage": "final",
+        "bid_value": 21.25,
+        "bid_value_lower": null,
+        "bid_value_unit": "USD per share",
+        "bid_value_upper": null,
+        "bidder_label": "CSC/Pamplona",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "all-cash",
+        "coverage_obligation_id": "mac-gray_w2_tender_source_perspective_obl_2",
+        "quote_text": "the all-cash per share purchase price of $21.25, we refer to as the CSC/Pamplona final proposal"
+      }
+    ],
+    "coverage_results": [
+      {
+        "obligation_id": "mac-gray_w2_tender_source_perspective_obl_3",
+        "reason": "The source window discusses acquisition negotiations, exclusivity, financing, and merger agreement issues, but does not state a tender offer commencement, tender offer expiration, or minimum-condition event.",
+        "reason_code": "no_tender_offer_commencement_expiration_or_minimum_condition",
+        "result": "no_supported_claim"
+      }
+    ],
+    "event_claims": [],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23765,
+  "prompt_sha256": "8b8ce07b54e72186db05ab00a8e0399b188cecf6ac4a4891bf3eb205ad90b2cf",
+  "reasoning": "medium",
+  "reasoning_tokens": 1034,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "891e4a5674ba114d92ee1d400df86fba7a95780231cc29bd539799ee3cd2af97",
+  "slug": "mac-gray",
+  "stage": "stage1",
+  "status": "completed",
+  "window_id": "w2_tender_source_perspective",
+  "window_profile": "W2_MULTI_REGION"
+}

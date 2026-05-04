@@ -1,0 +1,315 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "actors": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "date": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "exact_quote": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "importance": {
+            "enum": [
+              "core",
+              "useful",
+              "uncertain",
+              null
+            ],
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "label",
+          "description",
+          "date",
+          "exact_quote",
+          "importance"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "bids": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "date": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "exact_quote": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "importance": {
+            "enum": [
+              "core",
+              "useful",
+              "uncertain",
+              null
+            ],
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "label",
+          "description",
+          "date",
+          "exact_quote",
+          "importance"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "chronology": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "date": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "exact_quote": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "importance": {
+            "enum": [
+              "core",
+              "useful",
+              "uncertain",
+              null
+            ],
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "label",
+          "description",
+          "date",
+          "exact_quote",
+          "importance"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "counts": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "date": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "exact_quote": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "importance": {
+            "enum": [
+              "core",
+              "useful",
+              "uncertain",
+              null
+            ],
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "label",
+          "description",
+          "date",
+          "exact_quote",
+          "importance"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "relations": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "date": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "exact_quote": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "importance": {
+            "enum": [
+              "core",
+              "useful",
+              "uncertain",
+              null
+            ],
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "label",
+          "description",
+          "date",
+          "exact_quote",
+          "importance"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "source_limitations": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "uncertain_or_missing": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "date": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "exact_quote": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "importance": {
+            "enum": [
+              "core",
+              "useful",
+              "uncertain",
+              null
+            ],
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "label",
+          "description",
+          "date",
+          "exact_quote",
+          "importance"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "chronology",
+    "actors",
+    "relations",
+    "bids",
+    "counts",
+    "uncertain_or_missing",
+    "source_limitations"
+  ],
+  "type": "object"
+}

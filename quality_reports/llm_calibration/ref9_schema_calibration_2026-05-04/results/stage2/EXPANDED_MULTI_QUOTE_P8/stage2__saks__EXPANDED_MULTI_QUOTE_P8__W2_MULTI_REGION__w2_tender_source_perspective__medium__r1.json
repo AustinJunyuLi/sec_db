@@ -1,0 +1,110 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_MULTI_QUOTE_P8",
+  "duration_s": 20.39,
+  "input_chars": 22000,
+  "input_path": "inputs/saks/W2_MULTI_REGION/w2_tender_source_perspective.json",
+  "input_text_sha256": "e15846ec6d4ebb1606568eaed341ea1709563c61d0657836a0668898191cc66e",
+  "input_tokens": 5802,
+  "job_id": "stage2__saks__EXPANDED_MULTI_QUOTE_P8__W2_MULTI_REGION__w2_tender_source_perspective__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 3,
+      "actor_relation_claims": 0,
+      "bid_claims": 0,
+      "event_claims": 1,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 3,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 1,
+    "not_unique_in_source_window": 2,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 4,
+    "relation_types": {},
+    "strict_claim_total": 4,
+    "total_quotes": 4
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 1497,
+  "output_text_sha256": "d2fd81b51638e6e3205388b4a952ebd5ba7e953df23f13729f6bb0578a620f3e",
+  "output_tokens": 910,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "the Company",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "the Company"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Hudson\u2019s Bay",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Hudson\u2019s Bay"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Merger Sub",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Merger Sub"
+        ]
+      }
+    ],
+    "actor_relation_claims": [],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "the Company",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_tender_source_perspective_obl_3",
+        "description": "The Company announced that the go shop period expired on September 6, 2013, and no party had been designated as an excluded party.",
+        "drop_agency": "mutual_or_process",
+        "drop_reason": "other",
+        "event_date": "2013-09-10",
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "initiation_side": "mutual_or_process",
+        "quote_texts": [
+          "On September 10, 2013, the Company announced that the go shop period expired on September 6, 2013, and no party had been designated by the Company as an excluded party."
+        ]
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23986,
+  "prompt_sha256": "a2ee7159c0860ce1177e2dfa68bbed0d7417333fca03ac4dcb8eec0d2984188e",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "0e783020c5768c044a886e0c68312d3e78a57555f4637885fb098049de8a7824",
+  "slug": "saks",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_tender_source_perspective",
+  "window_profile": "W2_MULTI_REGION"
+}

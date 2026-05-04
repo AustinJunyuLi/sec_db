@@ -1,0 +1,99 @@
+{
+  "char_end": 141517,
+  "char_start": 137233,
+  "coverage_obligations": [
+    {
+      "expected_claim_type": "event",
+      "importance": "required",
+      "obligation_id": "imprivata_w2_sale_process_part3_obl_1",
+      "obligation_label": "Sales process initiation"
+    },
+    {
+      "expected_claim_type": "participation_count",
+      "importance": "required",
+      "obligation_id": "imprivata_w2_sale_process_part3_obl_2",
+      "obligation_label": "Bidder count at IOI stage"
+    },
+    {
+      "expected_claim_type": "participation_count",
+      "importance": "important",
+      "obligation_id": "imprivata_w2_sale_process_part3_obl_3",
+      "obligation_label": "Bidder count at first round"
+    },
+    {
+      "expected_claim_type": "event",
+      "importance": "required",
+      "obligation_id": "imprivata_w2_sale_process_part3_obl_4",
+      "obligation_label": "Final round bid receipt"
+    },
+    {
+      "expected_claim_type": "event",
+      "importance": "required",
+      "obligation_id": "imprivata_w2_sale_process_part3_obl_5",
+      "obligation_label": "Exclusivity grant"
+    },
+    {
+      "expected_claim_type": "actor",
+      "importance": "required",
+      "obligation_id": "imprivata_w2_sale_process_part3_obl_6",
+      "obligation_label": "Target board"
+    },
+    {
+      "expected_claim_type": "actor",
+      "importance": "required",
+      "obligation_id": "imprivata_w2_sale_process_part3_obl_7",
+      "obligation_label": "Financial advisor for target"
+    },
+    {
+      "expected_claim_type": "actor",
+      "importance": "required",
+      "obligation_id": "imprivata_w2_sale_process_part3_obl_8",
+      "obligation_label": "Legal advisor for target"
+    },
+    {
+      "expected_claim_type": "bid",
+      "importance": "required",
+      "obligation_id": "imprivata_w2_sale_process_part3_obl_9",
+      "obligation_label": "Final bid price"
+    },
+    {
+      "expected_claim_type": "actor_relation",
+      "importance": "important",
+      "obligation_id": "imprivata_w2_sale_process_part3_obl_10",
+      "obligation_label": "Buyer group composition"
+    }
+  ],
+  "filing_path": "/Users/austinli/Projects/sec_graph/data/filings/imprivata/raw.md",
+  "filing_sha256": "f05b18a6cb1094e967c1d9424593fa73e3136228241d8de964bfa009e2ecdd92",
+  "obligation_ids": [
+    "imprivata_w2_sale_process_part3_obl_1",
+    "imprivata_w2_sale_process_part3_obl_2",
+    "imprivata_w2_sale_process_part3_obl_3",
+    "imprivata_w2_sale_process_part3_obl_4",
+    "imprivata_w2_sale_process_part3_obl_5",
+    "imprivata_w2_sale_process_part3_obl_6",
+    "imprivata_w2_sale_process_part3_obl_7",
+    "imprivata_w2_sale_process_part3_obl_8",
+    "imprivata_w2_sale_process_part3_obl_9",
+    "imprivata_w2_sale_process_part3_obl_10"
+  ],
+  "paragraph_ids": [
+    "imprivata_w2_sale_process_part3_calib_para_1",
+    "imprivata_w2_sale_process_part3_calib_para_2",
+    "imprivata_w2_sale_process_part3_calib_para_3",
+    "imprivata_w2_sale_process_part3_calib_para_4",
+    "imprivata_w2_sale_process_part3_calib_para_5",
+    "imprivata_w2_sale_process_part3_calib_para_6"
+  ],
+  "region_kind": "sale_process",
+  "region_signals": [
+    "Background of the Merger",
+    "split_part_3"
+  ],
+  "slug": "imprivata",
+  "source_perspective": "target_or_offer_primary",
+  "text": "On July 12, 2016, after the stock market closed, the Special Committee held a meeting to discuss the final terms of the proposed transaction. Mr. Linnemann and representatives of Barclays and Goodwin were in attendance. Representatives of Goodwin reviewed the fiduciary duties of the Special Committee in connection with a potential sale of the Company. Representatives of Goodwin provided an overview of the negotiation process to date with Thoma Bravo\u2019s representatives, as well as a presentation regarding the terms of the merger agreement and related agreements. Representatives of Goodwin discussed with the Special Committee the discussion between the Company\u2019s chief executive officer and representatives of Thoma Bravo the previous day. The Special Committee also reviewed certain financial projections regarding the Company for the fiscal years 2016-2020 prepared by Company management, which were materially consistent with the operating model that Company management had prepared and provided to the Board on April 7, 2016 (see \u201c\u2013 Certain Prospective Financial Information\u201d on page 49 of this proxy statement for further detail).\n\nBarclays reviewed its financial analyses of the $19.25 per share cash consideration with the Special Committee. Barclays then delivered its oral opinion (which was subsequently confirmed in writing to the Board) to the effect that, as of such date and based upon and subject to the qualifications, limitations and assumptions to be set forth in its written opinion, from a financial point of view, the $19.25 per share cash consideration to be offered to the holders of shares of common stock of the Company (other than the Excluded Shares) was fair to such holders. The full text of Barclays\u2019 written opinion dated July 12, 2016, which sets forth, among other things, the assumptions made, procedures followed, factors considered and limitations upon the review undertaken in connection with the opinion, is attached to this proxy statement as Annex B . The Special Committee further discussed the advantages and risks of the proposed transaction that are described in \u201cRecommendation of the Board and Reasons for the Merger \u2013 Special Committee\u201d beginning on page 37 of this proxy statement. After\n\n36\n<!-- PAGE 39 -->\nTable of Contents\n\nfurther discussion, the Special Committee unanimously determined to recommend to the Board that the Company enter into the merger agreement for the transaction with Thoma Bravo on the terms presented to the Special Committee.\n\nLater on July 12, 2016, the Board held a meeting. Members of Company management, Mr. Linnemann and representatives of Barclays and Goodwin were in attendance. Representatives of Barclays reviewed with the Board the Special Committee\u2019s review of the Company\u2019s strategic alternatives since the last Board meeting on June 17, 2016, including the events of the subsequent weeks that culminated in Thoma Bravo\u2019s offer of $19.25 per share. Representatives of Goodwin reviewed with the Board its fiduciary duties and the terms of the proposed merger agreement with Thoma Bravo. Representatives of Barclays then delivered to the Board the oral fairness opinion that Barclays had previously delivered to the Special Committee. The Chairperson, on behalf of the Special Committee, informed the Board that the Special Committee unanimously recommended that the Board approve the Company\u2019s entry into a merger agreement with Thoma Bravo. After further discussing the advantages and risks of the proposed transaction that are described in \u201cRecommendation of the Board and Reasons for the Merger \u2013The Board\u201d beginning on page 41 of this proxy statement, the Board unanimously adopted and declared the advisability of the merger agreement, and further declared that the merger agreement was in the best interests of the Company and its stockholders, and recommended that the Company\u2019s stockholders approve the merger agreement.\n\nOn July 13, 2016, before the stock market opened, the parties finalized and executed the merger agreement and received executed final copies of the equity commitment letter and the voting agreements. Later on July 13, 2016, before the stock market opened, the Company and Thoma Bravo issued a joint press release announcing the execution of the merger agreement.",
+  "text_sha256": "97f1ab9549e62ab2c96d3d9f379a7f2c446c64f48eb2a11c37f1240081b1a2f2",
+  "window_id": "w2_sale_process_part3",
+  "window_profile": "W2_MULTI_REGION"
+}

@@ -1,0 +1,124 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_CLAIM_ONLY_P8",
+  "duration_s": 66.87,
+  "input_chars": 21999,
+  "input_path": "inputs/mac-gray/W2_MULTI_REGION/w2_rollover.json",
+  "input_text_sha256": "5a6af5ee17cb45ba0e56beae01b3eeb4d9094fba5b4f81aeb3c951d21ac1ea39",
+  "input_tokens": 6018,
+  "job_id": "stage2__mac-gray__EXPANDED_CLAIM_ONLY_P8__W2_MULTI_REGION__w2_rollover__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 2,
+      "actor_relation_claims": 4,
+      "bid_claims": 0,
+      "event_claims": 0,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 2,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 2,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 6,
+    "relation_types": {
+      "recused_from": 2,
+      "rollover_holder_for": 2
+    },
+    "strict_claim_total": 6,
+    "total_quotes": 6
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 3977,
+  "output_text_sha256": "9ce21cda207dab9c8e9b911c7c24eebb1a4eb3555a4c914bcb7559e8b2c527bc",
+  "output_tokens": 2778,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "person",
+        "actor_label": "Stewart G. MacDonald, Jr.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_rollover_obl_1",
+        "observability": "named",
+        "quote_text": "Stewart G. MacDonald, Jr., our chief executive officer"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "Moab",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "mac-gray_w2_rollover_obl_1",
+        "observability": "named",
+        "quote_text": "to the extent Moab might have an interest in an equity rollover of all or a portion of Moab's shares of Mac-Gray common stock in connection with any sale transaction that might result from the Board's strategic alternatives process, Mr. Rothenberg would need to be excluded from the process from the outset."
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "medium",
+        "coverage_obligation_id": "mac-gray_w2_rollover_obl_2",
+        "effective_date_first": null,
+        "object_label": "Mac-Gray",
+        "quote_text": "the Transaction Committee considered the fact that, in view of the significant stock ownership of Mr. MacDonald and his family, coupled with the possibility that the strategic alternatives process might result in third parties who would be interested in partnering with Mr. MacDonald (either through continued employment and/or contribution of some or all of his existing equity, a so-called equity \"rollover\"), Mr. MacDonald could have interests that would not be aligned with other Mac-Gray stockholders.",
+        "relation_type": "rollover_holder_for",
+        "role_detail": "possible contribution of some or all of his existing equity, a so-called equity rollover",
+        "subject_label": "Mr. MacDonald"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "medium",
+        "coverage_obligation_id": "mac-gray_w2_rollover_obl_2",
+        "effective_date_first": null,
+        "object_label": "Mac-Gray",
+        "quote_text": "to the extent Moab might have an interest in an equity rollover of all or a portion of Moab's shares of Mac-Gray common stock in connection with any sale transaction that might result from the Board's strategic alternatives process, Mr. Rothenberg would need to be excluded from the process from the outset.",
+        "relation_type": "rollover_holder_for",
+        "role_detail": "potential equity rollover of all or a portion of Moab's shares of Mac-Gray common stock",
+        "subject_label": "Moab"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_rollover_obl_2",
+        "effective_date_first": "2013-06-24",
+        "object_label": "Board's evaluation of strategic alternatives and any negotiations with third parties",
+        "quote_text": "Following this discussion, the Board decided, and Mr. MacDonald and Mr. Rothenberg agreed, that it would be appropriate to exclude Mr. MacDonald and Mr. Rothenberg from the Board's evaluation of strategic alternatives and any negotiations with third parties that might take place.",
+        "relation_type": "recused_from",
+        "role_detail": "excluded in view of the possibility that Mr. MacDonald and/or Moab could be asked to partner with a potential acquiror given their respective equity stakes in Mac-Gray",
+        "subject_label": "Mr. MacDonald"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_rollover_obl_2",
+        "effective_date_first": "2013-06-24",
+        "object_label": "Board's evaluation of strategic alternatives and any negotiations with third parties",
+        "quote_text": "Following this discussion, the Board decided, and Mr. MacDonald and Mr. Rothenberg agreed, that it would be appropriate to exclude Mr. MacDonald and Mr. Rothenberg from the Board's evaluation of strategic alternatives and any negotiations with third parties that might take place.",
+        "relation_type": "recused_from",
+        "role_detail": "excluded in view of the possibility that Mr. MacDonald and/or Moab could be asked to partner with a potential acquiror given their respective equity stakes in Mac-Gray",
+        "subject_label": "Mr. Rothenberg"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23854,
+  "prompt_sha256": "25ade8be5197b75c0695db9a7ff2a10ba1eaff23787172f8d93a68e2e0a984a3",
+  "reasoning": "medium",
+  "reasoning_tokens": 1904,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "80c516a8b3401128674672619998677e77e1705c31b2f7b7ea8a4f8856bd14eb",
+  "slug": "mac-gray",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_rollover",
+  "window_profile": "W2_MULTI_REGION"
+}

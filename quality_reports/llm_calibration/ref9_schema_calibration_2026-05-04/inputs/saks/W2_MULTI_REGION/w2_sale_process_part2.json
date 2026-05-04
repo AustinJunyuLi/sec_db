@@ -1,0 +1,97 @@
+{
+  "char_end": 120915,
+  "char_start": 118719,
+  "coverage_obligations": [
+    {
+      "expected_claim_type": "event",
+      "importance": "required",
+      "obligation_id": "saks_w2_sale_process_part2_obl_1",
+      "obligation_label": "Sales process initiation"
+    },
+    {
+      "expected_claim_type": "participation_count",
+      "importance": "required",
+      "obligation_id": "saks_w2_sale_process_part2_obl_2",
+      "obligation_label": "Bidder count at IOI stage"
+    },
+    {
+      "expected_claim_type": "participation_count",
+      "importance": "important",
+      "obligation_id": "saks_w2_sale_process_part2_obl_3",
+      "obligation_label": "Bidder count at first round"
+    },
+    {
+      "expected_claim_type": "event",
+      "importance": "required",
+      "obligation_id": "saks_w2_sale_process_part2_obl_4",
+      "obligation_label": "Final round bid receipt"
+    },
+    {
+      "expected_claim_type": "event",
+      "importance": "required",
+      "obligation_id": "saks_w2_sale_process_part2_obl_5",
+      "obligation_label": "Exclusivity grant"
+    },
+    {
+      "expected_claim_type": "actor",
+      "importance": "required",
+      "obligation_id": "saks_w2_sale_process_part2_obl_6",
+      "obligation_label": "Target board"
+    },
+    {
+      "expected_claim_type": "actor",
+      "importance": "required",
+      "obligation_id": "saks_w2_sale_process_part2_obl_7",
+      "obligation_label": "Financial advisor for target"
+    },
+    {
+      "expected_claim_type": "actor",
+      "importance": "required",
+      "obligation_id": "saks_w2_sale_process_part2_obl_8",
+      "obligation_label": "Legal advisor for target"
+    },
+    {
+      "expected_claim_type": "bid",
+      "importance": "required",
+      "obligation_id": "saks_w2_sale_process_part2_obl_9",
+      "obligation_label": "Final bid price"
+    },
+    {
+      "expected_claim_type": "actor_relation",
+      "importance": "important",
+      "obligation_id": "saks_w2_sale_process_part2_obl_10",
+      "obligation_label": "Buyer group composition"
+    }
+  ],
+  "filing_path": "/Users/austinli/Projects/sec_graph/data/filings/saks/raw.md",
+  "filing_sha256": "d8d7b9865b98fbe40bff176d0852f4f791d45579835c81e4cf4d04e7a7d97360",
+  "obligation_ids": [
+    "saks_w2_sale_process_part2_obl_1",
+    "saks_w2_sale_process_part2_obl_2",
+    "saks_w2_sale_process_part2_obl_3",
+    "saks_w2_sale_process_part2_obl_4",
+    "saks_w2_sale_process_part2_obl_5",
+    "saks_w2_sale_process_part2_obl_6",
+    "saks_w2_sale_process_part2_obl_7",
+    "saks_w2_sale_process_part2_obl_8",
+    "saks_w2_sale_process_part2_obl_9",
+    "saks_w2_sale_process_part2_obl_10"
+  ],
+  "paragraph_ids": [
+    "saks_w2_sale_process_part2_calib_para_1",
+    "saks_w2_sale_process_part2_calib_para_2",
+    "saks_w2_sale_process_part2_calib_para_3",
+    "saks_w2_sale_process_part2_calib_para_4"
+  ],
+  "region_kind": "sale_process",
+  "region_signals": [
+    "Background of the Merger",
+    "split_part_2"
+  ],
+  "slug": "saks",
+  "source_perspective": "target_or_offer_primary",
+  "text": "The go shop period ended on September 6, 2013, and no party has been designated by Saks as an excluded party. During the go shop process, Goldman Sachs, on behalf of Saks, contacted 58 potentially interested third parties, including private equity firms, companies involved in the retail industry and other potential acquirors. Of those contacted, only six parties expressed interest, and only one of the six (which we refer to as Company I) executed a confidentiality agreement with, and conducted a due diligence investigation of, Saks. None of the parties contacted as part of the go shop process, including Company I, has submitted an acquisition proposal for Saks. Approximately two weeks after the end of the go shop period, Saks received a letter from Company I raising issues concerning what Company I characterized as the \u201climited\u201d duration of the go shop period and its inability\n\n-28-\n<!-- PAGE 36 -->\nTable of Contents\n\nto obtain certain information from Saks. In its reply to the letter, Saks pointed out to Company I that Company I had not signed a confidentiality agreement until approximately two weeks after the merger agreement was executed, that Company I had been given access to the same information that was provided to Hudson\u2019s Bay and other third parties with whom Saks had held discussions (as well as certain requested information that had not been (but then was) provided to Hudson\u2019s Bay) and that Company I had not requested a meeting with, or access to, any member of management of Saks. Company I and Saks have engaged in subsequent correspondence regarding, among other things, the go shop process, in which Saks has reiterated, among other things, that, as described above, there is a procedure under the merger agreement for a bona fide bidder to make an unsolicited proposal to the board and, if the proposal meets certain requirements, receive information concerning Saks, even following the end of the go shop period.\n\nAs of the date of this proxy statement, Saks has not received any communications regarding any potential alternative transaction from any third party that the board has determined constitutes a \u201csuperior proposal\u201d under the merger agreement.",
+  "text_sha256": "c5e49a3c1dd6d8b895152048816b2bcfd043a1727f2069cb8e327ea9a93ce2d1",
+  "window_id": "w2_sale_process_part2",
+  "window_profile": "W2_MULTI_REGION"
+}

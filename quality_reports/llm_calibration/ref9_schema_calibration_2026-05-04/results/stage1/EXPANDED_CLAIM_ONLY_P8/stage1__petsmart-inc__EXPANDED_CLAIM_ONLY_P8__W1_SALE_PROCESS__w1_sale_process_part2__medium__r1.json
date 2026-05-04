@@ -1,0 +1,252 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_CLAIM_ONLY_P8",
+  "duration_s": 45.4,
+  "input_chars": 15004,
+  "input_path": "inputs/petsmart-inc/W1_SALE_PROCESS/w1_sale_process_part2.json",
+  "input_text_sha256": "5dd22f97431b9dfa0b7da989a321ddd36f0567c095056d6e792543899c6f8d51",
+  "input_tokens": 4676,
+  "job_id": "stage1__petsmart-inc__EXPANDED_CLAIM_ONLY_P8__W1_SALE_PROCESS__w1_sale_process_part2__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 8,
+      "actor_relation_claims": 10,
+      "bid_claims": 0,
+      "event_claims": 0,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 2,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 18,
+    "relation_types": {
+      "acquisition_vehicle_of": 1,
+      "affiliate_of": 2,
+      "controls": 2,
+      "member_of": 5
+    },
+    "strict_claim_total": 18,
+    "total_quotes": 18
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 10820,
+  "output_text_sha256": "6c284bf22b7e2a4e24b60aeecc3ac3f78c052d7c8c1bd1415a2f67f49e9d1c02",
+  "output_tokens": 2848,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Argos Holdings Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w1_sale_process_part2_obl_10",
+        "observability": "named",
+        "quote_text": "Argos Holdings Inc. is a Delaware corporation."
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Argos Merger Sub Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w1_sale_process_part2_obl_10",
+        "observability": "named",
+        "quote_text": "Argos Merger Sub Inc. is a Delaware corporation and a wholly owned subsidiary of Parent."
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "BC Partners, Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w1_sale_process_part2_obl_10",
+        "observability": "named",
+        "quote_text": "Parent and Merger Sub are affiliates of funds advised by BC Partners, Inc. and at the closing of the transactions contemplated by the merger agreement will be owned by a consortium comprised of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and Longview."
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w1_sale_process_part2_obl_10",
+        "observability": "named",
+        "quote_text": "Parent and Merger Sub are affiliates of funds advised by BC Partners, Inc. and at the closing of the transactions contemplated by the merger agreement will be owned by a consortium comprised of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and Longview."
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "GIC Special Investments Pte Ltd",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w1_sale_process_part2_obl_10",
+        "observability": "named",
+        "quote_text": "Parent and Merger Sub are affiliates of funds advised by BC Partners, Inc. and at the closing of the transactions contemplated by the merger agreement will be owned by a consortium comprised of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and Longview."
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "StepStone Group LP",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w1_sale_process_part2_obl_10",
+        "observability": "named",
+        "quote_text": "Parent and Merger Sub are affiliates of funds advised by BC Partners, Inc. and at the closing of the transactions contemplated by the merger agreement will be owned by a consortium comprised of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and Longview."
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Longview",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w1_sale_process_part2_obl_10",
+        "observability": "named",
+        "quote_text": "Parent and Merger Sub are affiliates of funds advised by BC Partners, Inc. and at the closing of the transactions contemplated by the merger agreement will be owned by a consortium comprised of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and Longview."
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "consortium",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w1_sale_process_part2_obl_10",
+        "observability": "named",
+        "quote_text": "Parent and Merger Sub are affiliates of funds advised by BC Partners, Inc. and at the closing of the transactions contemplated by the merger agreement will be owned by a consortium comprised of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and Longview."
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w1_sale_process_part2_obl_10",
+        "effective_date_first": null,
+        "object_label": "Parent",
+        "quote_text": "Argos Merger Sub Inc. is a Delaware corporation and a wholly owned subsidiary of Parent.",
+        "relation_type": "controls",
+        "role_detail": "wholly owned subsidiary",
+        "subject_label": "Parent"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w1_sale_process_part2_obl_10",
+        "effective_date_first": null,
+        "object_label": "funds advised by BC Partners, Inc.",
+        "quote_text": "Parent and Merger Sub are affiliates of funds advised by BC Partners, Inc. and at the closing of the transactions contemplated by the merger agreement will be owned by a consortium comprised of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and Longview.",
+        "relation_type": "affiliate_of",
+        "role_detail": null,
+        "subject_label": "Parent"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w1_sale_process_part2_obl_10",
+        "effective_date_first": null,
+        "object_label": "funds advised by BC Partners, Inc.",
+        "quote_text": "Parent and Merger Sub are affiliates of funds advised by BC Partners, Inc. and at the closing of the transactions contemplated by the merger agreement will be owned by a consortium comprised of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and Longview.",
+        "relation_type": "affiliate_of",
+        "role_detail": null,
+        "subject_label": "Merger Sub"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w1_sale_process_part2_obl_10",
+        "effective_date_first": null,
+        "object_label": "Parent and Merger Sub",
+        "quote_text": "Parent and Merger Sub are affiliates of funds advised by BC Partners, Inc. and at the closing of the transactions contemplated by the merger agreement will be owned by a consortium comprised of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and Longview.",
+        "relation_type": "controls",
+        "role_detail": "will be owned by",
+        "subject_label": "consortium"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w1_sale_process_part2_obl_10",
+        "effective_date_first": null,
+        "object_label": "consortium",
+        "quote_text": "Parent and Merger Sub are affiliates of funds advised by BC Partners, Inc. and at the closing of the transactions contemplated by the merger agreement will be owned by a consortium comprised of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and Longview.",
+        "relation_type": "member_of",
+        "role_detail": "comprised of",
+        "subject_label": "funds advised by BC Partners, Inc."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w1_sale_process_part2_obl_10",
+        "effective_date_first": null,
+        "object_label": "consortium",
+        "quote_text": "Parent and Merger Sub are affiliates of funds advised by BC Partners, Inc. and at the closing of the transactions contemplated by the merger agreement will be owned by a consortium comprised of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and Longview.",
+        "relation_type": "member_of",
+        "role_detail": "comprised of",
+        "subject_label": "La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w1_sale_process_part2_obl_10",
+        "effective_date_first": null,
+        "object_label": "consortium",
+        "quote_text": "Parent and Merger Sub are affiliates of funds advised by BC Partners, Inc. and at the closing of the transactions contemplated by the merger agreement will be owned by a consortium comprised of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and Longview.",
+        "relation_type": "member_of",
+        "role_detail": "comprised of",
+        "subject_label": "affiliates of GIC Special Investments Pte Ltd"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w1_sale_process_part2_obl_10",
+        "effective_date_first": null,
+        "object_label": "consortium",
+        "quote_text": "Parent and Merger Sub are affiliates of funds advised by BC Partners, Inc. and at the closing of the transactions contemplated by the merger agreement will be owned by a consortium comprised of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and Longview.",
+        "relation_type": "member_of",
+        "role_detail": "comprised of",
+        "subject_label": "affiliates of StepStone Group LP"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w1_sale_process_part2_obl_10",
+        "effective_date_first": null,
+        "object_label": "consortium",
+        "quote_text": "Parent and Merger Sub are affiliates of funds advised by BC Partners, Inc. and at the closing of the transactions contemplated by the merger agreement will be owned by a consortium comprised of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and Longview.",
+        "relation_type": "member_of",
+        "role_detail": "comprised of",
+        "subject_label": "Longview"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w1_sale_process_part2_obl_10",
+        "effective_date_first": null,
+        "object_label": "merger agreement and consummating the transactions contemplated by the merger agreement",
+        "quote_text": "Both Parent and Merger Sub were formed solely for the purpose of entering into the merger agreement and consummating the transactions contemplated by the merger agreement, and have not engaged in any business except for activities incidental to their formation and as contemplated by the merger agreement.",
+        "relation_type": "acquisition_vehicle_of",
+        "role_detail": "formed solely for the purpose of entering into the merger agreement and consummating the transactions contemplated by the merger agreement",
+        "subject_label": "Parent and Merger Sub"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 17534,
+  "prompt_sha256": "dcba9e1b09363680a66bc229e9605cea3adf9551fb0715982d18ea77a08cad3c",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "80c516a8b3401128674672619998677e77e1705c31b2f7b7ea8a4f8856bd14eb",
+  "slug": "petsmart-inc",
+  "stage": "stage1",
+  "status": "completed",
+  "window_id": "w1_sale_process_part2",
+  "window_profile": "W1_SALE_PROCESS"
+}

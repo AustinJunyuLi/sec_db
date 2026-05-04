@@ -39,7 +39,10 @@ RelationType = Literal[
     "advises",
     "finances",
     "supports",
-    "rollover_holder_of",
+    "voting_support_for",
+    "rollover_holder_for",
+    "committee_member_of",
+    "recused_from",
 ]
 ActorKind = Literal["organization", "person", "group", "vehicle", "cohort", "committee"]
 ActorObservability = Literal["named", "anonymous_handle", "count_only"]
@@ -333,7 +336,7 @@ CREATE TABLE actor_relation_claims (
   claim_id VARCHAR PRIMARY KEY,
   subject_label VARCHAR NOT NULL,
   object_label VARCHAR NOT NULL,
-  relation_type VARCHAR NOT NULL CHECK (relation_type IN ('member_of', 'affiliate_of', 'controls', 'acquisition_vehicle_of', 'advises', 'finances', 'supports', 'rollover_holder_of')),
+  relation_type VARCHAR NOT NULL CHECK (relation_type IN ('member_of', 'affiliate_of', 'controls', 'acquisition_vehicle_of', 'advises', 'finances', 'supports', 'voting_support_for', 'rollover_holder_for', 'committee_member_of', 'recused_from')),
   role_detail VARCHAR,
   effective_date_first DATE,
   FOREIGN KEY (claim_id) REFERENCES claims(claim_id)

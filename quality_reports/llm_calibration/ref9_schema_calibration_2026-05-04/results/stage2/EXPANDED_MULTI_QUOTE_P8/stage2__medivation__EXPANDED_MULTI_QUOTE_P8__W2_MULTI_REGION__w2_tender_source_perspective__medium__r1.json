@@ -1,0 +1,222 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_MULTI_QUOTE_P8",
+  "duration_s": 126.84,
+  "input_chars": 14112,
+  "input_path": "inputs/medivation/W2_MULTI_REGION/w2_tender_source_perspective.json",
+  "input_text_sha256": "6965d0d7ae263580b3218c005ba7855ce358cd53acc188f3b5475d8a00064fbf",
+  "input_tokens": 4709,
+  "job_id": "stage2__medivation__EXPANDED_MULTI_QUOTE_P8__W2_MULTI_REGION__w2_tender_source_perspective__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 5,
+      "actor_relation_claims": 0,
+      "bid_claims": 2,
+      "event_claims": 4,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 4,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 3,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 0.9091,
+    "quotes_in_window": 10,
+    "relation_types": {},
+    "strict_claim_total": 11,
+    "total_quotes": 11
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 7060,
+  "output_text_sha256": "0c529628eb9b89f74af1d6dc92bf8ce77d83aa2ea54fa411fdc038ae33b2fa4c",
+  "output_tokens": 2783,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "vehicle",
+        "actor_label": "Montreal, Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Montreal, Inc., a Delaware corporation (which we refer to as \u201cPurchaser\u201d), and a wholly-owned subsidiary of Pfizer Inc."
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Pfizer Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Pfizer Inc., a Delaware corporation (which we refer to as \u201cPfizer\u201d)"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Medivation, Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Medivation, Inc., a Delaware corporation (which we refer to as \u201cMedivation\u201d or the \u201cCompany\u201d)"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Computershare Trust Company, N.A.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Computershare Trust Company, N.A., in its capacity as depositary and paying agent for the Offer"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Information Agent",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "medivation_w2_tender_source_perspective_obl_1",
+        "observability": "anonymous_handle",
+        "quote_texts": [
+          "The Information Agent for the Offer is: 470 West Avenue Stamford, CT 06902 Banks and Brokerage Firms Call: (203) 658-9400 Shareholders Call Toll Free: (800) 662-5200 E-mail: tenderinfo@morrowco.com"
+        ]
+      }
+    ],
+    "actor_relation_claims": [],
+    "bid_claims": [
+      {
+        "bid_date": null,
+        "bid_formality": "formal",
+        "bid_stage": "unspecified",
+        "bid_value": 81.5,
+        "bid_value_lower": null,
+        "bid_value_unit": "USD per Share",
+        "bid_value_upper": null,
+        "bidder_label": "Montreal, Inc.",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "medivation_w2_tender_source_perspective_obl_2",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "Offer to Purchase for Cash\n\n**All Outstanding Shares of Common Stock**\n\n**of**\n\n**Medivation, Inc.**\n\n**at**\n\n**$81.50 Net Per Share**\n\n**by**\n\n**Montreal, Inc.**"
+        ]
+      },
+      {
+        "bid_date": null,
+        "bid_formality": "formal",
+        "bid_stage": "unspecified",
+        "bid_value": 81.5,
+        "bid_value_lower": null,
+        "bid_value_unit": "USD per Share",
+        "bid_value_upper": null,
+        "bidder_label": "Montreal, Inc.",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "medivation_w2_tender_source_perspective_obl_2",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "Montreal, Inc., a Delaware corporation (which we refer to as \u201cPurchaser\u201d), and a wholly-owned subsidiary of Pfizer Inc., a Delaware corporation (which we refer to as \u201cPfizer\u201d), is offering to purchase, subject to certain conditions, including the satisfaction of the Minimum Condition, as described below, any and all of the outstanding shares of common stock, par value $0.01 per share (which we refer to as the \u201cShares\u201d), of Medivation, Inc., a Delaware corporation (which we refer to as \u201cMedivation\u201d or the \u201cCompany\u201d), at a price of $81.50 per Share, net to the seller in cash, without interest, subject to any required withholding of taxes"
+        ]
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "Purchaser",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_tender_source_perspective_obl_3",
+        "description": "The offer and withdrawal rights are scheduled to expire at the end of the day, one minute after 11:59 p.m. Eastern Time, on Tuesday, September 27, 2016, unless extended or earlier terminated.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2016-09-27",
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "THE OFFER AND WITHDRAWAL RIGHTS WILL EXPIRE AT THE END OF THE DAY, ONE MINUTE AFTER 11:59 P.M. EASTERN TIME ON TUESDAY, SEPTEMBER 27, 2016, UNLESS THE OFFER IS EXTENDED OR EARLIER TERMINATED."
+        ]
+      },
+      {
+        "actor_label": "Purchaser",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_tender_source_perspective_obl_3",
+        "description": "The offer is conditioned on the Minimum Condition.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "The Offer is conditioned upon, among other things, the satisfaction of (i) the Minimum Condition (as defined below), (ii) the Regulatory Condition (as defined below), (iii) the Governmental Authority Condition (as defined below) and (iv) the Termination Condition (as defined below)."
+        ]
+      },
+      {
+        "actor_label": "Purchaser",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_tender_source_perspective_obl_3",
+        "description": "The Minimum Condition requires validly tendered and not withdrawn shares, together with shares owned by Pfizer and affiliates, to represent at least one more share than 50% of the specified share total by the offer expiration.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2016-09-27",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "The \u201cMinimum Condition\u201d requires that the number of Shares validly tendered in accordance with the terms of the Offer, and not validly withdrawn, on or prior to the end of the day, by one minute after 11:59 p.m. Eastern Time, on Tuesday, September 27, 2016 (which we refer to as the \u201cExpiration Date,\u201d unless Purchaser shall have extended the period during which the Offer is open in accordance with the Merger Agreement, in which event \u201cExpiration Date\u201d will mean the latest time and date at which the Offer, as so extended by Purchaser, will expire), together with the Shares then owned by Pfizer and its affiliates (including the Purchaser) (excluding any Shares tendered pursuant to guaranteed delivery procedures that have not yet been received), represent at least one more Share than 50% of the sum of (x) the total number of Shares outstanding at the time of the expiration of the Offer"
+        ]
+      },
+      {
+        "actor_label": "Pfizer, Purchaser and Medivation",
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_tender_source_perspective_obl_3",
+        "description": "Pfizer, Purchaser and Medivation entered into the Merger Agreement dated August 20, 2016.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2016-08-20",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "The Offer is being made pursuant to the Agreement and Plan of Merger, dated as of August 20, 2016 (which, as it may be amended from time to time, we refer to as the \u201cMerger Agreement\u201d), by and among Pfizer, Purchaser and Medivation."
+        ]
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 16122,
+  "prompt_sha256": "f1c553e6a2e6404c8017e790affac3e687a04c6f9cb6db556b7df26fc6fbff86",
+  "reasoning": "medium",
+  "reasoning_tokens": 1034,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "0e783020c5768c044a886e0c68312d3e78a57555f4637885fb098049de8a7824",
+  "slug": "medivation",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_tender_source_perspective",
+  "window_profile": "W2_MULTI_REGION"
+}

@@ -1,0 +1,191 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 34.09,
+  "input_chars": 21999,
+  "input_path": "inputs/zep/W2_MULTI_REGION/w2_committee_or_conflict.json",
+  "input_text_sha256": "11d3e2e4043e508e49be8437984913d8a0de04a60ae53aa7e72d5f6d94991441",
+  "input_tokens": 5796,
+  "job_id": "stage2__zep__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_committee_or_conflict__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 1,
+      "actor_relation_claims": 10,
+      "bid_claims": 0,
+      "event_claims": 1,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 5,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 11,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 12,
+    "relation_types": {
+      "advises": 10
+    },
+    "strict_claim_total": 12,
+    "total_quotes": 12
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 5950,
+  "output_text_sha256": "134cf984bbc71ffb02963e0c5eebb076ff2a875d8731538bdcb1949ddbff91b3",
+  "output_tokens": 1906,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "committee",
+        "actor_label": "transaction committee",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_committee_or_conflict_obl_1",
+        "observability": "named",
+        "quote_text": "transaction committee"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_committee_or_conflict_obl_2",
+        "effective_date_first": "2015-02-23",
+        "object_label": "our board of directors",
+        "quote_text": "On February 23, 2015, our board of directors, together with representatives of BofA Merrill Lynch and King & Spalding, met to discuss New Mountain Capital's indication of interest.",
+        "relation_type": "advises",
+        "role_detail": null,
+        "subject_label": "BofA Merrill Lynch"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_committee_or_conflict_obl_2",
+        "effective_date_first": "2015-02-23",
+        "object_label": "our board of directors",
+        "quote_text": "On February 23, 2015, our board of directors, together with representatives of BofA Merrill Lynch and King & Spalding, met to discuss New Mountain Capital's indication of interest.",
+        "relation_type": "advises",
+        "role_detail": null,
+        "subject_label": "King & Spalding"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_committee_or_conflict_obl_2",
+        "effective_date_first": "2015-02-26",
+        "object_label": "our board of directors",
+        "quote_text": "On February 26, 2015, our board of directors met, together with representatives of BofA Merrill Lynch and King & Spalding, to review New Mountain Capital's revised indication of interest.",
+        "relation_type": "advises",
+        "role_detail": null,
+        "subject_label": "BofA Merrill Lynch"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_committee_or_conflict_obl_2",
+        "effective_date_first": "2015-02-26",
+        "object_label": "our board of directors",
+        "quote_text": "On February 26, 2015, our board of directors met, together with representatives of BofA Merrill Lynch and King & Spalding, to review New Mountain Capital's revised indication of interest.",
+        "relation_type": "advises",
+        "role_detail": null,
+        "subject_label": "King & Spalding"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_committee_or_conflict_obl_2",
+        "effective_date_first": "2015-03-16",
+        "object_label": "our board of directors",
+        "quote_text": "On March 16, 2015, our board of directors met, together with representatives of BofA Merrill Lynch and King & Spalding, to discuss the status of the discussions with New Mountain Capital.",
+        "relation_type": "advises",
+        "role_detail": null,
+        "subject_label": "BofA Merrill Lynch"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_committee_or_conflict_obl_2",
+        "effective_date_first": "2015-03-16",
+        "object_label": "our board of directors",
+        "quote_text": "On March 16, 2015, our board of directors met, together with representatives of BofA Merrill Lynch and King & Spalding, to discuss the status of the discussions with New Mountain Capital.",
+        "relation_type": "advises",
+        "role_detail": null,
+        "subject_label": "King & Spalding"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_committee_or_conflict_obl_2",
+        "effective_date_first": "2015-04-06",
+        "object_label": "our board of directors",
+        "quote_text": "On April 6, 2015, our board of directors met, together with members of the Company's management and representatives of BofA Merrill Lynch and King & Spalding, to consider the proposed transaction with New Mountain Capital.",
+        "relation_type": "advises",
+        "role_detail": null,
+        "subject_label": "BofA Merrill Lynch"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_committee_or_conflict_obl_2",
+        "effective_date_first": "2015-04-06",
+        "object_label": "our board of directors",
+        "quote_text": "On April 6, 2015, our board of directors met, together with members of the Company's management and representatives of BofA Merrill Lynch and King & Spalding, to consider the proposed transaction with New Mountain Capital.",
+        "relation_type": "advises",
+        "role_detail": null,
+        "subject_label": "King & Spalding"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_committee_or_conflict_obl_2",
+        "effective_date_first": "2015-04-07",
+        "object_label": "our board of directors",
+        "quote_text": "On April 7, 2015, our board of directors met again, together with members of the Company's management and representatives of BofA Merrill Lynch and King & Spalding, to discuss and review the transaction documents and to consider approval of the proposed transaction with New Mountain",
+        "relation_type": "advises",
+        "role_detail": null,
+        "subject_label": "BofA Merrill Lynch"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_committee_or_conflict_obl_2",
+        "effective_date_first": "2015-04-07",
+        "object_label": "our board of directors",
+        "quote_text": "On April 7, 2015, our board of directors met again, together with members of the Company's management and representatives of BofA Merrill Lynch and King & Spalding, to discuss and review the transaction documents and to consider approval of the proposed transaction with New Mountain",
+        "relation_type": "advises",
+        "role_detail": null,
+        "subject_label": "King & Spalding"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "our board of directors",
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_committee_or_conflict_obl_3",
+        "description": "Board determined not to form a transaction committee because the full board would remain actively involved in overseeing negotiations with New Mountain Capital.",
+        "event_date": "2015-02-26",
+        "event_subtype": "advancement_declined",
+        "event_type": "process",
+        "quote_text": "Our board of directors also determined not to form a transaction committee because the full board would remain actively involved in overseeing the negotiations with New Mountain Capital."
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23801,
+  "prompt_sha256": "6e5e99144769243f95b952246d197935bcdef25a1aea20488b2cd74829d70a80",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "zep",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_committee_or_conflict",
+  "window_profile": "W2_MULTI_REGION"
+}

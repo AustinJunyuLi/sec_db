@@ -1,0 +1,409 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 68.12,
+  "input_chars": 23315,
+  "input_path": "inputs/stec/W2_MULTI_REGION/w2_sale_process_part2.json",
+  "input_text_sha256": "ed72ee0985d0a0a0b7829a78a86094e2bb0e96d52a18ae9cdf67c6d94bc3d7d4",
+  "input_tokens": 6379,
+  "job_id": "stage4__stec__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_sale_process_part2__medium__r2",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 6,
+      "actor_relation_claims": 5,
+      "bid_claims": 6,
+      "event_claims": 11,
+      "participation_count_claims": 2
+    },
+    "duplicate_quotes_within_response": 6,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 2,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 17,
+    "not_unique_in_source_window": 2,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 30,
+    "relation_types": {
+      "supports": 5
+    },
+    "strict_claim_total": 30,
+    "total_quotes": 30
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 15476,
+  "output_text_sha256": "43ab2657d55f11a91213fefc909ec186b0928bbb6c3b0e31b66a6836a968b6ac",
+  "output_tokens": 4666,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "organization",
+        "actor_label": "sTec board of directors",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part2_obl_6",
+        "observability": "named",
+        "quote_text": "our board of directors held a telephonic special meeting"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "BofA Merrill Lynch",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part2_obl_7",
+        "observability": "named",
+        "quote_text": "representatives from BofA Merrill Lynch were in attendance"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Gibson Dunn",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part2_obl_8",
+        "observability": "named",
+        "quote_text": "representatives from Gibson Dunn were in attendance"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "WDC",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part2_obl_10",
+        "observability": "named",
+        "quote_text": "WDC submitted a written indication of interest"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Company D",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part2_obl_10",
+        "observability": "anonymous_handle",
+        "quote_text": "Company D submitted a written non-binding indication of interest"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Company H",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part2_obl_10",
+        "observability": "anonymous_handle",
+        "quote_text": "Company H submitted a written non-binding indication of interest"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part2_obl_10",
+        "effective_date_first": null,
+        "object_label": "WDC",
+        "quote_text": "a voting agreement to be entered into by each of sTec\u2019s officers and directors",
+        "relation_type": "supports",
+        "role_detail": "voting agreement parties",
+        "subject_label": "sTec\u2019s officers and directors"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part2_obl_10",
+        "effective_date_first": null,
+        "object_label": "WDC",
+        "quote_text": "a covenant not to sue to be entered into by Mr. Manouch Moshayedi",
+        "relation_type": "supports",
+        "role_detail": "covenant not to sue party",
+        "subject_label": "Mr. Manouch Moshayedi"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part2_obl_10",
+        "effective_date_first": null,
+        "object_label": "WDC",
+        "quote_text": "a technical services agreement to be entered into by Mr. Mark Moshayedi",
+        "relation_type": "supports",
+        "role_detail": "technical services agreement party",
+        "subject_label": "Mr. Mark Moshayedi"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part2_obl_10",
+        "effective_date_first": null,
+        "object_label": "WDC",
+        "quote_text": "a non-competition agreement to be entered into by each of Mr. Manouch Moshayedi and Mr. Mark Moshayedi",
+        "relation_type": "supports",
+        "role_detail": "non-competition agreement parties",
+        "subject_label": "Mr. Manouch Moshayedi and Mr. Mark Moshayedi"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part2_obl_10",
+        "effective_date_first": null,
+        "object_label": "WDC",
+        "quote_text": "a landlord\u2019s consent to assignment to be entered into by an affiliate of Messrs. Moshayedi",
+        "relation_type": "supports",
+        "role_detail": "landlord consent party",
+        "subject_label": "an affiliate of Messrs. Moshayedi"
+      }
+    ],
+    "bid_claims": [
+      {
+        "bid_date": "2013-05-03",
+        "bid_stage": "initial",
+        "bid_value": null,
+        "bid_value_lower": 6.6,
+        "bid_value_unit": "per share in cash",
+        "bid_value_upper": 7.1,
+        "bidder_label": "WDC",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "stec_w2_sale_process_part2_obl_2",
+        "quote_text": "On May 3, 2013, WDC submitted a written indication of interest to acquire the company at a purchase price in the range of $6.60 \u2013 $7.10 per share in cash."
+      },
+      {
+        "bid_date": "2013-05-10",
+        "bid_stage": "initial",
+        "bid_value": 5.75,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share in cash",
+        "bid_value_upper": null,
+        "bidder_label": "Company D",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "stec_w2_sale_process_part2_obl_2",
+        "quote_text": "Also on May 10, 2013, Company D submitted a written non-binding indication of interest to acquire the company at a purchase price of $5.75 per share in cash, along with a draft exclusivity agreement."
+      },
+      {
+        "bid_date": "2013-05-15",
+        "bid_stage": "initial",
+        "bid_value": null,
+        "bid_value_lower": 5.0,
+        "bid_value_unit": "per share in cash",
+        "bid_value_upper": 5.75,
+        "bidder_label": "Company H",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "stec_w2_sale_process_part2_obl_2",
+        "quote_text": "On May 15, 2013, Company H submitted a written non-binding indication of interest to acquire the company at a purchase price in the range of $5.00 \u2013 $5.75 per share in cash."
+      },
+      {
+        "bid_date": "2013-05-28",
+        "bid_stage": "final",
+        "bid_value": 9.15,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share in cash",
+        "bid_value_upper": null,
+        "bidder_label": "WDC",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "stec_w2_sale_process_part2_obl_9",
+        "quote_text": "On May 28, 2013, WDC submitted a written second-round indication of interest at a price per share of $9.15 in cash, with a mark-up of the merger agreement and drafts of ancillary agreements"
+      },
+      {
+        "bid_date": "2013-06-10",
+        "bid_stage": "revised",
+        "bid_value": null,
+        "bid_value_lower": 6.6,
+        "bid_value_unit": "per share in cash",
+        "bid_value_upper": 7.1,
+        "bidder_label": "WDC",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "stec_w2_sale_process_part2_obl_9",
+        "quote_text": "On June 10, 2013, WDC submitted a revised written indication of interest to acquire the company at a price range of $6.60 to $7.10 per share in cash."
+      },
+      {
+        "bid_date": "2013-06-14",
+        "bid_stage": "final",
+        "bid_value": 6.85,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share in cash",
+        "bid_value_upper": null,
+        "bidder_label": "WDC",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "stec_w2_sale_process_part2_obl_9",
+        "quote_text": "On June 14, 2013, WDC submitted a written indication of interest of $6.85 per share in cash and indicated it could be in a position to announce a transaction on June 24, 2013."
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "Company H",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part2_obl_1",
+        "description": "Company H contacted BofA Merrill Lynch expressing interest in a potential transaction with sTec.",
+        "event_date": "2013-05-01",
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "quote_text": "On May 1, 2013, Company H contacted representatives of BofA Merrill Lynch expressing an interest in a potential transaction with sTec."
+      },
+      {
+        "actor_label": "Company H",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part2_obl_1",
+        "description": "sTec entered into a non-disclosure agreement with Company H.",
+        "event_date": "2013-05-08",
+        "event_subtype": "nda_signed",
+        "event_type": "process",
+        "quote_text": "Also on May 8, 2013, sTec entered into a non-disclosure agreement with Company H."
+      },
+      {
+        "actor_label": "WDC",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part2_obl_2",
+        "description": "WDC submitted a written indication of interest to acquire sTec.",
+        "event_date": "2013-05-03",
+        "event_subtype": "ioi_submitted",
+        "event_type": "bid",
+        "quote_text": "On May 3, 2013, WDC submitted a written indication of interest to acquire the company at a purchase price in the range of $6.60 \u2013 $7.10 per share in cash."
+      },
+      {
+        "actor_label": "Company D",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part2_obl_2",
+        "description": "Company D submitted a written non-binding indication of interest to acquire sTec.",
+        "event_date": "2013-05-10",
+        "event_subtype": "ioi_submitted",
+        "event_type": "bid",
+        "quote_text": "Also on May 10, 2013, Company D submitted a written non-binding indication of interest to acquire the company at a purchase price of $5.75 per share in cash, along with a draft exclusivity agreement."
+      },
+      {
+        "actor_label": "Company H",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part2_obl_2",
+        "description": "Company H submitted a written non-binding indication of interest to acquire sTec.",
+        "event_date": "2013-05-15",
+        "event_subtype": "ioi_submitted",
+        "event_type": "bid",
+        "quote_text": "On May 15, 2013, Company H submitted a written non-binding indication of interest to acquire the company at a purchase price in the range of $5.00 \u2013 $5.75 per share in cash."
+      },
+      {
+        "actor_label": "WDC",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part2_obl_4",
+        "description": "WDC submitted a written second-round indication of interest with merger agreement markup and ancillary agreement drafts.",
+        "event_date": "2013-05-28",
+        "event_subtype": "final_round_bid",
+        "event_type": "bid",
+        "quote_text": "On May 28, 2013, WDC submitted a written second-round indication of interest at a price per share of $9.15 in cash, with a mark-up of the merger agreement and drafts of ancillary agreements"
+      },
+      {
+        "actor_label": "Company D",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part2_obl_4",
+        "description": "Company D said it needed additional time to submit a written indication of interest and merger agreement markup.",
+        "event_date": "2013-05-28",
+        "event_subtype": "advancement_declined",
+        "event_type": "process",
+        "quote_text": "the representative stated that Company D needed approximately two weeks of additional time to continue its ongoing due diligence review and to submit a written indication of interest and mark-up of the merger agreement."
+      },
+      {
+        "actor_label": "sTec board of directors",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "medium",
+        "coverage_obligation_id": "stec_w2_sale_process_part2_obl_5",
+        "description": "The board determined to move forward with WDC on proposed terms.",
+        "event_date": "2013-05-30",
+        "event_subtype": "exclusivity_grant",
+        "event_type": "process",
+        "quote_text": "Our board of directors unanimously determined to move forward with WDC on their proposed terms, including endeavoring to complete diligence and negotiation of the merger agreement and ancillary agreements to be in a position to announce a transaction on June 3, 2013."
+      },
+      {
+        "actor_label": "WDC",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part2_obl_4",
+        "description": "WDC submitted a revised written indication of interest.",
+        "event_date": "2013-06-10",
+        "event_subtype": "final_round_bid",
+        "event_type": "bid",
+        "quote_text": "On June 10, 2013, WDC submitted a revised written indication of interest to acquire the company at a price range of $6.60 to $7.10 per share in cash."
+      },
+      {
+        "actor_label": "WDC",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part2_obl_4",
+        "description": "WDC submitted a written indication of interest at $6.85 per share in cash.",
+        "event_date": "2013-06-14",
+        "event_subtype": "final_round_bid",
+        "event_type": "bid",
+        "quote_text": "On June 14, 2013, WDC submitted a written indication of interest of $6.85 per share in cash and indicated it could be in a position to announce a transaction on June 24, 2013."
+      },
+      {
+        "actor_label": "sTec board of directors",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "medium",
+        "coverage_obligation_id": "stec_w2_sale_process_part2_obl_5",
+        "description": "The board authorized moving forward with a transaction with WDC at $6.85 per share, subject to final negotiations.",
+        "event_date": "2013-06-16",
+        "event_subtype": "exclusivity_grant",
+        "event_type": "process",
+        "quote_text": "On June 16, 2013, as directed by our board of directors, representatives of BofA Merrill Lynch informed WDC that our board of directors had authorized moving forward with a transaction with WDC on the terms set forth in WDC\u2019s proposal received June 14, 2013, at a price of $6.85 per share, subject to negotiating final terms of the merger agreement and ancillary agreements relating to such transaction."
+      }
+    ],
+    "participation_count_claims": [
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": 3,
+        "count_min": 3,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "stec_w2_sale_process_part2_obl_2",
+        "process_stage": "ioi_submitted",
+        "quote_text": "On May 3, 2013, WDC submitted a written indication of interest to acquire the company at a purchase price in the range of $6.60 \u2013 $7.10 per share in cash. Also on May 3, 2013, Company G indicated it would not continue in the process.\n\nThereafter, on May 3, 2013, at the direction of Dr. Daly, BofA Merrill Lynch provided the special committee with an update of the status of discussions with potential acquirers.\n\nOn May 6, 2013, our board of directors held a telephonic special meeting, attended only by the independent directors. The independent directors discussed, among other matters, the status of the strategic review process.\n\nOn May 8, 2013, sTec announced its results for the first quarter of fiscal year 2013.\n\nAlso on May 8, 2013, sTec entered into a non-disclosure agreement with Company H.\n\nAlso on May 8, 2013, the special committee held a telephonic meeting. Messrs. Cook, Saman and Morales and representatives from Gibson Dunn were in attendance. The special committee discussed in detail sTec\u2019s standalone financial projections prepared by management and the further review that needed to be undertaken with management on management\u2019s financial model. Gibson Dunn reviewed certain considerations related to the special committee\u2019s fiduciary duties in connection with the strategic review process. Representatives of BofA Merrill Lynch joined for a portion of the meeting and reported on BofA Merrill Lynch\u2019s interactions to date with potential acquirers and the special committee discussed with the representatives of BofA Merrill Lynch the preliminary proposal received from WDC and a number of financial matters relating to the proposal.\n\nOn May 10, 2013, sTec held a management presentation with Company H.\n\nAlso on May 10, 2013, sTec granted access to WDC to the virtual data room.\n\nAlso on May 10, 2013, Company D submitted a written non-binding indication of interest to acquire the company at a purchase price of $5.75 per share in cash, along with a draft exclusivity agreement.\n\nOn May 14, 2013, sTec granted access to Company D to the virtual data room.\n\nOn May 15, 2013, Company H submitted a written non-binding indication of interest to acquire the company at a purchase price in the range of $5.00 \u2013 $5.75 per share in cash."
+      },
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": 2,
+        "count_min": 2,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "stec_w2_sale_process_part2_obl_3",
+        "process_stage": "first_round",
+        "quote_text": "After the meeting, at the direction of the board, BofA Merrill Lynch sent final round process letters and a draft merger agreement to WDC and Company D, requesting a response by May 28, 2013."
+      }
+    ]
+  },
+  "prompt_chars": 25596,
+  "prompt_sha256": "c1af283e1fb580bad2d54f08c8527ad76f4ff1df687f65fe878bdbc0a4080283",
+  "reasoning": "medium",
+  "reasoning_tokens": 880,
+  "replica": "r2",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "stec",
+  "stage": "stage4",
+  "status": "completed",
+  "window_id": "w2_sale_process_part2",
+  "window_profile": "W2_MULTI_REGION"
+}

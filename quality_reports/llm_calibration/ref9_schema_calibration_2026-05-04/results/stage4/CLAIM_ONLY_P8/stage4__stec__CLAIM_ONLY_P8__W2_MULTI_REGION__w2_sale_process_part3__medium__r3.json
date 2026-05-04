@@ -1,0 +1,146 @@
+{
+  "attempt_count": 2,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 26.8,
+  "input_chars": 6170,
+  "input_path": "inputs/stec/W2_MULTI_REGION/w2_sale_process_part3.json",
+  "input_text_sha256": "e2ba49d99f6cdb96122c5994686571d543c36e5e27a32ba81ca4eac297987233",
+  "input_tokens": 2671,
+  "job_id": "stage4__stec__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_sale_process_part3__medium__r3",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 4,
+      "actor_relation_claims": 1,
+      "bid_claims": 1,
+      "event_claims": 2,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 3,
+    "not_unique_in_source_window": 1,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 8,
+    "relation_types": {
+      "acquisition_vehicle_of": 1
+    },
+    "strict_claim_total": 8,
+    "total_quotes": 8
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 3051,
+  "output_text_sha256": "c616ebf2ae5a56d545faddc9dffae5a9ad318ee99b98650dde0e591607edf154",
+  "output_tokens": 1292,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "committee",
+        "actor_label": "special committee",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part3_obl_6",
+        "observability": "named",
+        "quote_text": "On June 23, 2013, the special committee held a telephonic meeting."
+      },
+      {
+        "actor_kind": "committee",
+        "actor_label": "our board of directors",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part3_obl_6",
+        "observability": "named",
+        "quote_text": "Immediately thereafter, on June 23, 2013, our board of directors held a telephonic special meeting."
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "BofA Merrill Lynch",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part3_obl_7",
+        "observability": "named",
+        "quote_text": "BofA Merrill Lynch then reviewed its financial analysis of the merger consideration and delivered to our board of directors an oral opinion"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Gibson Dunn",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part3_obl_8",
+        "observability": "named",
+        "quote_text": "Gibson Dunn reviewed with our board of directors its fiduciary duties and related"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part3_obl_10",
+        "effective_date_first": "2013-06-23",
+        "object_label": "WDC",
+        "quote_text": "On June 23, 2013, sTec, WDC, and Merger Sub executed the merger agreement",
+        "relation_type": "acquisition_vehicle_of",
+        "role_detail": "Merger Sub executed the merger agreement with WDC and sTec",
+        "subject_label": "Merger Sub"
+      }
+    ],
+    "bid_claims": [
+      {
+        "bid_date": null,
+        "bid_stage": "final",
+        "bid_value": 6.85,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "WDC",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": null,
+        "coverage_obligation_id": "stec_w2_sale_process_part3_obl_9",
+        "quote_text": "the $6.85 per share proposal of WDC"
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "WDC",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part3_obl_4",
+        "description": "The board discussed the potential ability and interest of Company E, Company F and Company H to make a superior proposal to WDC's $6.85 per share proposal.",
+        "event_date": "2013-06-23",
+        "event_subtype": "final_round_bid",
+        "event_type": "bid",
+        "quote_text": "Our board of directors discussed the potential ability and interest of Company E, Company F and Company H to make a superior proposal to the $6.85 per share proposal of WDC"
+      },
+      {
+        "actor_label": "sTec, WDC, and Merger Sub",
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_sale_process_part3_obl_5",
+        "description": "sTec, WDC, and Merger Sub executed the merger agreement.",
+        "event_date": "2013-06-23",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "quote_text": "On June 23, 2013, sTec, WDC, and Merger Sub executed the merger agreement"
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 8451,
+  "prompt_sha256": "456b89eee0fab9f92d0dbdfb643598b812f29d813f0f52c69f2de5e5c75b2282",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r3",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "stec",
+  "stage": "stage4",
+  "status": "completed",
+  "window_id": "w2_sale_process_part3",
+  "window_profile": "W2_MULTI_REGION"
+}

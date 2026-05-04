@@ -5,6 +5,10 @@
 **Scope:** Full replacement authority for the live extraction pipeline.
 **Repository:** `/Users/austinli/Projects/sec_graph`
 
+**2026-05-04 schema-freeze update:** Reference-9 calibration chose a
+relation-revised claim-only P8 contract. The binding details now live in
+`docs/spec.md` and `docs/llm-interface.md`.
+
 ## 1. Objective
 
 Replace the current small-window, flat-candidate pipeline with a single
@@ -252,15 +256,18 @@ Each model request includes:
 - paragraph ids;
 - evidence-map obligations;
 - allowed claim schema;
-- coverage requirements;
+- claim extraction requirements;
 - schema version;
 - extract version.
 
 The model returns:
 
 - typed claims;
-- coverage results;
 - provider metadata needed for sanitized proof artifacts.
+
+The model does not return coverage results. Python writes the
+`coverage_results` table after quote binding and claim-to-obligation
+validation.
 
 Typed claim families:
 
@@ -283,7 +290,10 @@ Actor relation claims are first-class. They cover:
 - advises;
 - finances;
 - supports;
-- rollover holder of.
+- voting support for;
+- rollover holder for;
+- committee member of;
+- recused from.
 
 ### 4.6 Quote Validation and Claim Insertion
 
@@ -441,7 +451,8 @@ coverage_obligations
 coverage_results
 ```
 
-Each obligation must have one current coverage result:
+`coverage_results` is Python-owned. Each obligation must have one current
+coverage result:
 
 - `claims_emitted`;
 - `no_supported_claim`;

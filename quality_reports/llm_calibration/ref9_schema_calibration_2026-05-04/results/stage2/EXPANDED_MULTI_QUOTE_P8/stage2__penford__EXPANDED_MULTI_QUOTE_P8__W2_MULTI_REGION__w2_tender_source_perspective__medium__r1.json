@@ -1,0 +1,159 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_MULTI_QUOTE_P8",
+  "duration_s": 48.0,
+  "input_chars": 22000,
+  "input_path": "inputs/penford/W2_MULTI_REGION/w2_tender_source_perspective.json",
+  "input_text_sha256": "3a69715b7d260917d98b42207e8429282152d3dd832a8b2cf2d498ee2adf7320",
+  "input_tokens": 5883,
+  "job_id": "stage2__penford__EXPANDED_MULTI_QUOTE_P8__W2_MULTI_REGION__w2_tender_source_perspective__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 4,
+      "actor_relation_claims": 0,
+      "bid_claims": 1,
+      "event_claims": 2,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 1,
+    "multi_quote_claims": 1,
+    "nonempty_date_strings": 1,
+    "not_unique_in_source_window": 3,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 8,
+    "relation_types": {},
+    "strict_claim_total": 7,
+    "total_quotes": 8
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 3017,
+  "output_text_sha256": "8e54bbfb55c83eb2d3e923657b2a107a6d38c3c550c5e0d61f14499a59ded1ca",
+  "output_tokens": 1257,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Penford",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Penford"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Ingredion",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Ingredion"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Merger Sub",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Merger Sub"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Okapi Partners",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Okapi Partners"
+        ]
+      }
+    ],
+    "actor_relation_claims": [],
+    "bid_claims": [
+      {
+        "bid_date": null,
+        "bid_formality": null,
+        "bid_stage": "unspecified",
+        "bid_value": 19,
+        "bid_value_lower": null,
+        "bid_value_unit": "$ per share",
+        "bid_value_upper": null,
+        "bidder_label": "Ingredion",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "penford_w2_tender_source_perspective_obl_2",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "the merger agreement that provides for the acquisition of Penford by Ingredion",
+          "$19.00 in cash, without interest and subject to any applicable withholding of taxes, for each share of Penford common stock"
+        ]
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "Penford",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_tender_source_perspective_obl_3",
+        "description": "For the merger closing to occur, Penford shareholders must adopt the merger agreement and other closing conditions must be satisfied or waived, including regulatory requirements.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "For the merger closing to occur, Penford shareholders must adopt the merger agreement at a special meeting of shareholders and other closing conditions must be satisfied or waived, including various regulatory requirements."
+        ]
+      },
+      {
+        "actor_label": "Penford",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_tender_source_perspective_obl_3",
+        "description": "The special meeting of Penford shareholders is scheduled for January 29, 2015 at 2:00 p.m. Mountain time.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2015-01-29",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "The special meeting will be held at the Inverness Hotel and Conference Center, 200 Inverness Drive West, Englewood, Colorado 80112, at 2:00 p.m. (Mountain time) on January 29, 2015."
+        ]
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23998,
+  "prompt_sha256": "2109f04772c6fd13f459210981778ac7d768de529b38b66158f456c63016b863",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "0e783020c5768c044a886e0c68312d3e78a57555f4637885fb098049de8a7824",
+  "slug": "penford",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_tender_source_perspective",
+  "window_profile": "W2_MULTI_REGION"
+}

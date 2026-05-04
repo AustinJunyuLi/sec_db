@@ -1,0 +1,318 @@
+{
+  "attempt_count": 2,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_MULTI_QUOTE_P8",
+  "duration_s": 77.62,
+  "input_chars": 22000,
+  "input_path": "inputs/mac-gray/W2_MULTI_REGION/w2_tender_source_perspective.json",
+  "input_text_sha256": "d6509737b09deabd39acfde5c4c7d7b2e8b8f81063cb692d3eca7cfe112ef028",
+  "input_tokens": 6248,
+  "job_id": "stage1__mac-gray__EXPANDED_MULTI_QUOTE_P8__W2_MULTI_REGION__w2_tender_source_perspective__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 7,
+      "actor_relation_claims": 0,
+      "bid_claims": 6,
+      "event_claims": 4,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 8,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 9,
+    "not_unique_in_source_window": 5,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 17,
+    "relation_types": {},
+    "strict_claim_total": 17,
+    "total_quotes": 17
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 7896,
+  "output_text_sha256": "ad54cd4c5bfd7fb2bd14d33f7fd729cd318725395cbf976ab55e0cc85b8a3512",
+  "output_tokens": 3546,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Mac-Gray",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Mac-Gray"
+        ]
+      },
+      {
+        "actor_class": "mixed",
+        "actor_kind": "group",
+        "actor_label": "CSC/Pamplona",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "CSC/Pamplona"
+        ]
+      },
+      {
+        "actor_class": "s",
+        "actor_kind": "organization",
+        "actor_label": "CSC",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "CSC, Pamplona and Mac-Gray executed the exclusivity agreement"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "Pamplona",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Pamplona was committed to provide 100% of the capital required to consummate the transaction"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Party A",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_tender_source_perspective_obl_1",
+        "observability": "anonymous_handle",
+        "quote_texts": [
+          "Party A"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Party B",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_tender_source_perspective_obl_1",
+        "observability": "anonymous_handle",
+        "quote_texts": [
+          "Party B"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Party C",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_tender_source_perspective_obl_1",
+        "observability": "anonymous_handle",
+        "quote_texts": [
+          "Party C"
+        ]
+      }
+    ],
+    "actor_relation_claims": [],
+    "bid_claims": [
+      {
+        "bid_date": "2013-09-18",
+        "bid_formality": null,
+        "bid_stage": "revised",
+        "bid_value": 20.75,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "CSC/Pamplona",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "all-cash",
+        "coverage_obligation_id": "mac-gray_w2_tender_source_perspective_obl_2",
+        "proposal_scope": null,
+        "quote_texts": [
+          "On September 18, 2013, CSC/Pamplona submitted a proposal for an all-cash purchase price of $20.75 per share"
+        ]
+      },
+      {
+        "bid_date": "2013-09-18",
+        "bid_formality": null,
+        "bid_stage": "final",
+        "bid_value": null,
+        "bid_value_lower": 18.0,
+        "bid_value_unit": "per share",
+        "bid_value_upper": 19.0,
+        "bidder_label": "Party A",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "all-cash",
+        "coverage_obligation_id": "mac-gray_w2_tender_source_perspective_obl_2",
+        "proposal_scope": null,
+        "quote_texts": [
+          "Party A reiterated in a telephone call to a representative of BofA Merrill Lynch that its previous indication of interest with an all-cash purchase price of $18.00 to $19.00 per share was its best and final offer"
+        ]
+      },
+      {
+        "bid_date": "2013-09-18",
+        "bid_formality": null,
+        "bid_stage": "revised",
+        "bid_value": 21.5,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "Party B",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash and options",
+        "coverage_obligation_id": "mac-gray_w2_tender_source_perspective_obl_2",
+        "proposal_scope": null,
+        "quote_texts": [
+          "On September 18, 2013, Party B also submitted a revised indication of interest with a purchase price that Party B valued at $21.50 per share, including $19.00 of cash to be paid at closing and the remaining per share price to be paid in the form of options to be issued to Mac-Gray stockholders"
+        ]
+      },
+      {
+        "bid_date": null,
+        "bid_formality": null,
+        "bid_stage": "unspecified",
+        "bid_value": null,
+        "bid_value_lower": 16.0,
+        "bid_value_unit": "per share",
+        "bid_value_upper": 17.0,
+        "bidder_label": "Party C",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "all-cash",
+        "coverage_obligation_id": "mac-gray_w2_tender_source_perspective_obl_2",
+        "proposal_scope": null,
+        "quote_texts": [
+          "Party C did not submit a revised indication of interest or reiterate its prior indication of interest of an all-cash purchase price of $16.00 to $17.00 per share"
+        ]
+      },
+      {
+        "bid_date": "2013-09-21",
+        "bid_formality": null,
+        "bid_stage": "final",
+        "bid_value": 21.25,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "CSC/Pamplona",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "all-cash",
+        "coverage_obligation_id": "mac-gray_w2_tender_source_perspective_obl_2",
+        "proposal_scope": null,
+        "quote_texts": [
+          "Later that same day, the representative of CSC/Pamplona called the members of the Transaction Committee to confirm that CSC/Pamplona were willing to increase their all-cash purchase price to $21.25 per share as a last and best offer"
+        ]
+      },
+      {
+        "bid_date": "2013-09-23",
+        "bid_formality": null,
+        "bid_stage": "final",
+        "bid_value": 21.25,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "CSC/Pamplona",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "mac-gray_w2_tender_source_perspective_obl_2",
+        "proposal_scope": null,
+        "quote_texts": [
+          "Representatives from Goodwin Procter reviewed the terms of the CSC/Pamplona final proposal with the Special Committee, including the $21.25 per share cash consideration"
+        ]
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "Party C",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_tender_source_perspective_obl_3",
+        "description": "Party C did not submit a revised indication of interest or reiterate its prior indication of interest and did not specify reasons.",
+        "drop_agency": "bidder",
+        "drop_reason": "no_response",
+        "event_date": "2013-09-18",
+        "event_subtype": "non_responsive",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "Party C did not submit a revised indication of interest or reiterate its prior indication of interest of an all-cash purchase price of $16.00 to $17.00 per share nor did it specify any reasons in connection therewith"
+        ]
+      },
+      {
+        "actor_label": "Mac-Gray",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_tender_source_perspective_obl_3",
+        "description": "The Special Committee authorized Mac-Gray to enter into an exclusivity agreement for exclusive negotiations until 5 p.m. ET on October 12, 2013.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-09-23",
+        "event_subtype": "exclusivity_grant",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "the Special Committee authorized Mac-Gray to enter into an exclusivity agreement providing for exclusive negotiations until 5 p.m. ET on October 12, 2013"
+        ]
+      },
+      {
+        "actor_label": "CSC/Pamplona",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_tender_source_perspective_obl_3",
+        "description": "CSC, Pamplona and Mac-Gray executed the exclusivity agreement providing for exclusive negotiations until 5 p.m. ET on October 12, 2013.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-09-24",
+        "event_subtype": "exclusivity_grant",
+        "event_type": "process",
+        "initiation_side": "mutual_or_process",
+        "quote_texts": [
+          "On September 24, 2013, CSC, Pamplona and Mac-Gray executed the exclusivity agreement providing for exclusive negotiations until 5 p.m. ET on October 12, 2013"
+        ]
+      },
+      {
+        "actor_label": "CSC/Pamplona",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "mac-gray_w2_tender_source_perspective_obl_3",
+        "description": "CSC/Pamplona requested an extension of exclusivity until the end of the day on October 15, 2013.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-10-11",
+        "event_subtype": "exclusivity_grant",
+        "event_type": "process",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "CSC/Pamplona had requested an extension of exclusivity until the end of the day on October 15, 2013"
+        ]
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 24002,
+  "prompt_sha256": "11ebd776efab783421fc44fa238074e7c87465bb7180be21e2079a0819bb007e",
+  "reasoning": "medium",
+  "reasoning_tokens": 1518,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "0e783020c5768c044a886e0c68312d3e78a57555f4637885fb098049de8a7824",
+  "slug": "mac-gray",
+  "stage": "stage1",
+  "status": "completed",
+  "window_id": "w2_tender_source_perspective",
+  "window_profile": "W2_MULTI_REGION"
+}

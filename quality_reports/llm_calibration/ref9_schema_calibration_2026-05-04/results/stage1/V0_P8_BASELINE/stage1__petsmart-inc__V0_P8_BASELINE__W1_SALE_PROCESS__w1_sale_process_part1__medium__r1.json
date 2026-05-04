@@ -1,0 +1,210 @@
+{
+  "attempt_count": 2,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "V0_P8_BASELINE",
+  "duration_s": 63.38,
+  "input_chars": 44994,
+  "input_path": "inputs/petsmart-inc/W1_SALE_PROCESS/w1_sale_process_part1.json",
+  "input_text_sha256": "25485f5a6b3af168e73a0e5819b9a86d86eae7feafe75c9e66d747e22add3f4f",
+  "input_tokens": 10930,
+  "job_id": "stage1__petsmart-inc__V0_P8_BASELINE__W1_SALE_PROCESS__w1_sale_process_part1__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 2,
+      "actor_relation_claims": 7,
+      "bid_claims": 1,
+      "coverage_results": 6,
+      "event_claims": 0,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 1,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 10,
+    "relation_types": {
+      "advises": 1,
+      "controls": 1,
+      "member_of": 5
+    },
+    "strict_claim_total": 10,
+    "total_quotes": 10
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 6271,
+  "output_text_sha256": "cd0831bd5e28214a9ca35da776ee757d6dda3562ea8b348f03b0d7903b40c7e2",
+  "output_tokens": 2801,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "committee",
+        "actor_label": "the board of directors of the Company",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w1_sale_process_part1_obl_6",
+        "observability": "named",
+        "quote_text": "the \u201cboard\u201d refers to the board of directors of the Company;"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "J.P. Morgan Securities LLC",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w1_sale_process_part1_obl_7",
+        "observability": "named",
+        "quote_text": "J.P. Morgan Securities LLC (\u201cJ.P. Morgan\u201d) rendered its oral opinion"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w1_sale_process_part1_obl_10",
+        "effective_date_first": null,
+        "object_label": "the Buyer Group",
+        "quote_text": "the \u201cBuyer Group\u201d refers to a consortium of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and, at all times after December 12, 2014, Longview Asset Management, LLC;",
+        "relation_type": "member_of",
+        "role_detail": null,
+        "subject_label": "a consortium of funds advised by BC Partners, Inc."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w1_sale_process_part1_obl_10",
+        "effective_date_first": null,
+        "object_label": "a consortium of funds",
+        "quote_text": "the \u201cBuyer Group\u201d refers to a consortium of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and, at all times after December 12, 2014, Longview Asset Management, LLC;",
+        "relation_type": "advises",
+        "role_detail": null,
+        "subject_label": "BC Partners, Inc."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w1_sale_process_part1_obl_10",
+        "effective_date_first": null,
+        "object_label": "the Buyer Group",
+        "quote_text": "the \u201cBuyer Group\u201d refers to a consortium of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and, at all times after December 12, 2014, Longview Asset Management, LLC;",
+        "relation_type": "member_of",
+        "role_detail": null,
+        "subject_label": "La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w1_sale_process_part1_obl_10",
+        "effective_date_first": null,
+        "object_label": "the Buyer Group",
+        "quote_text": "the \u201cBuyer Group\u201d refers to a consortium of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and, at all times after December 12, 2014, Longview Asset Management, LLC;",
+        "relation_type": "member_of",
+        "role_detail": null,
+        "subject_label": "affiliates of GIC Special Investments Pte Ltd"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w1_sale_process_part1_obl_10",
+        "effective_date_first": null,
+        "object_label": "the Buyer Group",
+        "quote_text": "the \u201cBuyer Group\u201d refers to a consortium of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and, at all times after December 12, 2014, Longview Asset Management, LLC;",
+        "relation_type": "member_of",
+        "role_detail": null,
+        "subject_label": "affiliates of StepStone Group LP"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w1_sale_process_part1_obl_10",
+        "effective_date_first": "2014-12-12",
+        "object_label": "the Buyer Group",
+        "quote_text": "the \u201cBuyer Group\u201d refers to a consortium of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and, at all times after December 12, 2014, Longview Asset Management, LLC;",
+        "relation_type": "member_of",
+        "role_detail": null,
+        "subject_label": "Longview Asset Management, LLC"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "petsmart-inc_w1_sale_process_part1_obl_10",
+        "effective_date_first": null,
+        "object_label": "Parent",
+        "quote_text": "At the closing of the transactions contemplated by the merger agreement, Parent will be owned by the Buyer Group.",
+        "relation_type": "controls",
+        "role_detail": null,
+        "subject_label": "the Buyer Group"
+      }
+    ],
+    "bid_claims": [
+      {
+        "bid_date": null,
+        "bid_stage": "final",
+        "bid_value": 83,
+        "bid_value_lower": null,
+        "bid_value_unit": "USD per share",
+        "bid_value_upper": null,
+        "bidder_label": "Parent",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "petsmart-inc_w1_sale_process_part1_obl_9",
+        "quote_text": "If the merger is completed, you will be entitled to receive $83.00 in cash, without interest and less any applicable withholding taxes, for each share of our common stock that you own."
+      }
+    ],
+    "coverage_results": [
+      {
+        "obligation_id": "petsmart-inc_w1_sale_process_part1_obl_1",
+        "reason": "The window contains summary and transaction terms but does not describe initiation of the sale process.",
+        "reason_code": "not_in_window",
+        "result": "no_supported_claim"
+      },
+      {
+        "obligation_id": "petsmart-inc_w1_sale_process_part1_obl_2",
+        "reason": "The window does not state any bidder count at the indication-of-interest stage.",
+        "reason_code": "not_in_window",
+        "result": "no_supported_claim"
+      },
+      {
+        "obligation_id": "petsmart-inc_w1_sale_process_part1_obl_3",
+        "reason": "The window does not state any bidder count at the first-round stage.",
+        "reason_code": "not_in_window",
+        "result": "no_supported_claim"
+      },
+      {
+        "obligation_id": "petsmart-inc_w1_sale_process_part1_obl_4",
+        "reason": "The window does not describe receipt of final-round bids.",
+        "reason_code": "not_in_window",
+        "result": "no_supported_claim"
+      },
+      {
+        "obligation_id": "petsmart-inc_w1_sale_process_part1_obl_5",
+        "reason": "The window does not describe any grant of exclusivity.",
+        "reason_code": "not_in_window",
+        "result": "no_supported_claim"
+      },
+      {
+        "obligation_id": "petsmart-inc_w1_sale_process_part1_obl_8",
+        "reason": "The window does not name a legal advisor for the target.",
+        "reason_code": "not_in_window",
+        "result": "no_supported_claim"
+      }
+    ],
+    "event_claims": [],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 47339,
+  "prompt_sha256": "37c36b7f007bf32f71cef2e26a839700f14e53b09888da2420192e609e857d66",
+  "reasoning": "medium",
+  "reasoning_tokens": 1321,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "891e4a5674ba114d92ee1d400df86fba7a95780231cc29bd539799ee3cd2af97",
+  "slug": "petsmart-inc",
+  "stage": "stage1",
+  "status": "completed",
+  "window_id": "w1_sale_process_part1",
+  "window_profile": "W1_SALE_PROCESS"
+}

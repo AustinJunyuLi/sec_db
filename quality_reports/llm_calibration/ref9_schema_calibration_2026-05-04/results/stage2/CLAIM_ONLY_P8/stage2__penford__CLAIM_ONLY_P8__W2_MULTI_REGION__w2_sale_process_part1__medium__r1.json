@@ -1,0 +1,507 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 156.24,
+  "input_chars": 24625,
+  "input_path": "inputs/penford/W2_MULTI_REGION/w2_sale_process_part1.json",
+  "input_text_sha256": "39137933b3a923f4ce563cf8ad4ad36cfbcbd73cf1bde257c6fdae4024671681",
+  "input_tokens": 6429,
+  "job_id": "stage2__penford__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_sale_process_part1__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 11,
+      "actor_relation_claims": 4,
+      "bid_claims": 2,
+      "event_claims": 21,
+      "participation_count_claims": 2
+    },
+    "duplicate_quotes_within_response": 3,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 2,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 25,
+    "not_unique_in_source_window": 3,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 40,
+    "relation_types": {
+      "advises": 4
+    },
+    "strict_claim_total": 40,
+    "total_quotes": 40
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 19013,
+  "output_text_sha256": "2559116a3fe9488e323cd307e5daa13ee0063b4ed9c45d0c9bae97198e2d3ff4",
+  "output_tokens": 4774,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "committee",
+        "actor_label": "Executive Committee of the Penford board",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_6",
+        "observability": "named",
+        "quote_text": "the Executive Committee of the Penford board"
+      },
+      {
+        "actor_kind": "committee",
+        "actor_label": "Penford board of directors",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_6",
+        "observability": "named",
+        "quote_text": "the board of directors"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Deutsche Bank",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_7",
+        "observability": "named",
+        "quote_text": "Deutsche Bank as the Company\u2019s financial advisor"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Perkins Coie LLP",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_8",
+        "observability": "named",
+        "quote_text": "Perkins Coie LLP (referred to as Perkins Coie), Penford\u2019s legal counsel"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Ingredion",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_10",
+        "observability": "named",
+        "quote_text": "Ingredion\u2019s interest in acquiring Penford"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "J.P. Morgan Securities",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_10",
+        "observability": "named",
+        "quote_text": "J.P. Morgan Securities, Ingredion\u2019s financial advisor"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Party A",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_2",
+        "observability": "anonymous_handle",
+        "quote_text": "a company in the industry (referred to as Party A)"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Party B",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_2",
+        "observability": "anonymous_handle",
+        "quote_text": "another strategic counterparty contacted by Deutsche Bank (referred to as Party B)"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Party C",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_2",
+        "observability": "anonymous_handle",
+        "quote_text": "a third potential strategic counterparty contacted by Deutsche Bank (referred to as Party C)"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Party D",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_2",
+        "observability": "anonymous_handle",
+        "quote_text": "a fourth potential strategic counterparty contacted by Deutsche Bank (referred to as Party D)"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Party E",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_2",
+        "observability": "anonymous_handle",
+        "quote_text": "another strategic counterparty (referred to as Party E)"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_7",
+        "effective_date_first": "2014-07-24",
+        "object_label": "Penford",
+        "quote_text": "the Executive Committee directed management to proceed to retain Deutsche Bank as the Company\u2019s financial advisor and to advise on shareholder matters and to evaluate strategic alternatives",
+        "relation_type": "advises",
+        "role_detail": "financial advisor",
+        "subject_label": "Deutsche Bank"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_7",
+        "effective_date_first": "2014-09-11",
+        "object_label": "Penford",
+        "quote_text": "An engagement letter with Deutsche Bank was executed on September 11, 2014.",
+        "relation_type": "advises",
+        "role_detail": "financial advisor",
+        "subject_label": "Deutsche Bank"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_8",
+        "effective_date_first": "2014-07-24",
+        "object_label": "Penford",
+        "quote_text": "Perkins Coie LLP (referred to as Perkins Coie), Penford\u2019s legal counsel",
+        "relation_type": "advises",
+        "role_detail": "legal counsel",
+        "subject_label": "Perkins Coie LLP"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_10",
+        "effective_date_first": "2014-08-21",
+        "object_label": "Ingredion",
+        "quote_text": "J.P. Morgan Securities, Ingredion\u2019s financial advisor",
+        "relation_type": "advises",
+        "role_detail": "financial advisor",
+        "subject_label": "J.P. Morgan Securities"
+      }
+    ],
+    "bid_claims": [
+      {
+        "bid_date": "2014-08-06",
+        "bid_stage": "initial",
+        "bid_value": 17.0,
+        "bid_value_lower": null,
+        "bid_value_unit": "USD per share",
+        "bid_value_upper": null,
+        "bidder_label": "Ingredion",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": null,
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_9",
+        "quote_text": "Mr. Fortnum suggested that a price of $17.00 per share on a fully diluted basis could likely get support from Ingredion\u2019s board."
+      },
+      {
+        "bid_date": "2014-08-10",
+        "bid_stage": "revised",
+        "bid_value": 18.0,
+        "bid_value_lower": null,
+        "bid_value_unit": "USD per share",
+        "bid_value_upper": null,
+        "bidder_label": "Ingredion",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_9",
+        "quote_text": "providing an indicative valuation of $18.00 per share in cash for all of the outstanding capital stock of Penford on a fully diluted basis"
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "Ingredion",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_1",
+        "description": "Ingredion first expressed interest in acquiring Penford at a July 17 lunch meeting.",
+        "event_date": "2014-07-17",
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "quote_text": "On July 17, 2014, Mr. Malkoski and Ms. Gordon met for lunch, during which meeting Ms. Gordon advised Mr. Malkoski of Ingredion\u2019s interest in acquiring Penford."
+      },
+      {
+        "actor_label": "Penford and Ingredion",
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_1",
+        "description": "Penford and Ingredion executed a secrecy agreement effective July 20, 2014 for limited exchange of confidential information.",
+        "event_date": "2014-07-20",
+        "event_subtype": "nda_signed",
+        "event_type": "process",
+        "quote_text": "Subsequently, Penford and Ingredion executed a Secrecy Agreement, effective as of July 20, 2014, providing for limited exchange of confidential information and obligating the companies to keep their discussions confidential in order to facilitate the providing of confidential information of Penford to Ingredion."
+      },
+      {
+        "actor_label": "Executive Committee of the Penford board",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_1",
+        "description": "The Executive Committee directed management to retain Deutsche Bank as financial advisor to advise on shareholder matters and evaluate strategic alternatives.",
+        "event_date": "2014-07-24",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "Following discussion of potential financial advisors, the Executive Committee directed management to proceed to retain Deutsche Bank as the Company\u2019s financial advisor and to advise on shareholder matters and to evaluate strategic alternatives, and directed management to negotiate a suitable engagement letter."
+      },
+      {
+        "actor_label": "Ingredion",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_1",
+        "description": "Ingredion was prepared to submit a proposal to acquire Penford and suggested $17.00 per share could get Ingredion board support.",
+        "event_date": "2014-08-06",
+        "event_subtype": "ioi_submitted",
+        "event_type": "bid",
+        "quote_text": "On August 6, 2014, Mr. Malkoski met with Mr. Fortnum, at which meeting Mr. Fortnum indicated Ingredion was prepared to submit a proposal to acquire the Company."
+      },
+      {
+        "actor_label": "Ingredion",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_1",
+        "description": "Penford received Ingredion's August 10 indication of interest at $18.00 per share in cash.",
+        "event_date": "2014-08-10",
+        "event_subtype": "ioi_submitted",
+        "event_type": "bid",
+        "quote_text": "On August 10, 2014, Penford received a letter from Mr. Fortnum, confirming Ingredion\u2019s interest in a possible business combination between Ingredion and the Company, citing certain strategic reasons for the proposed acquisition, and providing an indicative valuation of $18.00 per share in cash for all of the outstanding capital stock of Penford on a fully diluted basis."
+      },
+      {
+        "actor_label": "Executive Committee of the Penford board",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_1",
+        "description": "The Executive Committee determined further review and investigation of Ingredion's indication of interest was in Penford shareholders' best interests.",
+        "event_date": "2014-08-11",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "Following further discussion among the Executive Committee members, the Executive Committee unanimously determined that it would be in the best interests of the Company and its shareholders to proceed with further review and investigation of Ingredion\u2019s indication of interest to acquire Penford."
+      },
+      {
+        "actor_label": "Party A",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_2",
+        "description": "Party A informally discussed potential interest in acquiring or combining with Penford.",
+        "event_date": "2014-08-11",
+        "event_subtype": "ioi_submitted",
+        "event_type": "process",
+        "quote_text": "Party A\u2019s Chief Executive Officer also informally discussed Party A\u2019s potential interest in acquiring or combining with Penford."
+      },
+      {
+        "actor_label": "SEACOR",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_2",
+        "description": "SEACOR stated that it was not interested in participating in any potential sale process at that time.",
+        "event_date": "2014-08-12",
+        "event_subtype": "advancement_declined",
+        "event_type": "process",
+        "quote_text": "Mr. Behrens stated that SEACOR was not interested in participating in any potential sale process at that time."
+      },
+      {
+        "actor_label": "Penford board of directors",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_1",
+        "description": "Penford's board authorized management to engage with Ingredion and provide additional information regarding Penford.",
+        "event_date": "2014-08-14",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "However, the board authorized management to engage with Ingredion and provide additional information regarding the Company, which the board believed would assist Ingredion in recognizing Penford\u2019s additional value and result in Ingredion raising its price."
+      },
+      {
+        "actor_label": "Penford",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_5",
+        "description": "Penford declined to provide exclusivity to Ingredion.",
+        "event_date": "2014-08-14",
+        "event_subtype": "advancement_declined",
+        "event_type": "process",
+        "quote_text": "Mr. Malkoski indicated that the current status of negotiations and the proposed price did not justify providing exclusivity."
+      },
+      {
+        "actor_label": "Penford and Ingredion",
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_1",
+        "description": "Ingredion and Penford executed a nondisclosure and standstill agreement superseding the prior secrecy agreement.",
+        "event_date": "2014-08-21",
+        "event_subtype": "nda_signed",
+        "event_type": "process",
+        "quote_text": "On August 21, 2014, Ingredion and Penford executed a nondisclosure and standstill agreement that superseded the prior Secrecy Agreement."
+      },
+      {
+        "actor_label": "Penford",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_1",
+        "description": "Penford management provided a presentation to Ingredion management and J.P. Morgan Securities.",
+        "event_date": "2014-08-21",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "On August 21, 2014, members of Penford\u2019s management team provided a presentation to Ms. Gordon, Mr. Fortnum, and certain other members of Ingredion\u2019s senior management and representatives of J.P. Morgan Securities, Ingredion\u2019s financial advisor."
+      },
+      {
+        "actor_label": "Penford board of directors",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_1",
+        "description": "Penford's board authorized management and Deutsche Bank to proceed with the market check process.",
+        "event_date": "2014-08-28",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "The board also authorized management and Deutsche Bank to proceed with the market check process as described at the meeting."
+      },
+      {
+        "actor_label": "Ingredion",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_1",
+        "description": "Penford provided Ingredion access to an online data room starting in early September.",
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "Starting in early September, Penford provided Ingredion access to an online dataroom to review due diligence materials and continued to respond to the initial and supplemental due diligence requests and inquiries from Ingredion."
+      },
+      {
+        "actor_label": "Deutsche Bank",
+        "actor_role": "advisor_for_target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_2",
+        "description": "Deutsche Bank contacted six potential strategic counterparties in early to mid-September regarding a potential transaction with Penford.",
+        "event_date": null,
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "quote_text": "Throughout early- to mid-September, in accordance with the board\u2019s authorization, Deutsche Bank contacted six potential strategic counterparties in the same or similar industries to gauge initial interest regarding a potential transaction with Penford."
+      },
+      {
+        "actor_label": "Party A",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_2",
+        "description": "Party A expressed interest in further discussions and received a nondisclosure and standstill agreement.",
+        "event_date": "2014-09-09",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "On September 9, 2014, Party A expressed interest in having further discussions regarding a transaction and Deutsche Bank forwarded Party A a nondisclosure and standstill agreement."
+      },
+      {
+        "actor_label": "Party B",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_2",
+        "description": "Party B expressed interest in further discussions and Deutsche Bank forwarded a nondisclosure and standstill agreement.",
+        "event_date": "2014-09-09",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "Also on September 9, 2014, another strategic counterparty contacted by Deutsche Bank (referred to as Party B) expressed interest in further discussions, and Deutsche Bank forwarded a nondisclosure and standstill agreement to proceed with additional discussions with Party B."
+      },
+      {
+        "actor_label": "Party C",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_2",
+        "description": "Party C expressed interest in pursuing a transaction and received a nondisclosure and standstill agreement.",
+        "event_date": "2014-09-10",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "On September 10, 2014, a third potential strategic counterparty contacted by Deutsche Bank (referred to as Party C) expressed interest in pursuing a transaction, and Deutsche Bank forwarded Party C a nondisclosure and standstill agreement on September 11, 2014."
+      },
+      {
+        "actor_label": "Party D",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_2",
+        "description": "Party D expressed interest and Deutsche Bank forwarded it a nondisclosure and standstill agreement.",
+        "event_date": "2014-09-11",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "On September 11, 2014, a fourth potential strategic counterparty contacted by Deutsche Bank (referred to as Party D) expressed interest, and Deutsche Bank forwarded a nondisclosure and standstill agreement to Party D."
+      },
+      {
+        "actor_label": "Party B",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_2",
+        "description": "Party B decided not to move forward with discussions or sign an NDA for a potential transaction.",
+        "event_date": "2014-09-12",
+        "event_subtype": "withdrawn_by_bidder",
+        "event_type": "process",
+        "quote_text": "On September 12, 2014, Party B informed Deutsche Bank that it had decided not to move forward with discussions or sign a nondisclosure agreement with respect to a potential transaction."
+      },
+      {
+        "actor_label": "Party E",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_2",
+        "description": "Deutsche Bank left Party E voicemails regarding a potential transaction and received no response.",
+        "event_date": "2014-09-12",
+        "event_subtype": "non_responsive",
+        "event_type": "process",
+        "quote_text": "Also on September 12, 2014, Deutsche Bank left a voicemail for another strategic counterparty (referred to as Party E) regarding a potential transaction."
+      }
+    ],
+    "participation_count_claims": [
+      {
+        "actor_class": "strategic",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 6,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_2",
+        "process_stage": "contacted",
+        "quote_text": "Deutsche Bank contacted six potential strategic counterparties in the same or similar industries to gauge initial interest regarding a potential transaction with Penford."
+      },
+      {
+        "actor_class": "strategic",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 4,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "penford_w2_sale_process_part1_obl_2",
+        "process_stage": "ioi_submitted",
+        "quote_text": "On September 11, 2014, a fourth potential strategic counterparty contacted by Deutsche Bank (referred to as Party D) expressed interest, and Deutsche Bank forwarded a nondisclosure and standstill agreement to Party D."
+      }
+    ]
+  },
+  "prompt_chars": 26939,
+  "prompt_sha256": "49e8f978d9a0b8f21fc69bbcc586547f7d0c2d57853158f3bd0887420a8662d3",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "penford",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_sale_process_part1",
+  "window_profile": "W2_MULTI_REGION"
+}

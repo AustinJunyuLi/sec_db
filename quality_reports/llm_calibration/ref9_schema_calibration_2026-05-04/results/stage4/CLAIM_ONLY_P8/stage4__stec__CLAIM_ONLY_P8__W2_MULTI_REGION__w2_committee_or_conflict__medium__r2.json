@@ -1,0 +1,178 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 30.43,
+  "input_chars": 22000,
+  "input_path": "inputs/stec/W2_MULTI_REGION/w2_committee_or_conflict.json",
+  "input_text_sha256": "35c553b7927b527ab6a0d9ca066f7bf52f519cd4dc6408e7e786545e6278e173",
+  "input_tokens": 6081,
+  "job_id": "stage4__stec__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_committee_or_conflict__medium__r2",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 4,
+      "actor_relation_claims": 3,
+      "bid_claims": 0,
+      "event_claims": 4,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 2,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 1,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 11,
+    "relation_types": {
+      "advises": 1,
+      "member_of": 2
+    },
+    "strict_claim_total": 11,
+    "total_quotes": 11
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 4610,
+  "output_text_sha256": "4225e7fd96c7f839b4c55e6efc313dda7164f09fd26701caea96d373caf1ff25",
+  "output_tokens": 1489,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "committee",
+        "actor_label": "special committee",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_committee_or_conflict_obl_1",
+        "observability": "named",
+        "quote_text": "a special committee of our board of directors"
+      },
+      {
+        "actor_kind": "group",
+        "actor_label": "independent directors",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_committee_or_conflict_obl_1",
+        "observability": "named",
+        "quote_text": "a special committee of independent directors"
+      },
+      {
+        "actor_kind": "committee",
+        "actor_label": "board of directors",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_committee_or_conflict_obl_1",
+        "observability": "named",
+        "quote_text": "Our board of directors"
+      },
+      {
+        "actor_kind": "group",
+        "actor_label": "its advisors",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "stec_w2_committee_or_conflict_obl_2",
+        "observability": "anonymous_handle",
+        "quote_text": "sTec management and its advisors"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_committee_or_conflict_obl_2",
+        "effective_date_first": null,
+        "object_label": "board of directors",
+        "quote_text": "a special committee of our board of directors",
+        "relation_type": "member_of",
+        "role_detail": null,
+        "subject_label": "special committee"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_committee_or_conflict_obl_2",
+        "effective_date_first": null,
+        "object_label": "special committee",
+        "quote_text": "a special committee of independent directors",
+        "relation_type": "member_of",
+        "role_detail": "independent directors",
+        "subject_label": "independent directors"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "medium",
+        "coverage_obligation_id": "stec_w2_committee_or_conflict_obl_2",
+        "effective_date_first": null,
+        "object_label": "special committee",
+        "quote_text": "the special committee reviewed the merger agreement and had discussions with sTec management and its advisors regarding the merger and the merger agreement",
+        "relation_type": "advises",
+        "role_detail": null,
+        "subject_label": "its advisors"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "board of directors",
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_committee_or_conflict_obl_3",
+        "description": "Board established a special committee of independent directors to review strategic alternatives relating to sTec, including a potential sale, and make recommendations to the full board.",
+        "event_date": null,
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "quote_text": "Our board of directors established a special committee of independent directors (the \u201cspecial committee\u201d) to review strategic alternatives relating to sTec, including the potential sale of sTec, and to make recommendations to the full board of directors with respect to such matters."
+      },
+      {
+        "actor_label": "special committee",
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_committee_or_conflict_obl_3",
+        "description": "Special committee unanimously recommended that the board approve and adopt the merger and merger agreement.",
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "The special committee unanimously recommended that the board of directors approve and adopt the merger and the merger agreement."
+      },
+      {
+        "actor_label": "special committee",
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_committee_or_conflict_obl_3",
+        "description": "Special committee reviewed the merger agreement and discussed the merger and merger agreement with sTec management and its advisors before making its recommendation.",
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "Prior to its recommendation, the special committee reviewed the merger agreement and had discussions with sTec management and its advisors regarding the merger and the merger agreement."
+      },
+      {
+        "actor_label": "board of directors",
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_committee_or_conflict_obl_3",
+        "description": "Board unanimously approved and adopted the merger agreement and merger upon the unanimous recommendation of the special committee.",
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "Our board of directors, upon the unanimous recommendation of a special committee of our board of directors, unanimously approved and adopted the merger agreement and the merger"
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23806,
+  "prompt_sha256": "15e40e022a392b91afcbfdc802d0df6844fe69f165850b573b6a7e4dd5b1175f",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r2",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "stec",
+  "stage": "stage4",
+  "status": "completed",
+  "window_id": "w2_committee_or_conflict",
+  "window_profile": "W2_MULTI_REGION"
+}

@@ -1,0 +1,145 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_CLAIM_ONLY_P8",
+  "duration_s": 51.79,
+  "input_chars": 4284,
+  "input_path": "inputs/imprivata/W2_MULTI_REGION/w2_sale_process_part3.json",
+  "input_text_sha256": "97f1ab9549e62ab2c96d3d9f379a7f2c446c64f48eb2a11c37f1240081b1a2f2",
+  "input_tokens": 2506,
+  "job_id": "stage2__imprivata__EXPANDED_CLAIM_ONLY_P8__W2_MULTI_REGION__w2_sale_process_part3__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 4,
+      "actor_relation_claims": 0,
+      "bid_claims": 2,
+      "event_claims": 1,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 1,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 1,
+    "not_unique_in_source_window": 1,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 7,
+    "relation_types": {},
+    "strict_claim_total": 7,
+    "total_quotes": 7
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 2551,
+  "output_text_sha256": "40775cb146af0a9f506954285cd2491b2b9e52e62522e4d3b18c49a8bf8464d6",
+  "output_tokens": 1679,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "committee",
+        "actor_label": "Special Committee",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part3_obl_6",
+        "observability": "named",
+        "quote_text": "the Special Committee held a meeting"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "committee",
+        "actor_label": "Board",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part3_obl_6",
+        "observability": "named",
+        "quote_text": "the Board held a meeting"
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "Barclays",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part3_obl_7",
+        "observability": "named",
+        "quote_text": "representatives of Barclays and Goodwin were in attendance"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Goodwin",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part3_obl_8",
+        "observability": "named",
+        "quote_text": "representatives of Barclays and Goodwin were in attendance"
+      }
+    ],
+    "actor_relation_claims": [],
+    "bid_claims": [
+      {
+        "bid_date": null,
+        "bid_formality": null,
+        "bid_stage": "final",
+        "bid_value": 19.25,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "Thoma Bravo",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part3_obl_9",
+        "proposal_scope": null,
+        "quote_text": "Thoma Bravo\u2019s offer of $19.25 per share"
+      },
+      {
+        "bid_date": "2016-07-12",
+        "bid_formality": null,
+        "bid_stage": "final",
+        "bid_value": 19.25,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "Thoma Bravo",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part3_obl_9",
+        "proposal_scope": null,
+        "quote_text": "Barclays reviewed its financial analyses of the $19.25 per share cash consideration with the Special Committee."
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "Thoma Bravo",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "medium",
+        "coverage_obligation_id": "imprivata_w2_sale_process_part3_obl_4",
+        "description": "Thoma Bravo made an offer of $19.25 per share that culminated the strategic alternatives review events.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "final_round_bid",
+        "event_type": "bid",
+        "initiation_side": null,
+        "quote_text": "the events of the subsequent weeks that culminated in Thoma Bravo\u2019s offer of $19.25 per share"
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 6781,
+  "prompt_sha256": "ee4187787ed701b713d43d6f3b285ce66349068a01aad16e14e2c37b1ad247c6",
+  "reasoning": "medium",
+  "reasoning_tokens": 1034,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "80c516a8b3401128674672619998677e77e1705c31b2f7b7ea8a4f8856bd14eb",
+  "slug": "imprivata",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_sale_process_part3",
+  "window_profile": "W2_MULTI_REGION"
+}

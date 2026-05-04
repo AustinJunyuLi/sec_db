@@ -1,0 +1,127 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_MULTI_QUOTE_P8",
+  "duration_s": 45.52,
+  "input_chars": 25000,
+  "input_path": "inputs/providence-worcester/W2_MULTI_REGION/w2_financing.json",
+  "input_text_sha256": "a910c5b62ba4fd68392ac388e21f57e6754c5add7f6d5a47beb9599e651be828",
+  "input_tokens": 6627,
+  "job_id": "stage2__providence-worcester__EXPANDED_MULTI_QUOTE_P8__W2_MULTI_REGION__w2_financing__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 2,
+      "actor_relation_claims": 2,
+      "bid_claims": 0,
+      "event_claims": 1,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 2,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 2,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 2,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 5,
+    "relation_types": {
+      "finances": 2
+    },
+    "strict_claim_total": 5,
+    "total_quotes": 5
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 2252,
+  "output_text_sha256": "d1d667bcfc138b4d1aa68d6c48ec69e016e87186e784a2572708e0f355d79685",
+  "output_tokens": 1997,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": "s",
+        "actor_kind": "organization",
+        "actor_label": "Party F",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_financing_obl_1",
+        "observability": "anonymous_handle",
+        "quote_texts": [
+          "Party F (a strategic buyer)"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "a BMO affiliate",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "providence-worcester_w2_financing_obl_1",
+        "observability": "anonymous_handle",
+        "quote_texts": [
+          "a BMO affiliate has a participation in G&W\u2019s existing secured syndicated debt facility"
+        ]
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_financing_obl_2",
+        "effective_date_first": "2016-08-01",
+        "object_label": "Party E",
+        "quote_texts": [
+          "On August 1, 2016, Party D submitted a revised LOI at a price of $24.00 per share and Party E submitted a revised LOI, along with financing support, from Party F, at a price of $23.81 per share."
+        ],
+        "relation_type": "finances",
+        "role_detail": "financing support for Party E revised LOI",
+        "subject_label": "Party F"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "medium",
+        "coverage_obligation_id": "providence-worcester_w2_financing_obl_2",
+        "effective_date_first": null,
+        "object_label": "G&W",
+        "quote_texts": [
+          "a BMO affiliate has a participation in G&W\u2019s existing secured syndicated debt facility"
+        ],
+        "relation_type": "finances",
+        "role_detail": "participation in G&W\u2019s existing secured syndicated debt facility",
+        "subject_label": "a BMO affiliate"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "Party F",
+        "actor_role": "equity_financing_source",
+        "claim_type": "event",
+        "confidence": "medium",
+        "coverage_obligation_id": "providence-worcester_w2_financing_obl_3",
+        "description": "Party E submitted a revised LOI along with financing support from Party F.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2016-08-01",
+        "event_subtype": "financing_committed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "On August 1, 2016, Party D submitted a revised LOI at a price of $24.00 per share and Party E submitted a revised LOI, along with financing support, from Party F, at a price of $23.81 per share."
+        ]
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 26948,
+  "prompt_sha256": "f83f45635b7d95a27ab6b97633ef634891457078e2a2e7191a775b397d34fd36",
+  "reasoning": "medium",
+  "reasoning_tokens": 1425,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "0e783020c5768c044a886e0c68312d3e78a57555f4637885fb098049de8a7824",
+  "slug": "providence-worcester",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_financing",
+  "window_profile": "W2_MULTI_REGION"
+}

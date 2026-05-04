@@ -16,7 +16,7 @@ from sec_graph.extract.llm.requests import build_llm_windows
 from sec_graph.project.summaries import write_projection_outputs
 from sec_graph.reconcile.pipeline import reconcile_all
 from sec_graph.schema import CleanFiling, Paragraph, SourceSpan, connect, evidence_fingerprint, init_schema, make_id, quote_hash
-from sec_graph.validate.integrity import HardCheck, validate_database
+from sec_graph.validate.integrity import HardCheck, _relation_supported_by_quote, validate_database
 
 
 RUN_ID = "2026-05-03T111213Z_semantics-deal_deadbeef"
@@ -65,26 +65,80 @@ def test_actor_relation_quote_must_support_subject_object_and_relation(tmp_path:
     )
 
 
+def test_actor_relation_validator_accepts_buyer_group_composition_language() -> None:
+    assert _relation_supported_by_quote(
+        "member_of",
+        None,
+        "CSC and Pamplona, who together we refer to as CSC/Pamplona",
+    )
+    assert _relation_supported_by_quote(
+        "controls",
+        None,
+        "CSC was purchased by Pamplona in May 2013.",
+    )
+
+
+def test_actor_relation_validator_accepts_new_relation_language() -> None:
+    assert _relation_supported_by_quote(
+        "voting_support_for",
+        None,
+        "Shareholder A entered into a voting agreement and agreed to vote in favor of the merger.",
+    )
+    assert _relation_supported_by_quote(
+        "rollover_holder_for",
+        None,
+        "Rollover Holder agreed to rollover and retain equity in Parent.",
+    )
+    assert _relation_supported_by_quote(
+        "committee_member_of",
+        None,
+        "Director B was appointed and added to the special committee composed of independent directors.",
+    )
+    assert _relation_supported_by_quote(
+        "recused_from",
+        None,
+        "Director C recused himself and did not participate in the Board's evaluation.",
+    )
+
+
+def test_actor_relation_validator_rejects_quote_without_relation_support() -> None:
+    assert not _relation_supported_by_quote(
+        "voting_support_for",
+        None,
+        "Shareholder A and Parent were named in the filing.",
+    )
+
+
 def test_required_important_ambiguous_or_no_supported_coverage_blocks_sound(tmp_path: Path) -> None:
     conn, _source_path = _semantic_db(
         tmp_path,
         bid_quote="On January 1, 2020, Party A submitted a final proposal of $10.00 per share",
         relation_quote="Parent was an acquisition vehicle of Buyer Group",
     )
+    baseline = write_projection_outputs(
+        conn,
+        tmp_path / "coverage-proof-baseline",
+        run_id=RUN_ID,
+        projection_name="bidder_cycle_baseline_v1",
+    )
     required_id = conn.execute(
         """
-        SELECT obligation_id
+        SELECT coverage_obligations.obligation_id
         FROM coverage_obligations
+        JOIN coverage_results USING (obligation_id)
         WHERE importance = 'required'
+          AND coverage_results.result = 'claims_emitted'
         ORDER BY obligation_id
         LIMIT 1
         """
     ).fetchone()[0]
     important_id = conn.execute(
         """
-        SELECT obligation_id
+        SELECT coverage_obligations.obligation_id
         FROM coverage_obligations
+        JOIN coverage_results USING (obligation_id)
         WHERE importance = 'important'
+          AND coverage_results.result = 'claims_emitted'
         ORDER BY obligation_id
         LIMIT 1
         """
@@ -100,7 +154,7 @@ def test_required_important_ambiguous_or_no_supported_coverage_blocks_sound(tmp_
     )
 
     assert proof["verdict"] != "SOUND"
-    assert proof["insufficient_required_or_important_obligations"] == 2
+    assert proof["insufficient_required_or_important_obligations"] == baseline["insufficient_required_or_important_obligations"] + 2
 
 
 def _semantic_db(tmp_path: Path, *, bid_quote: str, relation_quote: str):
@@ -168,17 +222,17 @@ def _insert_filing(conn, tmp_path: Path) -> Path:
 def _response_for_window(window, *, bid_quote: str, relation_quote: str) -> LLMExtractionResponse:
     allowed = set(window.allowed_claim_types)
     obligation_ids = {
-        claim_type: [
+        claim_type: next(
             obligation.obligation_id
             for obligation in window.coverage_obligations
             if obligation.expected_claim_type == claim_type
-        ]
+        )
         for claim_type in allowed
     }
     payload = SemanticClaimsPayload(
         actor_claims=[
             ActorClaimPayload(
-                coverage_obligation_ids=obligation_ids["actor"],
+                coverage_obligation_id=obligation_ids["actor"],
                 claim_type="actor",
                 actor_label="Party A",
                 actor_kind="organization",
@@ -191,7 +245,7 @@ def _response_for_window(window, *, bid_quote: str, relation_quote: str) -> LLME
         else [],
         event_claims=[
             EventClaimPayload(
-                coverage_obligation_ids=obligation_ids["event"],
+                coverage_obligation_id=obligation_ids["event"],
                 claim_type="event",
                 event_type="transaction",
                 event_subtype="merger_agreement_executed",
@@ -207,7 +261,7 @@ def _response_for_window(window, *, bid_quote: str, relation_quote: str) -> LLME
         else [],
         bid_claims=[
             BidClaimPayload(
-                coverage_obligation_ids=obligation_ids["bid"],
+                coverage_obligation_id=obligation_ids["bid"],
                 claim_type="bid",
                 bidder_label="Party A",
                 bid_date="2020-01-01",
@@ -225,7 +279,7 @@ def _response_for_window(window, *, bid_quote: str, relation_quote: str) -> LLME
         else [],
         participation_count_claims=[
             ParticipationCountClaimPayload(
-                coverage_obligation_ids=obligation_ids["participation_count"],
+                coverage_obligation_id=obligation_ids["participation_count"],
                 claim_type="participation_count",
                 process_stage="contacted",
                 actor_class="financial",
@@ -240,7 +294,7 @@ def _response_for_window(window, *, bid_quote: str, relation_quote: str) -> LLME
         else [],
         actor_relation_claims=[
             ActorRelationClaimPayload(
-                coverage_obligation_ids=obligation_ids["actor_relation"],
+                coverage_obligation_id=obligation_ids["actor_relation"],
                 claim_type="actor_relation",
                 subject_label="Parent",
                 object_label="Buyer Group",
@@ -258,7 +312,7 @@ def _response_for_window(window, *, bid_quote: str, relation_quote: str) -> LLME
         request_id=window.request_id,
         provider_name="linkflow",
         provider_model="gpt-5.5",
-        reasoning_effort="high",
+        reasoning_effort="medium",
         payload=payload,
         raw_response_sha256=quote_hash(json.dumps(payload.model_dump(mode="json"), sort_keys=True)),
         finish_status="completed",

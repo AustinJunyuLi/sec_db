@@ -5,7 +5,7 @@ from __future__ import annotations
 import duckdb
 
 from sec_graph.extract.evidence_map import build_evidence_map
-from sec_graph.extract.llm.models import LLMProviderConfig
+from sec_graph.extract.llm.models import DEFAULT_REQUEST_MODE, LLMProviderConfig
 
 
 def run_extract(
@@ -14,7 +14,7 @@ def run_extract(
     filing_id: str,
     run_id: str,
     llm_config: LLMProviderConfig | None = None,
-    request_mode: str = "semantic_claims_v1",
+    request_mode: str = DEFAULT_REQUEST_MODE,
 ) -> list[str]:
     """Build evidence map and import typed claims.
 

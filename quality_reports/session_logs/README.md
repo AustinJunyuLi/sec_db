@@ -7,15 +7,15 @@ authority and they are NOT instructions for what to run next.
 
 ## Current Authority
 
+- `docs/superpowers/specs/2026-05-03-pipeline-hard-reset-design.md` is the
+  full-pipeline hard-reset authority.
 - `docs/spec.md` is the binding design and schema authority. §1A is the
-  binding deployable schema contract.
-- `quality_reports/plans/2026-05-02_stale-scaffold-hard-cleanse-repair-plan.md`
-  is the executing cleanup-and-repair plan, in force until every phase inside
-  it is complete.
-- `quality_reports/plans/2026-05-02_deployable-canonical-pipeline-goal.md`
-  is the goal-handoff document for live deployable proof, paired with its
-  companion implementation plan
-  `quality_reports/plans/2026-05-02_deployable-canonical-pipeline-plan.md`.
+  deployable P8 schema contract.
+- `docs/llm-interface.md` is the binding Linkflow typed-claim interface
+  contract.
+
+Past plan files and logs are historical evidence only. If a retained log
+conflicts with the three documents above, the current authority chain wins.
 
 ## Retained Logs
 
@@ -28,6 +28,7 @@ authority and they are NOT instructions for what to run next.
 | `2026-05-02_g4-stage-7-reconcile-real.md` | Stage 7 gate: real reconcile pipeline producing canonical records and bidder-cycle rows for the four examples. |
 | `2026-05-02_g5-stage-8-linkflow.md` | Stage 8 gate: opt-in Linkflow GPT-5.5 extraction adapter passing offline tests under the strict streaming + Python-owned-offset contract. |
 | `2026-05-02_reference9_offline-proof.md` | Offline reference-nine proof: nine reference filings ingested and rule-extracted without live Linkflow calls. |
+| `2026-05-03_taxonomy-classification-design.md` | Historical taxonomy design log; not binding schema authority. |
 
 ## Warning
 

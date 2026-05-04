@@ -1,0 +1,124 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 22.67,
+  "input_chars": 21999,
+  "input_path": "inputs/stec/W2_MULTI_REGION/w2_rollover.json",
+  "input_text_sha256": "57827a85a8f7a504698077341302a137f1f69fd609a813eef81e8803279bbe31",
+  "input_tokens": 5860,
+  "job_id": "stage4__stec__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_rollover__medium__r3",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 2,
+      "actor_relation_claims": 2,
+      "bid_claims": 0,
+      "event_claims": 2,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 2,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 6,
+    "relation_types": {
+      "rollover_holder_of": 2
+    },
+    "strict_claim_total": 6,
+    "total_quotes": 6
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 3165,
+  "output_text_sha256": "2b75289087aa95f157d168793c1a6bedf20a7b85bf0b163b3e83b0633a0e7652",
+  "output_tokens": 1251,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "cohort",
+        "actor_label": "holders of sTec stock options",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "stec_w2_rollover_obl_1",
+        "observability": "anonymous_handle",
+        "quote_text": "all vested and unvested stock options of sTec that are outstanding immediately prior to the effective time of the merger"
+      },
+      {
+        "actor_kind": "cohort",
+        "actor_label": "holders of sTec RSUs",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "stec_w2_rollover_obl_1",
+        "observability": "anonymous_handle",
+        "quote_text": "Awards of sTec RSUs that are outstanding immediately prior to the effective time of the merger"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "medium",
+        "coverage_obligation_id": "stec_w2_rollover_obl_2",
+        "effective_date_first": null,
+        "object_label": "WDC",
+        "quote_text": "all vested and unvested stock options of sTec that are outstanding immediately prior to the effective time of the merger will be converted into and become a stock option with respect to common stock of WDC, and WDC will assume each sTec stock option",
+        "relation_type": "rollover_holder_of",
+        "role_detail": "sTec stock options converted into options with respect to WDC common stock",
+        "subject_label": "holders of sTec stock options"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "medium",
+        "coverage_obligation_id": "stec_w2_rollover_obl_2",
+        "effective_date_first": null,
+        "object_label": "WDC",
+        "quote_text": "Awards of sTec RSUs that are outstanding immediately prior to the effective time of the merger will be converted into and become rights with respect to WDC common stock, and WDC will assume the sTec RSUs",
+        "relation_type": "rollover_holder_of",
+        "role_detail": "sTec RSUs converted into rights with respect to WDC common stock",
+        "subject_label": "holders of sTec RSUs"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "holders of sTec stock options",
+        "actor_role": "rollover_holder",
+        "claim_type": "event",
+        "confidence": "medium",
+        "coverage_obligation_id": "stec_w2_rollover_obl_3",
+        "description": "Outstanding vested and unvested sTec stock options will be converted into stock options with respect to WDC common stock, and WDC will assume each sTec stock option.",
+        "event_date": null,
+        "event_subtype": "rollover_executed",
+        "event_type": "transaction",
+        "quote_text": "all vested and unvested stock options of sTec that are outstanding immediately prior to the effective time of the merger will be converted into and become a stock option with respect to common stock of WDC, and WDC will assume each sTec stock option"
+      },
+      {
+        "actor_label": "holders of sTec RSUs",
+        "actor_role": "rollover_holder",
+        "claim_type": "event",
+        "confidence": "medium",
+        "coverage_obligation_id": "stec_w2_rollover_obl_3",
+        "description": "Outstanding sTec RSUs will be converted into rights with respect to WDC common stock, and WDC will assume the sTec RSUs.",
+        "event_date": null,
+        "event_subtype": "rollover_executed",
+        "event_type": "transaction",
+        "quote_text": "Awards of sTec RSUs that are outstanding immediately prior to the effective time of the merger will be converted into and become rights with respect to WDC common stock, and WDC will assume the sTec RSUs"
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23677,
+  "prompt_sha256": "9ba892b4600787d8d8942ec74b4e84e5895e688bf687e866c103905766453ff3",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r3",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "stec",
+  "stage": "stage4",
+  "status": "completed",
+  "window_id": "w2_rollover",
+  "window_profile": "W2_MULTI_REGION"
+}

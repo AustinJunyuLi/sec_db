@@ -1,0 +1,182 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 42.69,
+  "input_chars": 21999,
+  "input_path": "inputs/zep/W2_MULTI_REGION/w2_committee_or_conflict.json",
+  "input_text_sha256": "11d3e2e4043e508e49be8437984913d8a0de04a60ae53aa7e72d5f6d94991441",
+  "input_tokens": 5796,
+  "job_id": "stage4__zep__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_committee_or_conflict__medium__r3",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 2,
+      "actor_relation_claims": 4,
+      "bid_claims": 0,
+      "event_claims": 5,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 9,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 0.8182,
+    "quotes_in_window": 9,
+    "relation_types": {
+      "advises": 4
+    },
+    "strict_claim_total": 11,
+    "total_quotes": 11
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 6600,
+  "output_text_sha256": "3e3b362f7e26d7038c9df359aa9aef052b5d86025c1e7afd6a7ef9dc9de3b86e",
+  "output_tokens": 2429,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "group",
+        "actor_label": "Board Representatives",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_committee_or_conflict_obl_1",
+        "observability": "named",
+        "quote_text": "The Board Representatives also considered that, based upon BofA Merrill Lynch's discussions with the interested parties, the interested parties recognized the opportunity to achieve potential cost savings"
+      },
+      {
+        "actor_kind": "committee",
+        "actor_label": "our board of directors",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_committee_or_conflict_obl_1",
+        "observability": "named",
+        "quote_text": "our board of directors determined not to form a transaction committee because the full board would remain actively involved in overseeing the negotiations with New Mountain Capital"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "medium",
+        "coverage_obligation_id": "zep_w2_committee_or_conflict_obl_2",
+        "effective_date_first": "2015-02-23",
+        "object_label": "our board of directors",
+        "quote_text": "On February 23, 2015, our board of directors, together with representatives of BofA Merrill Lynch and King & Spalding, met to discuss New Mountain Capital's indication of interest.",
+        "relation_type": "advises",
+        "role_detail": null,
+        "subject_label": "BofA Merrill Lynch"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "medium",
+        "coverage_obligation_id": "zep_w2_committee_or_conflict_obl_2",
+        "effective_date_first": "2015-02-23",
+        "object_label": "our board of directors",
+        "quote_text": "On February 23, 2015, our board of directors, together with representatives of BofA Merrill Lynch and King & Spalding, met to discuss New Mountain Capital's indication of interest.",
+        "relation_type": "advises",
+        "role_detail": null,
+        "subject_label": "King & Spalding"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_committee_or_conflict_obl_2",
+        "effective_date_first": "2015-04-06",
+        "object_label": "our board of directors",
+        "quote_text": "At this meeting, at the request of our board of directors, representatives of BofA Merrill Lynch reviewed and discussed with our board of directors certain financial matters, including the financial analyses of the merger consideration.",
+        "relation_type": "advises",
+        "role_detail": "financial matters, including the financial analyses of the merger consideration",
+        "subject_label": "BofA Merrill Lynch"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_committee_or_conflict_obl_2",
+        "effective_date_first": "2015-04-06",
+        "object_label": "our board of directors",
+        "quote_text": "In addition, representatives of King & Spalding reviewed the terms of the draft merger agreement and other transaction documents, including the debt and equity commitment letters relating to the proposed transaction.",
+        "relation_type": "advises",
+        "role_detail": "reviewed the terms of the draft merger agreement and other transaction documents",
+        "subject_label": "King & Spalding"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "our board of directors",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_committee_or_conflict_obl_3",
+        "description": "The board decided to terminate the process to explore potential strategic alternatives.",
+        "event_date": "2014-06-26",
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "quote_text": "At a June 26, 2014 meeting of our board of directors, based on the lack of buyer interest and the uncertainty surrounding the impact of the fire at our aerosol manufacturing facility in Marietta, Georgia, our board of directors decided to terminate the process to explore potential strategic alternatives at that time and to continue to focus on our business and financial performance."
+      },
+      {
+        "actor_label": "our board of directors",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_committee_or_conflict_obl_3",
+        "description": "The board determined not to form a transaction committee because the full board would remain actively involved in overseeing negotiations with New Mountain Capital.",
+        "event_date": "2015-02-26",
+        "event_subtype": "advancement_declined",
+        "event_type": "process",
+        "quote_text": "our board of directors also determined not to form a transaction committee because the full board would remain actively involved in overseeing the negotiations with New Mountain Capital"
+      },
+      {
+        "actor_label": "our board of directors",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_committee_or_conflict_obl_3",
+        "description": "The board authorized an extension of exclusivity with New Mountain Capital through April 7, 2015.",
+        "event_date": "2015-03-16",
+        "event_subtype": "exclusivity_grant",
+        "event_type": "process",
+        "quote_text": "After further discussion, based upon progress in negotiations with New Mountain Capital and New Mountain Capital's reiteration that any definitive merger agreement would contain a \"go-shop\" provision, our board of directors authorized an extension of exclusivity with New Mountain Capital through April 7, 2015, which extension letter was signed on March 18, 2015."
+      },
+      {
+        "actor_label": "our board of directors",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_committee_or_conflict_obl_3",
+        "description": "The board instructed the Company's advisors to proceed to finalize the merger agreement on as favorable terms as possible to the Company.",
+        "event_date": "2015-04-06",
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "At the end of the meeting, our board of directors instructed the Company's advisors to proceed to finalize the merger agreement on as favorable terms as possible to the Company."
+      },
+      {
+        "actor_label": "our board of directors",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_committee_or_conflict_obl_3",
+        "description": "The board unanimously determined the merger agreement and transactions were advisable and in the best interests of stockholders and the Company and resolved to recommend stockholder approval.",
+        "event_date": "2015-04-07",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "quote_text": "Following discussion, our board of directors unanimously determined that the merger agreement and the transactions contemplated thereby, including the merger, were advisable and in the best interests of our stockholders and the Company, and our board of directors resolved to recommend that our stockholders approve the adoption of the merger agreement."
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23801,
+  "prompt_sha256": "6e5e99144769243f95b952246d197935bcdef25a1aea20488b2cd74829d70a80",
+  "reasoning": "medium",
+  "reasoning_tokens": 1034,
+  "replica": "r3",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "zep",
+  "stage": "stage4",
+  "status": "completed",
+  "window_id": "w2_committee_or_conflict",
+  "window_profile": "W2_MULTI_REGION"
+}

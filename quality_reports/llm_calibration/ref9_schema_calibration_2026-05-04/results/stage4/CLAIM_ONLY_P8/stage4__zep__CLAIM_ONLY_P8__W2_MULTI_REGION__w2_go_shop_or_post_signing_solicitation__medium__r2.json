@@ -1,0 +1,135 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 38.93,
+  "input_chars": 22000,
+  "input_path": "inputs/zep/W2_MULTI_REGION/w2_go_shop_or_post_signing_solicitation.json",
+  "input_text_sha256": "2967b4c8f59603f0734041e7be58f4017b686f98d2781c7bd6a5795babee903c",
+  "input_tokens": 6359,
+  "job_id": "stage4__zep__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_go_shop_or_post_signing_solicitation__medium__r2",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 2,
+      "actor_relation_claims": 0,
+      "bid_claims": 0,
+      "event_claims": 5,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 2,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 7,
+    "relation_types": {},
+    "strict_claim_total": 7,
+    "total_quotes": 7
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 4959,
+  "output_text_sha256": "11ebccc41b1f32ba8c02f83afbd1d4bba2ef7d72811e590f4e177713c9511982",
+  "output_tokens": 2346,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "organization",
+        "actor_label": "third party",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_go_shop_or_post_signing_solicitation_obl_2",
+        "observability": "anonymous_handle",
+        "quote_text": "we receive an unsolicited acquisition proposal from a third party"
+      },
+      {
+        "actor_kind": "group",
+        "actor_label": "excluded party",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_go_shop_or_post_signing_solicitation_obl_2",
+        "observability": "anonymous_handle",
+        "quote_text": "taking actions with an excluded party (for so long as such person remains an excluded party)"
+      }
+    ],
+    "actor_relation_claims": [],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": null,
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "During the go-shop period, the company, its subsidiaries and representatives were permitted to solicit other offers directly or indirectly.",
+        "event_date": "2015-05-07",
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "quote_text": "From the date of the merger agreement until 11:59 p.m. New York City time on May 7, 2015, which period we refer to as the \"go-shop period,\" we and our subsidiaries and our respective representatives were permitted to, directly or indirectly:"
+      },
+      {
+        "actor_label": null,
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "The go-shop period ended.",
+        "event_date": null,
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "quote_text": "At the end of the go-shop period:"
+      },
+      {
+        "actor_label": null,
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "After the go-shop period, the company, its affiliates and representatives became subject to no-shop restrictions until the merger effective time or earlier termination.",
+        "event_date": "2015-05-08",
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "quote_text": "Except as otherwise provided in the merger agreement, from and after 12:00 a.m. New York City time on May 8, 2015 until the effective time of the merger, or if earlier, the termination of the merger agreement in accordance with its terms, we and our affiliates and our respective representatives may not:"
+      },
+      {
+        "actor_label": "third party",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Before stockholder approval, the company could take specified actions if it received an unsolicited acquisition proposal from a third party that constituted or could reasonably be expected to lead to a superior proposal, subject to fiduciary-duty findings and excluded-party provisions.",
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "quote_text": "Notwithstanding the foregoing restrictions, if, prior to obtaining the required vote of our stockholders to approve and adopt the merger agreement, (i) we receive an unsolicited acquisition proposal from a third party that in the good faith judgment of our board of directors, after consultation with outside legal and financial advisors, constitutes, or would reasonably be expected to lead to, a \"superior proposal\" (as defined in \" *The Merger Agreement\u2014Restrictions on Solicitation of Acquisition Proposals* \") and (ii) other than with respect to taking actions with an excluded party (for so long as such person remains an excluded party), our board of directors determines in good faith, after consultation with outside legal counsel, that the failure to take such action would be reasonably likely to be inconsistent with its fiduciary duties under applicable law, then we may take the following actions:"
+      },
+      {
+        "actor_label": null,
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "zep_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "The target could pay a reduced termination fee if it accepted a superior proposal during the go-shop period or from an excluded party within a specified post-go-shop period.",
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "transaction",
+        "quote_text": "The merger agreement provides that, upon termination of the merger agreement by Parent as a result of an adverse recommendation change by our board of directors or by us to accept a superior proposal, we will be required to pay Parent a termination fee of (i) $8.75 million if such termination occurs during the go-shop period in respect of a superior proposal or if such termination is due to our acceptance of a superior proposal from an excluded party within a specified period of time after the go-shop period, or (ii) in all other circumstances, $17.5 million."
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23755,
+  "prompt_sha256": "f562117f03d0915e78603bf7ab12fadf1ffa98ae1b0cbb356318f8540690d048",
+  "reasoning": "medium",
+  "reasoning_tokens": 1272,
+  "replica": "r2",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "zep",
+  "stage": "stage4",
+  "status": "completed",
+  "window_id": "w2_go_shop_or_post_signing_solicitation",
+  "window_profile": "W2_MULTI_REGION"
+}

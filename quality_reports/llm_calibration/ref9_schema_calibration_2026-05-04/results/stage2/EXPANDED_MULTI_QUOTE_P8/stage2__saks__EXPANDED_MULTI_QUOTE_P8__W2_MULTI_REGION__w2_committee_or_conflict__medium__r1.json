@@ -1,0 +1,102 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_MULTI_QUOTE_P8",
+  "duration_s": 39.19,
+  "input_chars": 22000,
+  "input_path": "inputs/saks/W2_MULTI_REGION/w2_committee_or_conflict.json",
+  "input_text_sha256": "afbbdd751734db842cecfd0f6ad3c3aaaf19a267270a414bd181c422b4d8afd0",
+  "input_tokens": 5728,
+  "job_id": "stage2__saks__EXPANDED_MULTI_QUOTE_P8__W2_MULTI_REGION__w2_committee_or_conflict__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 1,
+      "actor_relation_claims": 1,
+      "bid_claims": 0,
+      "event_claims": 1,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 3,
+    "relation_types": {
+      "advises": 1
+    },
+    "strict_claim_total": 3,
+    "total_quotes": 3
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 1538,
+  "output_text_sha256": "37b66c0595d52121ed0fc68bc32a34c0665ae5d475cfc6573f87f06f78334f21",
+  "output_tokens": 1393,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "each director or officer of the Company",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "saks_w2_committee_or_conflict_obl_1",
+        "observability": "anonymous_handle",
+        "quote_texts": [
+          "each director or officer of the Company"
+        ]
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "medium",
+        "coverage_obligation_id": "saks_w2_committee_or_conflict_obl_2",
+        "effective_date_first": null,
+        "object_label": "the Company",
+        "quote_texts": [
+          "its representatives, including legal and accounting advisors"
+        ],
+        "relation_type": "advises",
+        "role_detail": "legal and accounting advisors",
+        "subject_label": "legal and accounting advisors"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "the Company",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "medium",
+        "coverage_obligation_id": "saks_w2_committee_or_conflict_obl_3",
+        "description": "The merger agreement contains a covenant to cause dispositions of Company equity securities held by each director or officer in the transaction to be exempt under Rule 16b-3.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "actions to cause the disposition of equity securities of the Company held by each director or officer of the Company pursuant to the transactions contemplated by the merger agreement to be exempt pursuant to Rule 16b-3 under the Exchange Act"
+        ]
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 24019,
+  "prompt_sha256": "98fcdad236b37ebf94318ffef450a9e845df7686dfd5f926680a889a9c2cf321",
+  "reasoning": "medium",
+  "reasoning_tokens": 1034,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "0e783020c5768c044a886e0c68312d3e78a57555f4637885fb098049de8a7824",
+  "slug": "saks",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_committee_or_conflict",
+  "window_profile": "W2_MULTI_REGION"
+}

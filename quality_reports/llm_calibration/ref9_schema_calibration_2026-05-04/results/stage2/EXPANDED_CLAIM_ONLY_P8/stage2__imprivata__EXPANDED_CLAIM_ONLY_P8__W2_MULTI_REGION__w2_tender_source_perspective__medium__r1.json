@@ -1,0 +1,103 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_CLAIM_ONLY_P8",
+  "duration_s": 25.73,
+  "input_chars": 22000,
+  "input_path": "inputs/imprivata/W2_MULTI_REGION/w2_tender_source_perspective.json",
+  "input_text_sha256": "968a061b06f1e05caf61670f4f5cef92c3cbb5c15eee4c2372058f9b18784daa",
+  "input_tokens": 5811,
+  "job_id": "stage2__imprivata__EXPANDED_CLAIM_ONLY_P8__W2_MULTI_REGION__w2_tender_source_perspective__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 3,
+      "actor_relation_claims": 0,
+      "bid_claims": 1,
+      "event_claims": 0,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 2,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 4,
+    "relation_types": {},
+    "strict_claim_total": 4,
+    "total_quotes": 4
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 1306,
+  "output_text_sha256": "c4ee92b3db52dcfafc327000a0f017fdd993f0c71009d5614cbbecf3af4b9baf",
+  "output_tokens": 866,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Imprivata",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "Imprivata"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Parent",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "Parent"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Merger Sub",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_tender_source_perspective_obl_1",
+        "observability": "named",
+        "quote_text": "Merger Sub"
+      }
+    ],
+    "actor_relation_claims": [],
+    "bid_claims": [
+      {
+        "bid_date": null,
+        "bid_formality": null,
+        "bid_stage": "unspecified",
+        "bid_value": 19.25,
+        "bid_value_lower": null,
+        "bid_value_unit": "USD per share",
+        "bid_value_upper": null,
+        "bidder_label": "Parent",
+        "claim_type": "bid",
+        "confidence": "medium",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "imprivata_w2_tender_source_perspective_obl_2",
+        "proposal_scope": null,
+        "quote_text": "an amount (subject to any applicable withholding tax) in cash equal to: (i) $19.25; minus (ii) the exercise price per share"
+      }
+    ],
+    "event_claims": [],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23954,
+  "prompt_sha256": "5a4527c87e3550070aa54d9fcda96e5da91a9de2c48779744670d700b14db8d2",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "80c516a8b3401128674672619998677e77e1705c31b2f7b7ea8a4f8856bd14eb",
+  "slug": "imprivata",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_tender_source_perspective",
+  "window_profile": "W2_MULTI_REGION"
+}

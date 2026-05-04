@@ -1,0 +1,396 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_MULTI_QUOTE_P8",
+  "duration_s": 58.07,
+  "input_chars": 22000,
+  "input_path": "inputs/penford/W2_MULTI_REGION/w2_go_shop_or_post_signing_solicitation.json",
+  "input_text_sha256": "3bbed46dfcf9ea1edd0001aea1c6581b63c3452fbf0dff9300a93794a091ba86",
+  "input_tokens": 5790,
+  "job_id": "stage2__penford__EXPANDED_MULTI_QUOTE_P8__W2_MULTI_REGION__w2_go_shop_or_post_signing_solicitation__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 4,
+      "actor_relation_claims": 0,
+      "bid_claims": 0,
+      "event_claims": 17,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 14,
+    "multi_quote_claims": 2,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 23,
+    "relation_types": {},
+    "strict_claim_total": 21,
+    "total_quotes": 23
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 16709,
+  "output_text_sha256": "5e94b5c123058229521d31353baa0d7a8e7986db4624822fe8ddfe0de91158df",
+  "output_tokens": 3932,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Penford",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_go_shop_or_post_signing_solicitation_obl_2",
+        "observability": "named",
+        "quote_texts": [
+          "Penford has agreed that it will not"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Ingredion",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_go_shop_or_post_signing_solicitation_obl_2",
+        "observability": "named",
+        "quote_texts": [
+          "Penford must within 24 hours advise Ingredion in writing of the receipt of any acquisition proposal"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "person or entity making such acquisition proposal",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "penford_w2_go_shop_or_post_signing_solicitation_obl_2",
+        "observability": "anonymous_handle",
+        "quote_texts": [
+          "the person or entity making such acquisition proposal"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "person",
+        "actor_label": "any person",
+        "claim_type": "actor",
+        "confidence": "medium",
+        "coverage_obligation_id": "penford_w2_go_shop_or_post_signing_solicitation_obl_2",
+        "observability": "anonymous_handle",
+        "quote_texts": [
+          "that is made by any person prior to the completion of the merger"
+        ]
+      }
+    ],
+    "actor_relation_claims": [],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "Penford",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Penford agreed to a no-solicitation covenant prohibiting it and its representatives from soliciting, initiating, encouraging, or facilitating acquisition proposals or related inquiries.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "Penford has agreed that it will not, and it will cause its subsidiaries and their respective directors, officers, employees, investment bankers, financial advisors, attorneys, accountants or other advisors, agents and representatives not to, directly or indirectly:\n\n\u2022 entertain, solicit, initiate, or knowingly encourage or knowingly induce or knowingly facilitate the making, submission or announcement of any inquiries or the making of any proposal or offer constituting, or that could reasonably be expected to lead to, an \u201cacquisition proposal\u201d"
+        ]
+      },
+      {
+        "actor_label": "Penford",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Penford and its representatives are prohibited from furnishing non-public information in connection with, or in response to, an acquisition proposal or related inquiry, proposal, or offer.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "furnish any non-public information regarding us or our subsidiaries to any person in connection with, or in response to, an acquisition proposal or any proposal, inquiry or offer that could reasonably be expected to lead to an acquisition proposal;"
+        ]
+      },
+      {
+        "actor_label": "Penford",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Penford and its representatives are prohibited from engaging in discussions or negotiations relating to acquisition proposals or related inquiries, proposals, or offers.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "engage in discussions or negotiations relating to any acquisition proposal or any proposal, inquiry or offer that could reasonably be expected to lead to an acquisition proposal;"
+        ]
+      },
+      {
+        "actor_label": "Penford",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Penford and its representatives are prohibited from approving, endorsing, or recommending acquisition proposals or related inquiries, proposals, or offers.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "approve, endorse or recommend any acquisition proposal or any proposal, inquiry or offer that could reasonably be expected to lead to an acquisition proposal;"
+        ]
+      },
+      {
+        "actor_label": "Penford",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Penford and its representatives are prohibited from making or authorizing public statements, recommendations, or solicitations supporting acquisition proposals or related inquiries, proposals, or offers.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "make or authorize any public statement, recommendation or solicitation in support of any acquisition proposal or any proposal, inquiry or offer that could reasonably be expected to lead to an acquisition proposal;"
+        ]
+      },
+      {
+        "actor_label": "Penford",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Penford and its representatives are prohibited from entering into letters of intent, agreements in principle, or contracts related to acquisition proposals or related inquiries, proposals, or offers, except for qualifying confidentiality agreements.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "enter into any letter of intent or agreement in principle or any contract providing for, relating to or in connection with any acquisition proposal or any proposal, inquiry or offer that could reasonably be expected to lead to an acquisition proposal (other than a customary confidentiality agreement on terms no less favorable to Penford than those contained in our confidentiality agreement with Ingredion (provided that such agreement must not prohibit our compliance with any provisions of the merger agreement))."
+        ]
+      },
+      {
+        "actor_label": "Penford",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "If Penford receives a bona fide acquisition proposal before shareholder approval and the board determines it constitutes or could lead to a superior proposal and fiduciary duties require action, Penford may furnish information to the proposer under a qualifying confidentiality agreement.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "if we receive a bona fide acquisition proposal prior to the time of the requisite approval of the merger agreement by our shareholders at a meeting called to approve the merger agreement, and if our board determines in good faith, after consulting with its outside counsel and its financial advisor, that such proposal constitutes or could reasonably be expected to lead to a \u201csuperior proposal\u201d",
+          "furnish information about us and our subsidiaries to the person or entity making such acquisition proposal pursuant to a customary confidentiality agreement on terms no less favorable to Penford than those contained in our confidentiality agreement with Ingredion"
+        ]
+      },
+      {
+        "actor_label": "Penford",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "If Penford receives a qualifying bona fide acquisition proposal before shareholder approval, Penford may participate in discussions and negotiations with the person making the acquisition proposal.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "if we receive a bona fide acquisition proposal prior to the time of the requisite approval of the merger agreement by our shareholders at a meeting called to approve the merger agreement, and if our board determines in good faith, after consulting with its outside counsel and its financial advisor, that such proposal constitutes or could reasonably be expected to lead to a \u201csuperior proposal\u201d",
+          "participate in discussions and negotiations regarding such acquisition proposal with the person making such acquisition proposal."
+        ]
+      },
+      {
+        "actor_label": "Penford",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Penford must notify Ingredion within 24 hours in writing after receiving any acquisition proposal or any inquiry, proposal, or offer reasonably expected to lead to an acquisition proposal before completion of the merger.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "Penford must within 24 hours advise Ingredion in writing of the receipt of any acquisition proposal or any inquiry, proposal or offer that could reasonably be expected to lead to an acquisition proposal (including certain details of the inquiry, proposal or offer) that is made by any person prior to the completion of the merger."
+        ]
+      },
+      {
+        "actor_label": "Penford",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Penford must keep Ingredion reasonably currently informed of the status and financial or other changes in any acquisition proposal, inquiry, proposal, or offer, including providing related material correspondence and proposed documents.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "Penford must also keep Ingredion informed, on a reasonably current basis, of the status of, and any financial or other changes in, any such acquisition proposal, inquiry, proposal or offer, including providing Ingredion copies of any material correspondence related thereto and proposed documents to effect such acquisition proposal."
+        ]
+      },
+      {
+        "actor_label": "Penford",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Before shareholder approval, Penford's board may change its recommendation in response to a bona fide superior proposal that has not been withdrawn and did not result from a material breach of the merger agreement.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "prior to approval of the merger agreement by Penford\u2019s shareholders at the special meeting, Penford or its board of directors, as applicable, may take the following actions in response to a bona fide superior proposal (which has not been withdrawn and that did not result from a material breach of the merger agreement):\n\n\u2022 our board may make a change of recommendation with respect to such superior proposal;"
+        ]
+      },
+      {
+        "actor_label": "Penford",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Before shareholder approval, Penford's board may terminate the merger agreement to enter into an acquisition agreement for a bona fide superior proposal, subject to paying the termination fee to Ingredion.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "the board may terminate the merger agreement to enter into an acquisition agreement with respect to such superior proposal (in which case Penford must pay the termination fee to Ingredion, discussed below in \u201cTermination Fees; Expenses\u201d)."
+        ]
+      },
+      {
+        "actor_label": "Penford",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Penford must notify Ingredion in writing of its intent to change its recommendation or enter an acquisition agreement related to a superior proposal and provide specified information and materials.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "Penford must notify Ingredion in writing that it intends to make a change in recommendation with respect to a superior proposal or enter into an acquisition agreement relating to a superior proposal and provide Ingredion with specified information and materials with respect to the superior proposal;"
+        ]
+      },
+      {
+        "actor_label": "Ingredion",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Penford must give Ingredion five business days to submit a subsequent proposal, during which Penford will negotiate with Ingredion and its representatives; Ingredion must fail to make a subsequent proposal that would cause the superior proposal to no longer be superior before Penford can proceed.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "Penford must provide Ingredion with five business days to submit a subsequent proposal, during which time Penford will negotiate in good faith with Ingredion and its representatives, and Ingredion must have failed to make a subsequent proposal during such time that would cause such superior proposal to no longer constitute a superior proposal."
+        ]
+      },
+      {
+        "actor_label": "Penford",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Penford may terminate the merger agreement to enter into a definitive agreement for a superior proposal before special meeting approval if it complies with non-solicitation obligations and pays the termination fee to Ingredion.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "in order to enter into a definitive agreement to effect a superior proposal, prior to approval of the merger agreement at the special meeting, if Penford has complied with its non-solicitation and related obligations under the merger agreement, except for certain immaterial breaches (as described in further detail in the sections titled \u201cThe Merger Agreement \u2014 No Solicitation of Transactions\u201d beginning on page 60 and \u201cThe Merger Agreement \u2014 Company Recommendation\u201d beginning on page 62), and Penford pays the termination fee to Ingredion"
+        ]
+      },
+      {
+        "actor_label": "Ingredion",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Ingredion may terminate the merger agreement if Penford's board approves, endorses, or recommends an acquisition proposal to Penford shareholders other than the merger.",
+        "drop_agency": "bidder",
+        "drop_reason": "other",
+        "event_date": null,
+        "event_subtype": "excluded_by_target",
+        "event_type": "process",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "if Penford\u2019s board (a) effects or permits a change of recommendation (whether or not permitted to do so under the merger agreement), (b) approves, endorses or recommends an acquisition proposal to Penford shareholders other than the merger"
+        ]
+      },
+      {
+        "actor_label": "Ingredion",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "penford_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Ingredion may terminate the merger agreement if Penford materially breaches its non-solicitation obligations regarding an acquisition proposal.",
+        "drop_agency": "bidder",
+        "drop_reason": "other",
+        "event_date": null,
+        "event_subtype": "excluded_by_target",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "if Penford materially breaches its non-solicitation obligations regarding an acquisition proposal;"
+        ]
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23980,
+  "prompt_sha256": "3ff8beba1e482cddd561350457799b7e6f9be2b3d64021c9fa2649da662aa2b0",
+  "reasoning": "medium",
+  "reasoning_tokens": 461,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "0e783020c5768c044a886e0c68312d3e78a57555f4637885fb098049de8a7824",
+  "slug": "penford",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_go_shop_or_post_signing_solicitation",
+  "window_profile": "W2_MULTI_REGION"
+}

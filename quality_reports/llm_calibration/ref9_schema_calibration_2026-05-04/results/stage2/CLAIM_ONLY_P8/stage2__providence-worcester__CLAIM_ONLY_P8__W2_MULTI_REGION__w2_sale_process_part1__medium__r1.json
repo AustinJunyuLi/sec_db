@@ -1,0 +1,181 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 96.1,
+  "input_chars": 23815,
+  "input_path": "inputs/providence-worcester/W2_MULTI_REGION/w2_sale_process_part1.json",
+  "input_text_sha256": "5174c9c8aea2bae82eb69fc7cb7938c5d531726466dbd97f542cc9aff87e9136",
+  "input_tokens": 6299,
+  "job_id": "stage2__providence-worcester__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_sale_process_part1__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 4,
+      "actor_relation_claims": 1,
+      "bid_claims": 1,
+      "event_claims": 3,
+      "participation_count_claims": 2
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 2,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 4,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 11,
+    "relation_types": {
+      "finances": 1
+    },
+    "strict_claim_total": 11,
+    "total_quotes": 11
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 5599,
+  "output_text_sha256": "3e920e20917d854b8f2cd16165f0ec652790a9683f0f7934194bc9973c67230d",
+  "output_tokens": 2385,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "committee",
+        "actor_label": "the Board",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_sale_process_part1_obl_6",
+        "observability": "named",
+        "quote_text": "the Board appointed a special committee of independent directors of the Board (which we refer to as the \u201cTransaction Committee\u201d), composed of Frank W. Barrett (Chair), Richard W. Anderson and James C. Garvey"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Greene Holcomb & Fisher LLC",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_sale_process_part1_obl_7",
+        "observability": "named",
+        "quote_text": "Greene Holcomb & Fisher LLC (the business of which was subsequently acquired by BMO Capital Markets Corp. and which we refer to as \u201cGHF\u201d prior to such acquisition and \u201cBMO\u201d thereafter)"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "BMO Capital Markets Corp.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_sale_process_part1_obl_7",
+        "observability": "named",
+        "quote_text": "Greene Holcomb & Fisher LLC (the business of which was subsequently acquired by BMO Capital Markets Corp. and which we refer to as \u201cGHF\u201d prior to such acquisition and \u201cBMO\u201d thereafter)"
+      },
+      {
+        "actor_kind": "organization",
+        "actor_label": "Hinckley, Allen & Snyder LLP",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_sale_process_part1_obl_8",
+        "observability": "named",
+        "quote_text": "the Company\u2019s legal counsel, Hinckley, Allen & Snyder LLP (which we refer to as \u201cHinckley Allen\u201d)"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_sale_process_part1_obl_10",
+        "effective_date_first": "2016-08-01",
+        "object_label": "Party E",
+        "quote_text": "On August 1, 2016, Party D submitted a revised LOI at a price of $24.00 per share and Party E submitted a revised LOI, along with financing support, from Party F, at a price of $23.81 per share.",
+        "relation_type": "finances",
+        "role_detail": "financing support",
+        "subject_label": "Party F"
+      }
+    ],
+    "bid_claims": [
+      {
+        "bid_date": "2016-08-12",
+        "bid_stage": "final",
+        "bid_value": 25.0,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share in cash",
+        "bid_value_upper": null,
+        "bidder_label": "G&W",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "providence-worcester_w2_sale_process_part1_obl_9",
+        "quote_text": "G&W submitted a revised LOI to acquire the Company for a price of $25.00 per share in cash, which excluded the previously proposed CVR, together with mark-ups of the merger agreement and the voting agreement."
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "the Transaction Committee",
+        "actor_role": "sender",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_sale_process_part1_obl_1",
+        "description": "The Transaction Committee authorized GHF to contact Party A and other potential buyers to determine their interest in a change in control transaction.",
+        "event_date": "2016-03-24",
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "quote_text": "The Transaction Committee authorized GHF to contact Party A as well as other potential buyers to determine their level of interest in a change in control transaction."
+      },
+      {
+        "actor_label": "GHF",
+        "actor_role": "sender",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_sale_process_part1_obl_1",
+        "description": "During the week of March 28, 2016, GHF contacted potential strategic and financial buyers.",
+        "event_date": null,
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "quote_text": "During the week of March 28, 2016, in accordance with the Transaction Committee\u2019s directives, representatives of GHF contacted 11 potential strategic buyers (including Party A) and 18 potential financial buyers."
+      },
+      {
+        "actor_label": "G&W",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_sale_process_part1_obl_4",
+        "description": "G&W submitted a revised LOI to acquire the Company for $25.00 per share in cash.",
+        "event_date": "2016-08-12",
+        "event_subtype": "final_round_bid",
+        "event_type": "bid",
+        "quote_text": "On the morning of August 12, 2016, following a discussion between representatives of BMO and G&W in which G&W indicated it would be submitting a revised LOI, G&W submitted a revised LOI to acquire the Company for a price of $25.00 per share in cash, which excluded the previously proposed CVR, together with mark-ups of the merger agreement and the voting agreement."
+      }
+    ],
+    "participation_count_claims": [
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 9,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "providence-worcester_w2_sale_process_part1_obl_2",
+        "process_stage": "ioi_submitted",
+        "quote_text": "Between May 19, 2016 and June 1, 2016, the Company received nine written indications of interest (\u201cIOIs\u201d) from potential buyers, with offer prices per share ranging from $17.93 to $26.50 (assuming the conversion of preferred stock into common stock), implying equity values of $90 million to $134 million."
+      },
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": null,
+        "count_min": 6,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "providence-worcester_w2_sale_process_part1_obl_3",
+        "process_stage": "first_round",
+        "quote_text": "In late July 2016, the Company received six LOIs with offer prices per share ranging from $19.20 to $24.00 (implying equity values of $96 million to $121 million)."
+      }
+    ]
+  },
+  "prompt_chars": 26272,
+  "prompt_sha256": "245da5475adc6598a99bcd63f6903c59ec224faf74ab2f22ae6c12fc66597c0f",
+  "reasoning": "medium",
+  "reasoning_tokens": 1034,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "providence-worcester",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_sale_process_part1",
+  "window_profile": "W2_MULTI_REGION"
+}

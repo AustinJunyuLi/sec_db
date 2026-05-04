@@ -3,8 +3,11 @@ from pathlib import Path
 
 from sec_graph.extract.llm.convert import insert_llm_response
 from sec_graph.extract.llm.models import (
-    CoverageResultPayload,
+    ActorClaimPayload,
+    ActorRelationClaimPayload,
+    DEFAULT_REQUEST_MODE,
     EventClaimPayload,
+    LLMContractError,
     LLMExtractionResponse,
     LLMWindowRequest,
     SemanticClaimsPayload,
@@ -67,14 +70,14 @@ def test_single_event_claim_does_not_satisfy_all_event_obligations(tmp_path: Pat
         allowed_claim_types=["event"],
         schema_version=1,
         extract_version=1,
-        request_mode="semantic_claims_v1",
+        request_mode=DEFAULT_REQUEST_MODE,
     )
     payload = SemanticClaimsPayload(
         actor_claims=[],
         event_claims=[
             EventClaimPayload(
                 claim_type="event",
-                coverage_obligation_ids=["coverage-deal_obligation_1"],
+                coverage_obligation_id="coverage-deal_obligation_1",
                 event_type="process",
                 event_subtype="contact_initial",
                 event_date=None,
@@ -88,20 +91,12 @@ def test_single_event_claim_does_not_satisfy_all_event_obligations(tmp_path: Pat
         bid_claims=[],
         participation_count_claims=[],
         actor_relation_claims=[],
-        coverage_results=[
-            CoverageResultPayload(
-                obligation_id="coverage-deal_obligation_2",
-                result="no_supported_claim",
-                reason_code="not_in_source_window",
-                reason="The window does not support an exclusivity event claim.",
-            )
-        ],
     )
     response = LLMExtractionResponse(
         request_id=window.request_id,
         provider_name="linkflow",
         provider_model="gpt-5.5",
-        reasoning_effort="high",
+        reasoning_effort="medium",
         payload=payload,
         raw_response_sha256=quote_hash(json.dumps(payload.model_dump(mode="json"), sort_keys=True)),
         finish_status="completed",
@@ -118,8 +113,105 @@ def test_single_event_claim_does_not_satisfy_all_event_obligations(tmp_path: Pat
     ).fetchall()
     assert rows == [
         ("coverage-deal_obligation_1", "claims_emitted", 1),
-        ("coverage-deal_obligation_2", "no_supported_claim", 0),
+        ("coverage-deal_obligation_2", "missed", 0),
     ]
+
+
+def test_rejected_claim_obligation_link_rolls_back_partial_inserts(tmp_path: Path) -> None:
+    conn = connect(":memory:")
+    init_schema(conn)
+    _insert_window_source(conn, tmp_path)
+
+    window = LLMWindowRequest(
+        request_id="coverage-deal_llmrequest_1",
+        deal_slug="coverage-deal",
+        deal_id="coverage-deal",
+        filing_id="coverage-deal_filing_1",
+        region_id="coverage-deal_region_1",
+        window_id="coverage-deal_window_1",
+        region_kind="sale_process_narrative",
+        ordered_paragraphs=[
+            WindowParagraph(
+                paragraph_id="coverage-deal_para_1",
+                source_span_id="coverage-deal_evidence_1",
+                char_start=0,
+                char_end=89,
+                paragraph_text=(
+                    "The Board began a sale process. "
+                    "The Board later granted exclusivity to Buyer A."
+                ),
+            )
+        ],
+        coverage_obligations=[
+            WindowObligation(
+                obligation_id="coverage-deal_obligation_1",
+                expected_claim_type="actor",
+                obligation_label="Target board",
+                importance="required",
+            ),
+            WindowObligation(
+                obligation_id="coverage-deal_obligation_2",
+                expected_claim_type="actor_relation",
+                obligation_label="Buyer group composition",
+                importance="important",
+            ),
+        ],
+        allowed_claim_types=["actor", "actor_relation"],
+        schema_version=1,
+        extract_version=1,
+        request_mode=DEFAULT_REQUEST_MODE,
+    )
+    payload = SemanticClaimsPayload(
+        actor_claims=[
+            ActorClaimPayload(
+                claim_type="actor",
+                coverage_obligation_id="coverage-deal_obligation_1",
+                actor_label="The Board",
+                actor_kind="committee",
+                observability="named",
+                confidence="high",
+                quote_text="The Board began a sale process.",
+            )
+        ],
+        actor_relation_claims=[
+            ActorRelationClaimPayload(
+                claim_type="actor_relation",
+                coverage_obligation_id="coverage-deal_obligation_1",
+                subject_label="Buyer A",
+                object_label="The Board",
+                relation_type="member_of",
+                role_detail=None,
+                effective_date_first=None,
+                confidence="medium",
+                quote_text="The Board later granted exclusivity to Buyer A.",
+            )
+        ],
+    )
+    response = LLMExtractionResponse(
+        request_id=window.request_id,
+        provider_name="linkflow",
+        provider_model="gpt-5.5",
+        reasoning_effort="medium",
+        payload=payload,
+        raw_response_sha256=quote_hash(json.dumps(payload.model_dump(mode="json"), sort_keys=True)),
+        finish_status="completed",
+    )
+
+    try:
+        insert_llm_response(conn, window, response, run_id=RUN_ID)
+    except LLMContractError as exc:
+        assert "does not match expected_claim_type" in str(exc)
+    else:
+        raise AssertionError("expected wrong obligation family to fail")
+
+    for table in (
+        "claims",
+        "actor_claims",
+        "actor_relation_claims",
+        "claim_evidence",
+        "coverage_results",
+    ):
+        assert conn.execute(f"SELECT count(*) FROM {table}").fetchone()[0] == 0
 
 
 def _insert_window_source(conn, tmp_path: Path) -> None:

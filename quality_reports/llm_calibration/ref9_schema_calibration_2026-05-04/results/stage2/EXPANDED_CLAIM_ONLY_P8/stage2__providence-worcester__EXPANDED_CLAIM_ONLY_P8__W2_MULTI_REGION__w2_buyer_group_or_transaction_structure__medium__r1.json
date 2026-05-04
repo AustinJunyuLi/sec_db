@@ -1,0 +1,206 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_CLAIM_ONLY_P8",
+  "duration_s": 34.17,
+  "input_chars": 16324,
+  "input_path": "inputs/providence-worcester/W2_MULTI_REGION/w2_buyer_group_or_transaction_structure.json",
+  "input_text_sha256": "31156105612305d64dc25f1cf3e0ae4a09e81b99f321e1aaf7fc7c760948aae5",
+  "input_tokens": 5240,
+  "job_id": "stage2__providence-worcester__EXPANDED_CLAIM_ONLY_P8__W2_MULTI_REGION__w2_buyer_group_or_transaction_structure__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 4,
+      "actor_relation_claims": 4,
+      "bid_claims": 0,
+      "event_claims": 4,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 2,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 4,
+    "not_unique_in_source_window": 2,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 12,
+    "relation_types": {
+      "acquisition_vehicle_of": 1,
+      "affiliate_of": 1,
+      "controls": 2
+    },
+    "strict_claim_total": 12,
+    "total_quotes": 12
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 5832,
+  "output_text_sha256": "9208a6fe33b88ccf0c4a55fdde07e01c68eef293382c05e9c612f3a631af89f6",
+  "output_tokens": 1902,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Genesee & Wyoming Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_text": "Genesee & Wyoming Inc. (\u201cG&W\u201d)"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Pullman Acquisition Sub Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_text": "Pullman Acquisition Sub Inc. (\u201cMerger Sub\u201d)"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "G&W",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_text": "providing for the acquisition of the Company by G&W"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Merger Sub",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_text": "the merger of Merger Sub with and into the Company"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Providence and Worcester Railroad Company",
+        "quote_text": "providing for the acquisition of the Company by G&W through the merger of Merger Sub with and into the Company",
+        "relation_type": "acquisition_vehicle_of",
+        "role_detail": "Merger Sub used for acquisition of the Company by G&W",
+        "subject_label": "Pullman Acquisition Sub Inc."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "G&W",
+        "quote_text": "common stock owned by G&W or any of its direct or indirect subsidiaries, including Merger Sub",
+        "relation_type": "affiliate_of",
+        "role_detail": "direct or indirect subsidiary",
+        "subject_label": "Merger Sub"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Merger Sub",
+        "quote_text": "common stock owned by G&W or any of its direct or indirect subsidiaries, including Merger Sub",
+        "relation_type": "controls",
+        "role_detail": "direct or indirect subsidiary",
+        "subject_label": "G&W"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "G&W",
+        "quote_text": "the Company becoming a wholly-owned subsidiary of G&W",
+        "relation_type": "controls",
+        "role_detail": "wholly-owned subsidiary following completion of the merger",
+        "subject_label": "G&W"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "Providence and Worcester Railroad Company",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_buyer_group_or_transaction_structure_obl_3",
+        "description": "Providence and Worcester Railroad Company entered into a merger agreement with Genesee & Wyoming Inc. and Pullman Acquisition Sub Inc.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2016-08-12",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_text": "On August 12, 2016, Providence and Worcester Railroad Company (\u201cPWRR\u201d or the \u201cCompany\u201d) entered into a merger agreement among the Company, Genesee & Wyoming Inc. (\u201cG&W\u201d) and Pullman Acquisition Sub Inc. (\u201cMerger Sub\u201d)"
+      },
+      {
+        "actor_label": "Genesee & Wyoming Inc.",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_buyer_group_or_transaction_structure_obl_3",
+        "description": "Genesee & Wyoming Inc. was a party to the August 12, 2016 merger agreement.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2016-08-12",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_text": "On August 12, 2016, Providence and Worcester Railroad Company (\u201cPWRR\u201d or the \u201cCompany\u201d) entered into a merger agreement among the Company, Genesee & Wyoming Inc. (\u201cG&W\u201d) and Pullman Acquisition Sub Inc. (\u201cMerger Sub\u201d)"
+      },
+      {
+        "actor_label": "Pullman Acquisition Sub Inc.",
+        "actor_role": "acquisition_sub",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_buyer_group_or_transaction_structure_obl_3",
+        "description": "Pullman Acquisition Sub Inc. was a party to the August 12, 2016 merger agreement.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2016-08-12",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_text": "On August 12, 2016, Providence and Worcester Railroad Company (\u201cPWRR\u201d or the \u201cCompany\u201d) entered into a merger agreement among the Company, Genesee & Wyoming Inc. (\u201cG&W\u201d) and Pullman Acquisition Sub Inc. (\u201cMerger Sub\u201d)"
+      },
+      {
+        "actor_label": "Merger Sub",
+        "actor_role": "acquisition_sub",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "providence-worcester_w2_buyer_group_or_transaction_structure_obl_3",
+        "description": "The merger agreement provides for Merger Sub to merge with and into the Company, with the Company surviving.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2016-08-12",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_text": "providing for the acquisition of the Company by G&W through the merger of Merger Sub with and into the Company (the \u201cmerger\u201d), with the Company surviving the merger"
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 18480,
+  "prompt_sha256": "aed206b62f037dc473464b6dcb04e35734e370766c9a7c95ee83e7c953b7d397",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "80c516a8b3401128674672619998677e77e1705c31b2f7b7ea8a4f8856bd14eb",
+  "slug": "providence-worcester",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_buyer_group_or_transaction_structure",
+  "window_profile": "W2_MULTI_REGION"
+}

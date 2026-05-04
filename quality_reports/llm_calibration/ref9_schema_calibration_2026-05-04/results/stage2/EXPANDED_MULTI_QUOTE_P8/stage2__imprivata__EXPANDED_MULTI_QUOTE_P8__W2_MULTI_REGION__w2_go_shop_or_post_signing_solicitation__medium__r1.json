@@ -1,0 +1,212 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_MULTI_QUOTE_P8",
+  "duration_s": 39.52,
+  "input_chars": 22000,
+  "input_path": "inputs/imprivata/W2_MULTI_REGION/w2_go_shop_or_post_signing_solicitation.json",
+  "input_text_sha256": "8bba8341df4c8c5d7a84daabf010754b409f44e85e35cf2d37a3290463324841",
+  "input_tokens": 5990,
+  "job_id": "stage2__imprivata__EXPANDED_MULTI_QUOTE_P8__W2_MULTI_REGION__w2_go_shop_or_post_signing_solicitation__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 3,
+      "actor_relation_claims": 0,
+      "bid_claims": 0,
+      "event_claims": 7,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 3,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 10,
+    "relation_types": {},
+    "strict_claim_total": 10,
+    "total_quotes": 10
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 8415,
+  "output_text_sha256": "6e03d1046d91c2eca34c27223fcbb8443c48d6bfaa36aad138041af12bc600a5",
+  "output_tokens": 2273,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Imprivata",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_go_shop_or_post_signing_solicitation_obl_2",
+        "observability": "named",
+        "quote_texts": [
+          "Imprivata, its subsidiaries and their respective representatives are not permitted to"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "third party who has made a bona fide written acquisition proposal after the date hereof",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_go_shop_or_post_signing_solicitation_obl_2",
+        "observability": "anonymous_handle",
+        "quote_texts": [
+          "third party (and its representatives and financing sources) who has made a bona fide written acquisition proposal after the date hereof"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "third party who has made such an unsolicited bona fide written acquisition proposal",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_go_shop_or_post_signing_solicitation_obl_2",
+        "observability": "anonymous_handle",
+        "quote_texts": [
+          "third party who has made such an unsolicited bona fide written acquisition proposal"
+        ]
+      }
+    ],
+    "actor_relation_claims": [],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "Imprivata",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Under the merger agreement, Imprivata, its subsidiaries and representatives are prohibited from initiating, soliciting, encouraging or facilitating acquisition proposals.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "Under the merger agreement, Imprivata, its subsidiaries and their respective representatives are not permitted to, among other things:\n\n\u2022 initiate, solicit, propose, knowingly encourage (including by providing information) or take any action to knowingly facilitate any inquiries or the making of any proposal or offer that constitutes, or would reasonably be expected to lead to, an acquisition proposal;"
+        ]
+      },
+      {
+        "actor_label": "Imprivata",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Under the merger agreement, Imprivata, its subsidiaries and representatives are prohibited from discussions, negotiations, providing non-public information or access relating to acquisition proposals or offers expected to lead to acquisition proposals.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "\u2022 engage in, continue or otherwise participate in any discussions (other than to refer to the merger agreement) or negotiations regarding, or provide any non-public information or data concerning, or afford access to the business, properties, assets, books, records or personnel of, Imprivata or any of its subsidiaries to any person relating to, any acquisition proposal or any proposal or offer that would reasonably be expected to lead to an acquisition proposal;"
+        ]
+      },
+      {
+        "actor_label": "Imprivata",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Under the merger agreement, Imprivata, its subsidiaries and representatives are prohibited from approving, endorsing, recommending or entering into specified agreements relating to an acquisition proposal, except acceptable confidentiality agreements.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "\u2022 approve, endorse, recommend or execute or enter into any letter of intent, agreement in principle, merger agreement, acquisition agreement or other similar agreement (which, for the avoidance of doubt, excludes any acceptable confidentiality agreement) relating to an acquisition proposal or any proposal or offer that would reasonably be expected to lead to an acquisition proposal;"
+        ]
+      },
+      {
+        "actor_label": "Imprivata",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Before stockholder adoption, Imprivata may provide information or access to a third party that made an unsolicited bona fide written acquisition proposal after the merger agreement date, subject to an acceptable confidentiality agreement and information-sharing obligations to Parent.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "prior to the adoption of the merger agreement by Imprivata stockholders, Imprivata may (1) provide information or afford access to the business, properties, assets, books, records, or to any personnel of Imprivata in response to a request therefor to a third party (and its representatives and financing sources) who has made a bona fide written acquisition proposal after the date hereof that was not solicited in material violation of the merger agreement, if and only if, prior to providing such information, Imprivata has received from such third party so requesting such information an executed acceptable confidentiality agreement;"
+        ]
+      },
+      {
+        "actor_label": "Imprivata",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Before stockholder adoption, Imprivata may engage or participate in discussions or negotiations with a third party that made an unsolicited bona fide written acquisition proposal.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "or (2) engage or participate in any discussions or negotiations with a third party who has made such an unsolicited bona fide written acquisition proposal."
+        ]
+      },
+      {
+        "actor_label": "Parent",
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Parent may terminate the merger agreement if Imprivata breaches its no-solicitation obligations, subject to specified exceptions and Parent and Merger Sub not being in material breach.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "if Imprivata has breached any of its obligations with respect to no solicitation under the merger agreement (other than (y) any unauthorized or materially cured breaches thereof or (z) any immaterial or inadvertent breaches not intended to result in an acquisition proposal), and only if Parent and Merger Sub are not in material breach of their representations, warranties, covenants and agreements under the merger agreement."
+        ]
+      },
+      {
+        "actor_label": "Imprivata",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "imprivata_w2_go_shop_or_post_signing_solicitation_obl_1",
+        "description": "Before stockholder adoption, Imprivata may terminate the merger agreement to enter into an acquisition agreement for a superior proposal if the Board or a committee has authorized the definitive agreement in compliance with the merger agreement and Imprivata enters it and pays the termination fee concurrently.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "advancement_admitted",
+        "event_type": "process",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "prior to the adoption of the merger agreement by Imprivata stockholders, in order to enter into an acquisition agreement for a superior proposal, if the Board (or a committee thereof), in compliance with the applicable terms of the merger agreement, has authorized Imprivata to enter into a specified definitive acquisition agreement and Imprivata enters into such binding definitive agreement and concurrently with the termination of the merger agreement pays the termination fee described in the section entitled \u201cThe Merger Agreement \u2013 Termination Fees and Expenses\u201d;"
+        ]
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23986,
+  "prompt_sha256": "2acfeccb505b69ffb68f6bfff133d7f51aad12ffe6cc232b9b95f637914e9b1c",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "0e783020c5768c044a886e0c68312d3e78a57555f4637885fb098049de8a7824",
+  "slug": "imprivata",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_go_shop_or_post_signing_solicitation",
+  "window_profile": "W2_MULTI_REGION"
+}

@@ -1,0 +1,91 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "CLAIM_ONLY_P8",
+  "duration_s": 17.0,
+  "input_chars": 21999,
+  "input_path": "inputs/stec/W2_MULTI_REGION/w2_support_or_voting_agreement.json",
+  "input_text_sha256": "f69d2707a34784ef469794be1a095997f87d6929e4ce2bf4ae652b92e5ea431b",
+  "input_tokens": 6222,
+  "job_id": "stage4__stec__CLAIM_ONLY_P8__W2_MULTI_REGION__w2_support_or_voting_agreement__medium__r3",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 1,
+      "actor_relation_claims": 1,
+      "bid_claims": 0,
+      "event_claims": 0,
+      "participation_count_claims": 1
+    },
+    "duplicate_quotes_within_response": 0,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 1,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 0,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 3,
+    "relation_types": {
+      "supports": 1
+    },
+    "strict_claim_total": 3,
+    "total_quotes": 3
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 1515,
+  "output_text_sha256": "e63c85af90ec4619214098fc7faadeb6e48b440eeb8fc6075ede55b98a0f7dcd",
+  "output_tokens": 866,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_kind": "group",
+        "actor_label": "sTec executive officers and directors",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_support_or_voting_agreement_obl_1",
+        "observability": "anonymous_handle",
+        "quote_text": "our executive officers and directors each entered into voting agreements with WDC"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_support_or_voting_agreement_obl_2",
+        "effective_date_first": null,
+        "object_label": "WDC",
+        "quote_text": "our executive officers and directors each entered into voting agreements with WDC, pursuant to which our executive officers and directors agreed, among other matters, to vote all of the shares of our common stock held by them in favor of the proposal to approve and adopt the merger agreement",
+        "relation_type": "supports",
+        "role_detail": "entered into voting agreements to vote all shares held by them in favor of the proposal to approve and adopt the merger agreement",
+        "subject_label": "sTec executive officers and directors"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [],
+    "participation_count_claims": [
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "medium",
+        "count_max": null,
+        "count_min": 12,
+        "count_qualifier": "approximate",
+        "coverage_obligation_id": "stec_w2_support_or_voting_agreement_obl_3",
+        "process_stage": "exclusivity",
+        "quote_text": "As of July 26, 2013, these shares represented approximately 12.37% of our issued and outstanding shares of common stock."
+      }
+    ]
+  },
+  "prompt_chars": 23825,
+  "prompt_sha256": "897092bd49e1f74ec440976fcef08157d9753ee709c51048b92313903830804c",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r3",
+  "result": "OK",
+  "schema_sha256": "1aba1e730d9ae2f7e26e525a64f7bae1a97fe47af5e850f7550b21d09a4dfec7",
+  "slug": "stec",
+  "stage": "stage4",
+  "status": "completed",
+  "window_id": "w2_support_or_voting_agreement",
+  "window_profile": "W2_MULTI_REGION"
+}

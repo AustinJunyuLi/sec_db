@@ -1,0 +1,223 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_CLAIM_ONLY_P8",
+  "duration_s": 30.13,
+  "input_chars": 21341,
+  "input_path": "inputs/stec/W2_MULTI_REGION/w2_buyer_group_or_transaction_structure.json",
+  "input_text_sha256": "de38ffb21a290a21857e33911009a16cc27927da5e216605322afbb7b95bf18d",
+  "input_tokens": 6382,
+  "job_id": "stage2__stec__EXPANDED_CLAIM_ONLY_P8__W2_MULTI_REGION__w2_buyer_group_or_transaction_structure__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 5,
+      "actor_relation_claims": 6,
+      "bid_claims": 0,
+      "event_claims": 3,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 2,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 3,
+    "not_unique_in_source_window": 2,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 14,
+    "relation_types": {
+      "acquisition_vehicle_of": 3,
+      "affiliate_of": 1,
+      "controls": 2
+    },
+    "strict_claim_total": 14,
+    "total_quotes": 14
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 5810,
+  "output_text_sha256": "9f4c16a4eff8535de86b570e5fa62ba3962e0335b7c27e7325705f24d6c74543",
+  "output_tokens": 1882,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "sTec, Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_text": "sTec, Inc."
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Western Digital Corporation",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_text": "Western Digital Corporation"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Lodi Ventures, Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_text": "Lodi Ventures, Inc., a wholly-owned subsidiary of Western Digital Corporation"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "WDC",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_text": "Western Digital Corporation (\u201cWDC\u201d)"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Merger Sub",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_text": "Lodi Ventures, Inc., a wholly-owned subsidiary of WDC (\u201cMerger Sub\u201d)"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Western Digital Corporation",
+        "quote_text": "Lodi Ventures, Inc., a wholly-owned subsidiary of Western Digital Corporation",
+        "relation_type": "acquisition_vehicle_of",
+        "role_detail": "wholly-owned subsidiary",
+        "subject_label": "Lodi Ventures, Inc."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Lodi Ventures, Inc.",
+        "quote_text": "Lodi Ventures, Inc., a wholly-owned subsidiary of Western Digital Corporation",
+        "relation_type": "controls",
+        "role_detail": "wholly-owned subsidiary",
+        "subject_label": "Western Digital Corporation"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "WDC",
+        "quote_text": "Lodi Ventures, Inc., a wholly-owned subsidiary of WDC (\u201cMerger Sub\u201d)",
+        "relation_type": "acquisition_vehicle_of",
+        "role_detail": "Merger Sub; wholly-owned subsidiary",
+        "subject_label": "Merger Sub"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Merger Sub",
+        "quote_text": "Lodi Ventures, Inc., a wholly-owned subsidiary of WDC (\u201cMerger Sub\u201d)",
+        "relation_type": "controls",
+        "role_detail": "wholly-owned subsidiary",
+        "subject_label": "WDC"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Lodi Ventures, Inc.",
+        "quote_text": "Lodi Ventures, Inc., a wholly-owned subsidiary of WDC (\u201cMerger Sub\u201d)",
+        "relation_type": "affiliate_of",
+        "role_detail": "Merger Sub",
+        "subject_label": "Merger Sub"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Western Digital Corporation",
+        "quote_text": "providing for the acquisition of sTec by Western Digital Corporation",
+        "relation_type": "acquisition_vehicle_of",
+        "role_detail": "acquisition of sTec by Western Digital Corporation",
+        "subject_label": "Lodi Ventures, Inc."
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "sTec",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_buyer_group_or_transaction_structure_obl_3",
+        "description": "sTec entered into an agreement and plan of merger with Western Digital Corporation and Lodi Ventures, Inc., providing for the acquisition of sTec by Western Digital Corporation.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-06-23",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_text": "On June 23, 2013, sTec entered into an agreement and plan of merger with Western Digital Corporation and Lodi Ventures, Inc., a wholly-owned subsidiary of Western Digital Corporation, providing for the acquisition of sTec by Western Digital Corporation."
+      },
+      {
+        "actor_label": "WDC",
+        "actor_role": "offeror",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_buyer_group_or_transaction_structure_obl_3",
+        "description": "The agreement and plan of merger was dated as of June 23, 2013, by and among WDC, Merger Sub and sTec.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-06-23",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_text": "the agreement and plan of merger, dated as of June 23, 2013, by and among WDC, Merger Sub and sTec"
+      },
+      {
+        "actor_label": "Merger Sub",
+        "actor_role": "acquisition_sub",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "stec_w2_buyer_group_or_transaction_structure_obl_3",
+        "description": "The merger agreement provides for WDC\u2019s acquisition of sTec through a merger of Merger Sub, with and into sTec.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-06-23",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_text": "The merger agreement provides for WDC\u2019s acquisition of sTec through a merger of Merger Sub, with and into sTec"
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 23433,
+  "prompt_sha256": "d3ce1e382404f2cdf1e9c1ad53c6ce7bf4b3ff6efcc3767af5b3787c10126727",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "80c516a8b3401128674672619998677e77e1705c31b2f7b7ea8a4f8856bd14eb",
+  "slug": "stec",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_buyer_group_or_transaction_structure",
+  "window_profile": "W2_MULTI_REGION"
+}

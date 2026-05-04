@@ -1,0 +1,212 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_CLAIM_ONLY_P8",
+  "duration_s": 32.9,
+  "input_chars": 2196,
+  "input_path": "inputs/saks/W2_MULTI_REGION/w2_sale_process_part2.json",
+  "input_text_sha256": "c5e49a3c1dd6d8b895152048816b2bcfd043a1727f2069cb8e327ea9a93ce2d1",
+  "input_tokens": 2115,
+  "job_id": "stage2__saks__EXPANDED_CLAIM_ONLY_P8__W2_MULTI_REGION__w2_sale_process_part2__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 5,
+      "actor_relation_claims": 2,
+      "bid_claims": 0,
+      "event_claims": 3,
+      "participation_count_claims": 3
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 6,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 4,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 13,
+    "relation_types": {
+      "advises": 1,
+      "affiliate_of": 1
+    },
+    "strict_claim_total": 13,
+    "total_quotes": 13
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 4777,
+  "output_text_sha256": "c853d3515cb0cf600a48812b27208edd9ac991948ae925b200d39c943925d63e",
+  "output_tokens": 1644,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Saks",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part2_obl_6",
+        "observability": "named",
+        "quote_text": "Saks"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "the board",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part2_obl_6",
+        "observability": "named",
+        "quote_text": "the board"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Goldman Sachs",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part2_obl_7",
+        "observability": "named",
+        "quote_text": "Goldman Sachs"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Company I",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part2_obl_2",
+        "observability": "anonymous_handle",
+        "quote_text": "Company I"
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Hudson\u2019s Bay",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part2_obl_10",
+        "observability": "named",
+        "quote_text": "Hudson\u2019s Bay"
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part2_obl_7",
+        "effective_date_first": null,
+        "object_label": "Saks",
+        "quote_text": "Goldman Sachs, on behalf of Saks",
+        "relation_type": "advises",
+        "role_detail": null,
+        "subject_label": "Goldman Sachs"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part2_obl_10",
+        "effective_date_first": null,
+        "object_label": "Hudson\u2019s Bay and other third parties with whom Saks had held discussions",
+        "quote_text": "Hudson\u2019s Bay and other third parties with whom Saks had held discussions",
+        "relation_type": "affiliate_of",
+        "role_detail": null,
+        "subject_label": "Hudson\u2019s Bay"
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": "Goldman Sachs",
+        "actor_role": "sender",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part2_obl_1",
+        "description": "During the go-shop process, Goldman Sachs, on behalf of Saks, contacted 58 potentially interested third parties.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_text": "During the go shop process, Goldman Sachs, on behalf of Saks, contacted 58 potentially interested third parties, including private equity firms, companies involved in the retail industry and other potential acquirors."
+      },
+      {
+        "actor_label": "Company I",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part2_obl_2",
+        "description": "Company I executed a confidentiality agreement with, and conducted due diligence on, Saks.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "nda_signed",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_text": "only one of the six (which we refer to as Company I) executed a confidentiality agreement with, and conducted a due diligence investigation of, Saks"
+      },
+      {
+        "actor_label": null,
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part2_obl_4",
+        "description": "None of the parties contacted as part of the go-shop process submitted an acquisition proposal for Saks.",
+        "drop_agency": "bidder",
+        "drop_reason": "never_advanced",
+        "event_date": null,
+        "event_subtype": "non_responsive",
+        "event_type": "bid",
+        "initiation_side": null,
+        "quote_text": "None of the parties contacted as part of the go shop process, including Company I, has submitted an acquisition proposal for Saks."
+      }
+    ],
+    "participation_count_claims": [
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": 58,
+        "count_min": 58,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "saks_w2_sale_process_part2_obl_2",
+        "process_stage": "contacted",
+        "quote_text": "contacted 58 potentially interested third parties, including private equity firms, companies involved in the retail industry and other potential acquirors"
+      },
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": 6,
+        "count_min": 6,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "saks_w2_sale_process_part2_obl_2",
+        "process_stage": "ioi_submitted",
+        "quote_text": "Of those contacted, only six parties expressed interest"
+      },
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": 1,
+        "count_min": 1,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "saks_w2_sale_process_part2_obl_2",
+        "process_stage": "nda_signed",
+        "quote_text": "only one of the six (which we refer to as Company I) executed a confidentiality agreement with, and conducted a due diligence investigation of, Saks"
+      }
+    ]
+  },
+  "prompt_chars": 4638,
+  "prompt_sha256": "ed27047b48485677041c209e665b861651bb0699c4c564391f02fe3f058d3830",
+  "reasoning": "medium",
+  "reasoning_tokens": 516,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "80c516a8b3401128674672619998677e77e1705c31b2f7b7ea8a4f8856bd14eb",
+  "slug": "saks",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_sale_process_part2",
+  "window_profile": "W2_MULTI_REGION"
+}

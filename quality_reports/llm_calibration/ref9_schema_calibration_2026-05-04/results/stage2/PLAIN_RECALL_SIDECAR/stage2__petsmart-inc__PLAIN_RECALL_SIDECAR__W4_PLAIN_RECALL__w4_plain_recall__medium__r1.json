@@ -1,0 +1,582 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "PLAIN_RECALL_SIDECAR",
+  "duration_s": 102.63,
+  "input_chars": 119999,
+  "input_path": "inputs/petsmart-inc/W4_PLAIN_RECALL/w4_plain_recall.json",
+  "input_text_sha256": "99c44f2e6fc89ae48ba80583cc0f6583edc2a7f15e2bee9203a47e4e736f02bb",
+  "input_tokens": 24957,
+  "job_id": "stage2__petsmart-inc__PLAIN_RECALL_SIDECAR__W4_PLAIN_RECALL__w4_plain_recall__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actors": 11,
+      "bids": 8,
+      "chronology": 19,
+      "counts": 15,
+      "relations": 12,
+      "source_limitations": 4,
+      "uncertain_or_missing": 8
+    },
+    "duplicate_quotes_within_response": 2,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 0,
+    "not_unique_in_source_window": 2,
+    "quote_match_rate": 0.8493,
+    "quotes_in_window": 62,
+    "relation_types": {},
+    "sidecar_total_items": 77,
+    "strict_claim_total": 0,
+    "total_quotes": 73
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 37839,
+  "output_text_sha256": "aa8de8b833eaff19d1eed6f23fd78da0771f59d06ead6da797d956d7c767f0e5",
+  "output_tokens": 7613,
+  "parsed": {
+    "actors": [
+      {
+        "date": null,
+        "description": "PetSmart, Inc. is the target company and a Delaware corporation headquartered in Phoenix, Arizona.",
+        "exact_quote": "\u201cPetSmart,\u201d the \u201cCompany,\u201d \u201cwe,\u201d \u201cour,\u201d or \u201cus\u201d refer to PetSmart, Inc., a Delaware corporation;",
+        "importance": "core",
+        "label": "PetSmart / Company"
+      },
+      {
+        "date": null,
+        "description": "Parent is Argos Holdings Inc.; Merger Sub is Argos Merger Sub Inc., a wholly owned subsidiary of Parent.",
+        "exact_quote": "\u201cParent\u201d refers to Argos Holdings Inc., a Delaware corporation and \u201cMerger Sub\u201d refers to Argos Merger Sub Inc., a Delaware corporation;",
+        "importance": "core",
+        "label": "Argos Holdings / Argos Merger Sub"
+      },
+      {
+        "date": null,
+        "description": "Buyer Group consists of funds advised by BC Partners, La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, GIC Special Investments affiliates, StepStone affiliates, and, after December 12, 2014, Longview Asset Management.",
+        "exact_quote": "the \u201cBuyer Group\u201d refers to a consortium of funds advised by BC Partners, Inc., La Caisse de d\u00e9p\u00f4t et placement du Qu\u00e9bec, affiliates of GIC Special Investments Pte Ltd, affiliates of StepStone Group LP and, at all times after December 12, 2014, Longview Asset Management, LLC;",
+        "importance": "core",
+        "label": "Buyer Group"
+      },
+      {
+        "date": null,
+        "description": "Parent and Merger Sub were formed only for the transaction and had no business beyond formation and transaction-related activities.",
+        "exact_quote": "Both Parent and Merger Sub were formed solely for the purpose of entering into the merger agreement and consummating the transactions contemplated by the merger agreement, and have not engaged in any business except for activities incidental to their formation and as contemplated by the merger agreement.",
+        "importance": "useful",
+        "label": "Acquisition vehicles"
+      },
+      {
+        "date": null,
+        "description": "J.P. Morgan served as PetSmart\u2019s financial advisor in the review/sale process and fairness opinion provider.",
+        "exact_quote": "the Company retained J.P. Morgan as financial advisor based on, among other factors, J.P. Morgan\u2019s reputation, experience in mergers and acquisitions, valuation, financing and capital markets and its familiarity with the Company.",
+        "importance": "core",
+        "label": "J.P. Morgan"
+      },
+      {
+        "date": null,
+        "description": "Wachtell Lipton served as PetSmart\u2019s legal advisor in the review and sale process.",
+        "exact_quote": "the board reviewed, together with a financial advisor and with Wachtell, Lipton, Rosen & Katz (\u201cWachtell Lipton\u201d), its legal advisor, the various strategic and financial alternatives potentially available to the Company",
+        "importance": "useful",
+        "label": "Wachtell Lipton"
+      },
+      {
+        "date": "2014-06-18",
+        "description": "The board established an ad hoc advisory subcommittee of independent nonexecutive directors for the alternatives review.",
+        "exact_quote": "The board also established an ad hoc advisory subcommittee (the \u201cad hoc committee\u201d) with respect to, among other things, the review of alternatives. Chairman Gregory Josefowicz and directors Rakesh Gangwal and Thomas Stemberg, all of whom are nonexecutive, independent directors, were appointed to the ad hoc committee.",
+        "importance": "core",
+        "label": "Ad hoc committee"
+      },
+      {
+        "date": null,
+        "description": "Industry Participant was a privately held company in PetSmart\u2019s industry considered as a potential merger/acquisition counterparty but not invited into the sale process.",
+        "exact_quote": "one of the alternatives considered by the board was a merger with or acquisition of another participant in PetSmart\u2019s industry, a privately-held company which we refer to here as \u201cIndustry Participant.\u201d",
+        "importance": "core",
+        "label": "Industry Participant"
+      },
+      {
+        "date": "2014-07-03",
+        "description": "JANA Partners became an activist stockholder with a 9.9% disclosed stake and advocated strategic alternatives including a sale.",
+        "exact_quote": "On July 3, 2014, JANA Partners filed a Schedule 13D with the SEC disclosing that JANA had acquired 9.9% of the Company\u2019s outstanding common stock and that JANA intended to engage in discussions with management and the board with respect to a review of strategic alternatives, including a sale of the Company.",
+        "importance": "core",
+        "label": "JANA Partners"
+      },
+      {
+        "date": "2014-07-07",
+        "description": "Longview publicly urged consideration of a sale and said it might roll holdings into the acquirer if needed.",
+        "exact_quote": "On July 7, 2014, Longview made public a letter to the board in which Longview stated that the board should consider the a sale of the Company (as well as other strategic alternatives) and that should the board determine a sale transaction to be in the interests of all stockholders, Longview would consider, depending on the parties and terms involved, rolling part or all of its holdings into equity of the acquiring entity rather than receive cash consideration, should doing so prove necessary in order to enable the Company to complete a transaction.",
+        "importance": "core",
+        "label": "Longview Asset Management"
+      },
+      {
+        "date": null,
+        "description": "Innisfree M&A Incorporated acted as proxy solicitation agent for the Company.",
+        "exact_quote": "If you have more questions about the merger, or require assistance in submitting your proxy or voting your shares or need additional copies of the proxy statement or the enclosed proxy card, please contact Innisfree M&A Incorporated, which is acting as the proxy solicitation agent for the Company in connection with the merger.",
+        "importance": "useful",
+        "label": "Innisfree M&A"
+      }
+    ],
+    "bids": [
+      {
+        "date": "2014-10-30",
+        "description": "Six parties submitted initial indications of interest.",
+        "exact_quote": "On October 30, six of the potentially interested parties submitted indications of interest.",
+        "importance": "core",
+        "label": "First-round indications"
+      },
+      {
+        "date": "2014-10-30",
+        "description": "Three bidders initially indicated price ranges reaching at least $80.00 per share; Buyer Group indicated $81.00 to $83.00 per share, another bidder indicated $80.00 to $85.00 per share.",
+        "exact_quote": "Three bidders initially indicated price ranges that reached at least $80.00 per share, including the Buyer Group, which indicated a range of $81.00 to $83.00 per share, and another bidder, which suggested a range of $80.00 to $85.00 per share.",
+        "importance": "core",
+        "label": "Initial price ranges"
+      },
+      {
+        "date": "2014-10-30",
+        "description": "Bidder 2 initially indicated $78.00 per share but increased to $81.00 to $84.00 per share after discussions with J.P. Morgan.",
+        "exact_quote": "As a result of its discussions with J.P. Morgan, another bidder (which we refer to as \u201cBidder 2\u201d), which had initially indicated a price of $78.00, increased its indication to a range of $81.00 to $84.00 per share.",
+        "importance": "core",
+        "label": "Bidder 2 initial indication"
+      },
+      {
+        "date": "2014-12-10",
+        "description": "Buyer Group submitted final bid of $80.70 per share in cash; Bidder 2 submitted $80.35 per share in cash.",
+        "exact_quote": "The Buyer Group offered $80.70 per share, in cash, and Bidder 2 offered $80.35 per share, in cash.",
+        "importance": "core",
+        "label": "December 10 written offers"
+      },
+      {
+        "date": "2014-12-10",
+        "description": "Bidder 3 verbally indicated valuation would not be above approximately $78 current stock price and did not submit written offer.",
+        "exact_quote": "Bidder 3 verbally communicated to J.P. Morgan that their valuation would not be above the current stock price of approximately $78 per share. J.P. Morgan communicated to Bidder 3 that it was unlikely to be competitive and accordingly Bidder 3 did not submit a written offer.",
+        "importance": "core",
+        "label": "Bidder 3 verbal indication / no written offer"
+      },
+      {
+        "date": "2014-12-12",
+        "description": "Bidder 2 submitted $81.50 per share cash offer, confirmed as best and final.",
+        "exact_quote": "During the evening of December 12, 2014, Bidder 2 submitted an offer of $81.50 per share, in cash. Representatives of J.P. Morgan confirmed via a conversation with Bidder 2 on the evening of December 12, 2014 that $81.50 per share was its best and final offer.",
+        "importance": "core",
+        "label": "Bidder 2 best and final"
+      },
+      {
+        "date": "2014-12-12",
+        "description": "Buyer Group initially offered $82.50 per share in cash, then submitted best and final offer of $83.00 per share in cash.",
+        "exact_quote": "The Buyer Group initially submitted an oral offer of $82.50 per share, in cash, but stated that it was working to increase the offer within the next few hours. Later in the evening, the Buyer Group submitted a best and final offer of $83.00 per share, in cash.",
+        "importance": "core",
+        "label": "Buyer Group best and final"
+      },
+      {
+        "date": "2014-12-14",
+        "description": "Definitive merger agreement provides $83.00 per share in cash.",
+        "exact_quote": "If the merger is completed, you will be entitled to receive $83.00 in cash, without interest and less any applicable withholding taxes, for each share of our common stock that you own.",
+        "importance": "core",
+        "label": "Merger consideration"
+      }
+    ],
+    "chronology": [
+      {
+        "date": "2014-Q1",
+        "description": "Board considered a merger with or acquisition of Industry Participant; management was authorized to contact Industry Participant.",
+        "exact_quote": "During the first calendar quarter of 2014, one of the alternatives considered by the board was a merger with or acquisition of another participant in PetSmart\u2019s industry, a privately-held company which we refer to here as \u201cIndustry Participant.\u201d In March, 2014, the board authorized management to contact Industry Participant to determine Industry Participant\u2019s interest in initiating exploratory discussions concerning the feasibility of a merger or acquisition transaction.",
+        "importance": "core",
+        "label": "Early Industry Participant outreach"
+      },
+      {
+        "date": "2014-Spring",
+        "description": "Industry Participant\u2019s CEO told PetSmart it was not for sale and believed antitrust clearance would not be received or would have unacceptable conditions.",
+        "exact_quote": "Industry Participant\u2019s CEO informed Mr. Lenhardt that Industry Participant was not for sale and that, in any event, Industry Participant\u2019s management and owners believed that antitrust clearance for a combination of PetSmart and Industry Participant would not be received or would be received only with unacceptable conditions.",
+        "importance": "core",
+        "label": "Industry Participant antitrust / not for sale"
+      },
+      {
+        "date": "2014-05-21",
+        "description": "PetSmart announced first quarter results below expectations and weaker-than-expected guidance, after which stockholders and interested parties suggested alternatives including return of capital and sale.",
+        "exact_quote": "On May 21, 2014, the Company released its first quarter earnings announcement, which disclosed quarterly performance below Wall Street expectations and weaker-than-expected guidance for its second quarter and full year. Following this release, in late May and June 2014, the Company received written or verbal communications from some stockholders and from interested parties suggesting that the Company engage in various strategic or financial alternatives.",
+        "importance": "core",
+        "label": "Q1 earnings catalyst"
+      },
+      {
+        "date": "2014-06-18",
+        "description": "Board reviewed strategic and financial alternatives and decided to explore potential capital-structure changes focused on returning capital to stockholders.",
+        "exact_quote": "At a meeting on June 18, 2014, the board reviewed, together with a financial advisor and with Wachtell, Lipton, Rosen & Katz (\u201cWachtell Lipton\u201d), its legal advisor, the various strategic and financial alternatives potentially available to the Company and determined to explore more intensively potential changes to the Company\u2019s capital structure, with a focus on returning capital to stockholders.",
+        "importance": "core",
+        "label": "Board review of alternatives"
+      },
+      {
+        "date": "2014-07",
+        "description": "Company retained J.P. Morgan after interviewing several potential financial advisors.",
+        "exact_quote": "In July, after interviewing several potential financial advisors, the Company retained J.P. Morgan as financial advisor based on, among other factors, J.P. Morgan\u2019s reputation, experience in mergers and acquisitions, valuation, financing and capital markets and its familiarity with the Company.",
+        "importance": "core",
+        "label": "J.P. Morgan retained"
+      },
+      {
+        "date": "2014-08-13",
+        "description": "Board decided to explore strategic alternatives, including a possible sale, commence Profit Improvement Plan planning, and authorize ad hoc committee oversight of the sale process.",
+        "exact_quote": "As a result of this meeting, the board (1) determined to explore strategic alternatives (including a possible sale of the Company) for the Company to maximize value for stockholders including by commencing a process to determine the potential value that could be achieved via a sale of the Company; (2) instructed management to commence intensive planning for a cost-reduction and profit-improvement plan (which we refer to collectively as the \u201cProfit Improvement Plan\u201d) to potentially increase the value of the Company, whether in a sale of the Company or on a standalone basis should no sale materialize; and (3) authorized the ad hoc committee to oversee the sale exploration process",
+        "importance": "core",
+        "label": "Board launches sale exploration"
+      },
+      {
+        "date": "2014-08-19",
+        "description": "Company publicly announced exploration of strategic alternatives including a possible sale.",
+        "exact_quote": "On August 19, 2014, concurrent with its second quarter earnings announcement, the Company issued a press release announcing that it determined to explore strategic alternatives for the Company to maximize value for stockholders, including a possible sale of the Company.",
+        "importance": "core",
+        "label": "Public announcement of strategic alternatives"
+      },
+      {
+        "date": "2014-08-22",
+        "description": "J.P. Morgan communicated board concerns to Industry Participant, signaling it would not be invited to participate in the process.",
+        "exact_quote": "On August 22, 2014, a representative of J.P. Morgan contacted by telephone the representative of Industry Participant with whom the J.P. Morgan representative had spoken to on August 7. During this call, Industry Participant confirmed that it was aware of the Company\u2019s August 19 announcement and the J.P Morgan representative informed the Industry Participant representative of the board\u2019s concerns regarding Industry Participant\u2019s participation.",
+        "importance": "core",
+        "label": "Industry Participant not invited"
+      },
+      {
+        "date": "2014-08-27",
+        "description": "J.P. Morgan reiterated to Industry Participant that it would not be invited into the exploratory process but could submit a proposal or communication for board consideration; no further contact occurred afterward.",
+        "exact_quote": "The J.P. Morgan representative stated that Industry Participant would not be invited into the exploratory process, but that if Industry Participant were to wish to submit a proposal or other communication to the Company, the board would consider it. There has been no contact between PetSmart and Industry Participant (or between any of their respective representatives) since August 27, 2014.",
+        "importance": "core",
+        "label": "No further Industry Participant contact"
+      },
+      {
+        "date": "2014-10-03",
+        "description": "Board received update on Profit Improvement Plan, planning for which had been completed, and sale process; board reaffirmed not inviting Industry Participant.",
+        "exact_quote": "On October 3, 2014, the board met, together with members of management and representatives of J.P. Morgan and Wachtell Lipton, to conduct regularly scheduled business and to receive an update on the status of the Profit Improvement Plan, the planning for which had been completed, and on the sale process... the board reviewed and, for the reasons discussed in August, reaffirmed the determination not to invite Industry Participant to participate in the sale process.",
+        "importance": "core",
+        "label": "October board update"
+      },
+      {
+        "date": "2014-10",
+        "description": "PetSmart entered into confidentiality/standstill agreements with 15 financial buyers, who received diligence materials, management presentations, and Profit Improvement Plan information.",
+        "exact_quote": "In the first week of October 2014, the Company entered into confidentiality and standstill agreements with 15 potentially interested financial buyers, all 15 of which, during the month of October engaged in due diligence, received management presentations involving the Company\u2019s senior-most management, and received detailed financial and business plan information, including detailed information concerning the Profit Improvement Plan and associated cost-saving plans and opportunities.",
+        "importance": "core",
+        "label": "First-round diligence"
+      },
+      {
+        "date": "2014-11-03",
+        "description": "Board allowed four bidders with price/range at or above $80.00 per share into the final round.",
+        "exact_quote": "The board determined to allow the four bidders that had indicated a price or range at or above $80.00 per share to proceed to the final round of the sale process.",
+        "importance": "core",
+        "label": "Final-round selection"
+      },
+      {
+        "date": "2014-12-03",
+        "description": "Board reviewed strategic alternatives, including standalone value and leveraged return of capital, in light of positive operating indications and likely Profit Improvement Plan success.",
+        "exact_quote": "significant portions of this meeting were devoted to a further review and financial analysis of the Company\u2019s strategic and financial alternatives, particularly in light of positive indications about the Company\u2019s operating results based on preliminary information from the Fall and Thanksgiving season and indications that the Profit Improvement Plan would likely be successful in achieving at least $200 million in annual incremental profit.",
+        "importance": "useful",
+        "label": "December alternatives review"
+      },
+      {
+        "date": "2014-12-10",
+        "description": "PetSmart received final bid letters from Buyer Group and Bidder 2 and verbal indication from Bidder 3.",
+        "exact_quote": "On December 10, PetSmart received final bid letters along with revised versions of the merger agreement and other transaction documents from the Buyer Group and from Bidder 2 and a verbal indication from Bidder 3.",
+        "importance": "core",
+        "label": "Final bid deadline"
+      },
+      {
+        "date": "2014-12-12",
+        "description": "Buyer Group sought permission to work more closely with Longview to include rollover; ad hoc committee approved the request.",
+        "exact_quote": "Early in the day on December 12, 2014, the Buyer Group requested permission to work more closely with Longview in order to include a rollover of a portion of the Company shares managed by Longview in the Buyer Group\u2019s bid... After consultation with the Company\u2019s financial and legal advisors, the ad hoc committee approved the Buyer Group\u2019s request",
+        "importance": "core",
+        "label": "Longview rollover discussions approved"
+      },
+      {
+        "date": "2014-12-13",
+        "description": "Board met, reviewed final bids, received J.P. Morgan\u2019s oral fairness opinion, and unanimously determined the merger agreement and merger were advisable and in stockholders\u2019 best interests, subject to resolving open points.",
+        "exact_quote": "Following extensive discussion, the board unanimously determined that the merger agreement and the transactions contemplated thereby, including the merger, were advisable and in the best interests of PetSmart and its stockholders, and to recommend that the Company\u2019s stockholders approve the adoption of the merger agreement.",
+        "importance": "core",
+        "label": "Board approval"
+      },
+      {
+        "date": "2014-12-14",
+        "description": "Parties executed merger agreement, voting agreement, and related transaction agreements and announced the transaction.",
+        "exact_quote": "On December 14, 2014, the parties executed the merger agreement, the voting agreement and related transaction agreements and issued a press release announcing the transaction.",
+        "importance": "core",
+        "label": "Signing and announcement"
+      },
+      {
+        "date": "2015-02-02",
+        "description": "Proxy statement dated and first mailed to stockholders.",
+        "exact_quote": "This proxy statement is dated February 2, 2015 and is first being mailed to stockholders on or about February 2, 2015.",
+        "importance": "useful",
+        "label": "Proxy mailing"
+      },
+      {
+        "date": "2015-03-06",
+        "description": "Special meeting scheduled for stockholder vote on merger agreement.",
+        "exact_quote": "the Special Meeting of the Stockholders of PetSmart, Inc., a Delaware corporation (\u201cPetSmart,\u201d the \u201cCompany\u201d or \u201cwe\u201d), will be held at the Sheraton Crescent Hotel, 2620 W. Dunlap Avenue, Phoenix, AZ 85021, on March 6, 2015, at 1:00 p.m, local time",
+        "importance": "core",
+        "label": "Special meeting"
+      }
+    ],
+    "counts": [
+      {
+        "date": "2014-08 to 2014-10",
+        "description": "J.P. Morgan was contacted by 27 potential sale-process participants, including three strategic parties other than Industry Participant and 24 financial participants.",
+        "exact_quote": "During this period, J.P. Morgan was contacted by 27 potential participants in a sale process, including three strategic parties (not counting Industry Participant) and 24 financial participants (including potential lead buyers as well as large suppliers of equity capital to lead buyers).",
+        "importance": "core",
+        "label": "27 potential participants"
+      },
+      {
+        "date": "2014-10-03",
+        "description": "About 15 parties had expressed interest in participating in the process.",
+        "exact_quote": "Among other things, the board was informed that approximately 15 parties had expressed interest in participating in the process.",
+        "importance": "core",
+        "label": "Approximately 15 interested parties"
+      },
+      {
+        "date": "2014-10",
+        "description": "15 potentially interested financial buyers signed confidentiality/standstill agreements and received diligence access.",
+        "exact_quote": "In the first week of October 2014, the Company entered into confidentiality and standstill agreements with 15 potentially interested financial buyers, all 15 of which, during the month of October engaged in due diligence",
+        "importance": "core",
+        "label": "15 NDAs / diligence participants"
+      },
+      {
+        "date": "2014-10-30",
+        "description": "Six parties submitted indications of interest.",
+        "exact_quote": "On October 30, six of the potentially interested parties submitted indications of interest.",
+        "importance": "core",
+        "label": "Six indications"
+      },
+      {
+        "date": "2014-11-03",
+        "description": "Four bidders were advanced to the final round based on indications at or above $80 per share.",
+        "exact_quote": "The board determined to allow the four bidders that had indicated a price or range at or above $80.00 per share to proceed to the final round of the sale process.",
+        "importance": "core",
+        "label": "Four final-round bidders"
+      },
+      {
+        "date": "2015-01-29",
+        "description": "Record-date outstanding shares were 99,455,151.",
+        "exact_quote": "As of the close of business on the record date, there were 99,455,151 shares of common stock outstanding.",
+        "importance": "core",
+        "label": "Outstanding shares"
+      },
+      {
+        "date": "2015-01-29",
+        "description": "Directors and executive officers owned 390,987 shares, about 0.4% of outstanding shares, and were expected to vote for the merger proposal though not obligated.",
+        "exact_quote": "At the close of business on the record date, directors and executive officers of the Company were entitled to vote 390,987 shares of common stock, or approximately 0.4% of the shares of common stock outstanding on that date. We currently expect that the Company\u2019s directors and executive officers will vote their shares in favor of the merger proposal and the other proposals to be considered at the special meeting, although none of them is obligated to do so.",
+        "importance": "useful",
+        "label": "Insider voting ownership"
+      },
+      {
+        "date": "2015-01-29",
+        "description": "Longview voting agreement covered 7,424,591 shares, about 7.5% of total outstanding shares.",
+        "exact_quote": "Under the voting agreement, Longview agreed, among other things, to vote or cause to be voted 7,424,591 shares of common stock, which represent approximately 7.5% of the total outstanding shares of common stock as of the close of business on the record date, in favor of the adoption of the merger agreement",
+        "importance": "core",
+        "label": "Longview support shares"
+      },
+      {
+        "date": null,
+        "description": "Parent estimated total amount required to complete merger and related transactions and pay fees/expenses at about $8.4 billion.",
+        "exact_quote": "Parent estimates that the total amount required to complete the merger and related transactions and pay related fees and expenses will be approximately $8.4 billion.",
+        "importance": "core",
+        "label": "Total funding need"
+      },
+      {
+        "date": null,
+        "description": "Debt financing commitments include up to about $6.2 billion plus $750 million senior secured asset-based revolving credit facility.",
+        "exact_quote": "debt financing in an aggregate principal amount of up to approximately $6.2 billion as well as a $750 million senior secured asset-based revolving credit facility, a portion of which will be available at closing.",
+        "importance": "core",
+        "label": "Debt financing"
+      },
+      {
+        "date": null,
+        "description": "Equity financing includes up to about $1.83 billion cash equity from Buyer Group members other than Longview and Longview contribution of $250 million of PetSmart stock.",
+        "exact_quote": "cash equity investments by members of the Buyer Group (other than Longview) in an aggregate amount up to approximately $1.83 billion and Longview\u2019s contribution to Parent of $250 million worth of the Company\u2019s common stock immediately prior to the effective time of the merger.",
+        "importance": "core",
+        "label": "Equity financing and rollover"
+      },
+      {
+        "date": null,
+        "description": "About $425 million of Company cash expected to be available at closing.",
+        "exact_quote": "approximately $425 million of cash is expected to be on hand in the Company and available at the closing.",
+        "importance": "useful",
+        "label": "Cash on hand"
+      },
+      {
+        "date": null,
+        "description": "Company termination fee is $255 million; Parent reverse termination fee is $510 million.",
+        "exact_quote": "The Company will pay to Parent a termination fee of $255 million in the event that:",
+        "importance": "core",
+        "label": "Company termination fee"
+      },
+      {
+        "date": null,
+        "description": "Parent reverse termination fee is $510 million in cash under specified circumstances.",
+        "exact_quote": "Parent will pay to the Company a reverse termination fee of $510 million in cash in the event that:",
+        "importance": "core",
+        "label": "Reverse termination fee"
+      },
+      {
+        "date": null,
+        "description": "Expense reimbursement by Company to Parent/Buyer Group under specified circumstances is capped at $15 million.",
+        "exact_quote": "the Company will be required to reimburse Parent for all reasonable out-of-pocket expenses incurred by Parent, Merger Sub or their respective affiliates and all out-of-pocket fees and expenses of the financing sources for which Parent, Merger Sub, the Buyer Group or their respective affiliates may be responsible for in connection with the merger agreement and the transactions contemplated by the merger agreement up to a maximum amount of $15 million.",
+        "importance": "useful",
+        "label": "Expense reimbursement cap"
+      }
+    ],
+    "relations": [
+      {
+        "date": "2014-12-14",
+        "description": "Merger agreement parties are PetSmart, Parent, and Merger Sub.",
+        "exact_quote": "the \u201cmerger agreement\u201d refers to the Agreement and Plan of Merger, dated as of December 14, 2014, as it may be amended from time to time, by and among the Company, Parent and Merger Sub",
+        "importance": "core",
+        "label": "Merger agreement parties"
+      },
+      {
+        "date": null,
+        "description": "At closing, Parent will be owned by the Buyer Group and PetSmart will become a privately held company wholly owned by Parent.",
+        "exact_quote": "Following the merger, the Company will therefore become a privately held company, wholly owned by Parent and the Company\u2019s common stock will be delisted from NASDAQ and deregistered under the Securities Exchange Act of 1934, as amended. At the closing of the transactions contemplated by the merger agreement, Parent will be owned by the Buyer Group.",
+        "importance": "core",
+        "label": "Post-closing ownership"
+      },
+      {
+        "date": "2014-12-14",
+        "description": "Longview entered a voting agreement with the Company and Parent to vote covered shares for adoption of merger agreement and against competing/opposing unapproved proposals.",
+        "exact_quote": "On December 14, 2014, the Company entered into a voting agreement (the \u201cvoting agreement\u201d) with Parent and Longview Asset Management, LLC (\u201cLongview\u201d), on behalf of Longview clients and certain related parties. Under the voting agreement, Longview agreed, among other things, to vote or cause to be voted 7,424,591 shares of common stock... in favor of the adoption of the merger agreement, and against any other action, proposal, agreement or transaction made in opposition to or competition with the merger or the merger agreement that is not approved by the board.",
+        "importance": "core",
+        "label": "Longview voting support agreement"
+      },
+      {
+        "date": null,
+        "description": "Voting agreement terminates on several triggers including effective time, merger agreement termination, mutual written consent, change of recommendation, or reduced/changed merger consideration.",
+        "exact_quote": "The voting agreement will terminate upon the earliest to occur of (i) the effective time of the merger, (ii) the termination of the merger agreement in accordance with its terms, (iii) the termination of the voting agreement by the mutual written consent of the Company, Parent and Longview, (iv) a change of recommendation... or (v) the making of any change, by amendment, waiver or other modification to any provision of the merger agreement that decreases the amount of, or changes the form of, the merger consideration.",
+        "importance": "useful",
+        "label": "Voting agreement termination"
+      },
+      {
+        "date": null,
+        "description": "Longview agreed to contribute $250 million worth of PetSmart common stock to Parent immediately before the merger effective time under a rollover agreement.",
+        "exact_quote": "Parent has received equity commitments for the equity financing from the Buyer Group (other than Longview) and has entered into a rollover agreement with Longview with respect to its contribution of Company common stock to Parent",
+        "importance": "core",
+        "label": "Longview rollover agreement"
+      },
+      {
+        "date": null,
+        "description": "Members of Buyer Group other than Longview provided several termination fee commitment letters to cover their portions of Parent\u2019s $510 million termination fee and expense reimbursement obligations.",
+        "exact_quote": "Each of the members of the Buyer Group (other than Longview) has entered into a termination fee commitment letter with Parent and the Company and has agreed on a several basis, and subject to other terms and conditions of the termination fee commitment letters, to pay to the Company... an amount equal to its portion of the $510 million Parent termination fee and certain expense reimbursement that may be payable by Parent under the merger agreement",
+        "importance": "core",
+        "label": "Termination fee commitments"
+      },
+      {
+        "date": null,
+        "description": "The merger is not conditioned on financing, although financing commitments have their own conditions.",
+        "exact_quote": "The consummation of the merger is not subject to a financing condition (although the funding of the debt and cash equity financing is subject to the satisfaction of the conditions set forth in the commitment letters under which the financing will be provided).",
+        "importance": "core",
+        "label": "No financing condition"
+      },
+      {
+        "date": null,
+        "description": "No-solicitation covenant restricts PetSmart, affiliates, and representatives from soliciting or engaging with alternative proposals except permitted circumstances.",
+        "exact_quote": "Under the merger agreement, the Company and its affiliates and their respective representatives may not: solicit, initiate or knowingly encourage or facilitate the making or submission of an alternative proposal",
+        "importance": "core",
+        "label": "No solicitation"
+      },
+      {
+        "date": null,
+        "description": "Before stockholder approval, PetSmart may provide information and negotiate with a third party making an unsolicited alternative proposal that the board determines constitutes or could reasonably lead to a superior proposal.",
+        "exact_quote": "But if, prior to obtaining the required vote of the Company\u2019s stockholders to adopt the merger agreement, the Company receives an unsolicited alternative proposal from a third party that in the good faith judgment of the board, after consultation with outside legal and financial advisors, constitutes, or could reasonably be expected to result in, a \u201csuperior proposal\u201d... then the Company may... provide nonpublic information... and... engage in discussions or negotiations with a third party",
+        "importance": "core",
+        "label": "Fiduciary-out process"
+      },
+      {
+        "date": null,
+        "description": "To change recommendation or terminate for a superior proposal, PetSmart must notify Parent and provide a three-business-day matching/negotiation period, with extensions for material changes.",
+        "exact_quote": "provide Parent with three business days to propose changes to the terms of the merger agreement (which will be extended for additional two business day periods for any material change in the superior proposal), and during this period negotiate with Parent in good faith to make adjustments to the terms and conditions of the merger agreement.",
+        "importance": "core",
+        "label": "Match right"
+      },
+      {
+        "date": "2014-12-24 to 2015-01-07",
+        "description": "PetSmart and Parent filed HSR notifications on December 24, 2014 and received early termination on January 7, 2015.",
+        "exact_quote": "On December 24, 2014, both the Company and Parent filed their respective Notification and Report Forms with the Antitrust Division and the FTC... Both the Company and Parent received early termination of the HSR waiting period on January 7, 2015.",
+        "importance": "useful",
+        "label": "HSR clearance"
+      },
+      {
+        "date": "2014-12-30 to 2015-01-14",
+        "description": "Parties requested Canadian ARC/no-action letter on December 30, 2014 and received an ARC on January 14, 2015.",
+        "exact_quote": "On December 30, 2014, the parties submitted a request to the Commissioner of Competition in Canada for an ARC or, in the alternative, a \u201cno-action\u201d letter. The parties were issued an ARC pursuant to section 102 of the Competition Act on January 14, 2015.",
+        "importance": "useful",
+        "label": "Canadian competition clearance"
+      }
+    ],
+    "source_limitations": [
+      "The provided window includes summary, Q&A, special meeting, and the beginning of the background/reasons sections; it may not include the full J.P. Morgan financial analysis, full merger agreement terms, or complete later sections.",
+      "The window identifies several bidders only anonymously (e.g., Bidder 2, Bidder 3, Industry Participant) and does not provide their legal identities.",
+      "The source excerpt is proxy-statement disclosure from PetSmart\u2019s perspective, not underlying bid letters, board minutes, or banker call notes.",
+      "The source window describes a one-step merger and stockholder vote process; it is not a tender-offer disclosure window."
+    ],
+    "uncertain_or_missing": [
+      {
+        "date": null,
+        "description": "Industry Participant\u2019s identity is not disclosed in this window.",
+        "exact_quote": "another participant in PetSmart\u2019s industry, a privately-held company which we refer to here as \u201cIndustry Participant.\u201d",
+        "importance": "uncertain",
+        "label": "Anonymous strategic party"
+      },
+      {
+        "date": null,
+        "description": "Bidder 2\u2019s identity is not disclosed.",
+        "exact_quote": "another bidder (which we refer to as \u201cBidder 2\u201d)",
+        "importance": "uncertain",
+        "label": "Anonymous Bidder 2"
+      },
+      {
+        "date": null,
+        "description": "Bidder 3 is described as two bidders working together but their identities are not disclosed.",
+        "exact_quote": "These two bidders informed J.P. Morgan that they had worked together successfully in previous large leveraged buyouts. After deliberation and consultation with the Company\u2019s financial and legal advisors, the ad hoc committee authorized these two bidders to work together. We refer to these two bidders together as \u201cBidder 3.\u201d",
+        "importance": "uncertain",
+        "label": "Anonymous Bidder 3"
+      },
+      {
+        "date": null,
+        "description": "The other bidder that initially suggested $80.00 to $85.00 per share is not identified and its relationship to later Bidder 3/Bidder 2 is not explicit in the excerpt.",
+        "exact_quote": "another bidder, which suggested a range of $80.00 to $85.00 per share.",
+        "importance": "uncertain",
+        "label": "Anonymous initial bidder"
+      },
+      {
+        "date": null,
+        "description": "The excerpt does not name the 27 potential participants, 15 financial buyers, or three strategic parties other than Industry Participant.",
+        "exact_quote": "J.P. Morgan was contacted by 27 potential participants in a sale process, including three strategic parties (not counting Industry Participant) and 24 financial participants",
+        "importance": "uncertain",
+        "label": "Unnamed process participants"
+      },
+      {
+        "date": "2014-08-27",
+        "description": "Industry Participant was allowed to submit a proposal or communication but none is described; the source states no contact occurred after August 27, 2014.",
+        "exact_quote": "if Industry Participant were to wish to submit a proposal or other communication to the Company, the board would consider it. There has been no contact between PetSmart and Industry Participant (or between any of their respective representatives) since August 27, 2014.",
+        "importance": "core",
+        "label": "No Industry Participant bid submitted"
+      },
+      {
+        "date": null,
+        "description": "Directors and executive officers were expected to vote for the merger but were not obligated to do so.",
+        "exact_quote": "We currently expect that the Company\u2019s directors and executive officers will vote their shares in favor of the merger proposal and the other proposals to be considered at the special meeting, although none of them is obligated to do so.",
+        "importance": "useful",
+        "label": "Insider voting not contractually committed"
+      },
+      {
+        "date": null,
+        "description": "Stockholder approval, not tendering, is required; failure to vote counts against merger proposal.",
+        "exact_quote": "For the Company to complete the merger, under Delaware law, stockholders holding at least a majority of the shares of common stock outstanding at the close of business on the record date must vote \u201cFOR\u201d the merger proposal.",
+        "importance": "core",
+        "label": "No tender offer / majority vote required"
+      }
+    ]
+  },
+  "prompt_chars": 120741,
+  "prompt_sha256": "e047d7620a04ae572ce70ffc2270abea346712aeaee471751fc2248afda86a21",
+  "reasoning": "medium",
+  "reasoning_tokens": 26,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "395ec9adc1244cf05f88f704783e6cc5565bc76e2584cde5245ec75b525f8e4c",
+  "slug": "petsmart-inc",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w4_plain_recall",
+  "window_profile": "W4_PLAIN_RECALL"
+}

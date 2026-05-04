@@ -6,7 +6,7 @@ import json
 
 import duckdb
 
-from sec_graph.extract.llm.models import LLMWindowRequest, WindowObligation, WindowParagraph
+from sec_graph.extract.llm.models import DEFAULT_REQUEST_MODE, LLMWindowRequest, WindowObligation, WindowParagraph
 from sec_graph.schema import versions
 
 
@@ -14,8 +14,10 @@ def build_llm_windows(
     conn: duckdb.DuckDBPyConnection,
     *,
     filing_id: str,
-    request_mode: str = "semantic_claims_v1",
+    request_mode: str = DEFAULT_REQUEST_MODE,
 ) -> list[LLMWindowRequest]:
+    if request_mode != DEFAULT_REQUEST_MODE:
+        raise ValueError(f"unsupported LLM request_mode {request_mode!r}; expected {DEFAULT_REQUEST_MODE!r}")
     rows = conn.execute(
         """
         SELECT region_id, run_id, deal_slug, region_kind, paragraph_ids_json,

@@ -1,0 +1,173 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_MULTI_QUOTE_P8",
+  "duration_s": 84.28,
+  "input_chars": 14584,
+  "input_path": "inputs/medivation/W2_MULTI_REGION/w2_buyer_group_or_transaction_structure.json",
+  "input_text_sha256": "e722e311416b2c76de90044943290131361d5e491e7b98c8477cf7c1baebbaf0",
+  "input_tokens": 4830,
+  "job_id": "stage2__medivation__EXPANDED_MULTI_QUOTE_P8__W2_MULTI_REGION__w2_buyer_group_or_transaction_structure__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 2,
+      "actor_relation_claims": 4,
+      "bid_claims": 0,
+      "event_claims": 2,
+      "participation_count_claims": 0
+    },
+    "duplicate_quotes_within_response": 1,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 0,
+    "multi_quote_claims": 1,
+    "nonempty_date_strings": 1,
+    "not_unique_in_source_window": 1,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 9,
+    "relation_types": {
+      "acquisition_vehicle_of": 1,
+      "affiliate_of": 1,
+      "controls": 2
+    },
+    "strict_claim_total": 8,
+    "total_quotes": 9
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 4832,
+  "output_text_sha256": "6d2041061861305d2ce64a7ce0c49ff1de1e24129e042b0525036d78b6bac4b9",
+  "output_tokens": 2890,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "vehicle",
+        "actor_label": "Montreal, Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Montreal, Inc., a Delaware corporation (which we refer to as \u201cPurchaser\u201d)",
+          "Purchaser is a Delaware corporation that was formed for the sole purpose of making the Offer and completing the process by which Purchaser will be merged with and into Medivation."
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Pfizer Inc.",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_buyer_group_or_transaction_structure_obl_1",
+        "observability": "named",
+        "quote_texts": [
+          "Pfizer Inc., a Delaware corporation (which we refer to as \u201cPfizer\u201d)"
+        ]
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Pfizer Inc.",
+        "quote_texts": [
+          "a wholly-owned subsidiary of Pfizer Inc."
+        ],
+        "relation_type": "affiliate_of",
+        "role_detail": "wholly-owned subsidiary",
+        "subject_label": "Montreal, Inc."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Montreal, Inc.",
+        "quote_texts": [
+          "Montreal, Inc., a Delaware corporation (which we refer to as \u201cPurchaser\u201d), and a wholly-owned subsidiary of Pfizer Inc., a Delaware corporation (which we refer to as \u201cPfizer\u201d)"
+        ],
+        "relation_type": "controls",
+        "role_detail": "wholly-owned subsidiary",
+        "subject_label": "Pfizer Inc."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Pfizer Inc.",
+        "quote_texts": [
+          "Purchaser is a Delaware corporation that was formed for the sole purpose of making the Offer and completing the process by which Purchaser will be merged with and into Medivation."
+        ],
+        "relation_type": "acquisition_vehicle_of",
+        "role_detail": "formed for the sole purpose of making the Offer and completing the merger process",
+        "subject_label": "Montreal, Inc."
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_buyer_group_or_transaction_structure_obl_2",
+        "effective_date_first": null,
+        "object_label": "Medivation, Inc.",
+        "quote_texts": [
+          "with Medivation continuing as the surviving corporation (which we refer to as the \u201cSurviving Corporation\u201d) in the Merger and thereby becoming a wholly-owned subsidiary of Pfizer."
+        ],
+        "relation_type": "controls",
+        "role_detail": "Medivation continuing as surviving corporation in the Merger and thereby becoming a wholly-owned subsidiary of Pfizer",
+        "subject_label": "Pfizer Inc."
+      }
+    ],
+    "bid_claims": [],
+    "event_claims": [
+      {
+        "actor_label": null,
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_buyer_group_or_transaction_structure_obl_3",
+        "description": "The Offer is being made pursuant to the Agreement and Plan of Merger dated as of August 20, 2016 by and among Pfizer, Purchaser and Medivation.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2016-08-20",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "The Offer is being made pursuant to the Agreement and Plan of Merger, dated as of August 20, 2016 (which, as it may be amended from time to time, we refer to as the \u201cMerger Agreement\u201d), by and among Pfizer, Purchaser and Medivation."
+        ]
+      },
+      {
+        "actor_label": "Montreal, Inc.",
+        "actor_role": "acquisition_sub",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "medivation_w2_buyer_group_or_transaction_structure_obl_3",
+        "description": "The Merger Agreement provides that Purchaser will be merged with and into Medivation, with Medivation continuing as the surviving corporation and becoming a wholly-owned subsidiary of Pfizer.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "The Merger Agreement provides, among other things, that as soon as practicable following the consummation of the Offer and subject to the satisfaction or waiver of certain conditions, Purchaser will be merged with and into Medivation (which we refer to as the \u201cMerger\u201d) without a vote of the stockholders of Medivation in accordance with Section 251(h) of the General Corporation Law of the State of Delaware (which we refer to as the \u201cDGCL\u201d), with Medivation continuing as the surviving corporation (which we refer to as the \u201cSurviving Corporation\u201d) in the Merger and thereby becoming a wholly-owned subsidiary of Pfizer."
+        ]
+      }
+    ],
+    "participation_count_claims": []
+  },
+  "prompt_chars": 16752,
+  "prompt_sha256": "35d9efae99b7cd18c14d7c4896fd5c68867abd2e10518854775af9dd89708c13",
+  "reasoning": "medium",
+  "reasoning_tokens": 1789,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "0e783020c5768c044a886e0c68312d3e78a57555f4637885fb098049de8a7824",
+  "slug": "medivation",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_buyer_group_or_transaction_structure",
+  "window_profile": "W2_MULTI_REGION"
+}

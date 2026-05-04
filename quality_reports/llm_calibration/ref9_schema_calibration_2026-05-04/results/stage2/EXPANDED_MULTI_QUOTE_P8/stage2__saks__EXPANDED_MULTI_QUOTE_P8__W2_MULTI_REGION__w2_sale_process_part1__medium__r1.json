@@ -1,0 +1,726 @@
+{
+  "attempt_count": 1,
+  "base_url_host": "www.linkflow.run",
+  "candidate": "EXPANDED_MULTI_QUOTE_P8",
+  "duration_s": 108.39,
+  "input_chars": 24614,
+  "input_path": "inputs/saks/W2_MULTI_REGION/w2_sale_process_part1.json",
+  "input_text_sha256": "4e75e4136a36235962e53be7138542eb28e6432c0edc77786906ee4231f3927b",
+  "input_tokens": 6510,
+  "job_id": "stage2__saks__EXPANDED_MULTI_QUOTE_P8__W2_MULTI_REGION__w2_sale_process_part1__medium__r1",
+  "metrics": {
+    "array_counts": {
+      "actor_claims": 11,
+      "actor_relation_claims": 8,
+      "bid_claims": 9,
+      "event_claims": 14,
+      "participation_count_claims": 2
+    },
+    "duplicate_quotes_within_response": 7,
+    "empty_string_dates": 0,
+    "expanded_non_null_fields": 36,
+    "multi_quote_claims": 0,
+    "nonempty_date_strings": 17,
+    "not_unique_in_source_window": 1,
+    "quote_match_rate": 1.0,
+    "quotes_in_window": 44,
+    "relation_types": {
+      "acquisition_vehicle_of": 1,
+      "advises": 3,
+      "affiliate_of": 4
+    },
+    "strict_claim_total": 44,
+    "total_quotes": 44
+  },
+  "missing_completed": false,
+  "model": "gpt-5.5",
+  "output_text_chars": 22096,
+  "output_text_sha256": "38474772444347dd7abab7f186a4141ff727f1e94aa2bd63da2f74f658745bf8",
+  "output_tokens": 6553,
+  "parsed": {
+    "actor_claims": [
+      {
+        "actor_class": null,
+        "actor_kind": "group",
+        "actor_label": "the board",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_6",
+        "observability": "named",
+        "quote_texts": [
+          "the board held a regularly scheduled telephonic meeting"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Goldman Sachs",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_7",
+        "observability": "named",
+        "quote_texts": [
+          "Goldman Sachs, one of Saks\u2019 longstanding financial advisors"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Wachtell, Lipton, Rosen & Katz",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_8",
+        "observability": "named",
+        "quote_texts": [
+          "Wachtell, Lipton, Rosen & Katz, referred to as Wachtell Lipton, Saks\u2019 external counsel"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Morgan Stanley & Co. LLC",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_7",
+        "observability": "named",
+        "quote_texts": [
+          "Morgan Stanley & Co. LLC (a long-time advisor to Saks, referred to as \u201cMorgan Stanley\u201d)"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Hudson\u2019s Bay",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_10",
+        "observability": "named",
+        "quote_texts": [
+          "a potential acquisition of Saks by Hudson\u2019s Bay"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "Sponsor A",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_10",
+        "observability": "anonymous_handle",
+        "quote_texts": [
+          "a private equity firm, which we refer to as Sponsor A"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "Sponsor E",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_10",
+        "observability": "anonymous_handle",
+        "quote_texts": [
+          "A private equity firm that we refer to as Sponsor E"
+        ]
+      },
+      {
+        "actor_class": "f",
+        "actor_kind": "organization",
+        "actor_label": "Sponsor G",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_10",
+        "observability": "anonymous_handle",
+        "quote_texts": [
+          "Sponsor G, a private equity firm"
+        ]
+      },
+      {
+        "actor_class": "s",
+        "actor_kind": "organization",
+        "actor_label": "Company F",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_10",
+        "observability": "anonymous_handle",
+        "quote_texts": [
+          "a privately held retail company, which we refer to as Company F"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "organization",
+        "actor_label": "Company H",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_9",
+        "observability": "anonymous_handle",
+        "quote_texts": [
+          "Company H, a privately held company based in the U.S. unknown to Saks and its advisors"
+        ]
+      },
+      {
+        "actor_class": null,
+        "actor_kind": "vehicle",
+        "actor_label": "Merger Sub",
+        "claim_type": "actor",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_10",
+        "observability": "named",
+        "quote_texts": [
+          "Saks, Hudson\u2019s Bay and Merger Sub finalized and executed the merger agreement"
+        ]
+      }
+    ],
+    "actor_relation_claims": [
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_7",
+        "effective_date_first": null,
+        "object_label": "Saks",
+        "quote_texts": [
+          "Goldman Sachs, one of Saks\u2019 longstanding financial advisors"
+        ],
+        "relation_type": "advises",
+        "role_detail": "financial advisor",
+        "subject_label": "Goldman Sachs"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_8",
+        "effective_date_first": null,
+        "object_label": "Saks",
+        "quote_texts": [
+          "Wachtell, Lipton, Rosen & Katz, referred to as Wachtell Lipton, Saks\u2019 external counsel"
+        ],
+        "relation_type": "advises",
+        "role_detail": "external counsel",
+        "subject_label": "Wachtell, Lipton, Rosen & Katz"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_7",
+        "effective_date_first": null,
+        "object_label": "Saks",
+        "quote_texts": [
+          "Morgan Stanley & Co. LLC (a long-time advisor to Saks, referred to as \u201cMorgan Stanley\u201d)"
+        ],
+        "relation_type": "advises",
+        "role_detail": "long-time advisor",
+        "subject_label": "Morgan Stanley & Co. LLC"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_10",
+        "effective_date_first": null,
+        "object_label": "Sponsor A",
+        "quote_texts": [
+          "Sponsor E and that Sponsor A had stated was in discussions with Sponsor A regarding participation in a potential joint acquisition of Saks"
+        ],
+        "relation_type": "affiliate_of",
+        "role_detail": "potential joint acquisition participant",
+        "subject_label": "Sponsor E"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_10",
+        "effective_date_first": null,
+        "object_label": "Sponsor A and Sponsor E",
+        "quote_texts": [
+          "Company F, had indicated interest in participating with Sponsor A and Sponsor E in a potential acquisition of Saks"
+        ],
+        "relation_type": "affiliate_of",
+        "role_detail": "indicated interest in participating in potential acquisition",
+        "subject_label": "Company F"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_10",
+        "effective_date_first": null,
+        "object_label": "Sponsor E",
+        "quote_texts": [
+          "Sponsor E had entered into discussions with Sponsor G, a private equity firm, regarding a potential joint acquisition of Saks"
+        ],
+        "relation_type": "affiliate_of",
+        "role_detail": "potential joint acquisition participant",
+        "subject_label": "Sponsor G"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_10",
+        "effective_date_first": null,
+        "object_label": "Sponsor E",
+        "quote_texts": [
+          "Sponsor E would again be joined in its proposal by Sponsor A as a primary participant"
+        ],
+        "relation_type": "affiliate_of",
+        "role_detail": "primary participant in proposal",
+        "subject_label": "Sponsor A"
+      },
+      {
+        "claim_type": "actor_relation",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_10",
+        "effective_date_first": "2013-07-28",
+        "object_label": "Hudson\u2019s Bay",
+        "quote_texts": [
+          "Saks, Hudson\u2019s Bay and Merger Sub finalized and executed the merger agreement"
+        ],
+        "relation_type": "acquisition_vehicle_of",
+        "role_detail": "merger agreement party",
+        "subject_label": "Merger Sub"
+      }
+    ],
+    "bid_claims": [
+      {
+        "bid_date": null,
+        "bid_formality": "informal",
+        "bid_stage": "initial",
+        "bid_value": 15,
+        "bid_value_lower": 15,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "Hudson\u2019s Bay",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "Each of Hudson\u2019s Bay and Sponsor A indicated that they were considering making an offer to acquire Saks for at least $15 per share, in cash."
+        ]
+      },
+      {
+        "bid_date": null,
+        "bid_formality": "informal",
+        "bid_stage": "initial",
+        "bid_value": 15,
+        "bid_value_lower": 15,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "Sponsor A",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "Each of Hudson\u2019s Bay and Sponsor A indicated that they were considering making an offer to acquire Saks for at least $15 per share, in cash."
+        ]
+      },
+      {
+        "bid_date": null,
+        "bid_formality": "informal",
+        "bid_stage": "initial",
+        "bid_value": null,
+        "bid_value_lower": 15,
+        "bid_value_unit": "per share",
+        "bid_value_upper": 15.25,
+        "bidder_label": "Hudson\u2019s Bay",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": null,
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "Hudson\u2019s Bay, on the one hand, and Sponsor A and Sponsor E, on the other hand, were each preliminarily prepared to proceed with the submission of a proposal to acquire Saks at indicative price ranges of $15 to $15.25 per share of common stock (in the case of Hudson\u2019s Bay) and $15 to $16 per share of common stock (in the case of Sponsor A and Sponsor E)."
+        ]
+      },
+      {
+        "bid_date": null,
+        "bid_formality": "informal",
+        "bid_stage": "initial",
+        "bid_value": null,
+        "bid_value_lower": 15,
+        "bid_value_unit": "per share",
+        "bid_value_upper": 16,
+        "bidder_label": "Sponsor A and Sponsor E",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": null,
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "Hudson\u2019s Bay, on the one hand, and Sponsor A and Sponsor E, on the other hand, were each preliminarily prepared to proceed with the submission of a proposal to acquire Saks at indicative price ranges of $15 to $15.25 per share of common stock (in the case of Hudson\u2019s Bay) and $15 to $16 per share of common stock (in the case of Sponsor A and Sponsor E)."
+        ]
+      },
+      {
+        "bid_date": "2013-07-11",
+        "bid_formality": "formal",
+        "bid_stage": "initial",
+        "bid_value": 15.25,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "Hudson\u2019s Bay",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": null,
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "Hudson\u2019s Bay\u2019s proposal included a price of $15.25 per share of common stock, a revised draft merger agreement and information and documentation relating to Hudson\u2019s Bay\u2019s committed debt and equity financing for the potential transaction."
+        ]
+      },
+      {
+        "bid_date": "2013-07-11",
+        "bid_formality": "formal",
+        "bid_stage": "initial",
+        "bid_value": null,
+        "bid_value_lower": 14.5,
+        "bid_value_unit": "per share",
+        "bid_value_upper": 15.5,
+        "bidder_label": "Sponsor E and Sponsor G",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": null,
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "The joint proposal from Sponsor E and Sponsor G included an indicative price range of $14.50\u2013$15.50 per share of common stock"
+        ]
+      },
+      {
+        "bid_date": "2013-07-21",
+        "bid_formality": "informal",
+        "bid_stage": "initial",
+        "bid_value": 2.6,
+        "bid_value_lower": null,
+        "bid_value_unit": "billion aggregate",
+        "bid_value_upper": null,
+        "bidder_label": "Company H",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "Saks received a letter from Company H, a privately held company based in the U.S. unknown to Saks and its advisors, purporting to propose to acquire Saks for an aggregate price of $2.6 billion in cash, with no details or further information."
+        ]
+      },
+      {
+        "bid_date": "2013-07-24",
+        "bid_formality": "formal",
+        "bid_stage": "final",
+        "bid_value": 16,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "Hudson\u2019s Bay",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": null,
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "representatives of Hudson\u2019s Bay advised Goldman Sachs that, subject to negotiating a definitive, binding agreement, Hudson\u2019s Bay was prepared to offer $16 per share of common stock"
+        ]
+      },
+      {
+        "bid_date": "2013-07-28",
+        "bid_formality": "formal",
+        "bid_stage": "final",
+        "bid_value": 16,
+        "bid_value_lower": null,
+        "bid_value_unit": "per share",
+        "bid_value_upper": null,
+        "bidder_label": "Hudson\u2019s Bay",
+        "claim_type": "bid",
+        "confidence": "high",
+        "consideration_type": "cash",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_9",
+        "proposal_scope": "whole_company",
+        "quote_texts": [
+          "the $16 per share of common stock in cash to be paid to Saks\u2019 shareholders in the proposed merger"
+        ]
+      }
+    ],
+    "event_claims": [
+      {
+        "actor_label": "Sponsor A",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_1",
+        "description": "Sponsor A made an unsolicited contact expressing interest in a potential acquisition of Saks.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": null,
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "In February 2013, Stephen I. Sadove, Saks\u2019 Chairman and Chief Executive Officer, received an unsolicited phone call from a representative of a private equity firm, which we refer to as Sponsor A, expressing interest in a potential acquisition of Saks."
+        ]
+      },
+      {
+        "actor_label": "Hudson\u2019s Bay",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_1",
+        "description": "Richard Baker requested a meeting with Mr. Sadove and discussed a potential acquisition of Saks by Hudson\u2019s Bay.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-04-01",
+        "event_subtype": "contact_initial",
+        "event_type": "process",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "On April 1, 2013, Mr. Sadove met with Richard Baker, the Director, Governor, and Chief Executive Officer of Hudson\u2019s Bay, at the request of Mr. Baker and discussed a potential acquisition of Saks by Hudson\u2019s Bay."
+        ]
+      },
+      {
+        "actor_label": "the board",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_1",
+        "description": "The board authorized implementation of a process to determine whether a transaction with a potential acquiror that had executed a confidentiality agreement could be reached.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-06-05",
+        "event_subtype": "cohort_closure",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "authorized (1) the implementation of a process to determine whether a transaction with one of the potential acquirors which had executed a confidentiality agreement could be reached on terms that would offer attractive value to Saks shareholders"
+        ]
+      },
+      {
+        "actor_label": "Goldman Sachs",
+        "actor_role": "sender",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_3",
+        "description": "At Saks\u2019 direction, Goldman Sachs distributed a draft merger agreement and process details to Hudson\u2019s Bay, Sponsor A and Sponsor E requesting all-cash acquisition offers by July 11, 2013.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-07-02",
+        "event_subtype": "first_round_bid",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "On July 2, 2013, at the direction of Saks, Goldman Sachs distributed a draft merger agreement and process details to each of Hudson\u2019s Bay, Sponsor A and Sponsor E, with a request for submission of offers for an all-cash acquisition of Saks, along with comments on the draft merger agreement, no later than July 11, 2013."
+        ]
+      },
+      {
+        "actor_label": "Sponsor G",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_10",
+        "description": "Saks entered into a confidentiality agreement with Sponsor G.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-07-08",
+        "event_subtype": "nda_signed",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "On July 8, 2013, Saks entered into a confidentiality agreement with Sponsor G."
+        ]
+      },
+      {
+        "actor_label": "Hudson\u2019s Bay",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_3",
+        "description": "Hudson\u2019s Bay submitted a proposal expressing continued interest in an acquisition of Saks.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-07-11",
+        "event_subtype": "first_round_bid",
+        "event_type": "bid",
+        "initiation_side": null,
+        "quote_texts": [
+          "On July 11, 2013, each of Hudson\u2019s Bay, on the one hand, and Sponsor E, together with Sponsor G, on the other hand, submitted proposals expressing their continued interest in an acquisition of Saks."
+        ]
+      },
+      {
+        "actor_label": "Sponsor E and Sponsor G",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_3",
+        "description": "Sponsor E together with Sponsor G submitted a proposal expressing continued interest in an acquisition of Saks.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-07-11",
+        "event_subtype": "first_round_bid",
+        "event_type": "bid",
+        "initiation_side": null,
+        "quote_texts": [
+          "On July 11, 2013, each of Hudson\u2019s Bay, on the one hand, and Sponsor E, together with Sponsor G, on the other hand, submitted proposals expressing their continued interest in an acquisition of Saks."
+        ]
+      },
+      {
+        "actor_label": "Sponsor G",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_10",
+        "description": "Saks was informed that Sponsor G was no longer participating in the process.",
+        "drop_agency": "bidder",
+        "drop_reason": "withdrew",
+        "event_date": null,
+        "event_subtype": "withdrawn_by_bidder",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "Saks was subsequently informed that Sponsor G was no longer participating in the process"
+        ]
+      },
+      {
+        "actor_label": "the board",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_3",
+        "description": "The board authorized Goldman Sachs to tell Hudson\u2019s Bay and Sponsor E and Sponsor A that their initial price proposals were insufficient.",
+        "drop_agency": "target",
+        "drop_reason": "below_minimum",
+        "event_date": "2013-07-17",
+        "event_subtype": "advancement_declined",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "The board authorized Goldman Sachs to inform each of Hudson\u2019s Bay, on the one hand, and Sponsor E and Sponsor A, on the other hand, that their initial price proposals were insufficient"
+        ]
+      },
+      {
+        "actor_label": "Company H",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_3",
+        "description": "Saks received a letter from Company H purporting to propose to acquire Saks for $2.6 billion in cash.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-07-21",
+        "event_subtype": "first_round_bid",
+        "event_type": "bid",
+        "initiation_side": "bidder",
+        "quote_texts": [
+          "On July 21, 2013, Saks received a letter from Company H, a privately held company based in the U.S. unknown to Saks and its advisors, purporting to propose to acquire Saks for an aggregate price of $2.6 billion in cash, with no details or further information."
+        ]
+      },
+      {
+        "actor_label": "Company H",
+        "actor_role": "potential_buyer",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_3",
+        "description": "Goldman Sachs was unsuccessful in contacting Company H, and neither Saks nor Goldman Sachs received any subsequent communications from Company H.",
+        "drop_agency": "bidder",
+        "drop_reason": "no_response",
+        "event_date": null,
+        "event_subtype": "non_responsive",
+        "event_type": "process",
+        "initiation_side": null,
+        "quote_texts": [
+          "Goldman Sachs subsequently attempted on more than one occasion to contact the appropriate person at Company H both by telephone and by e-mail to discuss the purported offer further but was unsuccessful in making contact with such person. Neither Saks nor Goldman Sachs received any subsequent communications from Company H."
+        ]
+      },
+      {
+        "actor_label": "Hudson\u2019s Bay",
+        "actor_role": "bid_submitter",
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_4",
+        "description": "Hudson\u2019s Bay advised Goldman Sachs that it was prepared to offer $16 per share, subject to negotiating a definitive binding agreement.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-07-24",
+        "event_subtype": "final_round_bid",
+        "event_type": "bid",
+        "initiation_side": null,
+        "quote_texts": [
+          "On July 24, 2013, representatives of Hudson\u2019s Bay advised Goldman Sachs that, subject to negotiating a definitive, binding agreement, Hudson\u2019s Bay was prepared to offer $16 per share of common stock"
+        ]
+      },
+      {
+        "actor_label": "the board",
+        "actor_role": "target",
+        "claim_type": "event",
+        "confidence": "medium",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_5",
+        "description": "The board authorized senior management and Saks\u2019 advisors to proceed with negotiations with Hudson\u2019s Bay to determine if an agreement could be reached.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-07-25",
+        "event_subtype": "exclusivity_grant",
+        "event_type": "process",
+        "initiation_side": "target",
+        "quote_texts": [
+          "The board authorized senior management and Saks\u2019 advisors to proceed with negotiations with Hudson\u2019s Bay to determine if an agreement could be reached."
+        ]
+      },
+      {
+        "actor_label": "Saks, Hudson\u2019s Bay and Merger Sub",
+        "actor_role": null,
+        "claim_type": "event",
+        "confidence": "high",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_1",
+        "description": "Saks, Hudson\u2019s Bay and Merger Sub finalized and executed the merger agreement and other transaction documents.",
+        "drop_agency": null,
+        "drop_reason": null,
+        "event_date": "2013-07-28",
+        "event_subtype": "merger_agreement_executed",
+        "event_type": "transaction",
+        "initiation_side": null,
+        "quote_texts": [
+          "Following the board\u2019s approval of the merger and the merger agreement, Saks, Hudson\u2019s Bay and Merger Sub finalized and executed the merger agreement and other transaction documents later on July 28, 2013."
+        ]
+      }
+    ],
+    "participation_count_claims": [
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": 2,
+        "count_min": 2,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_2",
+        "process_stage": "ioi_submitted",
+        "quote_texts": [
+          "Hudson\u2019s Bay, on the one hand, and Sponsor A and Sponsor E, on the other hand, were each preliminarily prepared to proceed with the submission of a proposal to acquire Saks at indicative price ranges of $15 to $15.25 per share of common stock (in the case of Hudson\u2019s Bay) and $15 to $16 per share of common stock (in the case of Sponsor A and Sponsor E)."
+        ]
+      },
+      {
+        "actor_class": "mixed",
+        "claim_type": "participation_count",
+        "confidence": "high",
+        "count_max": 2,
+        "count_min": 2,
+        "count_qualifier": "exact",
+        "coverage_obligation_id": "saks_w2_sale_process_part1_obl_3",
+        "process_stage": "first_round",
+        "quote_texts": [
+          "On July 11, 2013, each of Hudson\u2019s Bay, on the one hand, and Sponsor E, together with Sponsor G, on the other hand, submitted proposals expressing their continued interest in an acquisition of Saks."
+        ]
+      }
+    ]
+  },
+  "prompt_chars": 27108,
+  "prompt_sha256": "e2349ca989565e82f0238f5c71fefe1bb53ec0b560130781635fc6670f57d6f8",
+  "reasoning": "medium",
+  "reasoning_tokens": 1306,
+  "replica": "r1",
+  "result": "OK",
+  "schema_sha256": "0e783020c5768c044a886e0c68312d3e78a57555f4637885fb098049de8a7824",
+  "slug": "saks",
+  "stage": "stage2",
+  "status": "completed",
+  "window_id": "w2_sale_process_part1",
+  "window_profile": "W2_MULTI_REGION"
+}

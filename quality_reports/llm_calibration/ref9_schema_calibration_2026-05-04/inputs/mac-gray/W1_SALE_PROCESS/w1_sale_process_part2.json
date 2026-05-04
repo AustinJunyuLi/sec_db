@@ -1,0 +1,116 @@
+{
+  "char_end": 154269,
+  "char_start": 138738,
+  "coverage_obligations": [
+    {
+      "expected_claim_type": "event",
+      "importance": "required",
+      "obligation_id": "mac-gray_w1_sale_process_part2_obl_1",
+      "obligation_label": "Sales process initiation"
+    },
+    {
+      "expected_claim_type": "participation_count",
+      "importance": "required",
+      "obligation_id": "mac-gray_w1_sale_process_part2_obl_2",
+      "obligation_label": "Bidder count at IOI stage"
+    },
+    {
+      "expected_claim_type": "participation_count",
+      "importance": "important",
+      "obligation_id": "mac-gray_w1_sale_process_part2_obl_3",
+      "obligation_label": "Bidder count at first round"
+    },
+    {
+      "expected_claim_type": "event",
+      "importance": "required",
+      "obligation_id": "mac-gray_w1_sale_process_part2_obl_4",
+      "obligation_label": "Final round bid receipt"
+    },
+    {
+      "expected_claim_type": "event",
+      "importance": "required",
+      "obligation_id": "mac-gray_w1_sale_process_part2_obl_5",
+      "obligation_label": "Exclusivity grant"
+    },
+    {
+      "expected_claim_type": "actor",
+      "importance": "required",
+      "obligation_id": "mac-gray_w1_sale_process_part2_obl_6",
+      "obligation_label": "Target board"
+    },
+    {
+      "expected_claim_type": "actor",
+      "importance": "required",
+      "obligation_id": "mac-gray_w1_sale_process_part2_obl_7",
+      "obligation_label": "Financial advisor for target"
+    },
+    {
+      "expected_claim_type": "actor",
+      "importance": "required",
+      "obligation_id": "mac-gray_w1_sale_process_part2_obl_8",
+      "obligation_label": "Legal advisor for target"
+    },
+    {
+      "expected_claim_type": "bid",
+      "importance": "required",
+      "obligation_id": "mac-gray_w1_sale_process_part2_obl_9",
+      "obligation_label": "Final bid price"
+    },
+    {
+      "expected_claim_type": "actor_relation",
+      "importance": "important",
+      "obligation_id": "mac-gray_w1_sale_process_part2_obl_10",
+      "obligation_label": "Buyer group composition"
+    }
+  ],
+  "filing_path": "/Users/austinli/Projects/sec_graph/data/filings/mac-gray/raw.md",
+  "filing_sha256": "2878e9d10814feb10721461e050958926fbd903a85ca0889677661bcaa351ec8",
+  "obligation_ids": [
+    "mac-gray_w1_sale_process_part2_obl_1",
+    "mac-gray_w1_sale_process_part2_obl_2",
+    "mac-gray_w1_sale_process_part2_obl_3",
+    "mac-gray_w1_sale_process_part2_obl_4",
+    "mac-gray_w1_sale_process_part2_obl_5",
+    "mac-gray_w1_sale_process_part2_obl_6",
+    "mac-gray_w1_sale_process_part2_obl_7",
+    "mac-gray_w1_sale_process_part2_obl_8",
+    "mac-gray_w1_sale_process_part2_obl_9",
+    "mac-gray_w1_sale_process_part2_obl_10"
+  ],
+  "paragraph_ids": [
+    "mac-gray_w1_sale_process_part2_calib_para_1",
+    "mac-gray_w1_sale_process_part2_calib_para_2",
+    "mac-gray_w1_sale_process_part2_calib_para_3",
+    "mac-gray_w1_sale_process_part2_calib_para_4",
+    "mac-gray_w1_sale_process_part2_calib_para_5",
+    "mac-gray_w1_sale_process_part2_calib_para_6",
+    "mac-gray_w1_sale_process_part2_calib_para_7",
+    "mac-gray_w1_sale_process_part2_calib_para_8",
+    "mac-gray_w1_sale_process_part2_calib_para_9",
+    "mac-gray_w1_sale_process_part2_calib_para_10",
+    "mac-gray_w1_sale_process_part2_calib_para_11",
+    "mac-gray_w1_sale_process_part2_calib_para_12",
+    "mac-gray_w1_sale_process_part2_calib_para_13",
+    "mac-gray_w1_sale_process_part2_calib_para_14",
+    "mac-gray_w1_sale_process_part2_calib_para_15",
+    "mac-gray_w1_sale_process_part2_calib_para_16",
+    "mac-gray_w1_sale_process_part2_calib_para_17",
+    "mac-gray_w1_sale_process_part2_calib_para_18",
+    "mac-gray_w1_sale_process_part2_calib_para_19",
+    "mac-gray_w1_sale_process_part2_calib_para_20",
+    "mac-gray_w1_sale_process_part2_calib_para_21",
+    "mac-gray_w1_sale_process_part2_calib_para_22",
+    "mac-gray_w1_sale_process_part2_calib_para_23"
+  ],
+  "region_kind": "sale_process",
+  "region_signals": [
+    "Background of the Merger",
+    "split_part_2"
+  ],
+  "slug": "mac-gray",
+  "source_perspective": "target_or_offer_primary",
+  "text": "On September 18, 2013, CSC/Pamplona submitted a proposal for an all-cash purchase price of $20.75 per share, reiterating that Pamplona was committed to provide 100% of the capital required to consummate the transaction and requesting that CSC/Pamplona and Mac-Gray agree to engage in exclusive negotiations for two weeks. Also on September 18, 2013, Party A reiterated in a telephone call to a representative of BofA Merrill Lynch that its previous indication of interest with an all-cash purchase price of $18.00 to $19.00 per share was its best and final offer. On September 18, 2013, Party B also submitted a revised indication of interest with a purchase price that Party B valued at $21.50 per share, including $19.00 of cash to be paid at closing and the remaining per share price to be paid in the form of options to be issued to Mac-Gray stockholders, representing 10% of the new equity with a strike price equal to Party B's initial cost basis. These options, which we refer to as the Party B options, would vest on the achievement of the base case management projections ( *i.e.* , over five years), excluding any future acquisitions. Party B's proposal stated that it valued the Party B options at $2.50 of incremental value per share. Party C did not submit a revised indication of interest or reiterate its prior indication of interest of an all-cash purchase price of $16.00 to $17.00 per share nor did it specify any reasons in connection therewith.\n\nOn September 19, 2013, the Special Committee held an in-person meeting. By invitation of the Special Committee, Mr. MacDonald and Mr. Shea, as well as representatives from BofA Merrill Lynch and Goodwin Procter, were also present for all or portions of the meeting. At this meeting, BofA Merrill Lynch updated the Special Committee as to the current status of the revised indications of interest submitted by Party A, Party B and CSC/Pamplona and reported that Party C did not submit a revised indication of interest or reiterate its prior indication of interest. BofA Merrill Lynch also reported to the Special Committee on Mr. MacDonald's general support for continuing with the process and his view that Mac-Gray should continue to seek a higher value for stockholders. Mr. Shea again reviewed the Projections with the Special Committee and BofA Merrill Lynch. The Special Committee again discussed the Projections, including the risks relating to Mac-Gray's ability to execute its strategic plan as an independent, stand-alone company (including Mac-Gray's ability to identify, acquire and successfully integrate laundry facilities management businesses, establish new and/or renew existing laundry facility management leases and penetrate markets historically dominated by smaller\n\n36\n<!-- PAGE 43 -->\nZEQ.=7,SEQ=42,EFW=\"2217482\",CP=\"MAC-GRAY CORPORATION\",DN=\"1\",CHK=262525,FOLIO='36',FILE='DISK112:[13ZCX1.13ZCX46801]DG46801A.;20',USER='HYUNG',CD=';2-DEC-2013;13:16'\n\nTable of Contents\n\nlocal and regional operators, the impact of general economic and market trends on Mac-Gray's sales and the general risks of market conditions that could reduce Mac-Gray's stock price). The Special Committee also again discussed the potential opportunities if Mac-Gray were able to execute its strategic plan as an independent, stand-alone company (including the ability to improve profitability and EBITDA margins by increasing scale and density through organic growth and/or strategic acquisitions as well as the ability to increase revenue through vend increases and the conversion from coin-operated technology to card-based technology). The Special Committee also discussed the risks involved if Mac-Gray did not execute on its strategic business plan, including the difficulties with increasing the Company's stock price without a significant or transformative transaction, such as a major acquisition or restructuring. The Special Committee then considered the Projections in light of the revised indications of interest. Representatives from Goodwin Procter again reviewed the Special Committee's fiduciary duties in the context of a sale of the company. The Special Committee then discussed each of the three revised proposals, including their advantages and disadvantages. The Special Committee discussed the risks and complexities of the Party B options, including their contingent and deferred nature and the uncertainties associated with how Mac-Gray's performance would be measured, especially in light of the fact that current Mac-Gray management would not be in control of the surviving corporation to monitor or drive the growth necessary to trigger payment under the Party B options.\n\nThe representatives from BofA Merrill Lynch were then excused from the meeting and the Special Committee continued its discussion. The Special Committee noted that the indication of interest submitted by Party B, including the Party B options, was on its face higher than the CSC/Pamplona proposal but further discussed the risks and complexities involved with measuring and achieving the performance required to vest the Party B options. The Special Committee also noted that Party B would likely be financing the transaction with a combination of equity from affiliated funds and third party debt capital, which would involve more risk than the Pamplona-funded CSC/Pamplona proposal, which did not require any third party financing. Following a discussion, the Special Committee concluded that the revised indication of interest submitted by CSC/Pamplona had the potential of delivering the most value to stockholders, provided greater certainty and involved less potential risk than the other indications. However, the Special Committee also concluded that, primarily in view of potential synergies between Mac-Gray and CSC, CSC/Pamplona should be in a position to increase their offer price above $20.75. The Special Committee then authorized the Transaction Committee to inform CSC/Pamplona that the Special Committee would be prepared to move into exclusivity at a price of $21.25 per share and authorized the Transaction Committee and Goodwin Procter to negotiate the terms of such exclusivity based on guidance provided by the Special Committee. In addition, at this meeting Mr. MacDonald indicated that he would be supportive of a price of $21.25 per share.\n\nOn September 21, 2013, the members of the Transaction Committee called the representative of CSC/Pamplona to propose that Mac-Gray was prepared to move forward with CSC/Pamplona on an exclusive basis for two weeks subject to CSC/Pamplona increasing their all-cash purchase price to $21.25 per share. Later that same day, the representative of CSC/Pamplona called the members of the Transaction Committee to confirm that CSC/Pamplona were willing to increase their all-cash purchase price to $21.25 per share as a last and best offer, provided that Mac-Gray agree to a two week period of exclusive negotiations. The representative of CSC/Pamplona also requested that shares of Mac-Gray common stock owned beneficially and of record by Mr. MacDonald and his immediate family be subject to a customary voting agreement, which we refer to as the MacDonald voting agreements.\n\nBetween September 21, 2013 and September 23, 2013, the parties negotiated the terms of the exclusivity agreement, including an expiration date of October 12, 2013, the inclusion of a $15 million \"reverse\" termination fee payable by CSC/Pamplona to Mac-Gray in the event regulatory clearance is not obtained, which we refer to as the CSC reverse termination fee, agreements regarding certain post-signing covenants, the fact that there would be no financing contingency and that Pamplona was\n\n37\n<!-- PAGE 44 -->\nZEQ.=8,SEQ=43,EFW=\"2217482\",CP=\"MAC-GRAY CORPORATION\",DN=\"1\",CHK=474256,FOLIO='37',FILE='DISK112:[13ZCX1.13ZCX46801]DG46801A.;20',USER='HYUNG',CD=';2-DEC-2013;13:16'\n\nTable of Contents\n\ncommitting to fund 100% of the capital needed for closing, which, together with the all-cash per share purchase price of $21.25, we refer to as the CSC/Pamplona final proposal. The parties also agreed that the exclusivity agreement would automatically terminate if CSC or Pamplona adversely changed any of the terms of the CSC/Pamplona final proposal.\n\nOn September 23, 2013, representatives from Goodwin Procter participated in a telephone conference call with Mr. Rothenberg and his counsel to inform Mr. Rothenberg, on a limited basis, of the status of the Special Committee's review of strategic alternatives and the negotiations between Mac-Gray and CSC and Pamplona to provide Moab with the opportunity to resume discussions with CSC/Pamplona regarding a possible equity rollover of Moab's shares in the transaction if Moab still had an interest in such a rollover. Mr. Rothenberg indicated he would like to discuss the possibility of an equity rollover with CSC/Pamplona and it was agreed that representatives of BofA Merrill Lynch would arrange and facilitate such a discussion.\n\nLater on September 23, 2013, the Special Committee held a telephonic meeting, the purpose of which was to receive an update on the negotiations from the Transaction Committee and Goodwin Procter regarding the CSC/Pamplona final proposal and request for exclusivity. Representatives from Goodwin Procter reviewed the terms of the CSC/Pamplona final proposal with the Special Committee, including the $21.25 per share cash consideration, the $15 million CSC reverse termination fee, certain post-signing covenants, the fact that there would be no financing contingency and that Pamplona was committing to fund 100% of the capital needed for closing. After discussion, the Special Committee authorized Mac-Gray to enter into an exclusivity agreement providing for exclusive negotiations until 5 p.m. ET on October 12, 2013 on the terms included in the CSC/Pamplona final proposal and authorized the Transaction Committee and Goodwin Procter to continue negotiations with CSC/Pamplona based on guidance provided by the Special Committee at this meeting.\n\nOn September 24, 2013, CSC, Pamplona and Mac-Gray executed the exclusivity agreement providing for exclusive negotiations until 5 p.m. ET on October 12, 2013, subject to certain conditions, including that CSC and Pamplona not adversely change or modify the terms of the CSC/Pamplona final proposal.\n\nOn September 25, 2013, Goodwin Procter delivered to Kirkland & Ellis LLP, outside legal counsel to CSC/Pamplona, whom we refer to as Kirkland, the initial draft of the merger agreement. Between September 25, 2013 and October 7, 2013, the Transaction Committee and representatives from CSC/Pamplona, Goodwin Procter and Kirkland negotiated the terms of the merger agreement (including our ability to respond to unsolicited inquiries following the announcement of the transaction and our right to terminate the merger agreement to accept a superior proposal) and the Pamplona commitment letter. The parties discussed various open points in the merger agreement and the Pamplona commitment letter, including the proposal by Mac-Gray that both Pamplona and CSC be responsible in the event CSC failed to consummate the merger, including liability for any and all damages resulting from a breach of the merger agreement, certain post-signing covenants and the parties' termination rights, including the amount of the termination fee payable by Mac-Gray to CSC under certain circumstances (which we refer to as the Mac-Gray termination fee), which Mac-Gray proposed should approximate 2.5% of the total equity value of the transaction. Also during this time, CSC and Pamplona were granted full access to the electronic data site and access to certain members of management and conducted confirmatory business and legal due diligence on Mac-Gray. Mr. Rothenberg engaged in various discussions with representatives of Pamplona during this time to discuss a possible rollover of Moab shares. As a result of such discussions, it was determined that Moab would not rollover any Moab shares in the transaction. Following such determination, BofA Merrill Lynch and the Transaction Committee provided Mr. Rothenberg with the details regarding the Special Committee's review of strategic alternatives and the negotiations between Mac-Gray and CSC/Pamplona.\n\n38\n<!-- PAGE 45 -->\nZEQ.=9,SEQ=44,EFW=\"2217482\",CP=\"MAC-GRAY CORPORATION\",DN=\"1\",CHK=689241,FOLIO='38',FILE='DISK112:[13ZCX1.13ZCX46801]DG46801A.;20',USER='HYUNG',CD=';2-DEC-2013;13:16'\n\nTable of Contents\n\nBetween September 24, 2013 and September 27, 2013, Kirkland and outside counsel to Mr. MacDonald negotiated the terms of the MacDonald voting agreements, which were entered into by Mr. MacDonald, his wife and one of his trusts on September 27, 2013, and which became effective upon entry into the merger agreement.\n\nOn October 1, 2013, representatives of Mac-Gray management, along with representatives from BofA Merrill Lynch and representatives from CSC/Pamplona attended a meeting at the Boston offices of Goodwin Procter for purposes of conducting confirmatory business due diligence. Representatives of Mac-Gray, Goodwin Procter, BofA Merrill Lynch and representatives of CSC/Pamplona and Kirkland participated in various telephone conference calls over the subsequent days to finalize business and legal due diligence.\n\nOn October 5, 2013, Kirkland delivered to Goodwin Procter a revised draft of the Pamplona commitment letter which, among other things, proposed that, in addition to CSC, Pamplona would be responsible in the event CSC failed to consummate the merger, but that Pamplona's liability for damages resulting from a breach of the merger agreement would be limited to an unspecified dollar amount.\n\nOn October 7, 2013, the Special Committee held a telephonic meeting, the purpose of which was to receive an update on the transaction negotiations from the Transaction Committee and Goodwin Procter. By invitation of the Special Committee, Mr. MacDonald was also present for a portion of the meeting. Mr. Daoust reported to the Special Committee that, after discussions between Moab and representatives of Pamplona, it was determined that Moab would not rollover any Moab shares in the transaction. Mr. Daoust also provided the Special Committee with an overview of the open business points and the progress the parties had made since the September 23 rd Special Committee meeting. Representatives from Goodwin Procter then reported on the progress that had been made in diligence and summarized the open issues in the merger agreement and the Pamplona commitment letter, including to what extent Pamplona would be responsible in the event CSC failed to consummate the merger, including CSC's and Pamplona's liability for damages resulting from a breach of the merger agreement, certain post-signing covenants and the parties' termination rights, including the amounts of the Mac-Gray termination fee and the CSC reverse termination fee. The Special Committee authorized the Transaction Committee and Goodwin Procter to continue negotiations with CSC/Pamplona, and, among other things, provided guidance with respect to the open transaction issues discussed at the meeting.\n\nAlso on October 7, 2013, Kirkland delivered to Goodwin Procter a revised draft of the merger agreement which, among other things, proposed a $15 million Mac-Gray termination fee, which represented approximately 4.4% of the total equity value of the transaction, and certain positions on the scope of various post-signing covenants.\n\nOn October 8, 2013, r",
+  "text_sha256": "faa88ea93d5e48e282e0a77c0068464f13398468035c1f6224b34da37ed31db9",
+  "window_id": "w1_sale_process_part2",
+  "window_profile": "W1_SALE_PROCESS"
+}
