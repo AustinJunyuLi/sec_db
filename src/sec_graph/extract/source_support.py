@@ -25,8 +25,6 @@ class SupportDecision:
 def classify_obligation_support(obligation_kind: str, text: str) -> SupportDecision:
     folded = _fold(text)
     negative = _first_match(folded, _NEGATIVE_PATTERNS.get(obligation_kind, ()))
-    if negative is not None:
-        return SupportDecision(obligation_kind, SupportState.NEGATIVE, negative[0], (negative[1],))
     positive = _first_match(folded, _POSITIVE_PATTERNS.get(obligation_kind, ()))
     if positive is not None:
         return SupportDecision(
@@ -35,6 +33,8 @@ def classify_obligation_support(obligation_kind: str, text: str) -> SupportDecis
             "positive_source_support",
             (positive[1],),
         )
+    if negative is not None:
+        return SupportDecision(obligation_kind, SupportState.NEGATIVE, negative[0], (negative[1],))
     topic = _first_match(folded, _TOPIC_PATTERNS.get(obligation_kind, ()))
     if topic is not None:
         return SupportDecision(
@@ -48,7 +48,7 @@ def classify_obligation_support(obligation_kind: str, text: str) -> SupportDecis
 
 def is_substantive_sale_process_text(text: str) -> bool:
     folded = _fold(text)
-    if len(folded.split()) < 25:
+    if len(folded.split()) < 4:
         return False
     if _looks_cross_reference_only(folded):
         return False
@@ -65,6 +65,7 @@ def is_substantive_sale_process_text(text: str) -> bool:
             "merger agreement",
             "contacted",
             "indication of interest",
+            "exclusiv",
         )
     )
 
@@ -121,11 +122,11 @@ _POSITIVE_PATTERNS: dict[str, tuple[tuple[str, str], ...]] = {
     ),
     "exclusivity_grant": (
         ("positive_source_support", r"\bgranted\s+exclusivity\b"),
-        ("positive_source_support", r"\boffer\s+to\s+.+?\bexclusivity\s+period\b"),
-        ("positive_source_support", r"\bsigned\s+an\s+agreement\b.{0,120}\bexclusivity\s+period\b"),
+        ("positive_source_support", r"\bwilling\s+to\s+offer\b[^.]{0,120}\bexclusivity\s+period\b"),
+        ("positive_source_support", r"\bsigned\s+an\s+agreement\b[^.]{0,120}\bexclusivity\s+period\b"),
         ("positive_source_support", r"\bexecuted\s+(?:an\s+)?exclusivity\s+agreement\b"),
-        ("positive_source_support", r"\bexclusivity\s+agreement\b.{0,120}\bproviding\s+for\s+exclusive\s+negotiations\b"),
-        ("positive_source_support", r"\bauthorized\b.{0,120}\bexclusivity\s+agreement\b"),
+        ("positive_source_support", r"\bexclusivity\s+agreement\b[^.]{0,120}\bproviding\s+for\s+exclusive\s+negotiations\b"),
+        ("positive_source_support", r"\bauthorized\b[^.]{0,120}\bexclusivity\s+agreement\b"),
         ("positive_source_support", r"\bexclusive\s+negotiations?\s+until\b"),
     ),
     "go_shop_period": (
@@ -142,15 +143,14 @@ _POSITIVE_PATTERNS: dict[str, tuple[tuple[str, str], ...]] = {
     "rollover_holder": (
         ("positive_source_support", r"\bagreed\s+to\s+(?:roll\s*-?\s*over|rollover|retain)\b"),
         ("positive_source_support", r"\bwould\s+be\s+willing\s+to\s+.+?\broll-?over\b"),
-        ("positive_source_support", r"\bequity\s+rollover\b"),
         ("positive_source_support", r"\bretain\s+(?:equity|a\s+stake)\b"),
         ("positive_source_support", r"\bcontribute\s+shares\b"),
     ),
     "voting_support": (
-        ("positive_source_support", r"\bentered\s+into\s+(?:a\s+)?(?:voting\s+and\s+support|voting|support)\s+agreement\b"),
-        ("positive_source_support", r"\bexecuted\s+(?:a\s+)?(?:voting\s+and\s+support|voting|support)\s+agreement\b"),
+        ("positive_source_support", r"\bentered\s+into\s+(?:(?:a|the)\s+)?(?:voting\s+and\s+support|voting|support)\s+agreements?\b"),
+        ("positive_source_support", r"\bexecuted\s+(?:their\s+respective\s+|(?:(?:a|the)\s+))?(?:voting\s+and\s+support|voting|support)\s+agreements?\b"),
         ("positive_source_support", r"\bagreed\s+to\s+vote\b"),
-        ("positive_source_support", r"\bvoting\s+and\s+support\s+agreement\s+(?:was\s+)?(?:executed|entered)\b"),
+        ("positive_source_support", r"\bvoting\s+and\s+support\s+agreements?\s+(?:was\s+|were\s+)?(?:executed|entered)\b"),
     ),
     "special_committee": (
         ("positive_source_support", r"\bformed\s+(?:a\s+)?(?:special|transaction)\s+committee\b"),
@@ -159,8 +159,9 @@ _POSITIVE_PATTERNS: dict[str, tuple[tuple[str, str], ...]] = {
         ("positive_source_support", r"\b(?:special|transaction)\s+committee\b.{0,80}\bappointed\b"),
     ),
     "recusal": (
-        ("positive_source_support", r"\b(?:director|mr\.?|ms\.?|mrs\.?)\s+[a-z][a-z.'-]*\b.{0,80}\brecused?\s+(?:himself|herself|themselves)\b"),
-        ("positive_source_support", r"\brecused?\s+(?:himself|herself|themselves)\b.{0,120}\b(?:board|committee|meeting|process|evaluation|negotiation|transaction)\b"),
+        ("positive_source_support", r"\b(?:director|mr\.?|ms\.?|mrs\.?)\s+[a-z][a-z.'-]*\b[^.]{0,80}\b(?:elected|agreed|decided)\s+to\s+recuse\s+(?:himself|herself|themselves)\b"),
+        ("positive_source_support", r"\b(?:director|mr\.?|ms\.?|mrs\.?)\s+[a-z][a-z.'-]*\b[^.]{0,80}\brecused\s+(?:himself|herself|themselves)\b"),
+        ("positive_source_support", r"\brecused\s+(?:himself|herself|themselves)\b[^.]{0,120}\b(?:board|committee|meeting|process|evaluation|negotiation|transaction)\b"),
         ("positive_source_support", r"\bdid\s+not\s+participate\b.{0,120}\b(?:board|committee|meeting|process|evaluation|negotiation|transaction)\b"),
     ),
     "financing_committed": (

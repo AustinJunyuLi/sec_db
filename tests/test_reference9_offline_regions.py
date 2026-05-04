@@ -359,7 +359,7 @@ def _applicability_summary(conn, *, index: int) -> dict[str, object]:
                 item
                 for row in app_rows
                 for item in json.loads(row[4])
-                if row[3] == "trigger_phrase_match"
+                if row[3] in {"positive_source_support", "trigger_phrase_match"}
             }
         ),
     }

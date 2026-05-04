@@ -215,8 +215,8 @@ def test_window_allowed_claim_types_are_derived_from_applicable_obligations() ->
 def test_medivation_tender_offer_scope_drives_applicability() -> None:
     """The tender-offer-only obligation applies to medivation but no others.
 
-    Reading the local Medivation filing also exercises the multi-region path
-    (Background of the Offer + Past Contacts) that Phase 1 introduced.
+    Reading the local Medivation filing also exercises rejection of the
+    cross-reference-only Past Contacts candidate.
     """
     if not (REPO_ROOT / "data" / "filings" / "medivation" / "raw.md").exists():
         pytest.skip("medivation filing not present locally")
@@ -226,7 +226,7 @@ def test_medivation_tender_offer_scope_drives_applicability() -> None:
     [source] = filing_sources(["medivation"], filings_dir=REPO_ROOT / "data" / "filings")
     filing = ingest_source(conn, source)
     region_ids = build_evidence_map(conn, filing_id=filing.filing_id, run_id=RUN_ID)
-    assert len(region_ids) == 2
+    assert len(region_ids) == 1
 
     rows = conn.execute(
         """
@@ -236,7 +236,7 @@ def test_medivation_tender_offer_scope_drives_applicability() -> None:
         """,
         [filing.filing_id],
     ).fetchall()
-    assert len(rows) == 2
+    assert len(rows) == 1
     for region_id, applicability, reason in rows:
         assert applicability == "applicable"
         assert reason == "process_scope:bidder_partial_schedule_to"

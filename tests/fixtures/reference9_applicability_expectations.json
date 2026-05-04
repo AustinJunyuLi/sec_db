@@ -1,18 +1,18 @@
 {
   "schema_version": "2026-05-04",
-  "description": "Offline Reference-9 applicability expectations. The compact rows pin process scope, region section, applicable obligation kinds, claim-type families, reason-code families, and trigger basis phrases without committing full filings.",
+  "description": "Offline Reference-9 applicability expectations. The compact rows pin process scope, region section, applicable obligation kinds, claim-type families, reason-code families, and positive source-support basis phrases without committing full filings.",
   "deals": {
     "imprivata": {
       "process_scope": "target_full_proxy",
       "regions": [
         {
           "section": "Background of the Merger",
-          "applicable_count": 14,
-          "applicable_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "contacted_count", "ioi_count", "final_round_count", "final_round_bid_event", "exclusivity_grant", "voting_support", "special_committee", "financing_committed"],
+          "applicable_count": 12,
+          "applicable_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "contacted_count", "ioi_count", "final_round_count", "final_round_bid_event", "special_committee", "financing_committed"],
           "claim_types": ["actor", "actor_relation", "bid", "event", "participation_count"],
-          "important_or_required_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "contacted_count", "ioi_count", "final_round_count", "final_round_bid_event", "exclusivity_grant", "voting_support", "financing_committed"],
-          "reason_codes": ["trigger_phrase_match", "universal_sale_process"],
-          "trigger_basis": ["11 strategic parties", "Special Committee", "best and final", "best and final offer", "equity commitment", "exclusivity", "final bids", "indication of interest", "preliminary indication", "voting agreement"]
+          "important_or_required_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "contacted_count", "ioi_count", "final_round_count", "final_round_bid_event", "financing_committed"],
+          "reason_codes": ["positive_source_support", "universal_sale_process"],
+          "trigger_basis": ["11 strategic parties", "best and final offer", "equity commitment letter", "established a special committee", "final bids", "indication of interest"]
         }
       ]
     },
@@ -21,12 +21,12 @@
       "regions": [
         {
           "section": "Background of the Merger",
-          "applicable_count": 16,
-          "applicable_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "contacted_count", "ioi_count", "final_round_count", "final_round_bid_event", "exclusivity_grant", "rollover_holder", "voting_support", "special_committee", "recusal", "financing_committed"],
+          "applicable_count": 15,
+          "applicable_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "contacted_count", "ioi_count", "final_round_count", "final_round_bid_event", "exclusivity_grant", "buyer_group_composition", "special_committee", "recusal", "financing_committed"],
           "claim_types": ["actor", "actor_relation", "bid", "event", "participation_count"],
-          "important_or_required_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "contacted_count", "ioi_count", "final_round_count", "final_round_bid_event", "exclusivity_grant", "rollover_holder", "voting_support", "financing_committed"],
-          "reason_codes": ["trigger_phrase_match", "universal_sale_process"],
-          "trigger_basis": ["20 potential bidders", "Special Committee", "best and final", "best and final offer", "exclusive negotiations", "exclusivity", "financing commitment", "indications of interest", "preliminary indication", "recused", "rollover", "transaction committee", "voting agreement"]
+          "important_or_required_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "contacted_count", "ioi_count", "final_round_count", "final_round_bid_event", "exclusivity_grant", "buyer_group_composition", "financing_committed"],
+          "reason_codes": ["positive_source_support", "universal_sale_process"],
+          "trigger_basis": ["20 potential bidders", "best and final", "best and final offer", "committing to fund", "exclusivity agreement providing for exclusive negotiations", "formed a transaction committee", "indications of interest", "mr. rothenberg recused himself", "together we refer to as"]
         }
       ]
     },
@@ -39,17 +39,8 @@
           "applicable_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "ioi_count", "final_round_count", "tender_offer_prior_contacts"],
           "claim_types": ["actor", "bid", "event", "participation_count"],
           "important_or_required_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "ioi_count", "final_round_count", "tender_offer_prior_contacts"],
-          "reason_codes": ["process_scope:bidder_partial_schedule_to", "trigger_phrase_match", "universal_sale_process"],
+          "reason_codes": ["positive_source_support", "process_scope:bidder_partial_schedule_to", "universal_sale_process"],
           "trigger_basis": ["best and final", "preliminary proposal"]
-        },
-        {
-          "section": "Past Contacts, Transactions, Negotiations and Agreements",
-          "applicable_count": 7,
-          "applicable_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "tender_offer_prior_contacts"],
-          "claim_types": ["actor", "bid", "event"],
-          "important_or_required_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "tender_offer_prior_contacts"],
-          "reason_codes": ["process_scope:bidder_partial_schedule_to", "universal_sale_process"],
-          "trigger_basis": []
         }
       ]
     },
@@ -58,12 +49,12 @@
       "regions": [
         {
           "section": "Background of the Merger",
-          "applicable_count": 10,
-          "applicable_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "ioi_count", "exclusivity_grant", "voting_support", "recusal"],
+          "applicable_count": 8,
+          "applicable_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "ioi_count", "voting_support"],
           "claim_types": ["actor", "actor_relation", "bid", "event", "participation_count"],
-          "important_or_required_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "ioi_count", "exclusivity_grant", "voting_support"],
-          "reason_codes": ["trigger_phrase_match", "universal_sale_process"],
-          "trigger_basis": ["exclusive negotiations", "exclusivity", "indications of interest", "recuse", "support agreement", "voting and support agreement"]
+          "important_or_required_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "ioi_count", "voting_support"],
+          "reason_codes": ["positive_source_support", "universal_sale_process"],
+          "trigger_basis": ["executed the voting and support agreement", "indications of interest"]
         }
       ]
     },
@@ -72,12 +63,12 @@
       "regions": [
         {
           "section": "Background of the Merger",
-          "applicable_count": 14,
-          "applicable_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "contacted_count", "ioi_count", "final_round_count", "final_round_bid_event", "buyer_group_composition", "rollover_holder", "voting_support", "financing_committed"],
+          "applicable_count": 13,
+          "applicable_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "contacted_count", "ioi_count", "final_round_count", "final_round_bid_event", "buyer_group_composition", "rollover_holder", "financing_committed"],
           "claim_types": ["actor", "actor_relation", "bid", "event", "participation_count"],
-          "important_or_required_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "contacted_count", "ioi_count", "final_round_count", "final_round_bid_event", "buyer_group_composition", "rollover_holder", "voting_support", "financing_committed"],
-          "reason_codes": ["trigger_phrase_match", "universal_sale_process"],
-          "trigger_basis": ["Buyer Group", "acquisition vehicle", "best and final", "best and final offer", "contacted by 27", "final bids", "final round", "financing commitment", "indications of interest", "preliminary indications", "roll-over", "rollover", "voting agreement"]
+          "important_or_required_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "contacted_count", "ioi_count", "final_round_count", "final_round_bid_event", "buyer_group_composition", "rollover_holder", "financing_committed"],
+          "reason_codes": ["positive_source_support", "universal_sale_process"],
+          "trigger_basis": ["best and final offer", "buyer group", "contacted by 27", "final round", "financing commitment documents", "indications of interest", "would be willing to \u201croll-over"]
         }
       ]
     },
@@ -86,12 +77,12 @@
       "regions": [
         {
           "section": "Background of the Merger",
-          "applicable_count": 12,
-          "applicable_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "contacted_count", "ioi_count", "exclusivity_grant", "voting_support", "special_committee", "recusal"],
+          "applicable_count": 11,
+          "applicable_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "contacted_count", "ioi_count", "voting_support", "special_committee", "recusal"],
           "claim_types": ["actor", "actor_relation", "bid", "event", "participation_count"],
-          "important_or_required_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "contacted_count", "ioi_count", "exclusivity_grant", "voting_support"],
-          "reason_codes": ["trigger_phrase_match", "universal_sale_process"],
-          "trigger_basis": ["IOIs", "Transaction Committee", "contacted 11", "exclusivity", "indication of interest", "recuse", "special committee", "voting agreement"]
+          "important_or_required_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "contacted_count", "ioi_count", "voting_support"],
+          "reason_codes": ["positive_source_support", "universal_sale_process"],
+          "trigger_basis": ["appointed a special committee", "contacted 11", "executed the voting agreement", "indication of interest", "mr. smith elected to recuse himself"]
         }
       ]
     },
@@ -100,12 +91,12 @@
       "regions": [
         {
           "section": "Background of the Merger",
-          "applicable_count": 10,
-          "applicable_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "contacted_count", "buyer_group_composition", "recusal", "financing_committed"],
+          "applicable_count": 9,
+          "applicable_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "contacted_count", "buyer_group_composition", "financing_committed"],
           "claim_types": ["actor", "actor_relation", "bid", "event", "participation_count"],
           "important_or_required_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "contacted_count", "buyer_group_composition", "financing_committed"],
-          "reason_codes": ["trigger_phrase_match", "universal_sale_process"],
-          "trigger_basis": ["Merger Sub", "committed financing", "contacted 58", "did not participate"]
+          "reason_codes": ["positive_source_support", "universal_sale_process"],
+          "trigger_basis": ["committed debt", "contacted 58", "together with sponsor"]
         }
       ]
     },
@@ -114,12 +105,12 @@
       "regions": [
         {
           "section": "Background of the Merger",
-          "applicable_count": 12,
-          "applicable_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "ioi_count", "final_round_count", "exclusivity_grant", "buyer_group_composition", "voting_support", "special_committee"],
+          "applicable_count": 10,
+          "applicable_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "ioi_count", "final_round_count", "voting_support", "special_committee"],
           "claim_types": ["actor", "actor_relation", "bid", "event", "participation_count"],
-          "important_or_required_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "ioi_count", "final_round_count", "exclusivity_grant", "buyer_group_composition", "voting_support"],
-          "reason_codes": ["trigger_phrase_match", "universal_sale_process"],
-          "trigger_basis": ["Merger Sub", "best and final", "exclusivity", "final round", "indications of interest", "preliminary proposal", "special committee", "vote in favor", "voting agreement"]
+          "important_or_required_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "ioi_count", "final_round_count", "voting_support"],
+          "reason_codes": ["positive_source_support", "universal_sale_process"],
+          "trigger_basis": ["established a special committee", "executed their respective voting agreements", "final round", "indications of interest"]
         }
       ]
     },
@@ -128,12 +119,12 @@
       "regions": [
         {
           "section": "Background of the Merger",
-          "applicable_count": 13,
-          "applicable_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "ioi_count", "first_round_count", "final_round_count", "exclusivity_grant", "go_shop_period", "special_committee", "financing_committed"],
-          "claim_types": ["actor", "actor_relation", "bid", "event", "participation_count"],
+          "applicable_count": 12,
+          "applicable_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "ioi_count", "first_round_count", "final_round_count", "exclusivity_grant", "go_shop_period", "financing_committed"],
+          "claim_types": ["actor", "bid", "event", "participation_count"],
           "important_or_required_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "ioi_count", "first_round_count", "final_round_count", "exclusivity_grant", "financing_committed"],
-          "reason_codes": ["trigger_phrase_match", "universal_sale_process"],
-          "trigger_basis": ["best and final", "debt commitment", "equity commitment", "exclusivity", "financing letter", "first round", "go-shop", "go-shop ", "indications of interest", "preliminary indications", "transaction committee"]
+          "reason_codes": ["positive_source_support", "universal_sale_process"],
+          "trigger_basis": ["best and final", "debt commitment letter", "first round", "go-shop period", "indications of interest", "willing to offer to new mountain capital an exclusivity period"]
         }
       ]
     }

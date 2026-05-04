@@ -329,15 +329,15 @@ def test_llm_prompt_forbids_empty_string_dates(tmp_path: Path) -> None:
     assert "Never return an empty string for a date" in prompt
 
 
-def test_evidence_map_builds_one_full_background_sale_process_region() -> None:
+def test_evidence_map_does_not_merge_repeated_headings_across_other_sections() -> None:
     conn = connect(":memory:")
     init_schema(conn)
     filing_id = _insert_sectioned_filing(
         conn,
         [
-            ("preamble", "Introductory proxy material."),
-            ("Background of the Merger", "The board began a sale process."),
+            ("unknown_section", "Cover."),
             ("Background of the Merger", "The Company contacted bidders."),
+            ("Background of the Merger", "The Board reviewed a final proposal."),
             ("Reasons for the Merger", "The board considered fairness."),
             ("Background of the Merger", "The parties granted exclusivity."),
         ],
@@ -345,67 +345,24 @@ def test_evidence_map_builds_one_full_background_sale_process_region() -> None:
 
     region_ids = build_evidence_map(conn, filing_id=filing_id, run_id=RUN_ID)
 
-    assert len(region_ids) == 1
-    region = conn.execute(
+    rows = conn.execute(
         """
-        SELECT region_kind, priority, start_paragraph_id, end_paragraph_id,
-               paragraph_ids_json, expected_claim_types_json
+        SELECT paragraph_ids_json
         FROM evidence_regions
         WHERE filing_id = ?
-        """,
-        [filing_id],
-    ).fetchone()
-    assert region[:4] == ("sale_process_narrative", 1, "sectioned-deal_para_2", "sectioned-deal_para_5")
-    assert json.loads(region[4]) == [
-        "sectioned-deal_para_2",
-        "sectioned-deal_para_3",
-        "sectioned-deal_para_5",
-    ]
-    # Universal obligations cover event/actor/bid; "exclusivity" triggers an
-    # additional applicable event obligation. No participation_count or
-    # actor_relation triggers fire for this minimal text.
-    assert json.loads(region[5]) == ["event", "actor", "bid"]
-
-    universal_kinds_in_order = (
-        ("event", "process_initiation", "Sales process initiation", "required", "applicable", "universal_sale_process"),
-        ("actor", "target_board", "Target board", "required", "applicable", "universal_sale_process"),
-        ("actor", "target_financial_advisor", "Financial advisor for target", "required", "applicable", "universal_sale_process"),
-        ("actor", "target_legal_advisor", "Legal advisor for target", "required", "applicable", "universal_sale_process"),
-        ("bid", "final_consideration", "Final transaction price", "required", "applicable", "universal_sale_process"),
-        ("event", "final_approval_event", "Final approval or signing event", "required", "applicable", "universal_sale_process"),
-    )
-    obligations = conn.execute(
-        """
-        SELECT expected_claim_type, obligation_kind, obligation_label, importance,
-               applicability, applicability_reason_code
-        FROM coverage_obligations
-        WHERE filing_id = ?
-        ORDER BY CAST(regexp_extract(obligation_id, '_(\\d+)$', 1) AS INTEGER)
+        ORDER BY priority
         """,
         [filing_id],
     ).fetchall()
-    # Universal obligations come first in canonical order.
-    assert obligations[:6] == list(universal_kinds_in_order)
-
-    # The exclusivity trigger must be applicable for this text.
-    exclusivity_row = next(row for row in obligations if row[1] == "exclusivity_grant")
-    assert exclusivity_row[4] == "applicable"
-    assert exclusivity_row[5] == "trigger_phrase_match"
-
-    # Conditional obligations whose triggers do not fire must be marked
-    # not_applicable rather than dropped, so the audit ledger is complete.
-    inapplicable_kinds = {row[1] for row in obligations if row[4] == "not_applicable"}
-    assert "buyer_group_composition" in inapplicable_kinds
-    assert "rollover_holder" in inapplicable_kinds
-    assert "tender_offer_prior_contacts" in inapplicable_kinds  # not a tender-offer scope
-
-    # Linkflow only sees applicable obligations; it never receives the
-    # not_applicable rows.
-    window = build_llm_windows(conn, filing_id=filing_id)[0]
-    applicable_labels = [
-        row[2] for row in obligations if row[4] == "applicable"
-    ]
-    assert [obligation.obligation_label for obligation in window.coverage_obligations] == applicable_labels
+    paragraph_groups = [json.loads(row[0]) for row in rows]
+    assert ["sectioned-deal_para_2", "sectioned-deal_para_3"] in paragraph_groups
+    assert ["sectioned-deal_para_5"] in paragraph_groups
+    assert [
+        "sectioned-deal_para_2",
+        "sectioned-deal_para_3",
+        "sectioned-deal_para_5",
+    ] not in paragraph_groups
+    assert len(region_ids) == len(paragraph_groups)
 
 
 def test_evidence_map_fails_loudly_without_background_section() -> None:

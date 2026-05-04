@@ -10,8 +10,7 @@
     },
     "medivation": {
       "regions": [
-        {"section": "Background of the Offer", "region_kind": "sale_process_narrative", "min_paragraphs": 20, "max_paragraphs": 80},
-        {"section": "Past Contacts, Transactions, Negotiations and Agreements", "region_kind": "sale_process_narrative", "min_paragraphs": 2, "max_paragraphs": 30}
+        {"section": "Background of the Offer", "region_kind": "sale_process_narrative", "min_paragraphs": 20, "max_paragraphs": 80}
       ],
       "process_scope": "bidder_partial_schedule_to"
     },

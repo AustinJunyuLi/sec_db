@@ -11,6 +11,7 @@ from sec_graph.extract.applicability import (
     ApplicabilityDecision,
     decide_applicability,
 )
+from sec_graph.extract.source_support import is_substantive_sale_process_text
 from sec_graph.ingest.section_vocabulary import SALE_PROCESS_SECTIONS
 from sec_graph.schema import make_id
 
@@ -37,11 +38,12 @@ def build_evidence_map(
 ) -> list[str]:
     """Create evidence regions and applicability-aware obligations.
 
-    For every recognized sale-process section in the filing, emit one region
-    in encounter order. Each region carries the full applicability ledger:
-    universal obligations are always applicable, conditional obligations are
-    applicable only when the region text emits a documented trigger, and
-    scope-driven obligations apply only to the matching process scope.
+    For every contiguous substantive sale-process run in the filing, emit one
+    region in encounter order. Each region carries the full applicability
+    ledger: universal obligations are always applicable, conditional
+    obligations are applicable only when the region text supports the positive
+    source fact, and scope-driven obligations apply only to the matching process
+    scope.
 
     A filing with no sale-process paragraphs is a hard failure. A region with
     zero applicable obligations is a hard failure: the universal set ensures
@@ -64,27 +66,28 @@ def build_evidence_map(
     conn.execute("DELETE FROM coverage_obligations WHERE filing_id = ?", [filing_id])
     conn.execute("DELETE FROM evidence_regions WHERE filing_id = ?", [filing_id])
 
-    section_paragraphs: dict[str, list[ParagraphRow]] = {}
-    section_order: list[str] = []
-    for row in rows:
-        if row.section not in SALE_PROCESS_SECTIONS:
-            continue
-        if row.section not in section_paragraphs:
-            section_paragraphs[row.section] = []
-            section_order.append(row.section)
-        section_paragraphs[row.section].append(row)
-
-    if not section_paragraphs:
+    candidate_runs = _sale_process_runs(rows)
+    if not candidate_runs:
         raise ValueError(
             f"filing {filing_id} has no sale-process paragraphs "
             f"(e.g., 'Background of the Merger', 'Background of the Offer', "
             f"or 'Past Contacts, Transactions, Negotiations and Agreements')"
         )
+    substantive_runs: list[tuple[str, list[ParagraphRow]]] = []
+    for section, paragraphs in candidate_runs:
+        region_text = "\n".join(p.paragraph_text for p in paragraphs)
+        if is_substantive_sale_process_text(region_text):
+            substantive_runs.append((section, paragraphs))
+
+    if not substantive_runs:
+        raise ValueError(
+            f"filing {filing_id} has no substantive sale-process paragraphs "
+            "(recognized headings were absent or cross-reference-only)"
+        )
 
     region_ids: list[str] = []
     obligation_counter = 0
-    for region_index, section in enumerate(section_order, start=1):
-        paragraphs = section_paragraphs[section]
+    for region_index, (section, paragraphs) in enumerate(substantive_runs, start=1):
         region_text = "\n".join(p.paragraph_text for p in paragraphs)
         decisions = decide_applicability(
             region_text=region_text,
@@ -140,6 +143,29 @@ def build_evidence_map(
             )
         region_ids.append(region_id)
     return region_ids
+
+
+def _sale_process_runs(rows: list[ParagraphRow]) -> list[tuple[str, list[ParagraphRow]]]:
+    runs: list[tuple[str, list[ParagraphRow]]] = []
+    current_section: str | None = None
+    current_rows: list[ParagraphRow] = []
+    for row in rows:
+        if row.section not in SALE_PROCESS_SECTIONS:
+            if current_rows and current_section is not None:
+                runs.append((current_section, current_rows))
+            current_section = None
+            current_rows = []
+            continue
+        if row.section != current_section:
+            if current_rows and current_section is not None:
+                runs.append((current_section, current_rows))
+            current_section = row.section
+            current_rows = [row]
+        else:
+            current_rows.append(row)
+    if current_rows and current_section is not None:
+        runs.append((current_section, current_rows))
+    return runs
 
 
 def _paragraph_rows(conn: duckdb.DuckDBPyConnection, filing_id: str) -> list[ParagraphRow]:
