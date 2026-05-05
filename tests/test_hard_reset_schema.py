@@ -73,6 +73,66 @@ def test_hard_reset_schema_replaces_candidates_and_array_evidence() -> None:
     assert "evidence_ids" not in columns
 
 
+def test_claim_disposition_enum_uses_support_statuses() -> None:
+    conn = connect(":memory:")
+    init_schema(conn)
+    rows = conn.execute(
+        """
+        SELECT constraint_text
+        FROM duckdb_constraints()
+        WHERE table_name = 'claim_dispositions'
+        ORDER BY constraint_text
+        """
+    ).fetchall()
+    text = "\n".join(row[0] for row in rows)
+    assert "supported" in text
+    assert "rejected_unsupported" in text
+    assert "queued_ambiguity" in text
+    assert "canonicalized" not in text
+
+
+def test_judgments_and_review_flags_tables_exist() -> None:
+    conn = connect(":memory:")
+    init_schema(conn)
+    table_names = {
+        row[0]
+        for row in conn.execute(
+            "SELECT table_name FROM information_schema.tables WHERE table_schema = 'main'"
+        ).fetchall()
+    }
+    assert "judgments" in table_names
+    assert "review_flags" in table_names
+
+    judgment_columns = {
+        row[1]
+        for row in conn.execute("PRAGMA table_info('judgments')").fetchall()
+    }
+    for column in (
+        "judgment_key",
+        "judgment_value",
+        "judgment_status",
+        "rule_id",
+        "basis_json",
+        "current",
+    ):
+        assert column in judgment_columns
+
+    review_flag_columns = {
+        row[1]
+        for row in conn.execute("PRAGMA table_info('review_flags')").fetchall()
+    }
+    for column in (
+        "flag_id",
+        "run_id",
+        "deal_slug",
+        "flag_type",
+        "severity",
+        "reason_code",
+        "recommended_review_question",
+    ):
+        assert column in review_flag_columns
+
+
 def test_typed_claims_reconcile_to_source_backed_projection(tmp_path: Path) -> None:
     conn = connect(":memory:")
     init_schema(conn)
@@ -166,9 +226,9 @@ def test_generic_bid_claim_labels_do_not_project_as_named_bidders(tmp_path: Path
         """
     ).fetchall()
     assert disposed_generic_bids == [
-        ("five parties", "rejected", "generic_bidder_label_not_projectable"),
-        ("potential bidders", "rejected", "generic_bidder_label_not_projectable"),
-        ("six of the potentially interested parties", "rejected", "generic_bidder_label_not_projectable"),
+        ("five parties", "rejected_unsupported", "generic_bidder_label_not_projectable"),
+        ("potential bidders", "rejected_unsupported", "generic_bidder_label_not_projectable"),
+        ("six of the potentially interested parties", "rejected_unsupported", "generic_bidder_label_not_projectable"),
     ]
 
 
@@ -290,10 +350,10 @@ def test_new_actor_relation_labels_insert_reconcile_validate_and_canonicalize(tm
         """
     ).fetchall()
     assert dispositions == [
-        ("canonicalized", "actor_relation_canonicalized"),
-        ("canonicalized", "actor_relation_canonicalized"),
-        ("canonicalized", "actor_relation_canonicalized"),
-        ("canonicalized", "actor_relation_canonicalized"),
+        ("supported", "actor_relation_canonicalized"),
+        ("supported", "actor_relation_canonicalized"),
+        ("supported", "actor_relation_canonicalized"),
+        ("supported", "actor_relation_canonicalized"),
     ]
 
 

@@ -304,13 +304,13 @@ def _canonicalize_actor(state: ReconcileState, claim: dict[str, object]) -> None
         [claim["claim_id"]],
     ).fetchone()
     if row is None:
-        _dispose(state, str(claim["claim_id"]), "rejected", "missing_actor_claim", "actor claim missing typed row", None, None)
+        _dispose(state, str(claim["claim_id"]), "rejected_unsupported", "missing_actor_claim", "actor claim missing typed row", None, None)
         return
     evidence_id = _claim_evidence(state.conn, str(claim["claim_id"]))[0]
     label, actor_kind, observability = row
     before = dict(state.actor_ids)
     actor_id = _ensure_actor(state, label=label, actor_kind=actor_kind, observability=observability, evidence_id=evidence_id)
-    disposition = "canonicalized" if before != state.actor_ids else "merged_duplicate"
+    disposition = "supported" if before != state.actor_ids else "merged_duplicate"
     _dispose(state, str(claim["claim_id"]), disposition, "actor_label_canonicalized", "actor claim mapped by canonical label", "actors", actor_id)
 
 
@@ -324,7 +324,7 @@ def _canonicalize_event(state: ReconcileState, claim: dict[str, object]) -> None
         [claim["claim_id"]],
     ).fetchone()
     if row is None:
-        _dispose(state, str(claim["claim_id"]), "rejected", "missing_event_claim", "event claim missing typed row", None, None)
+        _dispose(state, str(claim["claim_id"]), "rejected_unsupported", "missing_event_claim", "event claim missing typed row", None, None)
         return
     evidence_id = _claim_evidence(state.conn, str(claim["claim_id"]))[0]
     event_type, event_subtype, event_date, description, actor_label, actor_role = row
@@ -338,7 +338,7 @@ def _canonicalize_event(state: ReconcileState, claim: dict[str, object]) -> None
     if actor_label and actor_role:
         actor_id = _ensure_actor(state, label=actor_label, actor_kind="organization", observability="named", evidence_id=evidence_id)
         _insert_event_link(state, event_id, actor_id, actor_role, None, evidence_id)
-    _dispose(state, str(claim["claim_id"]), "canonicalized", "event_claim_canonicalized", "event claim mapped to canonical event", "events", event_id)
+    _dispose(state, str(claim["claim_id"]), "supported", "event_claim_canonicalized", "event claim mapped to canonical event", "events", event_id)
 
 
 def _canonicalize_bid(state: ReconcileState, claim: dict[str, object]) -> None:
@@ -352,7 +352,7 @@ def _canonicalize_bid(state: ReconcileState, claim: dict[str, object]) -> None:
         [claim["claim_id"]],
     ).fetchone()
     if row is None:
-        _dispose(state, str(claim["claim_id"]), "rejected", "missing_bid_claim", "bid claim missing typed row", None, None)
+        _dispose(state, str(claim["claim_id"]), "rejected_unsupported", "missing_bid_claim", "bid claim missing typed row", None, None)
         return
     evidence_id = _claim_evidence(state.conn, str(claim["claim_id"]))[0]
     bidder_label, bid_date, bid_value, bid_value_lower, bid_value_upper, bid_value_unit, consideration_type, bid_stage = row
@@ -360,7 +360,7 @@ def _canonicalize_bid(state: ReconcileState, claim: dict[str, object]) -> None:
         _dispose(
             state,
             str(claim["claim_id"]),
-            "rejected",
+            "rejected_unsupported",
             "generic_bidder_label_not_projectable",
             "bid claim label is a count/cohort phrase, not a source-backed bidder identity fit for projection",
             None,
@@ -391,7 +391,7 @@ def _canonicalize_bid(state: ReconcileState, claim: dict[str, object]) -> None:
     )
     _link_row_evidence(state.conn, "events", event_id, evidence_id)
     _insert_event_link(state, event_id, actor_id, "bid_submitter", None, evidence_id)
-    _dispose(state, str(claim["claim_id"]), "canonicalized", "bid_claim_canonicalized", "bid claim mapped to canonical bid event", "events", event_id)
+    _dispose(state, str(claim["claim_id"]), "supported", "bid_claim_canonicalized", "bid claim mapped to canonical bid event", "events", event_id)
 
 
 def is_generic_bidder_label(label: str) -> bool:
@@ -431,7 +431,7 @@ def _canonicalize_count(state: ReconcileState, claim: dict[str, object]) -> None
         [claim["claim_id"]],
     ).fetchone()
     if row is None:
-        _dispose(state, str(claim["claim_id"]), "rejected", "missing_participation_count_claim", "count claim missing typed row", None, None)
+        _dispose(state, str(claim["claim_id"]), "rejected_unsupported", "missing_participation_count_claim", "count claim missing typed row", None, None)
         return
     evidence_id = _claim_evidence(state.conn, str(claim["claim_id"]))[0]
     count_id = make_id(state.slug, "count", state.count_sequence)
@@ -441,7 +441,7 @@ def _canonicalize_count(state: ReconcileState, claim: dict[str, object]) -> None
         [count_id, state.run_id, state.deal_id, state.cycle_id, None, *row, json.dumps([]), 0],
     )
     _link_row_evidence(state.conn, "participation_counts", count_id, evidence_id)
-    _dispose(state, str(claim["claim_id"]), "canonicalized", "participation_count_canonicalized", "count claim mapped to canonical participation count", "participation_counts", count_id)
+    _dispose(state, str(claim["claim_id"]), "supported", "participation_count_canonicalized", "count claim mapped to canonical participation count", "participation_counts", count_id)
 
 
 def _canonicalize_relation(state: ReconcileState, claim: dict[str, object]) -> None:
@@ -454,7 +454,7 @@ def _canonicalize_relation(state: ReconcileState, claim: dict[str, object]) -> N
         [claim["claim_id"]],
     ).fetchone()
     if row is None:
-        _dispose(state, str(claim["claim_id"]), "rejected", "missing_actor_relation_claim", "relation claim missing typed row", None, None)
+        _dispose(state, str(claim["claim_id"]), "rejected_unsupported", "missing_actor_relation_claim", "relation claim missing typed row", None, None)
         return
     evidence_id = _claim_evidence(state.conn, str(claim["claim_id"]))[0]
     subject_label, object_label, relation_type, role_detail, effective_date_first = row
@@ -480,7 +480,7 @@ def _canonicalize_relation(state: ReconcileState, claim: dict[str, object]) -> N
         ],
     )
     _link_row_evidence(state.conn, "actor_relations", relation_id, evidence_id)
-    _dispose(state, str(claim["claim_id"]), "canonicalized", "actor_relation_canonicalized", "relation claim mapped to canonical relation", "actor_relations", relation_id)
+    _dispose(state, str(claim["claim_id"]), "supported", "actor_relation_canonicalized", "relation claim mapped to canonical relation", "actor_relations", relation_id)
 
 
 def _insert_event_link(

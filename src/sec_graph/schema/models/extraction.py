@@ -12,9 +12,9 @@ ClaimType = Literal["actor", "event", "bid", "participation_count", "actor_relat
 ClaimStage = Literal["linkflow", "rules"]
 ClaimStatus = Literal["validated", "rejected", "disposed"]
 Disposition = Literal[
-    "canonicalized",
+    "supported",
     "merged_duplicate",
-    "rejected",
+    "rejected_unsupported",
     "queued_ambiguity",
     "out_of_scope",
 ]
@@ -30,7 +30,12 @@ RegionKind = Literal[
     "go_shop_or_amendment",
     "ambiguous_sale_process_material",
 ]
-CoverageResultKind = Literal["claims_emitted", "no_supported_claim", "ambiguous", "missed"]
+CoverageResultKind = Literal[
+    "claims_emitted",
+    "no_supported_claim",
+    "ambiguous_support",
+    "missed_supported_obligation",
+]
 RelationType = Literal[
     "member_of",
     "affiliate_of",
@@ -280,7 +285,7 @@ CREATE TABLE coverage_results (
   coverage_result_id VARCHAR PRIMARY KEY,
   run_id VARCHAR NOT NULL,
   obligation_id VARCHAR NOT NULL,
-  result VARCHAR NOT NULL CHECK (result IN ('claims_emitted', 'no_supported_claim', 'ambiguous', 'missed')),
+  result VARCHAR NOT NULL CHECK (result IN ('claims_emitted', 'no_supported_claim', 'ambiguous_support', 'missed_supported_obligation')),
   reason_code VARCHAR NOT NULL,
   reason VARCHAR NOT NULL,
   claim_count INTEGER NOT NULL,
@@ -389,7 +394,7 @@ CREATE TABLE claim_dispositions (
   disposition_id VARCHAR PRIMARY KEY,
   claim_id VARCHAR NOT NULL,
   run_id VARCHAR NOT NULL,
-  disposition VARCHAR NOT NULL CHECK (disposition IN ('canonicalized', 'merged_duplicate', 'rejected', 'queued_ambiguity', 'out_of_scope')),
+  disposition VARCHAR NOT NULL CHECK (disposition IN ('supported', 'merged_duplicate', 'rejected_unsupported', 'queued_ambiguity', 'out_of_scope')),
   reason_code VARCHAR NOT NULL,
   reason VARCHAR NOT NULL,
   canonical_table VARCHAR,

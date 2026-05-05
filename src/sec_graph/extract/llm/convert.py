@@ -210,9 +210,9 @@ def _classify_unlinked_obligation(
 ) -> tuple[str, str, str]:
     reason_code = metadata["applicability_reason_code"]
     if reason_code.startswith("process_scope:"):
-        return "ambiguous", "python_support_ambiguous", _AMBIGUOUS_SUPPORT_REASON
+        return "ambiguous_support", "python_support_ambiguous", _AMBIGUOUS_SUPPORT_REASON
     if _window_supports_obligation(obligation, metadata, request):
-        return "missed", "linkflow_no_linked_claim", _NO_LINKED_CLAIM_REASON
+        return "missed_supported_obligation", "linkflow_no_linked_claim", _NO_LINKED_CLAIM_REASON
     return "no_supported_claim", "python_no_source_support", _NO_SUPPORTED_CLAIM_REASON
 
 

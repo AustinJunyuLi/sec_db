@@ -28,7 +28,7 @@ from .extraction import (
     ParticipationCountClaim,
 )
 from .filings import CleanFiling, FILINGS_DDL, Paragraph, Section, SourceSpan
-from .judgments import JUDGMENTS_DDL, Judgment, latest_judgments
+from .judgments import JUDGMENTS_DDL, Judgment, ReviewFlag, latest_judgments
 from .participation_counts import PARTICIPATION_COUNTS_DDL, ParticipationCount
 from .runtime import (
     RUN_METADATA_DDL,
@@ -71,6 +71,7 @@ __all__ = [
     "ProgressLedgerEntry",
     "ProjectionJudgment",
     "ProjectionUnit",
+    "ReviewFlag",
     "RowEvidence",
     "RUN_METADATA_DDL",
     "RunManifest",
