@@ -2,7 +2,7 @@
   "reference9": [
     {
       "deal_slug": "providence-worcester",
-      "run_dir": "runs/2026-05-04T212000Z_p8-correctness-providence-worcester_db9a055e",
+      "run_dir": "runs/2026-05-05T003655Z_semantic-disposition-providence-worcester_e3a4f88f",
       "provider_completed": true,
       "quote_binding_passed": true,
       "claim_dispositions_complete": true,
@@ -12,11 +12,19 @@
       "projection_trace_passed": true,
       "verdict": "UNSOUND",
       "review_flag_count": null,
-      "blocking_flag_count": null
+      "blocking_flag_count": null,
+      "validation_failure_count": 1,
+      "failure_checks": [
+        "semantic_claim_evidence"
+      ],
+      "artifact_counts": {
+        "linkflow_failure": 0,
+        "linkflow_success": 1
+      }
     },
     {
       "deal_slug": "medivation",
-      "run_dir": "runs/2026-05-04T212000Z_p8-correctness-medivation_7143ad16",
+      "run_dir": "runs/2026-05-05T003655Z_semantic-disposition-medivation_e3a4f88f",
       "provider_completed": true,
       "quote_binding_passed": true,
       "claim_dispositions_complete": true,
@@ -26,53 +34,87 @@
       "projection_trace_passed": true,
       "verdict": "UNSOUND",
       "review_flag_count": null,
-      "blocking_flag_count": null
+      "blocking_flag_count": null,
+      "validation_failure_count": 2,
+      "failure_checks": [
+        "coverage_result"
+      ],
+      "artifact_counts": {
+        "linkflow_failure": 0,
+        "linkflow_success": 1
+      }
     },
     {
       "deal_slug": "imprivata",
-      "run_dir": "runs/2026-05-04T212000Z_p8-correctness-imprivata_1b1dc593",
+      "run_dir": "runs/2026-05-05T003655Z_semantic-disposition-imprivata_e3a4f88f",
       "provider_completed": true,
       "quote_binding_passed": true,
       "claim_dispositions_complete": true,
       "unsupported_claims_rejected": true,
       "coverage_complete_or_reviewed": true,
       "judgments_complete_or_reviewed": true,
-      "projection_trace_passed": true,
-      "verdict": "SOUND",
+      "projection_trace_passed": false,
+      "verdict": "UNSOUND",
       "review_flag_count": null,
-      "blocking_flag_count": null
+      "blocking_flag_count": null,
+      "validation_failure_count": 2,
+      "failure_checks": [
+        "projection_unit"
+      ],
+      "artifact_counts": {
+        "linkflow_failure": 0,
+        "linkflow_success": 1
+      }
     },
     {
       "deal_slug": "zep",
-      "run_dir": "runs/2026-05-04T212000Z_p8-correctness-zep_19278a5f",
+      "run_dir": "runs/2026-05-05T003655Z_semantic-disposition-zep_e3a4f88f",
       "provider_completed": true,
       "quote_binding_passed": true,
       "claim_dispositions_complete": true,
-      "unsupported_claims_rejected": true,
-      "coverage_complete_or_reviewed": false,
+      "unsupported_claims_rejected": false,
+      "coverage_complete_or_reviewed": true,
       "judgments_complete_or_reviewed": true,
       "projection_trace_passed": true,
       "verdict": "UNSOUND",
       "review_flag_count": null,
-      "blocking_flag_count": null
+      "blocking_flag_count": null,
+      "validation_failure_count": 1,
+      "failure_checks": [
+        "semantic_claim_evidence"
+      ],
+      "artifact_counts": {
+        "linkflow_failure": 0,
+        "linkflow_success": 1
+      }
     },
     {
       "deal_slug": "petsmart-inc",
-      "run_dir": "runs/2026-05-04T212000Z_p8-correctness-petsmart-inc_1a6cd75b",
+      "run_dir": "runs/2026-05-05T003655Z_semantic-disposition-petsmart-inc_e3a4f88f",
       "provider_completed": true,
       "quote_binding_passed": true,
       "claim_dispositions_complete": true,
       "unsupported_claims_rejected": false,
       "coverage_complete_or_reviewed": false,
       "judgments_complete_or_reviewed": true,
-      "projection_trace_passed": true,
+      "projection_trace_passed": false,
       "verdict": "UNSOUND",
       "review_flag_count": null,
-      "blocking_flag_count": null
+      "blocking_flag_count": null,
+      "validation_failure_count": 4,
+      "failure_checks": [
+        "coverage_result",
+        "semantic_claim_evidence",
+        "projection_unit"
+      ],
+      "artifact_counts": {
+        "linkflow_failure": 0,
+        "linkflow_success": 1
+      }
     },
     {
       "deal_slug": "penford",
-      "run_dir": "runs/2026-05-04T212000Z_p8-correctness-penford_b60c5dc3",
+      "run_dir": "runs/2026-05-05T003655Z_semantic-disposition-penford_e3a4f88f",
       "provider_completed": true,
       "quote_binding_passed": true,
       "claim_dispositions_complete": true,
@@ -82,25 +124,44 @@
       "projection_trace_passed": true,
       "verdict": "UNSOUND",
       "review_flag_count": null,
-      "blocking_flag_count": null
+      "blocking_flag_count": null,
+      "validation_failure_count": 2,
+      "failure_checks": [
+        "coverage_result",
+        "semantic_claim_evidence"
+      ],
+      "artifact_counts": {
+        "linkflow_failure": 0,
+        "linkflow_success": 1
+      }
     },
     {
       "deal_slug": "mac-gray",
-      "run_dir": "runs/2026-05-04T212000Z_p8-correctness-mac-gray_95b356de",
+      "run_dir": "runs/2026-05-05T003655Z_semantic-disposition-mac-gray_e3a4f88f",
       "provider_completed": true,
       "quote_binding_passed": true,
       "claim_dispositions_complete": true,
-      "unsupported_claims_rejected": true,
-      "coverage_complete_or_reviewed": true,
+      "unsupported_claims_rejected": false,
+      "coverage_complete_or_reviewed": false,
       "judgments_complete_or_reviewed": true,
-      "projection_trace_passed": true,
-      "verdict": "SOUND",
+      "projection_trace_passed": false,
+      "verdict": "UNSOUND",
       "review_flag_count": null,
-      "blocking_flag_count": null
+      "blocking_flag_count": null,
+      "validation_failure_count": 6,
+      "failure_checks": [
+        "coverage_result",
+        "semantic_claim_evidence",
+        "projection_unit"
+      ],
+      "artifact_counts": {
+        "linkflow_failure": 0,
+        "linkflow_success": 1
+      }
     },
     {
       "deal_slug": "saks",
-      "run_dir": "runs/2026-05-04T212000Z_p8-correctness-saks_299242b6",
+      "run_dir": "runs/2026-05-05T003655Z_semantic-disposition-saks_e3a4f88f",
       "provider_completed": true,
       "quote_binding_passed": true,
       "claim_dispositions_complete": true,
@@ -110,11 +171,19 @@
       "projection_trace_passed": true,
       "verdict": "UNSOUND",
       "review_flag_count": null,
-      "blocking_flag_count": null
+      "blocking_flag_count": null,
+      "validation_failure_count": 6,
+      "failure_checks": [
+        "semantic_claim_evidence"
+      ],
+      "artifact_counts": {
+        "linkflow_failure": 0,
+        "linkflow_success": 1
+      }
     },
     {
       "deal_slug": "stec",
-      "run_dir": "runs/2026-05-04T212000Z_p8-correctness-stec_b938f2db",
+      "run_dir": "runs/2026-05-05T003655Z_semantic-disposition-stec_e3a4f88f",
       "provider_completed": true,
       "quote_binding_passed": true,
       "claim_dispositions_complete": true,
@@ -124,7 +193,15 @@
       "projection_trace_passed": true,
       "verdict": "UNSOUND",
       "review_flag_count": null,
-      "blocking_flag_count": null
+      "blocking_flag_count": null,
+      "validation_failure_count": 6,
+      "failure_checks": [
+        "semantic_claim_evidence"
+      ],
+      "artifact_counts": {
+        "linkflow_failure": 0,
+        "linkflow_success": 1
+      }
     }
   ]
 }

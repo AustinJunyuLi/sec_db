@@ -32,7 +32,10 @@ def main() -> int:
 
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps({"reference9": rows}, indent=2), encoding="utf-8")
+    output.write_text(
+        json.dumps({"reference9": rows}, indent=2) + "\n",
+        encoding="utf-8",
+    )
     print(f"wrote {output}")
     return 0
 
@@ -57,6 +60,9 @@ def _row_for_slug(slug: str, run_dir: Path | None) -> dict[str, object]:
             "verdict": "MISSING_RUN",
             "review_flag_count": None,
             "blocking_flag_count": None,
+            "validation_failure_count": None,
+            "failure_checks": [],
+            "artifact_counts": None,
         }
 
     proof = _read_json(run_dir / "proof_summary.json")
@@ -84,6 +90,10 @@ def _row_for_slug(slug: str, run_dir: Path | None) -> dict[str, object]:
         or ("SOUND" if validation.get("passed") else "UNSOUND"),
         "review_flag_count": source.get("review_flag_count"),
         "blocking_flag_count": source.get("blocking_flag_count"),
+        "validation_failure_count": source.get("validation_failure_count")
+        or _failure_count(validation),
+        "failure_checks": _failure_checks(validation),
+        "artifact_counts": source.get("artifact_counts"),
     }
 
 
@@ -105,6 +115,27 @@ def _has_failure(validation: dict[str, object], check: str) -> bool:
         if isinstance(failure, dict) and failure.get("check") == check:
             return True
     return False
+
+
+def _failure_count(validation: dict[str, object]) -> int | None:
+    failures = validation.get("hard_failures")
+    if not isinstance(failures, list):
+        return None
+    return len(failures)
+
+
+def _failure_checks(validation: dict[str, object]) -> list[str]:
+    failures = validation.get("hard_failures")
+    if not isinstance(failures, list):
+        return []
+    checks = []
+    for failure in failures:
+        if not isinstance(failure, dict):
+            continue
+        check = failure.get("check")
+        if isinstance(check, str) and check not in checks:
+            checks.append(check)
+    return checks
 
 
 if __name__ == "__main__":
