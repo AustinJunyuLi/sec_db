@@ -61,6 +61,8 @@ _RELATION_ENUMS_BY_OBLIGATION_LABEL = {
         "controls",
         "acquisition_vehicle_of",
     ],
+    "Financial advisor for target": ["advises"],
+    "Legal advisor for target": ["advises"],
     "Voting support agreement": ["voting_support_for"],
     "Rollover holder": ["rollover_holder_for"],
     "Special committee membership": ["committee_member_of"],

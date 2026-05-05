@@ -12,6 +12,7 @@ from sec_graph.schema import make_id
 def derive_judgments(conn: duckdb.DuckDBPyConnection, *, run_id: str) -> None:
     _clear_current(conn, run_id)
     _derive_bid_formality(conn, run_id)
+    _derive_actor_relation_roles(conn, run_id)
     _derive_projected_fate(conn, run_id)
 
 
@@ -114,6 +115,41 @@ def _derive_projected_fate(conn: duckdb.DuckDBPyConnection, run_id: str) -> None
             rule_id="projected_fate_v1",
             reason_code=f"{event_subtype}_fate",
             basis={"event_subtype": event_subtype},
+        )
+
+
+def _derive_actor_relation_roles(conn: duckdb.DuckDBPyConnection, run_id: str) -> None:
+    rows = conn.execute(
+        """
+        SELECT actor_relations.relation_id, actor_relations.deal_id,
+               actor_relations.cycle_id_first_observed, actor_relations.relation_type,
+               actors.actor_label
+        FROM actor_relations
+        JOIN actors ON actors.actor_id = actor_relations.subject_actor_id
+        WHERE actor_relations.run_id = ?
+          AND actor_relations.relation_type = 'advises'
+        ORDER BY actor_relations.relation_id
+        """,
+        [run_id],
+    ).fetchall()
+    start = _next_judgment_sequence(conn)
+    for offset, (relation_id, deal_id, cycle_id, relation_type, subject_label) in enumerate(rows):
+        lowered = str(subject_label).casefold()
+        value = "legal_advisor" if any(term in lowered for term in ("llp", "law", "legal", "counsel")) else "financial_advisor"
+        _insert_judgment(
+            conn,
+            sequence=start + offset,
+            run_id=run_id,
+            deal_id=deal_id,
+            cycle_id=cycle_id,
+            target_table="actor_relations",
+            target_id=relation_id,
+            judgment_key="process_role",
+            judgment_value=value,
+            judgment_status="accepted",
+            rule_id="advisor_role_v1",
+            reason_code=f"{value}_from_advises_relation",
+            basis={"relation_type": relation_type, "subject_label": subject_label},
         )
 
 

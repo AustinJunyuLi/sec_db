@@ -55,6 +55,39 @@ def test_observed_drop_gets_projected_fate_judgment() -> None:
     assert row == ("projected_fate", "observed_drop", "accepted")
 
 
+def test_financial_advisor_relation_gets_process_role_judgment() -> None:
+    conn = duckdb.connect(":memory:")
+    init_schema(conn)
+    _seed_advises_relation(conn, relation_id="deal_relation_1", subject_label="Evercore", object_label="Target")
+
+    derive_judgments(conn, run_id="run-1")
+
+    row = conn.execute(
+        """
+        SELECT judgment_key, judgment_value, judgment_status
+        FROM judgments
+        WHERE target_table = 'actor_relations'
+        """
+    ).fetchone()
+    assert row == ("process_role", "financial_advisor", "accepted")
+
+
+def test_advisor_confidentiality_is_not_bidder_nda() -> None:
+    conn = duckdb.connect(":memory:")
+    init_schema(conn)
+    _seed_advises_relation(conn, relation_id="deal_relation_1", subject_label="Evercore", object_label="Target")
+
+    derive_judgments(conn, run_id="run-1")
+
+    values = {
+        row[0]
+        for row in conn.execute(
+            "SELECT judgment_value FROM judgments WHERE judgment_key = 'agreement_kind'"
+        ).fetchall()
+    }
+    assert "target_bidder_nda" not in values
+
+
 def _seed_deal_cycle_actor_and_bid_event(
     conn: duckdb.DuckDBPyConnection,
     *,
@@ -135,4 +168,36 @@ def _seed_deal_cycle_actor(conn: duckdb.DuckDBPyConnection) -> None:
     conn.execute(
         "INSERT INTO process_cycles VALUES (?, ?, ?, ?, ?, ?, ?)",
         ["deal_cycle_1", "run-1", "deal_deal_1", 1, "primary sale process", "2024-01-01", "2024-01-03"],
+    )
+
+
+def _seed_advises_relation(
+    conn: duckdb.DuckDBPyConnection,
+    *,
+    relation_id: str,
+    subject_label: str,
+    object_label: str,
+) -> None:
+    del object_label
+    _seed_deal_cycle_actor(conn)
+    conn.execute(
+        "INSERT INTO actors VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        ["deal_actor_3", "run-1", "deal_deal_1", subject_label, "organization", "named", None, None, None, None],
+    )
+    conn.execute(
+        "INSERT INTO actor_relations VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+            relation_id,
+            "run-1",
+            "deal_deal_1",
+            "deal_actor_3",
+            "deal_actor_1",
+            "advises",
+            None,
+            "deal_cycle_1",
+            None,
+            "2024-01-01",
+            None,
+            "high",
+        ],
     )

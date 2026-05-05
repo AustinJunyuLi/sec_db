@@ -114,7 +114,13 @@ def _format_acceptance_rules(window: LLMWindowRequest) -> str:
             "- Exclusivity grant: emit only if the target or committee grants exclusivity; bidder requests for exclusivity are not enough."
         )
     if "Financial advisor for target" in labels:
-        lines.append("- Financial advisor for target: emit only the target/company/committee financial advisor, not bidder advisors.")
+        lines.append(
+            "- Financial advisor for target: emit an advises relation from the advisor to the target, company, board, or committee named in the quote. "
+            "Do not emit bidder advisors for this obligation."
+        )
     if "Legal advisor for target" in labels:
-        lines.append("- Legal advisor for target: emit only the target/company/committee legal advisor, not bidder counsel.")
+        lines.append(
+            "- Legal advisor for target: emit an advises relation from counsel to the target, company, board, or committee named in the quote. "
+            "Do not treat counsel as a bidder."
+        )
     return "\n".join(lines) if lines else "- Use only the listed obligation labels as acceptance criteria."

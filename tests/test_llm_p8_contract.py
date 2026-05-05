@@ -193,6 +193,45 @@ def _specific_relation_window_request() -> LLMWindowRequest:
     )
 
 
+def _advisor_relation_window_request() -> LLMWindowRequest:
+    return LLMWindowRequest(
+        request_id="smoke_llmrequest_advisor_relation_1",
+        deal_slug="smoke-deal",
+        deal_id="smoke-deal",
+        filing_id="smoke-deal_filing_1",
+        region_id="smoke-deal_region_1",
+        window_id="smoke-deal_window_advisor_relation_1",
+        region_kind="advisor_or_committee",
+        ordered_paragraphs=[
+            WindowParagraph(
+                paragraph_id="p1",
+                source_span_id="span1",
+                char_start=0,
+                char_end=180,
+                paragraph_text="The Company retained Evercore as financial advisor and Kirkland as counsel.",
+            )
+        ],
+        coverage_obligations=[
+            WindowObligation(
+                obligation_id="obl_relation_1",
+                expected_claim_type="actor_relation",
+                obligation_label="Financial advisor for target",
+                importance="required",
+            ),
+            WindowObligation(
+                obligation_id="obl_relation_2",
+                expected_claim_type="actor_relation",
+                obligation_label="Legal advisor for target",
+                importance="required",
+            ),
+        ],
+        allowed_claim_types=["actor_relation"],
+        schema_version=1,
+        extract_version=1,
+        request_mode=DEFAULT_REQUEST_MODE,
+    )
+
+
 def _unknown_relation_window_request() -> LLMWindowRequest:
     return LLMWindowRequest(
         request_id="smoke_llmrequest_relation_unknown_1",
@@ -327,6 +366,23 @@ def test_linkflow_payload_constrains_relation_enum_from_relation_obligations() -
         "voting_support_for",
         "rollover_holder_for",
     ]
+
+
+def test_linkflow_payload_constrains_advisor_relations_to_advises() -> None:
+    payload = _response_payload(_advisor_relation_window_request(), LLMProviderConfig(provider_name="linkflow"))
+    relation_enum = payload["text"]["format"]["schema"]["properties"]["actor_relation_claims"]["items"]["properties"][
+        "relation_type"
+    ]["enum"]
+
+    assert relation_enum == ["advises"]
+
+
+def test_prompt_instructs_advisor_claims_as_source_facing_relations() -> None:
+    text = build_window_prompt(_advisor_relation_window_request())
+
+    assert "Financial advisor for target: emit an advises relation" in text
+    assert "Legal advisor for target: emit an advises relation" in text
+    assert "Do not treat counsel as a bidder" in text
 
 
 def test_old_rollover_holder_relation_is_rejected_by_pydantic() -> None:

@@ -65,14 +65,14 @@ UNIVERSAL_OBLIGATIONS: tuple[ObligationKind, ...] = (
     ),
     ObligationKind(
         kind="target_financial_advisor",
-        claim_type="actor",
+        claim_type="actor_relation",
         label="Financial advisor for target",
         importance="required",
         family="universal",
     ),
     ObligationKind(
         kind="target_legal_advisor",
-        claim_type="actor",
+        claim_type="actor_relation",
         label="Legal advisor for target",
         importance="required",
         family="universal",
