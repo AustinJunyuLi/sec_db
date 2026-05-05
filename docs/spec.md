@@ -3,6 +3,7 @@
 **Status:** Approved hard-reset contract, updated for the 2026-05-04 P8
 schema freeze.
 **Execution authority:** `docs/superpowers/specs/2026-05-03-pipeline-hard-reset-design.md`.
+**Middle-pipeline authority:** `docs/superpowers/specs/2026-05-05-semantic-disposition-validity-design.md`.
 
 This repository implements a source-backed SEC merger-filing extraction
 pipeline. The active architecture is:

@@ -27,17 +27,17 @@ deals.
 
 | Log file | What passed |
 |---|---|
-| `2026-05-02_g0-stage-1a.md` | Stage 1A evidence-store gate: Pydantic models, DDL, ID helpers, smoke ingestion, rerun determinism. |
-| `2026-05-02_g1-stage-1b.md` | Stage 1B canonical-skeleton gate: Deal/Cycle/Actor/Event/Link/Judgment/ParticipationCount tables and hand-authored smoke canonical fixture. |
-| `2026-05-02_g2-phase-2-merge.md` | Phase 2 merge gate: Track A (ingest) merged onto main with all four example filings ingesting deterministically. |
-| `2026-05-02_g3-track-c2-real-extraction.md` | Track C2 gate: deterministic rule extraction against the four real example filings. |
-| `2026-05-02_g4-stage-7-reconcile-real.md` | Stage 7 gate: real reconcile pipeline producing canonical records and bidder-cycle rows for the four examples. |
-| `2026-05-02_g5-stage-8-linkflow.md` | Stage 8 gate: opt-in Linkflow GPT-5.5 extraction adapter passing offline tests under the strict streaming + Python-owned-offset contract. |
-| `2026-05-02_reference9_offline-proof.md` | Offline reference-nine proof: nine reference filings ingested and rule-extracted without live Linkflow calls. |
-| `2026-05-03_taxonomy-classification-design.md` | Historical taxonomy design log; not binding schema authority. |
-| `2026-05-04_p8-region-applicability-phase-0-1.md` | P8 Phase 0-1 gate: preflight plus all-nine sale-process region selection. |
-| `2026-05-04_p8-region-applicability-phase-2.md` | P8 Phase 2 gate: Python-owned applicability engine and applicable-only Linkflow windows. |
-| `2026-05-04_p8-region-applicability-phase-3-6.md` | P8 Phase 3-6 gate: relation-aware windows, four-state coverage, all-nine offline applicability, and parallel live Linkflow proof that fails loudly at validation. |
+| `legacy/2026-05-02_g0-stage-1a.md` | Stage 1A evidence-store gate: Pydantic models, DDL, ID helpers, smoke ingestion, rerun determinism. |
+| `legacy/2026-05-02_g1-stage-1b.md` | Stage 1B canonical-skeleton gate: Deal/Cycle/Actor/Event/Link/Judgment/ParticipationCount tables and hand-authored smoke canonical fixture. |
+| `legacy/2026-05-02_g2-phase-2-merge.md` | Phase 2 merge gate: Track A (ingest) merged onto main with all four example filings ingesting deterministically. |
+| `legacy/2026-05-02_g3-track-c2-real-extraction.md` | Track C2 gate: deterministic rule extraction against the four real example filings. |
+| `legacy/2026-05-02_g4-stage-7-reconcile-real.md` | Stage 7 gate: real reconcile pipeline producing canonical records and bidder-cycle rows for the four examples. |
+| `legacy/2026-05-02_g5-stage-8-linkflow.md` | Stage 8 gate: opt-in Linkflow GPT-5.5 extraction adapter passing offline tests under the strict streaming + Python-owned-offset contract. |
+| `legacy/2026-05-02_reference9_offline-proof.md` | Offline reference-nine proof: nine reference filings ingested and rule-extracted without live Linkflow calls. |
+| `legacy/2026-05-03_taxonomy-classification-design.md` | Historical taxonomy design log; not binding schema authority. |
+| `legacy/2026-05-04_p8-region-applicability-phase-0-1.md` | P8 Phase 0-1 gate: preflight plus all-nine sale-process region selection. |
+| `legacy/2026-05-04_p8-region-applicability-phase-2.md` | P8 Phase 2 gate: Python-owned applicability engine and applicable-only Linkflow windows. |
+| `legacy/2026-05-04_p8-region-applicability-phase-3-6.md` | P8 Phase 3-6 gate: relation-aware windows, four-state coverage, all-nine offline applicability, and parallel live Linkflow proof that fails loudly at validation. |
 
 ## Warning
 

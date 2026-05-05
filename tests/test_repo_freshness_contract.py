@@ -14,6 +14,11 @@ ACTIVE_AUTHORITY_DOCS = (
     REPO_ROOT / "docs" / "spec.md",
     REPO_ROOT / "docs" / "llm-interface.md",
     REPO_ROOT / "docs" / "superpowers" / "specs" / "2026-05-03-pipeline-hard-reset-design.md",
+    REPO_ROOT
+    / "docs"
+    / "superpowers"
+    / "specs"
+    / "2026-05-05-semantic-disposition-validity-design.md",
 )
 
 STALE_PLAN_NAMES = (
@@ -54,16 +59,43 @@ def test_spec_coverage_result_invariant_is_applicability_aware() -> None:
     assert "Every current applicable coverage obligation must have exactly one current result" in text
 
 
-def test_active_ref9_plan_uses_applicable_coverage_obligation_language() -> None:
-    text = (
+def test_semantic_disposition_authority_chain_is_current() -> None:
+    assert not (
+        REPO_ROOT
+        / "docs"
+        / "superpowers"
+        / "specs"
+        / "2026-05-04-reference9-correctness-repair-design.md"
+    ).exists()
+    assert not (
         REPO_ROOT
         / "quality_reports"
         / "plans"
         / "2026-05-04_p8_region_applicability_ref9_plan.md"
-    ).read_text(encoding="utf-8")
-    assert "Every current obligation has exactly one current coverage result" not in text
-    assert "every current obligation has exactly one current coverage result" not in text
-    assert "current applicable obligation" in text
+    ).exists()
+    assert not (
+        REPO_ROOT
+        / "quality_reports"
+        / "plans"
+        / "2026-05-04_reference9_correctness_repair_plan.md"
+    ).exists()
+
+    semantic_design = (
+        REPO_ROOT
+        / "docs"
+        / "superpowers"
+        / "specs"
+        / "2026-05-05-semantic-disposition-validity-design.md"
+    )
+    assert semantic_design.exists()
+
+    spec_text = (REPO_ROOT / "docs" / "spec.md").read_text(encoding="utf-8")
+    llm_text = (REPO_ROOT / "docs" / "llm-interface.md").read_text(
+        encoding="utf-8"
+    )
+    authority = semantic_design.relative_to(REPO_ROOT).as_posix()
+    assert authority in spec_text
+    assert authority in llm_text
 
 
 def test_session_logs_do_not_reference_missing_spec_section() -> None:
