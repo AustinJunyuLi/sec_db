@@ -15,6 +15,7 @@ _PROGRESS_STATES = {
     "llm_artifacts_written",
     "claims_imported",
     "reconciled",
+    "judgments_derived",
     "validated",
     "projected",
     "blocked",

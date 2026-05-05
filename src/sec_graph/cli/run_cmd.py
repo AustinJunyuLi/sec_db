@@ -15,6 +15,7 @@ from sec_graph.extract.disposition import dispose_claims_for_filing
 from sec_graph.extract.llm.models import DEFAULT_REQUEST_MODE, LLMProviderConfig
 from sec_graph.extract.pipeline import run_extract
 from sec_graph.ingest.pipeline import DEFAULT_EXAMPLES_DIR, IngestSource, example_sources, filing_sources, ingest_sources
+from sec_graph.judgments import derive_judgments
 from sec_graph.project.summaries import default_cost_envelope_assumptions, observed_deal_metrics, write_projection_outputs
 from sec_graph.reconcile.pipeline import reconcile_all
 from sec_graph.run import (
@@ -114,6 +115,17 @@ def run_pipeline(
         reconcile_all(conn, run_id=run_id)
         for filing in filings:
             append_progress(run_dir, run_id=run_id, deal_slug=filing.deal_slug, stage="reconcile", state="reconciled", attempt=1, recorded_at=clock.timestamp("reconcile", sequence=1))
+        derive_judgments(conn, run_id=run_id)
+        for filing in filings:
+            append_progress(
+                run_dir,
+                run_id=run_id,
+                deal_slug=filing.deal_slug,
+                stage="judgments",
+                state="judgments_derived",
+                attempt=1,
+                recorded_at=clock.timestamp("judgments", sequence=1),
+            )
         report = write_validation_outputs(conn, run_dir, allow_existing=True)
         record_artifact(run_dir, run_id=run_id, path=run_dir / "validation_report.json", artifact_kind="json_report", owning_stage="validate", deal_slug=None, created_by="write_validation_outputs")
         if not report["passed"]:
