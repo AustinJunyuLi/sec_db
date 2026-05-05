@@ -3,6 +3,7 @@ from pathlib import Path
 
 import pytest
 
+from sec_graph.extract.disposition import dispose_claims_for_filing
 from sec_graph.reconcile.pipeline import reconcile_all
 from sec_graph.schema import (
     ActorClaim,
@@ -36,6 +37,8 @@ def test_reconcile_all_is_idempotent_after_claims_are_disposed(tmp_path: Path) -
     conn = connect(":memory:")
     init_schema(conn)
     _insert_single_actor_claim(conn, tmp_path)
+    filing_id = make_id("smoke-deal", "filing", 1)
+    dispose_claims_for_filing(conn, filing_id=filing_id, run_id=RUN_ID)
 
     reconcile_all(conn, run_id=RUN_ID)
     first_rows = _canonical_snapshot(conn)

@@ -140,6 +140,8 @@ def reconcile_filing(conn: duckdb.DuckDBPyConnection, *, filing_id: str, run_id:
         raise ValueError(f"filing {filing_id} has undisposed supported claims")
     claims = _claim_rows(conn, filing_id)
     if not claims:
+        if _already_reconciled(conn, filing_id, slug):
+            return
         raise ValueError(f"filing {filing_id} has no validated claims")
     _clear_outputs(conn, filing_id, slug)
     first_evidence = _claim_evidence(conn, claims[0]["claim_id"])[0]
@@ -229,6 +231,31 @@ def _claim_rows(conn: duckdb.DuckDBPyConnection, filing_id: str) -> list[dict[st
         [filing_id],
     ).fetchall()
     return [dict(zip(columns, row, strict=True)) for row in rows]
+
+
+def _already_reconciled(
+    conn: duckdb.DuckDBPyConnection, filing_id: str, slug: str
+) -> bool:
+    disposed_supported = conn.execute(
+        """
+        SELECT count(*)
+        FROM claims
+        JOIN claim_dispositions
+          ON claim_dispositions.claim_id = claims.claim_id
+         AND claim_dispositions.current = true
+        WHERE claims.filing_id = ?
+          AND claims.status = 'disposed'
+          AND claim_dispositions.disposition IN ('supported', 'merged_duplicate')
+        """,
+        [filing_id],
+    ).fetchone()[0]
+    if not disposed_supported:
+        return False
+    canonical_rows = conn.execute(
+        "SELECT count(*) FROM deals WHERE deal_slug = ?",
+        [slug],
+    ).fetchone()[0]
+    return bool(canonical_rows)
 
 
 def _clear_outputs(conn: duckdb.DuckDBPyConnection, filing_id: str, slug: str) -> None:

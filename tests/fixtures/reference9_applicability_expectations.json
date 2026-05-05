@@ -37,7 +37,7 @@
           "section": "Background of the Offer",
           "applicable_count": 9,
           "applicable_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "ioi_count", "final_round_count", "tender_offer_prior_contacts"],
-          "claim_types": ["actor", "bid", "event", "participation_count"],
+          "claim_types": ["actor", "actor_relation", "bid", "event", "participation_count"],
           "important_or_required_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "ioi_count", "final_round_count", "tender_offer_prior_contacts"],
           "reason_codes": ["positive_source_support", "process_scope:bidder_partial_schedule_to", "universal_sale_process"],
           "trigger_basis": ["best and final", "preliminary proposal"]
@@ -121,7 +121,7 @@
           "section": "Background of the Merger",
           "applicable_count": 12,
           "applicable_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "ioi_count", "first_round_count", "final_round_count", "exclusivity_grant", "go_shop_period", "financing_committed"],
-          "claim_types": ["actor", "bid", "event", "participation_count"],
+          "claim_types": ["actor", "actor_relation", "bid", "event", "participation_count"],
           "important_or_required_kinds": ["process_initiation", "target_board", "target_financial_advisor", "target_legal_advisor", "final_consideration", "final_approval_event", "ioi_count", "first_round_count", "final_round_count", "exclusivity_grant", "financing_committed"],
           "reason_codes": ["positive_source_support", "universal_sale_process"],
           "trigger_basis": ["best and final", "debt commitment letter", "first round", "go-shop period", "indications of interest", "willing to offer to new mountain capital an exclusivity period"]
