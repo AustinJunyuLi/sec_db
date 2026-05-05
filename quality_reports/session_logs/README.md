@@ -16,6 +16,13 @@ authority and they are NOT instructions for what to run next.
 Past plan files and logs are historical evidence only. If a retained log
 conflicts with the three documents above, the current authority chain wins.
 
+## Reference-9 Matrix
+
+`scripts/reference9_matrix.py` summarizes latest per-deal Reference-9 run
+directories into `quality_reports/session_logs/reference9_latest_matrix.json`.
+It reads proof artifacts only; it does not run Linkflow and does not repair
+deals.
+
 ## Retained Logs
 
 | Log file | What passed |
