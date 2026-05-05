@@ -207,6 +207,46 @@ def test_not_applicable_obligation_with_current_coverage_result_fails(tmp_path: 
     )
 
 
+def test_projection_requires_accepted_judgment_for_dropout_label(tmp_path: Path) -> None:
+    conn, _source_path = _semantic_db(
+        tmp_path,
+        bid_quote="On January 1, 2020, Party A submitted a final proposal of $10.00 per share",
+        relation_quote="Parent was an acquisition vehicle of Buyer Group",
+    )
+    event_id = conn.execute("SELECT event_id FROM events ORDER BY event_id LIMIT 1").fetchone()[0]
+    conn.execute(
+        "INSERT INTO review_flags VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+            "semantics-deal_reviewflag_999",
+            RUN_ID,
+            "semantics-deal",
+            None,
+            None,
+            None,
+            None,
+            None,
+            "events",
+            event_id,
+            "judgment_substrate_missing",
+            "review",
+            "missing_projected_fate",
+            "Projected fate cannot be derived.",
+            None,
+            None,
+            None,
+            "Review projected fate for this bidder-cycle row.",
+            True,
+        ],
+    )
+
+    result = validate_database(conn)
+
+    assert any(
+        failure.detail.startswith("projection depends on review-required judgment")
+        for failure in result.hard_failures
+    )
+
+
 def test_claims_emitted_without_coverage_link_fails_validation(tmp_path: Path) -> None:
     conn, _source_path = _semantic_db(
         tmp_path,

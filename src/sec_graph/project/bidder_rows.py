@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from typing import Any
 
 import duckdb
@@ -23,7 +24,8 @@ def build_bidder_rows(
     )
     conn.execute("DELETE FROM projection_units WHERE run_id = ?", [run_id])
     rows: list[dict[str, Any]] = []
-    units = _projection_candidates(conn)
+    units = _projection_candidates(conn, run_id=run_id)
+    accepted_judgments = _accepted_judgments_by_target(conn, run_id=run_id)
     for sequence, unit in enumerate(units, start=1):
         projection_unit_id = make_id(unit["deal_slug"], "projectionunit", sequence)
         projection_judgment_id = make_id(unit["deal_slug"], "projectionjudgment", sequence)
@@ -39,16 +41,23 @@ def build_bidder_rows(
                 unit["actor_id"],
             ],
         )
-        included = bool(unit["has_bid"])
+        unit_judgments = _judgments_for_unit(accepted_judgments, unit["event_ids"])
+        fate_values = {
+            value
+            for values in unit_judgments.values()
+            for key, value in values
+            if key == "projected_fate"
+        }
+        included = bool(unit["has_bid"]) and "observed_drop" not in fate_values
         conn.execute(
             "INSERT INTO projection_judgments VALUES (?, ?, ?, ?, ?, ?)",
             [
                 projection_judgment_id,
                 run_id,
                 projection_unit_id,
-                "actor_cycle_has_source_backed_bid",
+                "actor_cycle_accepted_judgments",
                 included,
-                "Projection unit is actor-cycle scoped and included only when source-backed bid evidence exists in that cycle.",
+                "Projection unit is actor-cycle scoped and uses accepted Python judgments for projection-affecting fate.",
             ],
         )
         if not included:
@@ -89,7 +98,7 @@ def bidder_rows(conn: duckdb.DuckDBPyConnection, *, projection_name: str = "bidd
     return [_export_row(dict(zip(columns, row, strict=True))) for row in rows]
 
 
-def _projection_candidates(conn: duckdb.DuckDBPyConnection) -> list[dict[str, Any]]:
+def _projection_candidates(conn: duckdb.DuckDBPyConnection, *, run_id: str) -> list[dict[str, Any]]:
     rows = conn.execute(
         """
         SELECT deals.deal_slug, deals.deal_id, events.cycle_id, actors.actor_id,
@@ -98,22 +107,60 @@ def _projection_candidates(conn: duckdb.DuckDBPyConnection) -> list[dict[str, An
                min(events.bid_value_lower) AS b_i_lower,
                max(events.bid_value_upper) AS b_i_upper,
                max(events.bid_value) AS b_f,
-               count(*) > 0 AS has_bid
+               count(*) > 0 AS has_bid,
+               to_json(list(events.event_id ORDER BY events.event_id)) AS event_ids_json
         FROM events
         JOIN event_actor_links USING (event_id)
         JOIN actors USING (actor_id)
         JOIN deals ON deals.deal_id = events.deal_id
-        WHERE events.event_type = 'bid'
+        WHERE events.run_id = ?
+          AND events.event_type = 'bid'
           AND event_actor_links.role IN ('bid_submitter', 'offeror')
           AND actors.observability IN ('named', 'anonymous_handle')
           AND actors.actor_kind IN ('organization', 'person', 'group', 'vehicle')
         GROUP BY deals.deal_slug, deals.deal_id, events.cycle_id, actors.actor_id, actors.actor_label
         ORDER BY deals.deal_slug, events.cycle_id, actors.actor_id
-        """
+        """,
+        [run_id],
     ).fetchall()
-    columns = ["deal_slug", "deal_id", "cycle_id", "actor_id", "actor_label", "b_i", "b_i_lower", "b_i_upper", "b_f", "has_bid"]
+    columns = ["deal_slug", "deal_id", "cycle_id", "actor_id", "actor_label", "b_i", "b_i_lower", "b_i_upper", "b_f", "has_bid", "event_ids_json"]
     candidates = [dict(zip(columns, row, strict=True)) for row in rows]
+    for row in candidates:
+        row["event_ids"] = json.loads(row.pop("event_ids_json"))
     return [row for row in candidates if not is_generic_bidder_label(str(row["actor_label"]))]
+
+
+def _accepted_judgments_by_target(
+    conn: duckdb.DuckDBPyConnection,
+    *,
+    run_id: str,
+) -> dict[str, list[tuple[str, str | None]]]:
+    rows = conn.execute(
+        """
+        SELECT target_id, judgment_key, judgment_value
+        FROM judgments
+        WHERE run_id = ?
+          AND current = true
+          AND judgment_status = 'accepted'
+        ORDER BY target_id, judgment_key, judgment_value
+        """,
+        [run_id],
+    ).fetchall()
+    out: dict[str, list[tuple[str, str | None]]] = {}
+    for target_id, judgment_key, judgment_value in rows:
+        out.setdefault(target_id, []).append((judgment_key, judgment_value))
+    return out
+
+
+def _judgments_for_unit(
+    accepted_judgments: dict[str, list[tuple[str, str | None]]],
+    event_ids: list[str],
+) -> dict[str, list[tuple[str, str | None]]]:
+    return {
+        event_id: accepted_judgments[event_id]
+        for event_id in event_ids
+        if event_id in accepted_judgments
+    }
 
 
 def _export_row(row: dict[str, Any]) -> dict[str, Any]:

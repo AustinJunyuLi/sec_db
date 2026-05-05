@@ -537,6 +537,23 @@ def _check_projection_units(conn: duckdb.DuckDBPyConnection) -> list[ValidationF
     return [
         ValidationFailure(HardCheck.PROJECTION_UNIT, "bidder_rows", row[0], "bidder row lacks actor-cycle projection unit")
         for row in rows
+    ] + [
+        ValidationFailure(
+            HardCheck.PROJECTION_UNIT,
+            "review_flags",
+            flag_id,
+            "projection depends on review-required judgment",
+        )
+        for (flag_id,) in conn.execute(
+            """
+            SELECT review_flags.flag_id
+            FROM review_flags
+            WHERE review_flags.current = true
+              AND review_flags.flag_type IN ('judgment_substrate_missing', 'judgment_conflict', 'projection_trace_failure')
+              AND review_flags.severity IN ('blocking', 'review')
+            ORDER BY review_flags.flag_id
+            """
+        ).fetchall()
     ]
 
 
