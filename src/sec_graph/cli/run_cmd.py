@@ -11,6 +11,7 @@ from pathlib import Path
 
 from sec_graph.cli.extract_cmd import llm_config_from_args
 from sec_graph.corpus import create_corpus_skeleton
+from sec_graph.extract.disposition import dispose_claims_for_filing
 from sec_graph.extract.llm.models import DEFAULT_REQUEST_MODE, LLMProviderConfig
 from sec_graph.extract.pipeline import run_extract
 from sec_graph.ingest.pipeline import DEFAULT_EXAMPLES_DIR, IngestSource, example_sources, filing_sources, ingest_sources
@@ -100,6 +101,16 @@ def run_pipeline(
                 request_mode=request_mode,
             )
             append_progress(run_dir, run_id=run_id, deal_slug=filing.deal_slug, stage="extract", state="claims_imported", attempt=1, recorded_at=clock.timestamp("extract", sequence=1), artifact_digest=str(len(claim_ids)))
+            dispose_claims_for_filing(conn, filing_id=filing.filing_id, run_id=run_id)
+            append_progress(
+                run_dir,
+                run_id=run_id,
+                deal_slug=filing.deal_slug,
+                stage="dispose",
+                state="claims_disposed",
+                attempt=1,
+                recorded_at=clock.timestamp("dispose", sequence=1),
+            )
         reconcile_all(conn, run_id=run_id)
         for filing in filings:
             append_progress(run_dir, run_id=run_id, deal_slug=filing.deal_slug, stage="reconcile", state="reconciled", attempt=1, recorded_at=clock.timestamp("reconcile", sequence=1))

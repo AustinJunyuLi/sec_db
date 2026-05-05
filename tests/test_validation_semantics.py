@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 
+from sec_graph.extract.disposition import dispose_claims_for_filing
 from sec_graph.extract.evidence_map import build_evidence_map
 from sec_graph.extract.llm.convert import insert_llm_response
 from sec_graph.extract.llm.models import (
@@ -143,7 +144,7 @@ def test_required_important_ambiguous_or_no_supported_coverage_blocks_sound(tmp_
         LIMIT 1
         """
     ).fetchone()[0]
-    conn.execute("UPDATE coverage_results SET result = 'ambiguous', claim_count = 0 WHERE obligation_id = ?", [required_id])
+    conn.execute("UPDATE coverage_results SET result = 'ambiguous_support', claim_count = 0 WHERE obligation_id = ?", [required_id])
     conn.execute("UPDATE coverage_results SET result = 'no_supported_claim', claim_count = 0 WHERE obligation_id = ?", [important_id])
 
     validation = validate_database(conn)
@@ -188,7 +189,7 @@ def test_not_applicable_obligation_with_current_coverage_result_fails(tmp_path: 
             "bad_coverage_result",
             RUN_ID,
             obligation_id,
-            "missed",
+            "missed_supported_obligation",
             "bad_not_applicable_result",
             "not_applicable obligations must not carry coverage results",
             0,
@@ -307,6 +308,7 @@ def _semantic_db(tmp_path: Path, *, bid_quote: str, relation_quote: str):
     build_evidence_map(conn, filing_id="semantics-deal_filing_1", run_id=RUN_ID)
     for window in build_llm_windows(conn, filing_id="semantics-deal_filing_1"):
         insert_llm_response(conn, window, _response_for_window(window, bid_quote=bid_quote, relation_quote=relation_quote), RUN_ID)
+    dispose_claims_for_filing(conn, filing_id="semantics-deal_filing_1", run_id=RUN_ID)
     reconcile_all(conn, run_id=RUN_ID)
     return conn, source_path
 

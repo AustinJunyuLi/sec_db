@@ -2,6 +2,7 @@ import csv
 import json
 from pathlib import Path
 
+from sec_graph.extract.disposition import dispose_claims_for_filing
 from sec_graph.extract.evidence_map import build_evidence_map
 from sec_graph.extract.llm.convert import insert_llm_response
 from sec_graph.extract.llm.linkflow import _parse_payload, _semantic_claim_schema
@@ -145,6 +146,7 @@ def test_typed_claims_reconcile_to_source_backed_projection(tmp_path: Path) -> N
         response = _response_for_window(window)
         insert_llm_response(conn, window, response, run_id=RUN_ID)
 
+    dispose_claims_for_filing(conn, filing_id="smoke-deal_filing_1", run_id=RUN_ID)
     reconcile_all(conn, run_id=RUN_ID)
     validation = validate_database(conn, raw_source_root=source_path.parent)
     assert validation.passed, validation.hard_failures
@@ -191,6 +193,7 @@ def test_generic_bid_claim_labels_do_not_project_as_named_bidders(tmp_path: Path
     window = build_llm_windows(conn, filing_id="generic-bidder-deal_filing_1")[0]
     insert_llm_response(conn, window, _generic_bidder_response(window), run_id=RUN_ID)
 
+    dispose_claims_for_filing(conn, filing_id="generic-bidder-deal_filing_1", run_id=RUN_ID)
     reconcile_all(conn, run_id=RUN_ID)
     _insert_projection_leak_candidate(conn)
     proof = write_projection_outputs(
@@ -323,6 +326,7 @@ def test_new_actor_relation_labels_insert_reconcile_validate_and_canonicalize(tm
     window = build_llm_windows(conn, filing_id="relation-label-deal_filing_1")[0]
     insert_llm_response(conn, window, _relation_label_response(window), run_id=RUN_ID)
 
+    dispose_claims_for_filing(conn, filing_id="relation-label-deal_filing_1", run_id=RUN_ID)
     reconcile_all(conn, run_id=RUN_ID)
     validation = validate_database(conn, raw_source_root=source_path.parent)
 
@@ -822,7 +826,7 @@ def _generic_bidder_response(window) -> LLMExtractionResponse:
                 consideration_type="cash",
                 bid_stage="final",
                 confidence="high",
-                quote_text="Party A submitted a final proposal of $10.00 per share",
+                quote_text="On January 1, 2020, Party A submitted a final proposal of $10.00 per share",
             ),
             BidClaimPayload(
                 coverage_obligation_id=bid_obligation_id,
@@ -836,7 +840,7 @@ def _generic_bidder_response(window) -> LLMExtractionResponse:
                 consideration_type=None,
                 bid_stage="initial",
                 confidence="high",
-                quote_text="five parties submitted preliminary proposals",
+                quote_text="On January 2, 2020, five parties submitted preliminary proposals",
             ),
             BidClaimPayload(
                 coverage_obligation_id=bid_obligation_id,
@@ -850,7 +854,7 @@ def _generic_bidder_response(window) -> LLMExtractionResponse:
                 consideration_type=None,
                 bid_stage="revised",
                 confidence="high",
-                quote_text="six of the potentially interested parties submitted revised bids",
+                quote_text="On January 3, 2020, six of the potentially interested parties submitted revised bids",
             ),
             BidClaimPayload(
                 coverage_obligation_id=bid_obligation_id,

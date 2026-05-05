@@ -123,6 +123,21 @@ class ReconcileState:
 
 def reconcile_filing(conn: duckdb.DuckDBPyConnection, *, filing_id: str, run_id: str) -> None:
     slug = _slug(conn, filing_id)
+    undisposed = conn.execute(
+        """
+        SELECT count(*)
+        FROM claims
+        LEFT JOIN claim_dispositions
+          ON claim_dispositions.claim_id = claims.claim_id
+         AND claim_dispositions.current = true
+        WHERE claims.filing_id = ?
+          AND claims.status = 'validated'
+          AND claim_dispositions.claim_id IS NULL
+        """,
+        [filing_id],
+    ).fetchone()[0]
+    if undisposed:
+        raise ValueError(f"filing {filing_id} has undisposed supported claims")
     claims = _claim_rows(conn, filing_id)
     if not claims:
         raise ValueError(f"filing {filing_id} has no validated claims")
@@ -130,7 +145,16 @@ def reconcile_filing(conn: duckdb.DuckDBPyConnection, *, filing_id: str, run_id:
     first_evidence = _claim_evidence(conn, claims[0]["claim_id"])[0]
     deal_id = make_id(slug, "deal", 1)
     cycle_id = make_id(slug, "cycle", 1)
-    state = ReconcileState(conn, slug, filing_id, run_id, deal_id, cycle_id, {})
+    state = ReconcileState(
+        conn,
+        slug,
+        filing_id,
+        run_id,
+        deal_id,
+        cycle_id,
+        {},
+        disposition_sequence=_next_disposition_sequence(conn, slug),
+    )
     target_actor_id = make_id(slug, "actor", 1)
     conn.execute("INSERT INTO deals VALUES (?, ?, ?, ?, ?)", [deal_id, run_id, slug, target_actor_id, _announcement_date(conn, filing_id)])
     _link_row_evidence(conn, "deals", deal_id, first_evidence)
@@ -190,11 +214,17 @@ def _claim_rows(conn: duckdb.DuckDBPyConnection, filing_id: str) -> list[dict[st
     ]
     rows = conn.execute(
         """
-        SELECT claim_id, claim_type, confidence, raw_value, normalized_value,
-               quote_text, claim_sequence
+        SELECT claims.claim_id, claims.claim_type, claims.confidence,
+               claims.raw_value, claims.normalized_value,
+               claims.quote_text, claims.claim_sequence
         FROM claims
-        WHERE filing_id = ? AND status IN ('validated', 'disposed')
-        ORDER BY claim_sequence, claim_id
+        JOIN claim_dispositions
+          ON claim_dispositions.claim_id = claims.claim_id
+         AND claim_dispositions.current = true
+        WHERE claims.filing_id = ?
+          AND claims.status = 'validated'
+          AND claim_dispositions.disposition IN ('supported', 'merged_duplicate')
+        ORDER BY claims.claim_sequence, claims.claim_id
         """,
         [filing_id],
     ).fetchall()
@@ -218,7 +248,14 @@ def _clear_outputs(conn: duckdb.DuckDBPyConnection, filing_id: str, slug: str) -
         }[table]
         conn.execute(f"DELETE FROM row_evidence WHERE row_table = ? AND row_id LIKE ?", [table, f"{slug}_%"])
         conn.execute(f"DELETE FROM {table} WHERE {id_col} LIKE ?", [f"{slug}_%"])
-    conn.execute("DELETE FROM claim_dispositions WHERE claim_id IN (SELECT claim_id FROM claims WHERE deal_slug = ?)", [slug])
+    conn.execute(
+        """
+        DELETE FROM claim_dispositions
+        WHERE created_stage = 'reconcile'
+          AND claim_id IN (SELECT claim_id FROM claims WHERE deal_slug = ?)
+        """,
+        [slug],
+    )
 
 
 def _target_label(slug: str, claims: list[dict[str, object]]) -> str:
@@ -238,6 +275,19 @@ def _claim_evidence(conn: duckdb.DuckDBPyConnection, claim_id: str) -> list[str]
     if not rows:
         raise ValueError(f"claim {claim_id} has no claim_evidence")
     return [row[0] for row in rows]
+
+
+def _next_disposition_sequence(conn: duckdb.DuckDBPyConnection, slug: str) -> int:
+    row = conn.execute(
+        """
+        SELECT count(*)
+        FROM claim_dispositions
+        JOIN claims USING (claim_id)
+        WHERE claims.deal_slug = ?
+        """,
+        [slug],
+    ).fetchone()
+    return int(row[0]) + 1
 
 
 def _link_row_evidence(conn: duckdb.DuckDBPyConnection, table: str, row_id: str, evidence_id: str, ordinal: int = 1) -> None:
@@ -279,6 +329,10 @@ def _dispose(
 ) -> None:
     disposition_id = make_id(state.slug, "disposition", state.disposition_sequence)
     state.disposition_sequence += 1
+    state.conn.execute(
+        "DELETE FROM claim_dispositions WHERE claim_id = ? AND current = true",
+        [claim_id],
+    )
     state.conn.execute(
         "INSERT INTO claim_dispositions VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [
