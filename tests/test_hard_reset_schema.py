@@ -339,6 +339,8 @@ def test_new_actor_relation_labels_insert_reconcile_validate_and_canonicalize(tm
         """
     ).fetchall()
     assert relation_rows == [
+        ("advises",),
+        ("advises",),
         ("committee_member_of",),
         ("recused_from",),
         ("rollover_holder_for",),
@@ -354,6 +356,8 @@ def test_new_actor_relation_labels_insert_reconcile_validate_and_canonicalize(tm
         """
     ).fetchall()
     assert dispositions == [
+        ("supported", "actor_relation_canonicalized"),
+        ("supported", "actor_relation_canonicalized"),
         ("supported", "actor_relation_canonicalized"),
         ("supported", "actor_relation_canonicalized"),
         ("supported", "actor_relation_canonicalized"),
@@ -556,7 +560,9 @@ def _insert_relation_label_filing(conn, tmp_path: Path) -> Path:
         "Shareholder A entered into a voting agreement in support of Parent. "
         "Rollover Holder agreed to rollover equity into Parent. "
         "Director B was appointed to the special committee. "
-        "Director C recused himself from the Board's evaluation.\n"
+        "Director C recused himself from the Board's evaluation. "
+        "Evercore served as financial advisor to the Company. "
+        "Kirkland served as legal advisor to the Company.\n"
     )
     source_path = tmp_path / "relation-label-deal.md"
     source_path.write_text(text, encoding="utf-8")
@@ -779,6 +785,28 @@ def _relation_label_response(window) -> LLMExtractionResponse:
                 effective_date_first=None,
                 confidence="high",
                 quote_text="Director C recused himself from the Board's evaluation",
+            ),
+            ActorRelationClaimPayload(
+                coverage_obligation_id=_obligation_id_by_label(window, "Financial advisor for target"),
+                claim_type="actor_relation",
+                subject_label="Evercore",
+                object_label="Company",
+                relation_type="advises",
+                role_detail="financial advisor",
+                effective_date_first=None,
+                confidence="high",
+                quote_text="Evercore served as financial advisor to the Company",
+            ),
+            ActorRelationClaimPayload(
+                coverage_obligation_id=_obligation_id_by_label(window, "Legal advisor for target"),
+                claim_type="actor_relation",
+                subject_label="Kirkland",
+                object_label="Company",
+                relation_type="advises",
+                role_detail="legal advisor",
+                effective_date_first=None,
+                confidence="high",
+                quote_text="Kirkland served as legal advisor to the Company",
             ),
         ],
     )

@@ -154,6 +154,8 @@ def run_pipeline(
             "bidder_summary.csv",
             "coverage_results.csv",
             "claim_dispositions.csv",
+            "judgments.csv",
+            "review_flags.csv",
             "cost_runtime_summary.json",
             "cost_runtime_summary.csv",
             "provider_usage_ledger.jsonl",

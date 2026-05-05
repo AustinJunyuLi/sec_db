@@ -57,6 +57,37 @@ def write_projection_outputs(
         ],
     )
     _write_csv(run_dir / "claim_dispositions.csv", _disposition_rows(conn), ["deal_slug", "claim_id", "claim_type", "disposition", "canonical_table", "canonical_id", "reason_code"])
+    _write_csv(
+        run_dir / "judgments.csv",
+        _judgment_rows(conn),
+        [
+            "deal_slug",
+            "judgment_id",
+            "target_table",
+            "target_id",
+            "judgment_key",
+            "judgment_value",
+            "judgment_status",
+            "rule_id",
+            "reason_code",
+            "current",
+        ],
+    )
+    _write_csv(
+        run_dir / "review_flags.csv",
+        _review_flag_rows(conn),
+        [
+            "deal_slug",
+            "flag_type",
+            "severity",
+            "reason_code",
+            "claim_id",
+            "judgment_id",
+            "canonical_table",
+            "canonical_id",
+            "recommended_review_question",
+        ],
+    )
     cost_summary = _cost_summary(conn, run_id)
     _write_json(run_dir / "cost_runtime_summary.json", cost_summary)
     _write_csv_dynamic(run_dir / "cost_runtime_summary.csv", _cost_summary_csv_rows(cost_summary))
@@ -99,6 +130,8 @@ def proof_summary(
         "projection_units",
         "projection_judgments",
         "bidder_rows",
+        "judgments",
+        "review_flags",
     )}
     row_counts["applicable_coverage_obligations"] = _count_query(
         conn,
@@ -137,17 +170,9 @@ def proof_summary(
     )
     live_claims = _count_query(conn, "SELECT count(*) FROM claims WHERE provider_source_stage = 'linkflow'")
     thin_live = live_claims < max(1, row_counts["applicable_coverage_obligations"] // 3)
-    verdict = "SOUND"
-    if live_claims == 0:
-        verdict = "SUSPECT"
-    if insufficient_required or undisposed_claims or rows_without_evidence:
-        verdict = "SUSPECT"
-    if row_counts["bidder_rows"] == 0 or row_counts["actors"] == 0 or row_counts["events"] == 0:
-        verdict = "BLOCKED"
-    if thin_live and verdict == "SOUND":
-        verdict = "SUSPECT"
-    if validation_failure_count and verdict != "BLOCKED":
-        verdict = "UNSOUND"
+    review_flag_count = _count_query(conn, "SELECT count(*) FROM review_flags WHERE current = true AND severity = 'review'")
+    blocking_flag_count = _count_query(conn, "SELECT count(*) FROM review_flags WHERE current = true AND severity = 'blocking'")
+    verdict = _proof_verdict(conn, validation_passed=validation.passed, thin_live=thin_live)
     return {
         "run_id": run_id,
         "projection_name": projection_name,
@@ -160,12 +185,31 @@ def proof_summary(
         "hard_validation_failures": validation_failure_count,
         "semantic_validation_failures": semantic_validation_failures,
         "thin_live_claim_warning": thin_live,
+        "review_flag_count": review_flag_count,
+        "blocking_flag_count": blocking_flag_count,
+        "judgment_counts": _group_count(conn, "judgments", "judgment_status"),
         "claim_counts_by_type": _group_count(conn, "claims", "claim_type"),
         "claim_dispositions": _group_count(conn, "claim_dispositions", "disposition"),
         "coverage_results": _group_count(conn, "coverage_results", "result"),
         "bidder_rows": bidder_rows,
         "deals": _deal_summaries(conn),
     }
+
+
+def _proof_verdict(conn: duckdb.DuckDBPyConnection, *, validation_passed: bool, thin_live: bool) -> str:
+    blocking_count = _count_query(
+        conn,
+        "SELECT count(*) FROM review_flags WHERE current = true AND severity = 'blocking'",
+    )
+    review_count = _count_query(
+        conn,
+        "SELECT count(*) FROM review_flags WHERE current = true AND severity = 'review'",
+    )
+    if not validation_passed or blocking_count:
+        return "UNSOUND"
+    if review_count or thin_live:
+        return "REVIEW_REQUIRED"
+    return "SOUND"
 
 
 def _rows_without_evidence(conn: duckdb.DuckDBPyConnection) -> int:
@@ -277,6 +321,58 @@ def _disposition_rows(conn: duckdb.DuckDBPyConnection) -> list[dict[str, Any]]:
     return [dict(zip(columns, row, strict=True)) for row in rows]
 
 
+def _judgment_rows(conn: duckdb.DuckDBPyConnection) -> list[dict[str, Any]]:
+    columns = [
+        "deal_slug",
+        "judgment_id",
+        "target_table",
+        "target_id",
+        "judgment_key",
+        "judgment_value",
+        "judgment_status",
+        "rule_id",
+        "reason_code",
+        "current",
+    ]
+    rows = conn.execute(
+        """
+        SELECT deals.deal_slug, judgments.judgment_id, judgments.target_table,
+               judgments.target_id, judgments.judgment_key,
+               judgments.judgment_value, judgments.judgment_status,
+               judgments.rule_id, judgments.reason_code, judgments.current
+        FROM judgments
+        LEFT JOIN deals USING (deal_id)
+        ORDER BY deals.deal_slug, judgments.judgment_id
+        """
+    ).fetchall()
+    return [dict(zip(columns, row, strict=True)) for row in rows]
+
+
+def _review_flag_rows(conn: duckdb.DuckDBPyConnection) -> list[dict[str, Any]]:
+    columns = [
+        "deal_slug",
+        "flag_type",
+        "severity",
+        "reason_code",
+        "claim_id",
+        "judgment_id",
+        "canonical_table",
+        "canonical_id",
+        "recommended_review_question",
+    ]
+    rows = conn.execute(
+        """
+        SELECT deal_slug, flag_type, severity, reason_code, claim_id,
+               judgment_id, canonical_table, canonical_id,
+               recommended_review_question
+        FROM review_flags
+        WHERE current = true
+        ORDER BY deal_slug, flag_id
+        """
+    ).fetchall()
+    return [dict(zip(columns, row, strict=True)) for row in rows]
+
+
 def observed_deal_metrics(conn: duckdb.DuckDBPyConnection, run_id: str) -> list[DealCostRuntimeMetrics]:
     slugs = [row[0] for row in conn.execute("SELECT deal_slug FROM deals ORDER BY deal_slug").fetchall()]
     metrics: list[DealCostRuntimeMetrics] = []
@@ -320,7 +416,7 @@ def observed_deal_metrics(conn: duckdb.DuckDBPyConnection, run_id: str) -> list[
             FROM claim_dispositions
             JOIN claims USING (claim_id)
             WHERE claims.deal_slug = ?
-              AND claim_dispositions.disposition = 'rejected'
+              AND claim_dispositions.disposition = 'rejected_unsupported'
               AND claim_dispositions.reason_code LIKE '%quote%'
               AND claim_dispositions.current = true
             """,
