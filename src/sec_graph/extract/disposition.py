@@ -141,10 +141,11 @@ def _insert_review_flag(
     reason: str,
     quote_text: str,
 ) -> None:
+    flag_sequence = _next_review_flag_sequence(conn, deal_slug)
     conn.execute(
         "INSERT INTO review_flags VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [
-            make_id(deal_slug, "reviewflag", sequence),
+            make_id(deal_slug, "reviewflag", flag_sequence),
             run_id,
             deal_slug,
             filing_id,
@@ -178,6 +179,17 @@ def _next_disposition_sequence(conn: duckdb.DuckDBPyConnection, filing_id: str) 
         [filing_id],
     ).fetchone()
     return int(row[0]) + 1
+
+
+def _next_review_flag_sequence(conn: duckdb.DuckDBPyConnection, deal_slug: str) -> int:
+    prefix = f"{deal_slug}_reviewflag_"
+    rows = conn.execute(
+        "SELECT flag_id FROM review_flags WHERE flag_id LIKE ?",
+        [f"{prefix}%"],
+    ).fetchall()
+    if not rows:
+        return 1
+    return max(int(row[0].rsplit("_", maxsplit=1)[1]) for row in rows) + 1
 
 
 def _contains_phrase(text: str, phrase: str) -> bool:

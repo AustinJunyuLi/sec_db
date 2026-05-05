@@ -34,12 +34,11 @@ def _derive_bid_formality(conn: duckdb.DuckDBPyConnection, run_id: str) -> None:
         """,
         [run_id],
     ).fetchall()
-    for sequence, row in enumerate(rows, start=1):
+    for row in rows:
         event_id, deal_id, cycle_id, event_subtype, event_date, bid_value, bid_value_lower, bid_value_upper = row
         if event_subtype in {"ioi_submitted", "first_round_bid"}:
             _insert_judgment(
                 conn,
-                sequence=sequence,
                 run_id=run_id,
                 deal_id=deal_id,
                 cycle_id=cycle_id,
@@ -57,7 +56,6 @@ def _derive_bid_formality(conn: duckdb.DuckDBPyConnection, run_id: str) -> None:
         ):
             _insert_judgment(
                 conn,
-                sequence=sequence,
                 run_id=run_id,
                 deal_id=deal_id,
                 cycle_id=cycle_id,
@@ -73,7 +71,6 @@ def _derive_bid_formality(conn: duckdb.DuckDBPyConnection, run_id: str) -> None:
         else:
             _insert_review_flag(
                 conn,
-                sequence=sequence,
                 run_id=run_id,
                 deal_slug=_deal_slug(conn, deal_id),
                 flag_type="judgment_substrate_missing",
@@ -98,12 +95,10 @@ def _derive_projected_fate(conn: duckdb.DuckDBPyConnection, run_id: str) -> None
         """,
         [run_id],
     ).fetchall()
-    start = _next_judgment_sequence(conn)
-    for offset, (event_id, deal_id, cycle_id, event_subtype) in enumerate(rows, start=0):
+    for event_id, deal_id, cycle_id, event_subtype in rows:
         value = "signed_transaction" if event_subtype == "merger_agreement_executed" else "observed_drop"
         _insert_judgment(
             conn,
-            sequence=start + offset,
             run_id=run_id,
             deal_id=deal_id,
             cycle_id=cycle_id,
@@ -132,13 +127,11 @@ def _derive_actor_relation_roles(conn: duckdb.DuckDBPyConnection, run_id: str) -
         """,
         [run_id],
     ).fetchall()
-    start = _next_judgment_sequence(conn)
-    for offset, (relation_id, deal_id, cycle_id, relation_type, subject_label) in enumerate(rows):
+    for relation_id, deal_id, cycle_id, relation_type, subject_label in rows:
         lowered = str(subject_label).casefold()
         value = "legal_advisor" if any(term in lowered for term in ("llp", "law", "legal", "counsel")) else "financial_advisor"
         _insert_judgment(
             conn,
-            sequence=start + offset,
             run_id=run_id,
             deal_id=deal_id,
             cycle_id=cycle_id,
@@ -156,7 +149,6 @@ def _derive_actor_relation_roles(conn: duckdb.DuckDBPyConnection, run_id: str) -
 def _insert_judgment(
     conn: duckdb.DuckDBPyConnection,
     *,
-    sequence: int,
     run_id: str,
     deal_id: str,
     cycle_id: str | None,
@@ -170,6 +162,7 @@ def _insert_judgment(
     basis: dict[str, object],
 ) -> None:
     deal_slug = _deal_slug(conn, deal_id)
+    sequence = _next_sequence(conn, "judgments", "judgment_id", deal_slug, "judgment")
     conn.execute(
         "INSERT INTO judgments VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [
@@ -195,7 +188,6 @@ def _insert_judgment(
 def _insert_review_flag(
     conn: duckdb.DuckDBPyConnection,
     *,
-    sequence: int,
     run_id: str,
     deal_slug: str,
     flag_type: str,
@@ -206,6 +198,7 @@ def _insert_review_flag(
     canonical_id: str,
     recommended_review_question: str,
 ) -> None:
+    sequence = _next_sequence(conn, "review_flags", "flag_id", deal_slug, "reviewflag")
     conn.execute(
         "INSERT INTO review_flags VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [
@@ -239,6 +232,18 @@ def _deal_slug(conn: duckdb.DuckDBPyConnection, deal_id: str) -> str:
     return row[0]
 
 
-def _next_judgment_sequence(conn: duckdb.DuckDBPyConnection) -> int:
-    row = conn.execute("SELECT count(*) FROM judgments").fetchone()
-    return int(row[0]) + 1
+def _next_sequence(
+    conn: duckdb.DuckDBPyConnection,
+    table_name: str,
+    id_col: str,
+    slug: str,
+    type_name: str,
+) -> int:
+    prefix = f"{slug}_{type_name}_"
+    rows = conn.execute(
+        f"SELECT {id_col} FROM {table_name} WHERE {id_col} LIKE ?",
+        [f"{prefix}%"],
+    ).fetchall()
+    if not rows:
+        return 1
+    return max(int(row[0].rsplit("_", maxsplit=1)[1]) for row in rows) + 1
