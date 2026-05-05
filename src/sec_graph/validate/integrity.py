@@ -197,6 +197,34 @@ def _check_coverage_results(conn: duckdb.DuckDBPyConnection) -> list[ValidationF
         )
         for (obligation_id,) in unlinked_claims_emitted
     )
+    unsupported_claims_emitted = conn.execute(
+        """
+        SELECT coverage_results.obligation_id, claim_coverage_links.claim_id
+        FROM coverage_results
+        JOIN claim_coverage_links
+          ON claim_coverage_links.obligation_id = coverage_results.obligation_id
+         AND claim_coverage_links.current = true
+        LEFT JOIN claim_dispositions
+          ON claim_dispositions.claim_id = claim_coverage_links.claim_id
+         AND claim_dispositions.current = true
+        WHERE coverage_results.current = true
+          AND coverage_results.result = 'claims_emitted'
+          AND (
+            claim_dispositions.claim_id IS NULL
+            OR claim_dispositions.disposition NOT IN ('supported', 'merged_duplicate')
+          )
+        ORDER BY coverage_results.obligation_id, claim_coverage_links.claim_id
+        """
+    ).fetchall()
+    failures.extend(
+        ValidationFailure(
+            HardCheck.COVERAGE_RESULT,
+            "claim_coverage_links",
+            obligation_id,
+            f"claims_emitted requires supported linked claims; linked claim {claim_id} is not supported",
+        )
+        for obligation_id, claim_id in unsupported_claims_emitted
+    )
     bad_link_rows = conn.execute(
         """
         SELECT coverage_results.obligation_id, claim_coverage_links.claim_id

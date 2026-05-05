@@ -30,8 +30,8 @@ ClaimPayload = (
 )
 
 _NO_LINKED_CLAIM_REASON = (
-    "Python marked this obligation missed because Linkflow returned no validated "
-    "claim linked to this obligation."
+    "Python marked this obligation missed_supported_obligation because "
+    "Linkflow returned no supported claim linked to this obligation."
 )
 _NO_SUPPORTED_CLAIM_REASON = (
     "Python found no source support for this applicable obligation in the "
@@ -74,6 +74,7 @@ def _insert_llm_response_rows(
     span_sequence = _next_sequence(conn, "spans", "evidence_id", request.deal_slug, "llmspan")
     claim_sequence = _next_sequence(conn, "claims", "claim_id", request.deal_slug, "claim")
     coverage_sequence = _next_sequence(conn, "coverage_results", "coverage_result_id", request.deal_slug, "coverage")
+    review_flag_sequence = _next_sequence(conn, "review_flags", "flag_id", request.deal_slug, "reviewflag")
     inserted_claim_ids: list[str] = []
     obligations_by_id = {obligation.obligation_id: obligation for obligation in request.coverage_obligations}
     if len(obligations_by_id) != len(request.coverage_obligations):
@@ -166,7 +167,58 @@ def _insert_llm_response_rows(
             "INSERT INTO coverage_results VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
             [coverage_result_id, run_id, obligation.obligation_id, result, reason_code, reason, count, True],
         )
+        if result in {"missed_supported_obligation", "ambiguous_support"} and obligation.importance in {"required", "important"}:
+            _insert_coverage_review_flag(
+                conn,
+                request=request,
+                obligation=obligation,
+                run_id=run_id,
+                sequence=review_flag_sequence,
+                flag_type=result,
+                severity="review",
+                reason_code=reason_code,
+                reason=reason,
+            )
+            review_flag_sequence += 1
     return inserted_claim_ids
+
+
+def _insert_coverage_review_flag(
+    conn: duckdb.DuckDBPyConnection,
+    *,
+    request: LLMWindowRequest,
+    obligation: WindowObligation,
+    run_id: str,
+    sequence: int,
+    flag_type: str,
+    severity: str,
+    reason_code: str,
+    reason: str,
+) -> None:
+    conn.execute(
+        "INSERT INTO review_flags VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+            make_id(request.deal_slug, "reviewflag", sequence),
+            run_id,
+            request.deal_slug,
+            request.filing_id,
+            request.region_id,
+            obligation.obligation_id,
+            None,
+            None,
+            None,
+            None,
+            flag_type,
+            severity,
+            reason_code,
+            reason,
+            None,
+            request.window_id,
+            None,
+            "Review whether the selected source window supports this coverage obligation.",
+            True,
+        ],
+    )
 
 
 def _obligation_metadata(

@@ -1,10 +1,13 @@
 import json
 from pathlib import Path
 
+import duckdb
+
 from sec_graph.extract.llm.convert import insert_llm_response
 from sec_graph.extract.llm.models import (
     ActorClaimPayload,
     ActorRelationClaimPayload,
+    BidClaimPayload,
     DEFAULT_REQUEST_MODE,
     EventClaimPayload,
     LLMContractError,
@@ -24,6 +27,7 @@ from sec_graph.schema import (
     make_id,
     quote_hash,
 )
+from sec_graph.validate.integrity import validate_database
 
 RUN_ID = "2026-05-03T010203Z_coverage-deal_deadbeef"
 
@@ -113,8 +117,48 @@ def test_single_event_claim_does_not_satisfy_all_event_obligations(tmp_path: Pat
     ).fetchall()
     assert rows == [
         ("coverage-deal_obligation_1", "claims_emitted", 1),
-        ("coverage-deal_obligation_2", "missed", 0),
+        ("coverage-deal_obligation_2", "missed_supported_obligation", 0),
     ]
+
+
+def test_unlinked_supported_obligation_becomes_missed_supported_obligation(tmp_path: Path) -> None:
+    conn, request = _request_with_one_obligation(tmp_path, obligation_kind="ioi_count")
+    response = _empty_completed_response(request)
+
+    insert_llm_response(conn, request, response, run_id=RUN_ID)
+
+    row = conn.execute(
+        "SELECT result, reason_code FROM coverage_results WHERE obligation_id = ?",
+        [request.coverage_obligations[0].obligation_id],
+    ).fetchone()
+    assert row == ("missed_supported_obligation", "linkflow_no_linked_claim")
+
+
+def test_claims_emitted_requires_supported_linked_claim(tmp_path: Path) -> None:
+    conn, request = _request_with_one_obligation(tmp_path, obligation_kind="final_consideration")
+    response = _completed_response_with_bid_claim(request)
+
+    claim_ids = insert_llm_response(conn, request, response, run_id=RUN_ID)
+    conn.execute(
+        "INSERT INTO claim_dispositions VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+            "coverage-deal_disposition_1",
+            claim_ids[0],
+            RUN_ID,
+            "rejected_unsupported",
+            "test_rejection",
+            "test",
+            None,
+            None,
+            None,
+            "test",
+            True,
+        ],
+    )
+
+    result = validate_database(conn)
+    details = [failure.detail for failure in result.hard_failures]
+    assert any("claims_emitted requires supported linked claims" in item for item in details)
 
 
 def test_inserted_claim_persists_coverage_obligation_link(tmp_path: Path) -> None:
@@ -420,10 +464,106 @@ def test_unlinked_applicable_obligations_get_all_python_coverage_states(tmp_path
     ).fetchall()
     assert rows == [
         ("coverage-deal_obligation_1", "claims_emitted", "linkflow_claims_linked", 1),
-        ("coverage-deal_obligation_2", "missed", "linkflow_no_linked_claim", 0),
+        ("coverage-deal_obligation_2", "missed_supported_obligation", "linkflow_no_linked_claim", 0),
         ("coverage-deal_obligation_3", "no_supported_claim", "python_no_source_support", 0),
-        ("coverage-deal_obligation_4", "ambiguous", "python_support_ambiguous", 0),
+        ("coverage-deal_obligation_4", "ambiguous_support", "python_support_ambiguous", 0),
     ]
+
+
+def _request_with_one_obligation(tmp_path: Path, *, obligation_kind: str) -> tuple[duckdb.DuckDBPyConnection, LLMWindowRequest]:
+    conn = connect(":memory:")
+    init_schema(conn)
+    _insert_window_source(conn, tmp_path)
+    _replace_obligations(
+        conn,
+        [
+            (
+                obligation_kind,
+                "bid" if obligation_kind == "final_consideration" else "participation_count",
+                "Final consideration" if obligation_kind == "final_consideration" else "IOI count",
+                "required",
+                "positive_source_support",
+                ["exclusivity"] if obligation_kind == "final_consideration" else ["sale process"],
+            )
+        ],
+    )
+    request = LLMWindowRequest(
+        request_id="coverage-deal_llmrequest_1",
+        deal_slug="coverage-deal",
+        deal_id="coverage-deal",
+        filing_id="coverage-deal_filing_1",
+        region_id="coverage-deal_region_1",
+        window_id="coverage-deal_window_1",
+        region_kind="sale_process_narrative",
+        ordered_paragraphs=[
+            WindowParagraph(
+                paragraph_id="coverage-deal_para_1",
+                source_span_id="coverage-deal_evidence_1",
+                char_start=0,
+                char_end=89,
+                paragraph_text=(
+                    "The Board began a sale process. "
+                    "The Board later granted exclusivity to Buyer A."
+                ),
+            )
+        ],
+        coverage_obligations=[
+            WindowObligation(
+                obligation_id="coverage-deal_obligation_1",
+                expected_claim_type="bid" if obligation_kind == "final_consideration" else "participation_count",
+                obligation_label="Final consideration" if obligation_kind == "final_consideration" else "IOI count",
+                importance="required",
+            )
+        ],
+        allowed_claim_types=["bid"] if obligation_kind == "final_consideration" else ["participation_count"],
+        schema_version=1,
+        extract_version=1,
+        request_mode=DEFAULT_REQUEST_MODE,
+    )
+    return conn, request
+
+
+def _empty_completed_response(request: LLMWindowRequest) -> LLMExtractionResponse:
+    payload = SemanticClaimsPayload()
+    return LLMExtractionResponse(
+        request_id=request.request_id,
+        provider_name="linkflow",
+        provider_model="gpt-5.5",
+        reasoning_effort="medium",
+        payload=payload,
+        raw_response_sha256=quote_hash(json.dumps(payload.model_dump(mode="json"), sort_keys=True)),
+        finish_status="completed",
+    )
+
+
+def _completed_response_with_bid_claim(request: LLMWindowRequest) -> LLMExtractionResponse:
+    payload = SemanticClaimsPayload(
+        bid_claims=[
+            BidClaimPayload(
+                claim_type="bid",
+                coverage_obligation_id=request.coverage_obligations[0].obligation_id,
+                bidder_label="Buyer A",
+                bid_date=None,
+                bid_value=10.0,
+                bid_value_lower=None,
+                bid_value_upper=None,
+                bid_value_unit="USD_per_share",
+                consideration_type="cash",
+                bid_stage="final",
+                confidence="high",
+                quote_text="The Board later granted exclusivity to Buyer A.",
+            )
+        ]
+    )
+    return LLMExtractionResponse(
+        request_id=request.request_id,
+        provider_name="linkflow",
+        provider_model="gpt-5.5",
+        reasoning_effort="medium",
+        payload=payload,
+        raw_response_sha256=quote_hash(json.dumps(payload.model_dump(mode="json"), sort_keys=True)),
+        finish_status="completed",
+    )
 
 
 def _insert_window_source(conn, tmp_path: Path) -> None:
