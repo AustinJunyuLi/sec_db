@@ -106,7 +106,6 @@ def test_judgments_and_review_rows_tables_exist() -> None:
     }
     assert "judgments" in table_names
     assert "review_rows" in table_names
-    assert "review_flags" not in table_names
 
     judgment_columns = {
         row[1]

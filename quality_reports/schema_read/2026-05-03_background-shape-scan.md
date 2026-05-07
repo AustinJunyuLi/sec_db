@@ -652,7 +652,7 @@ Suggested obligation families:
 - conditional after scan triggers: go-shop, buyer group, special committee,
   management/conflict/rollover, hostile/interloper, asset-only proposal,
   support/voting agreement, financing, tender-offer source perspective;
-- calibration-only: features useful for Alex but not required for `SOUND`.
+- calibration-only: features useful for Alex but not required for a trusted run status.
 
 ## Proposed Robust Extraction Shape
 

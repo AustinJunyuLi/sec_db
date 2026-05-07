@@ -609,9 +609,10 @@ def test_duckdb_writes_happen_on_caller_thread_after_provider_calls(tmp_path: Pa
 def test_failed_validation_proof_counts_only_ledgered_current_run_artifacts(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     """Provider artifacts must be counted from ``stage_artifacts.jsonl`` only.
 
-    The legacy ``artifacts/linkflow/{run_id}/...`` glob no longer exists. A
-    stale file dropped at ``artifacts/linkflow`` outside the run directory must
-    never inflate the current-run count.
+    Provider artifacts live exclusively under
+    ``{run_dir}/linkflow/{deal_slug}/{request_id}/`` and are recorded in the
+    stage-artifacts ledger. Files dropped outside the run directory must never
+    inflate the current-run count.
     """
 
     monkeypatch.setenv("LINKFLOW_API_KEY", "stub")
@@ -619,8 +620,8 @@ def test_failed_validation_proof_counts_only_ledgered_current_run_artifacts(tmp_
     run_dir = tmp_path / "run"
     run_dir.mkdir()
 
-    # Drop a stale legacy file that the old code would have globbed; it must be ignored.
-    stale_root = tmp_path / "artifacts" / "linkflow" / RUN_ID
+    # Drop a stray file outside the run directory; it must be ignored.
+    stale_root = tmp_path / "stray-provider-output" / RUN_ID
     stale_root.mkdir(parents=True)
     (stale_root / "old_request_old_failure.json").write_text("{\"ghost\": true}", encoding="utf-8")
 
@@ -639,14 +640,14 @@ def test_failed_validation_proof_counts_only_ledgered_current_run_artifacts(tmp_
     ledger_path = run_dir / "stage_artifacts.jsonl"
     rows = [json.loads(line) for line in ledger_path.read_text(encoding="utf-8").splitlines() if line.strip()]
     linkflow_rows = [row for row in rows if row.get("artifact_kind") == "linkflow_attempt"]
-    # Exactly one success per window; no entries for the stale legacy file.
+    # Exactly one success per window; no entries for the stray file outside run_dir.
     assert len(linkflow_rows) == len(windows)
     artifact_paths = [Path(row["artifact_path"]) for row in linkflow_rows]
     for path in artifact_paths:
         assert path.parts[0] == "linkflow", path
         assert "_success.json" in path.name
-    # No legacy globbed artifacts from outside the run directory should leak in.
-    assert not any("artifacts/linkflow" in str(path) for path in artifact_paths)
+    # All ledgered paths are run-dir-relative; nothing from outside leaks in.
+    assert not any("stray-provider-output" in str(path) for path in artifact_paths)
 
 
 def test_region_max_concurrency_must_be_positive_integer(monkeypatch: pytest.MonkeyPatch) -> None:

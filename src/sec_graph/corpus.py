@@ -92,14 +92,14 @@ def create_corpus_skeleton(
             {
                 "run_id": run_id,
                 "summary_version": "aggregate_proof_summary_v1",
-                "verdict": "BLOCKED",
+                "status": "failed_system",
                 "reason": "corpus skeleton only; no deal proof artifacts imported",
                 "deals_planned": len(deal_slugs),
                 "deals_completed": 0,
-                "deals_blocked": 0,
-                "sound_deals": 0,
-                "suspect_deals": 0,
-                "unsound_deals": 0,
+                "deals_failed_system": 0,
+                "deals_passed_clean": 0,
+                "deals_needs_review": 0,
+                "deals_high_burden": 0,
             }
         ),
         "resume_report.json": _json(

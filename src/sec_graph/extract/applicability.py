@@ -47,7 +47,7 @@ def _ci(*patterns: str) -> tuple[re.Pattern[str], ...]:
 
 
 # Universal obligations are always applicable in any sale-process region.
-# These cover the minimum facts a SOUND extraction must establish.
+# These cover the minimum facts a trusted extraction must establish.
 UNIVERSAL_OBLIGATIONS: tuple[ObligationKind, ...] = (
     ObligationKind(
         kind="process_initiation",

@@ -24,8 +24,8 @@ def run_extract(
     """Build the evidence map and import typed claims for one filing.
 
     The provider step fans region requests out under one ``asyncio.gather`` and
-    inserts successful responses sequentially in original window order. A
-    rules-only path no longer exists: ``llm_config`` is required.
+    inserts successful responses sequentially in original window order.
+    ``llm_config`` is required.
     """
 
     build_evidence_map(conn, filing_id=filing_id, run_id=run_id)

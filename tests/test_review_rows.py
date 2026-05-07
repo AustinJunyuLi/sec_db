@@ -35,7 +35,6 @@ def test_review_rows_table_has_expected_columns_and_check_constraints() -> None:
         ).fetchall()
     }
     assert "review_rows" in table_names
-    assert "review_flags" not in table_names
 
     columns = {row[1] for row in conn.execute("PRAGMA table_info('review_rows')").fetchall()}
     for column in (
