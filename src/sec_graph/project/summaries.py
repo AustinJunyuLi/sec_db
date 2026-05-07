@@ -15,6 +15,7 @@ from sec_graph.costs import (
     build_cost_runtime_summary,
     cost_summary_csv_rows,
 )
+from sec_graph.judgments import derive_judgments
 from sec_graph.project.bidder_rows import build_bidder_rows
 from sec_graph.schema import status_from_open_review_count
 from sec_graph.validate.integrity import validate_database
@@ -31,6 +32,9 @@ def write_projection_outputs(
     if run_dir.exists() and not allow_existing:
         raise FileExistsError(f"{run_dir} already exists")
     run_dir.mkdir(parents=True, exist_ok=allow_existing)
+    # Ensure derived judgments exist before projecting; idempotent if already
+    # derived because derive_judgments is DELETE-then-INSERT under run_id.
+    derive_judgments(conn, run_id=run_id)
     rows = build_bidder_rows(conn, run_id=run_id, projection_name=projection_name)
     proof = proof_summary(conn, run_id=run_id, projection_name=projection_name, bidder_rows=rows)
     _write_json(run_dir / "proof_summary.json", proof)

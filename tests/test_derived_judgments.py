@@ -1,3 +1,5 @@
+import json
+
 import duckdb
 
 from sec_graph.judgments.derive import derive_judgments
@@ -31,7 +33,26 @@ def test_missing_formality_substrate_creates_review_row() -> None:
         event_id="deal_event_1",
         bid_value_lower=None,
         bid_value_upper=None,
-        event_subtype="final_round_bid",
+        event_subtype="ioi_submitted",
+    )
+    # Promote deal_cycle_1 to a final-round boundary: an IOI inside a final
+    # round with no numeric value and no source cue cannot be classified.
+    conn.execute(
+        "INSERT INTO participation_counts VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+            "deal_pc_1",
+            "run-1",
+            "deal_deal_1",
+            "deal_cycle_1",
+            None,
+            "final_round",
+            "unknown",
+            1,
+            None,
+            "exact",
+            "[]",
+            0,
+        ],
     )
 
     derive_judgments(conn, run_id="run-1")
@@ -199,5 +220,169 @@ def _seed_advises_relation(
             "2024-01-01",
             None,
             "high",
+        ],
+    )
+
+
+def test_bid_formality_uses_final_round_boundary_with_value() -> None:
+    """An IOI inside a final-round boundary with a numeric value -> formal."""
+    conn = duckdb.connect(":memory:")
+    init_schema(conn)
+    _seed_deal_cycle_actor_and_bid_event(
+        conn,
+        event_id="deal_event_1",
+        bid_value_lower=15.0,
+        bid_value_upper=18.0,
+        event_subtype="ioi_submitted",
+    )
+    conn.execute(
+        "INSERT INTO participation_counts VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+            "deal_pc_1",
+            "run-1",
+            "deal_deal_1",
+            "deal_cycle_1",
+            None,
+            "final_round",
+            "unknown",
+            1,
+            None,
+            "exact",
+            "[]",
+            0,
+        ],
+    )
+
+    derive_judgments(conn, run_id="run-1")
+
+    row = conn.execute(
+        """
+        SELECT judgment_key, judgment_value, judgment_status, rule_id, basis_json
+        FROM judgments
+        WHERE target_id = 'deal_event_1'
+        """
+    ).fetchone()
+    assert row is not None
+    judgment_key, judgment_value, judgment_status, rule_id, basis_json = row
+    assert judgment_key == "bid_formality"
+    assert judgment_value == "formal"
+    assert judgment_status == "accepted"
+    assert rule_id == "bid_formality_final_round_with_value_v1"
+    basis = json.loads(basis_json)
+    assert basis["final_round_boundary"] == "deal_cycle_1"
+    assert basis["has_value"] is True
+
+
+def test_bid_formality_uses_best_and_final_source_cue() -> None:
+    """A first-round bid quote saying 'best and final' -> formal cue."""
+    conn = duckdb.connect(":memory:")
+    init_schema(conn)
+    _seed_deal_cycle_actor_and_bid_event(
+        conn,
+        event_id="deal_event_1",
+        bid_value_lower=None,
+        bid_value_upper=None,
+        event_subtype="first_round_bid",
+    )
+    _seed_supported_bid_claim_with_quote(
+        conn,
+        event_id="deal_event_1",
+        quote_text="Party A submitted its best and final offer of $25 per share.",
+    )
+
+    derive_judgments(conn, run_id="run-1")
+
+    row = conn.execute(
+        """
+        SELECT judgment_value, judgment_status, rule_id
+        FROM judgments
+        WHERE target_id = 'deal_event_1'
+        """
+    ).fetchone()
+    assert row == ("formal", "accepted", "bid_formality_best_and_final_quote_v1")
+
+
+def _seed_supported_bid_claim_with_quote(
+    conn: duckdb.DuckDBPyConnection,
+    *,
+    event_id: str,
+    quote_text: str,
+) -> None:
+    """Seed minimal substrate: filing/paragraph/region/claim/disposition."""
+    conn.execute(
+        "INSERT INTO filings VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+            "deal_filing_1",
+            "deal",
+            "example.md",
+            "0" * 64,
+            1,
+            None,
+            1,
+            "target_full_proxy",
+        ],
+    )
+    conn.execute(
+        "INSERT INTO paragraphs VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+            "deal_para_1",
+            "deal_filing_1",
+            "Background of the Merger",
+            None,
+            0,
+            len(quote_text),
+            quote_text,
+            "0" * 64,
+        ],
+    )
+    conn.execute(
+        "INSERT INTO evidence_regions VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+            "deal_region_1",
+            "run-1",
+            "deal_filing_1",
+            "deal",
+            "bid_proposal_sequence",
+            1,
+            "deal_para_1",
+            "deal_para_1",
+            '["deal_para_1"]',
+            "[]",
+            '["bid"]',
+        ],
+    )
+    conn.execute(
+        "INSERT INTO claims VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+            "deal_claim_1",
+            "run-1",
+            "deal_filing_1",
+            "deal",
+            "deal_region_1",
+            "linkflow",
+            "bid",
+            "high",
+            "raw",
+            None,
+            quote_text,
+            "0" * 64,
+            "disposed",
+            1,
+        ],
+    )
+    conn.execute(
+        "INSERT INTO claim_dispositions VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+            "deal_disp_1",
+            "deal_claim_1",
+            "run-1",
+            "supported",
+            "ok",
+            "ok",
+            "events",
+            event_id,
+            None,
+            "reconcile",
+            True,
         ],
     )

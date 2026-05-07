@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import datetime as dt
 import json
 from typing import Any
 
@@ -23,6 +24,10 @@ def build_bidder_rows(
         [run_id],
     )
     conn.execute("DELETE FROM projection_units WHERE run_id = ?", [run_id])
+    conn.execute(
+        "DELETE FROM review_rows WHERE run_id = ? AND review_type = 'projection'",
+        [run_id],
+    )
     rows: list[dict[str, Any]] = []
     units = _projection_candidates(conn, run_id=run_id)
     accepted_judgments = _accepted_judgments_by_target(conn, run_id=run_id)
@@ -62,6 +67,57 @@ def build_bidder_rows(
         )
         if not included:
             continue
+
+        events_missing_formality = _events_missing_formality(
+            conn, run_id=run_id, event_ids=unit["event_ids"]
+        )
+        if events_missing_formality:
+            for event_id in events_missing_formality:
+                _insert_review_row(
+                    conn,
+                    run_id=run_id,
+                    deal_slug=unit["deal_slug"],
+                    review_type="projection",
+                    severity="review",
+                    reason_code="missing_formality_judgment",
+                    message=(
+                        f"Bidder projection cannot include actor {unit['actor_id']!r} "
+                        f"because event {event_id!r} lacks an accepted bid_formality "
+                        "judgment."
+                    ),
+                    review_question=(
+                        "Does the source support this event's formality classification "
+                        "before the bidder row can be projected?"
+                    ),
+                    source_table="projection_units",
+                    source_id=projection_unit_id,
+                    canonical_table="events",
+                    canonical_id=event_id,
+                )
+            continue
+
+        admitted = _admitted_from_judgments(unit_judgments)
+        if not admitted:
+            _insert_review_row(
+                conn,
+                run_id=run_id,
+                deal_slug=unit["deal_slug"],
+                review_type="projection",
+                severity="review",
+                reason_code="admitted_substrate_missing",
+                message=(
+                    f"Bidder projection cannot mark actor {unit['actor_id']!r} as "
+                    "admitted because no accepted bid_formality judgment supports it."
+                ),
+                review_question=(
+                    "Should this bidder be marked admitted given the available "
+                    "judgment substrate?"
+                ),
+                source_table="projection_units",
+                source_id=projection_unit_id,
+            )
+            continue
+
         row = {
             "bidder_row_id": bidder_row_id,
             "run_id": run_id,
@@ -74,7 +130,7 @@ def build_bidder_rows(
             "b_i_lower": unit["b_i_lower"],
             "b_i_upper": unit["b_i_upper"],
             "b_f": unit["b_f"],
-            "admitted": True,
+            "admitted": admitted,
         }
         conn.execute(
             "INSERT INTO bidder_rows VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
@@ -161,6 +217,105 @@ def _judgments_for_unit(
         for event_id in event_ids
         if event_id in accepted_judgments
     }
+
+
+def _events_missing_formality(
+    conn: duckdb.DuckDBPyConnection,
+    *,
+    run_id: str,
+    event_ids: list[str],
+) -> list[str]:
+    """Return event_ids in ``event_ids`` that do not have an accepted
+    bid_formality judgment but DO have an open formality review row.
+    """
+    if not event_ids:
+        return []
+    review_rows = conn.execute(
+        """
+        SELECT source_id
+        FROM review_rows
+        WHERE run_id = ?
+          AND review_type = 'judgment'
+          AND reason_code = 'formality_substrate_missing'
+          AND review_status = 'open'
+          AND source_table = 'events'
+        """,
+        [run_id],
+    ).fetchall()
+    flagged = {row[0] for row in review_rows}
+    return [event_id for event_id in event_ids if event_id in flagged]
+
+
+def _admitted_from_judgments(
+    unit_judgments: dict[str, list[tuple[str, str | None]]],
+) -> bool:
+    """Return True iff the unit has at least one accepted bid_formality
+    judgment among its events.
+    """
+    for values in unit_judgments.values():
+        for key, _value in values:
+            if key == "bid_formality":
+                return True
+    return False
+
+
+def _insert_review_row(
+    conn: duckdb.DuckDBPyConnection,
+    *,
+    run_id: str,
+    deal_slug: str,
+    review_type: str,
+    severity: str,
+    reason_code: str,
+    message: str,
+    review_question: str,
+    source_table: str,
+    source_id: str,
+    canonical_table: str | None = None,
+    canonical_id: str | None = None,
+) -> None:
+    sequence = _next_review_row_sequence(conn, deal_slug)
+    conn.execute(
+        "INSERT INTO review_rows VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+            make_id(deal_slug, "reviewrow", sequence),
+            run_id,
+            deal_slug,
+            "open",
+            review_type,
+            source_table,
+            source_id,
+            severity,
+            reason_code,
+            message,
+            review_question,
+            None,
+            None,
+            None,
+            canonical_table,
+            canonical_id,
+            None,
+            None,
+            None,
+            None,
+            _now_iso(),
+        ],
+    )
+
+
+def _next_review_row_sequence(conn: duckdb.DuckDBPyConnection, deal_slug: str) -> int:
+    prefix = f"{deal_slug}_reviewrow_"
+    rows = conn.execute(
+        "SELECT review_row_id FROM review_rows WHERE review_row_id LIKE ?",
+        [f"{prefix}%"],
+    ).fetchall()
+    if not rows:
+        return 1
+    return max(int(row[0].rsplit("_", maxsplit=1)[1]) for row in rows) + 1
+
+
+def _now_iso() -> str:
+    return dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def _export_row(row: dict[str, Any]) -> dict[str, Any]:

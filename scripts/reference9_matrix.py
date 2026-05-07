@@ -4,6 +4,7 @@ import argparse
 import json
 from pathlib import Path
 
+from sec_graph.run.latest import read_latest_pointer
 
 REFERENCE9 = (
     "providence-worcester",
@@ -17,6 +18,10 @@ REFERENCE9 = (
     "stec",
 )
 
+_TRUSTED_POINTER_STATUSES = frozenset(
+    {"passed_clean", "needs_review", "high_burden"}
+)
+
 
 def main() -> int:
     parser = argparse.ArgumentParser()
@@ -27,7 +32,7 @@ def main() -> int:
     runs_dir = Path(args.runs_dir)
     rows = []
     for slug in REFERENCE9:
-        run_dir = _latest_run_dir(runs_dir, slug)
+        run_dir = _run_dir_for_slug(runs_dir, slug)
         rows.append(_row_for_slug(slug, run_dir))
 
     output = Path(args.output)
@@ -40,9 +45,31 @@ def main() -> int:
     return 0
 
 
-def _latest_run_dir(runs_dir: Path, slug: str) -> Path | None:
-    candidates = sorted(path for path in runs_dir.glob(f"*{slug}*") if path.is_dir())
-    return candidates[-1] if candidates else None
+def _run_dir_for_slug(runs_dir: Path, slug: str) -> Path | None:
+    """Resolve the run dir for ``slug`` via ``runs/latest/{slug}.json``.
+
+    Prefer ``latest_trusted.run_dir`` when the pointer is trusted (or
+    stale-after-failure). Otherwise fall back to ``latest_attempt.run_dir``.
+    """
+    pointer = read_latest_pointer(slug, runs_root=runs_dir)
+    if pointer is None:
+        return None
+    pointer_status = str(pointer.get("pointer_status", ""))
+    latest_trusted = pointer.get("latest_trusted")
+    latest_attempt = pointer.get("latest_attempt")
+    if (
+        pointer_status in _TRUSTED_POINTER_STATUSES
+        or pointer_status == "stale_after_failure"
+    ):
+        if isinstance(latest_trusted, dict):
+            run_dir = latest_trusted.get("run_dir")
+            if isinstance(run_dir, str) and run_dir:
+                return Path(run_dir)
+    if isinstance(latest_attempt, dict):
+        run_dir = latest_attempt.get("run_dir")
+        if isinstance(run_dir, str) and run_dir:
+            return Path(run_dir)
+    return None
 
 
 def _row_for_slug(slug: str, run_dir: Path | None) -> dict[str, object]:
@@ -57,9 +84,8 @@ def _row_for_slug(slug: str, run_dir: Path | None) -> dict[str, object]:
             "coverage_complete_or_reviewed": False,
             "judgments_complete_or_reviewed": False,
             "projection_trace_passed": False,
-            "verdict": "MISSING_RUN",
-            "review_flag_count": None,
-            "blocking_flag_count": None,
+            "status": "MISSING_RUN",
+            "review_row_count": None,
             "validation_failure_count": None,
             "failure_checks": [],
             "artifact_counts": None,
@@ -79,17 +105,16 @@ def _row_for_slug(slug: str, run_dir: Path | None) -> dict[str, object]:
             validation, "claim_disposition"
         ),
         "unsupported_claims_rejected": not _has_failure(
-            validation, "semantic_claim_evidence"
+            validation, "claim_disposition"
         ),
         "coverage_complete_or_reviewed": not _has_failure(
             validation, "coverage_result"
         ),
         "judgments_complete_or_reviewed": True,
         "projection_trace_passed": not _has_failure(validation, "projection_unit"),
-        "verdict": source.get("verdict")
-        or ("SOUND" if validation.get("passed") else "UNSOUND"),
-        "review_flag_count": source.get("review_flag_count"),
-        "blocking_flag_count": source.get("blocking_flag_count"),
+        "status": source.get("status")
+        or ("passed_clean" if validation.get("passed") else "failed_system"),
+        "review_row_count": source.get("open_review_row_count"),
         "validation_failure_count": source.get("validation_failure_count")
         or _failure_count(validation),
         "failure_checks": _failure_checks(validation),
@@ -108,7 +133,7 @@ def _read_json(path: Path) -> dict[str, object]:
 
 
 def _has_failure(validation: dict[str, object], check: str) -> bool:
-    failures = validation.get("hard_failures")
+    failures = validation.get("system_failures")
     if not isinstance(failures, list):
         return False
     for failure in failures:
@@ -118,14 +143,14 @@ def _has_failure(validation: dict[str, object], check: str) -> bool:
 
 
 def _failure_count(validation: dict[str, object]) -> int | None:
-    failures = validation.get("hard_failures")
+    failures = validation.get("system_failures")
     if not isinstance(failures, list):
         return None
     return len(failures)
 
 
 def _failure_checks(validation: dict[str, object]) -> list[str]:
-    failures = validation.get("hard_failures")
+    failures = validation.get("system_failures")
     if not isinstance(failures, list):
         return []
     checks = []

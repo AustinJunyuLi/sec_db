@@ -19,6 +19,7 @@ from sec_graph.extract.llm.models import DEFAULT_REQUEST_MODE, LLMProviderConfig
 from sec_graph.extract.pipeline import run_extract
 from sec_graph.ingest.pipeline import DEFAULT_EXAMPLES_DIR, IngestSource, example_sources, filing_sources, ingest_sources
 from sec_graph.judgments import derive_judgments
+from sec_graph.project.review_rows import project_review_rows, write_review_rows
 from sec_graph.project.summaries import default_cost_envelope_assumptions, observed_deal_metrics, write_projection_outputs
 from sec_graph.reconcile.pipeline import reconcile_all
 from sec_graph.run import (
@@ -30,6 +31,7 @@ from sec_graph.run import (
     record_artifact,
     validate_run_id,
 )
+from sec_graph.run.latest import update_latest_pointer
 from sec_graph.schema import connect, init_schema, versions
 from sec_graph.validate.integrity import write_validation_outputs
 
@@ -155,8 +157,19 @@ def run_pipeline(
                 deal_slug=None,
                 created_by="_write_failed_validation_proof",
             )
+            _publish_latest_pointers(
+                run_dir=run_dir,
+                run_id=run_id,
+                slugs=[item.slug for item in selected_sources],
+                status="failed_system",
+            )
             raise RuntimeError(f"run failed validation; artifacts: {run_dir}")
         proof = write_projection_outputs(conn, run_dir, run_id=run_id, projection_name=projection_name, allow_existing=True)
+        # Synthesize coverage and validation review rows after projection's
+        # own review_rows have been written; then publish the canonical
+        # JSONL/CSV review_rows artifacts.
+        review_rows = project_review_rows(conn, run_id=run_id)
+        write_review_rows(run_dir, review_rows)
         for artifact in (
             "proof_summary.json",
             "bidder_rows.jsonl",
@@ -165,6 +178,7 @@ def run_pipeline(
             "claim_dispositions.csv",
             "judgments.csv",
             "review_rows.csv",
+            "review_rows.jsonl",
             "cost_runtime_summary.json",
             "cost_runtime_summary.csv",
             "provider_usage_ledger.jsonl",
@@ -197,6 +211,12 @@ def run_pipeline(
         _atomic_copy(working_db, run_dir / "canonical.duckdb")
         record_artifact(run_dir, run_id=run_id, path=run_dir / "canonical.duckdb", artifact_kind="duckdb_snapshot", owning_stage="run_kernel", deal_slug=None, created_by="run_pipeline")
         atomic_write_json(run_dir / "resume_report.json", {"run_id": run_id, "resume": bool(resume), "reused": [], "recomputed": [item.slug for item in selected_sources], "refused": []})
+        _publish_latest_pointers(
+            run_dir=run_dir,
+            run_id=run_id,
+            slugs=[item.slug for item in selected_sources],
+            status=str(proof.get("status", "passed_clean")),
+        )
         return proof
 
 
@@ -347,6 +367,27 @@ def _write_failed_validation_proof(
             },
         },
     )
+
+
+def _publish_latest_pointers(
+    *,
+    run_dir: Path,
+    run_id: str,
+    slugs: list[str],
+    status: str,
+) -> None:
+    """Update ``runs/latest/{slug}.json`` for every deal slug in this run.
+
+    ``run_dir.parent`` is the runs root because run dirs are immediately
+    underneath ``runs/``.
+    """
+    runs_root = run_dir.parent
+    for slug in slugs:
+        update_latest_pointer(
+            run_dir,
+            {"run_id": run_id, "deal_slug": slug, "status": status},
+            runs_root=runs_root,
+        )
 
 
 def _git_head() -> str | None:

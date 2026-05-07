@@ -4,10 +4,17 @@ from __future__ import annotations
 
 import datetime as dt
 import json
+import re
 
 import duckdb
 
 from sec_graph.schema import make_id
+
+
+_BEST_AND_FINAL_CUE_RE = re.compile(
+    r"\bbest\s+and\s+final\b|\bfinal\s+(?:bid|offer|proposal)\b",
+    re.IGNORECASE,
+)
 
 
 def derive_judgments(conn: duckdb.DuckDBPyConnection, *, run_id: str) -> None:
@@ -39,25 +46,63 @@ def _derive_bid_formality(conn: duckdb.DuckDBPyConnection, run_id: str) -> None:
         [run_id],
     ).fetchall()
     for row in rows:
-        event_id, deal_id, cycle_id, event_subtype, event_date, bid_value, bid_value_lower, bid_value_upper = row
-        if event_subtype in {"ioi_submitted", "first_round_bid"}:
-            _insert_judgment(
-                conn,
-                run_id=run_id,
-                deal_id=deal_id,
-                cycle_id=cycle_id,
-                target_table="events",
-                target_id=event_id,
-                judgment_key="bid_formality",
-                judgment_value="informal",
-                judgment_status="accepted",
-                rule_id="bid_formality_v1",
-                reason_code=f"{event_subtype}_is_informal",
-                basis={"event_subtype": event_subtype},
-            )
-        elif event_subtype == "final_round_bid" and any(
+        (
+            event_id,
+            deal_id,
+            cycle_id,
+            event_subtype,
+            event_date,
+            bid_value,
+            bid_value_lower,
+            bid_value_upper,
+        ) = row
+        has_value = any(
             value is not None for value in (bid_value, bid_value_lower, bid_value_upper)
-        ):
+        )
+        final_round_boundary = (
+            cycle_id
+            if cycle_id is not None
+            and _final_round_boundary_for_cycle(conn, cycle_id, run_id)
+            else None
+        )
+        best_and_final_cue = _event_has_best_and_final_cue(conn, event_id)
+        source_cues: list[str] = []
+
+        formality: str | None = None
+        rule_id = "bid_formality_v1"
+        reason_code = ""
+
+        if event_subtype == "final_round_bid":
+            formality = "formal"
+            rule_id = "bid_formality_final_round_subtype_v1"
+            reason_code = "final_round_bid_subtype"
+            source_cues.append("final_round_bid_subtype")
+        elif final_round_boundary is not None and has_value:
+            formality = "formal"
+            rule_id = "bid_formality_final_round_with_value_v1"
+            reason_code = "final_round_boundary_with_value"
+            source_cues.append("final_round_boundary_with_value")
+        elif best_and_final_cue:
+            formality = "formal"
+            rule_id = "bid_formality_best_and_final_quote_v1"
+            reason_code = "best_and_final_quote_cue"
+            source_cues.append("best_and_final_quote_cue")
+        elif event_subtype in {"ioi_submitted", "first_round_bid"} and final_round_boundary is None:
+            formality = "informal"
+            rule_id = "bid_formality_v1"
+            reason_code = f"{event_subtype}_is_informal"
+            source_cues.append(f"{event_subtype}_subtype")
+
+        if formality is not None:
+            basis: dict[str, object] = {
+                "bid_id": event_id,
+                "event_subtype": event_subtype,
+                "has_value": has_value,
+                "final_round_boundary": final_round_boundary,
+                "source_cues": source_cues,
+            }
+            if event_date is not None:
+                basis["event_date"] = str(event_date)
             _insert_judgment(
                 conn,
                 run_id=run_id,
@@ -66,11 +111,11 @@ def _derive_bid_formality(conn: duckdb.DuckDBPyConnection, run_id: str) -> None:
                 target_table="events",
                 target_id=event_id,
                 judgment_key="bid_formality",
-                judgment_value="formal",
+                judgment_value=formality,
                 judgment_status="accepted",
-                rule_id="bid_formality_v1",
-                reason_code="final_round_bid_is_formal",
-                basis={"event_subtype": event_subtype, "event_date": str(event_date)},
+                rule_id=rule_id,
+                reason_code=reason_code,
+                basis=basis,
             )
         else:
             _insert_review_row(
@@ -80,7 +125,10 @@ def _derive_bid_formality(conn: duckdb.DuckDBPyConnection, run_id: str) -> None:
                 review_type="judgment",
                 severity="review",
                 reason_code="formality_substrate_missing",
-                message=f"Cannot derive bid formality for event_subtype={event_subtype!r}.",
+                message=(
+                    f"Cannot derive bid formality for event {event_id!r} "
+                    f"(event_subtype={event_subtype!r})."
+                ),
                 review_question=(
                     "Does the source support informal or formal bid treatment for this event?"
                 ),
@@ -89,6 +137,68 @@ def _derive_bid_formality(conn: duckdb.DuckDBPyConnection, run_id: str) -> None:
                 canonical_table="events",
                 canonical_id=event_id,
             )
+
+
+def _final_round_boundary_for_cycle(
+    conn: duckdb.DuckDBPyConnection,
+    cycle_id: str,
+    run_id: str,
+) -> bool:
+    """Return True iff ``cycle_id`` is the final-round boundary cycle.
+
+    The boundary is defined as a cycle whose canonical events include any
+    event with ``event_subtype='final_round_bid'`` OR whose
+    ``participation_counts`` rows include ``process_stage='final_round'``.
+    """
+    has_final_event = conn.execute(
+        """
+        SELECT count(*)
+        FROM events
+        WHERE run_id = ?
+          AND cycle_id = ?
+          AND event_subtype = 'final_round_bid'
+        """,
+        [run_id, cycle_id],
+    ).fetchone()[0]
+    if int(has_final_event) > 0:
+        return True
+    has_final_participation = conn.execute(
+        """
+        SELECT count(*)
+        FROM participation_counts
+        WHERE run_id = ?
+          AND cycle_id = ?
+          AND process_stage = 'final_round'
+        """,
+        [run_id, cycle_id],
+    ).fetchone()[0]
+    return int(has_final_participation) > 0
+
+
+def _event_has_best_and_final_cue(
+    conn: duckdb.DuckDBPyConnection,
+    event_id: str,
+) -> bool:
+    """Return True iff any supported bid claim canonicalized to ``event_id``
+    contains a "best and final" / "final bid|offer|proposal" cue in its quote.
+    """
+    rows = conn.execute(
+        """
+        SELECT claims.quote_text
+        FROM claims
+        JOIN claim_dispositions
+          ON claim_dispositions.claim_id = claims.claim_id
+         AND claim_dispositions.current = true
+        WHERE claim_dispositions.canonical_table = 'events'
+          AND claim_dispositions.canonical_id = ?
+          AND claim_dispositions.disposition IN ('supported', 'merged_duplicate')
+        """,
+        [event_id],
+    ).fetchall()
+    for (quote_text,) in rows:
+        if quote_text and _BEST_AND_FINAL_CUE_RE.search(str(quote_text)):
+            return True
+    return False
 
 
 def _derive_projected_fate(conn: duckdb.DuckDBPyConnection, run_id: str) -> None:
