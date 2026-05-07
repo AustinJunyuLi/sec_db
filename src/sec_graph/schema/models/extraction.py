@@ -63,6 +63,8 @@ EventSubtype = Literal[
     "advancement_declined",
     "rollover_executed",
     "financing_committed",
+    "go_shop_period",
+    "amendment",
 ]
 EventActorRole = Literal[
     "target",
@@ -82,7 +84,7 @@ EventActorRole = Literal[
     "recipient",
 ]
 ProcessStage = Literal["contacted", "nda_signed", "ioi_submitted", "first_round", "final_round", "exclusivity"]
-ActorClass = Literal["financial", "strategic", "mixed"]
+ActorClass = Literal["financial", "strategic", "mixed", "unknown"]
 CountQualifier = Literal["exact", "approximate", "lower_bound", "upper_bound", "range"]
 
 
@@ -298,7 +300,7 @@ CREATE TABLE actor_claims (
 CREATE TABLE event_claims (
   claim_id VARCHAR PRIMARY KEY,
   event_type VARCHAR NOT NULL CHECK (event_type IN ('process', 'bid', 'transaction')),
-  event_subtype VARCHAR NOT NULL CHECK (event_subtype IN ('contact_initial', 'nda_signed', 'ioi_submitted', 'first_round_bid', 'final_round_bid', 'exclusivity_grant', 'merger_agreement_executed', 'withdrawn_by_bidder', 'excluded_by_target', 'non_responsive', 'cohort_closure', 'advancement_admitted', 'advancement_declined', 'rollover_executed', 'financing_committed')),
+  event_subtype VARCHAR NOT NULL CHECK (event_subtype IN ('contact_initial', 'nda_signed', 'ioi_submitted', 'first_round_bid', 'final_round_bid', 'exclusivity_grant', 'merger_agreement_executed', 'withdrawn_by_bidder', 'excluded_by_target', 'non_responsive', 'cohort_closure', 'advancement_admitted', 'advancement_declined', 'rollover_executed', 'financing_committed', 'go_shop_period', 'amendment')),
   event_date DATE,
   description VARCHAR NOT NULL,
   actor_label VARCHAR,
@@ -323,7 +325,7 @@ CREATE TABLE bid_claims (
 CREATE TABLE participation_count_claims (
   claim_id VARCHAR PRIMARY KEY,
   process_stage VARCHAR NOT NULL CHECK (process_stage IN ('contacted', 'nda_signed', 'ioi_submitted', 'first_round', 'final_round', 'exclusivity')),
-  actor_class VARCHAR NOT NULL CHECK (actor_class IN ('financial', 'strategic', 'mixed')),
+  actor_class VARCHAR NOT NULL CHECK (actor_class IN ('financial', 'strategic', 'mixed', 'unknown')),
   count_min INTEGER NOT NULL,
   count_max INTEGER,
   count_qualifier VARCHAR NOT NULL CHECK (count_qualifier IN ('exact', 'approximate', 'lower_bound', 'upper_bound', 'range')),

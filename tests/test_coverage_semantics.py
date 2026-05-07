@@ -214,6 +214,198 @@ def test_rejected_claim_obligation_link_rolls_back_partial_inserts(tmp_path: Pat
         assert conn.execute(f"SELECT count(*) FROM {table}").fetchone()[0] == 0
 
 
+def test_event_claim_accepts_go_shop_and_amendment_subtypes(tmp_path: Path) -> None:
+    """A go-shop / amendment event claim must round-trip through the schema."""
+
+    conn = connect(":memory:")
+    init_schema(conn)
+    _insert_window_source(conn, tmp_path)
+
+    window = LLMWindowRequest(
+        request_id="coverage-deal_llmrequest_1",
+        deal_slug="coverage-deal",
+        deal_id="coverage-deal",
+        filing_id="coverage-deal_filing_1",
+        region_id="coverage-deal_region_1",
+        window_id="coverage-deal_window_1",
+        region_kind="sale_process_narrative",
+        ordered_paragraphs=[
+            WindowParagraph(
+                paragraph_id="coverage-deal_para_1",
+                source_span_id="coverage-deal_evidence_1",
+                char_start=0,
+                char_end=89,
+                paragraph_text=(
+                    "The Board began a sale process. "
+                    "The Board later granted exclusivity to Buyer A."
+                ),
+            )
+        ],
+        coverage_obligations=[
+            WindowObligation(
+                obligation_id="coverage-deal_obligation_1",
+                expected_claim_type="event",
+                obligation_label="Go-shop period",
+                importance="optional",
+            ),
+            WindowObligation(
+                obligation_id="coverage-deal_obligation_2",
+                expected_claim_type="event",
+                obligation_label="Amendment to merger agreement",
+                importance="optional",
+            ),
+        ],
+        allowed_claim_types=["event"],
+        schema_version=1,
+        extract_version=1,
+        request_mode=DEFAULT_REQUEST_MODE,
+    )
+    payload = SemanticClaimsPayload(
+        actor_claims=[],
+        event_claims=[
+            EventClaimPayload(
+                claim_type="event",
+                coverage_obligation_id="coverage-deal_obligation_1",
+                event_type="process",
+                event_subtype="go_shop_period",
+                event_date=None,
+                description="The Board began a sale process.",
+                actor_label=None,
+                actor_role=None,
+                confidence="high",
+                quote_text="The Board began a sale process.",
+            ),
+            EventClaimPayload(
+                claim_type="event",
+                coverage_obligation_id="coverage-deal_obligation_2",
+                event_type="transaction",
+                event_subtype="amendment",
+                event_date=None,
+                description="The Board later granted exclusivity to Buyer A.",
+                actor_label=None,
+                actor_role=None,
+                confidence="high",
+                quote_text="The Board later granted exclusivity to Buyer A.",
+            ),
+        ],
+        bid_claims=[],
+        participation_count_claims=[],
+        actor_relation_claims=[],
+    )
+    response = LLMExtractionResponse(
+        request_id=window.request_id,
+        provider_name="linkflow",
+        provider_model="gpt-5.5",
+        reasoning_effort="medium",
+        payload=payload,
+        raw_response_sha256=quote_hash(json.dumps(payload.model_dump(mode="json"), sort_keys=True)),
+        finish_status="completed",
+    )
+
+    insert_llm_response(conn, window, response, run_id=RUN_ID)
+
+    subtypes = conn.execute(
+        "SELECT event_subtype FROM event_claims ORDER BY event_subtype"
+    ).fetchall()
+    assert subtypes == [("amendment",), ("go_shop_period",)]
+
+
+def test_participation_count_claim_accepts_unknown_actor_class(tmp_path: Path) -> None:
+    """A count claim with actor_class='unknown' must round-trip through the schema."""
+
+    from sec_graph.extract.llm.models import ParticipationCountClaimPayload
+
+    conn = connect(":memory:")
+    init_schema(conn)
+    _insert_window_source(conn, tmp_path)
+    # Replace the event obligations with a participation_count obligation so
+    # the LLM payload can target it cleanly.
+    conn.execute("DELETE FROM coverage_obligations WHERE filing_id = ?", ["coverage-deal_filing_1"])
+    conn.execute(
+        "INSERT INTO coverage_obligations VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+            "coverage-deal_obligation_count",
+            RUN_ID,
+            "coverage-deal_region_1",
+            "coverage-deal_filing_1",
+            "coverage-deal",
+            "participation_count",
+            "Bidder count at IOI stage",
+            "required",
+            True,
+        ],
+    )
+
+    window = LLMWindowRequest(
+        request_id="coverage-deal_llmrequest_1",
+        deal_slug="coverage-deal",
+        deal_id="coverage-deal",
+        filing_id="coverage-deal_filing_1",
+        region_id="coverage-deal_region_1",
+        window_id="coverage-deal_window_1",
+        region_kind="participation_counts",
+        ordered_paragraphs=[
+            WindowParagraph(
+                paragraph_id="coverage-deal_para_1",
+                source_span_id="coverage-deal_evidence_1",
+                char_start=0,
+                char_end=89,
+                paragraph_text=(
+                    "The Board began a sale process. "
+                    "The Board later granted exclusivity to Buyer A."
+                ),
+            )
+        ],
+        coverage_obligations=[
+            WindowObligation(
+                obligation_id="coverage-deal_obligation_count",
+                expected_claim_type="participation_count",
+                obligation_label="Bidder count at IOI stage",
+                importance="required",
+            ),
+        ],
+        allowed_claim_types=["participation_count"],
+        schema_version=1,
+        extract_version=1,
+        request_mode=DEFAULT_REQUEST_MODE,
+    )
+    payload = SemanticClaimsPayload(
+        actor_claims=[],
+        event_claims=[],
+        bid_claims=[],
+        participation_count_claims=[
+            ParticipationCountClaimPayload(
+                claim_type="participation_count",
+                coverage_obligation_id="coverage-deal_obligation_count",
+                process_stage="ioi_submitted",
+                actor_class="unknown",
+                count_min=4,
+                count_max=None,
+                count_qualifier="exact",
+                confidence="high",
+                quote_text="The Board began a sale process.",
+            )
+        ],
+        actor_relation_claims=[],
+    )
+    response = LLMExtractionResponse(
+        request_id=window.request_id,
+        provider_name="linkflow",
+        provider_model="gpt-5.5",
+        reasoning_effort="medium",
+        payload=payload,
+        raw_response_sha256=quote_hash(json.dumps(payload.model_dump(mode="json"), sort_keys=True)),
+        finish_status="completed",
+    )
+
+    insert_llm_response(conn, window, response, run_id=RUN_ID)
+
+    rows = conn.execute(
+        "SELECT actor_class, count_min FROM participation_count_claims"
+    ).fetchall()
+    assert rows == [("unknown", 4)]
+
+
 def _insert_window_source(conn, tmp_path: Path) -> None:
     text = "The Board began a sale process. The Board later granted exclusivity to Buyer A."
     source_path = tmp_path / "coverage-deal.md"
