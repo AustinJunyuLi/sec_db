@@ -2,7 +2,10 @@ import csv
 import json
 from pathlib import Path
 
-from sec_graph.extract.disposition import dispose_claims_for_filing
+from sec_graph.extract.disposition import (
+    dispose_claims_for_filing,
+    finalize_coverage_after_disposition,
+)
 from sec_graph.extract.evidence_map import build_evidence_map
 from sec_graph.extract.llm.convert import insert_llm_response
 from sec_graph.extract.llm.linkflow import _parse_payload, _semantic_claim_schema
@@ -92,7 +95,7 @@ def test_claim_disposition_enum_uses_support_statuses() -> None:
     assert "canonicalized" not in text
 
 
-def test_judgments_and_review_flags_tables_exist() -> None:
+def test_judgments_and_review_rows_tables_exist() -> None:
     conn = connect(":memory:")
     init_schema(conn)
     table_names = {
@@ -102,7 +105,8 @@ def test_judgments_and_review_flags_tables_exist() -> None:
         ).fetchall()
     }
     assert "judgments" in table_names
-    assert "review_flags" in table_names
+    assert "review_rows" in table_names
+    assert "review_flags" not in table_names
 
     judgment_columns = {
         row[1]
@@ -118,20 +122,21 @@ def test_judgments_and_review_flags_tables_exist() -> None:
     ):
         assert column in judgment_columns
 
-    review_flag_columns = {
+    review_row_columns = {
         row[1]
-        for row in conn.execute("PRAGMA table_info('review_flags')").fetchall()
+        for row in conn.execute("PRAGMA table_info('review_rows')").fetchall()
     }
     for column in (
-        "flag_id",
+        "review_row_id",
         "run_id",
         "deal_slug",
-        "flag_type",
+        "review_status",
+        "review_type",
         "severity",
         "reason_code",
-        "recommended_review_question",
+        "review_question",
     ):
-        assert column in review_flag_columns
+        assert column in review_row_columns
 
 
 def test_typed_claims_reconcile_to_source_backed_projection(tmp_path: Path) -> None:
@@ -147,9 +152,12 @@ def test_typed_claims_reconcile_to_source_backed_projection(tmp_path: Path) -> N
         insert_llm_response(conn, window, response, run_id=RUN_ID)
 
     dispose_claims_for_filing(conn, filing_id="smoke-deal_filing_1", run_id=RUN_ID)
+    finalize_coverage_after_disposition(
+        conn, run_id=RUN_ID, filing_id="smoke-deal_filing_1"
+    )
     reconcile_all(conn, run_id=RUN_ID)
     validation = validate_database(conn, raw_source_root=source_path.parent)
-    assert validation.passed, validation.hard_failures
+    assert validation.passed, validation.system_failures
 
     proof = write_projection_outputs(
         conn,
@@ -169,7 +177,7 @@ def test_typed_claims_reconcile_to_source_backed_projection(tmp_path: Path) -> N
     assert proof["row_counts"]["participation_counts"] >= 1
     assert proof["row_counts"]["bidder_rows"] >= 1
     assert proof["canonical_rows_without_relational_evidence"] == 0
-    assert proof["verdict"] in {"SOUND", "SUSPECT"}
+    assert proof["status"] in {"passed_clean", "needs_review", "high_burden"}
     assert (run_dir / "cost_runtime_summary.json").exists()
     assert (run_dir / "cost_runtime_summary.csv").exists()
     assert (run_dir / "provider_usage_ledger.jsonl").exists()
@@ -194,6 +202,9 @@ def test_generic_bid_claim_labels_do_not_project_as_named_bidders(tmp_path: Path
     insert_llm_response(conn, window, _generic_bidder_response(window), run_id=RUN_ID)
 
     dispose_claims_for_filing(conn, filing_id="generic-bidder-deal_filing_1", run_id=RUN_ID)
+    finalize_coverage_after_disposition(
+        conn, run_id=RUN_ID, filing_id="generic-bidder-deal_filing_1"
+    )
     reconcile_all(conn, run_id=RUN_ID)
     _insert_projection_leak_candidate(conn)
     proof = write_projection_outputs(
@@ -327,10 +338,13 @@ def test_new_actor_relation_labels_insert_reconcile_validate_and_canonicalize(tm
     insert_llm_response(conn, window, _relation_label_response(window), run_id=RUN_ID)
 
     dispose_claims_for_filing(conn, filing_id="relation-label-deal_filing_1", run_id=RUN_ID)
+    finalize_coverage_after_disposition(
+        conn, run_id=RUN_ID, filing_id="relation-label-deal_filing_1"
+    )
     reconcile_all(conn, run_id=RUN_ID)
     validation = validate_database(conn, raw_source_root=source_path.parent)
 
-    assert validation.passed, validation.hard_failures
+    assert validation.passed, validation.system_failures
     relation_rows = conn.execute(
         """
         SELECT relation_type
@@ -914,8 +928,8 @@ def _generic_bidder_response(window) -> LLMExtractionResponse:
             ParticipationCountClaimPayload(
                 coverage_obligation_id=count_obligation_id,
                 claim_type="participation_count",
-                process_stage="first_round",
-                actor_class="mixed",
+                process_stage="ioi_submitted",
+                actor_class="financial",
                 count_min=6,
                 count_max=None,
                 count_qualifier="exact",

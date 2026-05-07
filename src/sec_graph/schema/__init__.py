@@ -26,18 +26,33 @@ from .models import (
     Paragraph,
     ParticipationCount,
     ParticipationCountClaim,
+    PointerStatus,
     ProcessCycle,
     ProgressLedgerEntry,
     ProjectionJudgment,
     ProjectionUnit,
-    ReviewFlag,
     RowEvidence,
     RunManifest,
+    RunStatus,
     Section,
     SourceSpan,
     StageArtifact,
+    TRUSTED_STATUSES,
     latest_judgments,
+    status_from_open_review_count,
 )
+
+
+def _review_row_export():
+    from sec_graph.project.review_rows import ReviewRow as _ReviewRow
+
+    return _ReviewRow
+
+
+def __getattr__(name: str):
+    if name == "ReviewRow":
+        return _review_row_export()
+    raise AttributeError(name)
 from .schema_init import init_schema
 
 __all__ = [
@@ -64,17 +79,20 @@ __all__ = [
     "Paragraph",
     "ParticipationCount",
     "ParticipationCountClaim",
+    "PointerStatus",
     "ProcessCycle",
     "ProgressLedgerEntry",
     "ProjectionJudgment",
     "ProjectionUnit",
-    "ReviewFlag",
+    "ReviewRow",
     "RowEvidence",
     "RunManifest",
+    "RunStatus",
     "Section",
     "SequenceAllocator",
     "SourceSpan",
     "StageArtifact",
+    "TRUSTED_STATUSES",
     "apply_ddl",
     "connect",
     "evidence_fingerprint",
@@ -83,4 +101,5 @@ __all__ = [
     "quote_hash",
     "validate_quote",
     "latest_judgments",
+    "status_from_open_review_count",
 ]

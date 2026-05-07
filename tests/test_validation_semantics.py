@@ -1,7 +1,14 @@
+"""Validation semantics under the system_failures / review_items split."""
+
+from __future__ import annotations
+
 import json
 from pathlib import Path
 
-from sec_graph.extract.disposition import dispose_claims_for_filing
+from sec_graph.extract.disposition import (
+    dispose_claims_for_filing,
+    finalize_coverage_after_disposition,
+)
 from sec_graph.extract.evidence_map import build_evidence_map
 from sec_graph.extract.llm.convert import insert_llm_response
 from sec_graph.extract.llm.models import (
@@ -16,111 +23,29 @@ from sec_graph.extract.llm.models import (
 from sec_graph.extract.llm.requests import build_llm_windows
 from sec_graph.project.summaries import write_projection_outputs
 from sec_graph.reconcile.pipeline import reconcile_all
-from sec_graph.schema import CleanFiling, Paragraph, SourceSpan, connect, evidence_fingerprint, init_schema, make_id, quote_hash
-from sec_graph.validate.integrity import HardCheck, _relation_supported_by_quote, validate_database
+from sec_graph.schema import (
+    CleanFiling,
+    Paragraph,
+    SourceSpan,
+    connect,
+    evidence_fingerprint,
+    init_schema,
+    make_id,
+    quote_hash,
+)
+from sec_graph.validate.integrity import HardCheck, validate_database
 
 
 RUN_ID = "2026-05-03T111213Z_semantics-deal_deadbeef"
 
 
-def test_bid_claim_quote_must_support_bidder_date_and_context(tmp_path: Path) -> None:
-    conn, source_path = _semantic_db(
-        tmp_path,
-        bid_quote="$10.00 per share",
-        relation_quote="Parent was an acquisition vehicle of Buyer Group",
-    )
-
-    validation = validate_database(conn, raw_source_root=source_path.parent)
-
-    assert any(
-        failure.check == HardCheck.SEMANTIC_CLAIM_EVIDENCE
-        and failure.table_name == "bid_claims"
-        and "bidder_label" in failure.detail
-        for failure in validation.hard_failures
-    )
-
-    proof = write_projection_outputs(
-        conn,
-        tmp_path / "thin-bid-proof",
-        run_id=RUN_ID,
-        projection_name="bidder_cycle_baseline_v1",
-    )
-    assert proof["verdict"] != "SOUND"
-    assert proof["semantic_validation_failures"] >= 1
-
-
-def test_actor_relation_quote_must_support_subject_object_and_relation(tmp_path: Path) -> None:
-    conn, source_path = _semantic_db(
-        tmp_path,
-        bid_quote="On January 1, 2020, Party A submitted a final proposal of $10.00 per share",
-        relation_quote="Buyer Group",
-    )
-
-    validation = validate_database(conn, raw_source_root=source_path.parent)
-
-    assert any(
-        failure.check == HardCheck.SEMANTIC_CLAIM_EVIDENCE
-        and failure.table_name == "actor_relation_claims"
-        and "subject_label" in failure.detail
-        for failure in validation.hard_failures
-    )
-
-
-def test_actor_relation_validator_accepts_buyer_group_composition_language() -> None:
-    assert _relation_supported_by_quote(
-        "member_of",
-        None,
-        "CSC and Pamplona, who together we refer to as CSC/Pamplona",
-    )
-    assert _relation_supported_by_quote(
-        "controls",
-        None,
-        "CSC was purchased by Pamplona in May 2013.",
-    )
-
-
-def test_actor_relation_validator_accepts_new_relation_language() -> None:
-    assert _relation_supported_by_quote(
-        "voting_support_for",
-        None,
-        "Shareholder A entered into a voting agreement and agreed to vote in favor of the merger.",
-    )
-    assert _relation_supported_by_quote(
-        "rollover_holder_for",
-        None,
-        "Rollover Holder agreed to rollover and retain equity in Parent.",
-    )
-    assert _relation_supported_by_quote(
-        "committee_member_of",
-        None,
-        "Director B was appointed and added to the special committee composed of independent directors.",
-    )
-    assert _relation_supported_by_quote(
-        "recused_from",
-        None,
-        "Director C recused himself and did not participate in the Board's evaluation.",
-    )
-
-
-def test_actor_relation_validator_rejects_quote_without_relation_support() -> None:
-    assert not _relation_supported_by_quote(
-        "voting_support_for",
-        None,
-        "Shareholder A and Parent were named in the filing.",
-    )
-
-
-def test_required_important_ambiguous_or_no_supported_coverage_blocks_sound(tmp_path: Path) -> None:
+def test_required_important_unresolved_coverage_is_review_not_system_failure(
+    tmp_path: Path,
+) -> None:
     conn, _source_path = _semantic_db(
         tmp_path,
         bid_quote="On January 1, 2020, Party A submitted a final proposal of $10.00 per share",
         relation_quote="Parent was an acquisition vehicle of Buyer Group",
-    )
-    baseline = write_projection_outputs(
-        conn,
-        tmp_path / "coverage-proof-baseline",
-        run_id=RUN_ID,
-        projection_name="bidder_cycle_baseline_v1",
     )
     required_id = conn.execute(
         """
@@ -144,31 +69,28 @@ def test_required_important_ambiguous_or_no_supported_coverage_blocks_sound(tmp_
         LIMIT 1
         """
     ).fetchone()[0]
-    conn.execute("UPDATE coverage_results SET result = 'ambiguous_support', claim_count = 0 WHERE obligation_id = ?", [required_id])
-    conn.execute("UPDATE coverage_results SET result = 'no_supported_claim', claim_count = 0 WHERE obligation_id = ?", [important_id])
-
-    validation = validate_database(conn)
-    unresolved_failures = [
-        failure
-        for failure in validation.hard_failures
-        if failure.check == HardCheck.COVERAGE_RESULT
-        and failure.row_id in {required_id, important_id}
-        and "unresolved" in failure.detail
-    ]
-    assert {failure.row_id for failure in unresolved_failures} == {required_id, important_id}
-
-    proof = write_projection_outputs(
-        conn,
-        tmp_path / "coverage-proof",
-        run_id=RUN_ID,
-        projection_name="bidder_cycle_baseline_v1",
+    conn.execute(
+        "UPDATE coverage_results SET result = 'ambiguous_support', claim_count = 0 WHERE obligation_id = ?",
+        [required_id],
+    )
+    conn.execute(
+        "UPDATE coverage_results SET result = 'no_supported_claim', claim_count = 0 WHERE obligation_id = ?",
+        [important_id],
     )
 
-    assert proof["verdict"] != "SOUND"
-    assert proof["insufficient_required_or_important_obligations"] == baseline["insufficient_required_or_important_obligations"] + 2
+    validation = validate_database(conn)
+    review_ids = {finding.row_id for finding in validation.review_items}
+    assert required_id in review_ids
+    assert important_id in review_ids
+    # The same obligations must NOT appear as system failures.
+    system_ids = {finding.row_id for finding in validation.system_failures}
+    assert required_id not in system_ids
+    assert important_id not in system_ids
 
 
-def test_not_applicable_obligation_with_current_coverage_result_fails(tmp_path: Path) -> None:
+def test_not_applicable_obligation_with_current_coverage_result_is_system_failure(
+    tmp_path: Path,
+) -> None:
     conn, _source_path = _semantic_db(
         tmp_path,
         bid_quote="On January 1, 2020, Party A submitted a final proposal of $10.00 per share",
@@ -200,14 +122,16 @@ def test_not_applicable_obligation_with_current_coverage_result_fails(tmp_path: 
     validation = validate_database(conn)
 
     assert any(
-        failure.check == HardCheck.COVERAGE_RESULT
-        and failure.row_id == obligation_id
-        and "not_applicable" in failure.detail
-        for failure in validation.hard_failures
+        finding.check == HardCheck.COVERAGE_RESULT
+        and finding.row_id == obligation_id
+        and "not_applicable" in finding.detail
+        for finding in validation.system_failures
     )
 
 
-def test_projection_requires_accepted_judgment_for_dropout_label(tmp_path: Path) -> None:
+def test_projection_dependent_on_review_required_judgment_is_review_item(
+    tmp_path: Path,
+) -> None:
     conn, _source_path = _semantic_db(
         tmp_path,
         bid_quote="On January 1, 2020, Party A submitted a final proposal of $10.00 per share",
@@ -215,39 +139,47 @@ def test_projection_requires_accepted_judgment_for_dropout_label(tmp_path: Path)
     )
     event_id = conn.execute("SELECT event_id FROM events ORDER BY event_id LIMIT 1").fetchone()[0]
     conn.execute(
-        "INSERT INTO review_flags VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO review_rows VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [
-            "semantics-deal_reviewflag_999",
+            "semantics-deal_reviewrow_999",
             RUN_ID,
             "semantics-deal",
-            None,
-            None,
+            "open",
+            "judgment",
+            "events",
+            event_id,
+            "review",
+            "missing_projected_fate",
+            "Projected fate cannot be derived.",
+            "Review projected fate for this bidder-cycle row.",
             None,
             None,
             None,
             "events",
             event_id,
-            "judgment_substrate_missing",
-            "review",
-            "missing_projected_fate",
-            "Projected fate cannot be derived.",
             None,
             None,
             None,
-            "Review projected fate for this bidder-cycle row.",
-            True,
+            None,
+            "2026-05-07T00:00:00Z",
         ],
     )
 
     result = validate_database(conn)
 
     assert any(
-        failure.detail.startswith("projection depends on review-required judgment")
-        for failure in result.hard_failures
+        finding.check == HardCheck.PROJECTION_REVIEW
+        and finding.detail.startswith("projection depends on review-required judgment")
+        for finding in result.review_items
+    )
+    # Not a system failure.
+    assert not any(
+        finding.check == HardCheck.PROJECTION_REVIEW
+        for finding in result.system_failures
     )
 
 
-def test_claims_emitted_without_coverage_link_fails_validation(tmp_path: Path) -> None:
+def test_claims_emitted_without_coverage_link_is_system_failure(tmp_path: Path) -> None:
     conn, _source_path = _semantic_db(
         tmp_path,
         bid_quote="On January 1, 2020, Party A submitted a final proposal of $10.00 per share",
@@ -267,14 +199,14 @@ def test_claims_emitted_without_coverage_link_fails_validation(tmp_path: Path) -
     validation = validate_database(conn)
 
     assert any(
-        failure.check == HardCheck.COVERAGE_RESULT
-        and failure.row_id == obligation_id
-        and "claims_emitted has no linked claims" in failure.detail
-        for failure in validation.hard_failures
+        finding.check == HardCheck.COVERAGE_RESULT
+        and finding.row_id == obligation_id
+        and "claims_emitted has no linked claims" in finding.detail
+        for finding in validation.system_failures
     )
 
 
-def test_coverage_link_with_mismatched_claim_type_fails_validation(tmp_path: Path) -> None:
+def test_coverage_link_with_mismatched_claim_type_is_system_failure(tmp_path: Path) -> None:
     conn, _source_path = _semantic_db(
         tmp_path,
         bid_quote="On January 1, 2020, Party A submitted a final proposal of $10.00 per share",
@@ -293,14 +225,14 @@ def test_coverage_link_with_mismatched_claim_type_fails_validation(tmp_path: Pat
     validation = validate_database(conn)
 
     assert any(
-        failure.check == HardCheck.COVERAGE_RESULT
-        and failure.row_id == obligation_id
-        and claim_id in failure.detail
-        for failure in validation.hard_failures
+        finding.check == HardCheck.COVERAGE_RESULT
+        and finding.row_id == obligation_id
+        and claim_id in finding.detail
+        for finding in validation.system_failures
     )
 
 
-def test_coverage_link_with_mismatched_claim_run_fails_validation(tmp_path: Path) -> None:
+def test_coverage_link_with_mismatched_claim_run_is_system_failure(tmp_path: Path) -> None:
     conn, _source_path = _semantic_db(
         tmp_path,
         bid_quote="On January 1, 2020, Party A submitted a final proposal of $10.00 per share",
@@ -315,14 +247,14 @@ def test_coverage_link_with_mismatched_claim_run_fails_validation(tmp_path: Path
     validation = validate_database(conn)
 
     assert any(
-        failure.check == HardCheck.COVERAGE_RESULT
-        and failure.row_id == obligation_id
-        and claim_id in failure.detail
-        for failure in validation.hard_failures
+        finding.check == HardCheck.COVERAGE_RESULT
+        and finding.row_id == obligation_id
+        and claim_id in finding.detail
+        for finding in validation.system_failures
     )
 
 
-def test_coverage_link_with_mismatched_claim_deal_fails_validation(tmp_path: Path) -> None:
+def test_coverage_link_with_mismatched_claim_deal_is_system_failure(tmp_path: Path) -> None:
     conn, _source_path = _semantic_db(
         tmp_path,
         bid_quote="On January 1, 2020, Party A submitted a final proposal of $10.00 per share",
@@ -334,11 +266,49 @@ def test_coverage_link_with_mismatched_claim_deal_fails_validation(tmp_path: Pat
     validation = validate_database(conn)
 
     assert any(
-        failure.check == HardCheck.COVERAGE_RESULT
-        and failure.row_id == obligation_id
-        and claim_id in failure.detail
-        for failure in validation.hard_failures
+        finding.check == HardCheck.COVERAGE_RESULT
+        and finding.row_id == obligation_id
+        and claim_id in finding.detail
+        for finding in validation.system_failures
     )
+
+
+def test_unsupported_claim_in_canonical_tables_is_system_failure(tmp_path: Path) -> None:
+    """If a claim_coverage_link exists for an unsupported claim under
+    ``claims_emitted``, validation must flag it as a system failure."""
+
+    conn, _source_path = _semantic_db(
+        tmp_path,
+        bid_quote="On January 1, 2020, Party A submitted a final proposal of $10.00 per share",
+        relation_quote="Parent was an acquisition vehicle of Buyer Group",
+    )
+    obligation_id, claim_id = _claims_emitted_link(conn)
+    conn.execute(
+        "UPDATE claim_dispositions SET disposition = 'rejected_unsupported' WHERE claim_id = ?",
+        [claim_id],
+    )
+
+    validation = validate_database(conn)
+
+    assert any(
+        finding.check == HardCheck.COVERAGE_RESULT
+        and "claims_emitted requires supported linked claims" in finding.detail
+        for finding in validation.system_failures
+    )
+
+
+def test_validation_result_passed_property_reflects_only_system_failures(
+    tmp_path: Path,
+) -> None:
+    conn, _source_path = _semantic_db(
+        tmp_path,
+        bid_quote="On January 1, 2020, Party A submitted a final proposal of $10.00 per share",
+        relation_quote="Parent was an acquisition vehicle of Buyer Group",
+    )
+    # A green run.
+    validation = validate_database(conn)
+    assert validation.passed
+    assert validation.system_failures == []
 
 
 def _semantic_db(tmp_path: Path, *, bid_quote: str, relation_quote: str):
@@ -347,8 +317,16 @@ def _semantic_db(tmp_path: Path, *, bid_quote: str, relation_quote: str):
     source_path = _insert_filing(conn, tmp_path)
     build_evidence_map(conn, filing_id="semantics-deal_filing_1", run_id=RUN_ID)
     for window in build_llm_windows(conn, filing_id="semantics-deal_filing_1"):
-        insert_llm_response(conn, window, _response_for_window(window, bid_quote=bid_quote, relation_quote=relation_quote), RUN_ID)
+        insert_llm_response(
+            conn,
+            window,
+            _response_for_window(window, bid_quote=bid_quote, relation_quote=relation_quote),
+            RUN_ID,
+        )
     dispose_claims_for_filing(conn, filing_id="semantics-deal_filing_1", run_id=RUN_ID)
+    finalize_coverage_after_disposition(
+        conn, run_id=RUN_ID, filing_id="semantics-deal_filing_1"
+    )
     reconcile_all(conn, run_id=RUN_ID)
     return conn, source_path
 

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import datetime as dt
 import json
 
 import duckdb
@@ -18,7 +19,10 @@ def derive_judgments(conn: duckdb.DuckDBPyConnection, *, run_id: str) -> None:
 
 def _clear_current(conn: duckdb.DuckDBPyConnection, run_id: str) -> None:
     conn.execute("DELETE FROM judgments WHERE run_id = ?", [run_id])
-    conn.execute("DELETE FROM review_flags WHERE run_id = ? AND flag_type LIKE 'judgment_%'", [run_id])
+    conn.execute(
+        "DELETE FROM review_rows WHERE run_id = ? AND review_type = 'judgment'",
+        [run_id],
+    )
 
 
 def _derive_bid_formality(conn: duckdb.DuckDBPyConnection, run_id: str) -> None:
@@ -69,17 +73,21 @@ def _derive_bid_formality(conn: duckdb.DuckDBPyConnection, run_id: str) -> None:
                 basis={"event_subtype": event_subtype, "event_date": str(event_date)},
             )
         else:
-            _insert_review_flag(
+            _insert_review_row(
                 conn,
                 run_id=run_id,
                 deal_slug=_deal_slug(conn, deal_id),
-                flag_type="judgment_substrate_missing",
+                review_type="judgment",
                 severity="review",
                 reason_code="formality_substrate_missing",
-                reason=f"Cannot derive bid formality for event_subtype={event_subtype!r}.",
+                message=f"Cannot derive bid formality for event_subtype={event_subtype!r}.",
+                review_question=(
+                    "Does the source support informal or formal bid treatment for this event?"
+                ),
+                source_table="events",
+                source_id=event_id,
                 canonical_table="events",
                 canonical_id=event_id,
-                recommended_review_question="Does the source support informal or formal bid treatment for this event?",
             )
 
 
@@ -185,42 +193,47 @@ def _insert_judgment(
     )
 
 
-def _insert_review_flag(
+def _insert_review_row(
     conn: duckdb.DuckDBPyConnection,
     *,
     run_id: str,
     deal_slug: str,
-    flag_type: str,
+    review_type: str,
     severity: str,
     reason_code: str,
-    reason: str,
-    canonical_table: str,
-    canonical_id: str,
-    recommended_review_question: str,
+    message: str,
+    review_question: str,
+    source_table: str,
+    source_id: str,
+    canonical_table: str | None = None,
+    canonical_id: str | None = None,
+    judgment_id: str | None = None,
 ) -> None:
-    sequence = _next_sequence(conn, "review_flags", "flag_id", deal_slug, "reviewflag")
+    sequence = _next_sequence(conn, "review_rows", "review_row_id", deal_slug, "reviewrow")
     conn.execute(
-        "INSERT INTO review_flags VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO review_rows VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [
-            make_id(deal_slug, "reviewflag", sequence),
+            make_id(deal_slug, "reviewrow", sequence),
             run_id,
             deal_slug,
-            None,
-            None,
-            None,
-            None,
-            None,
-            canonical_table,
-            canonical_id,
-            flag_type,
+            "open",
+            review_type,
+            source_table,
+            source_id,
             severity,
             reason_code,
-            reason,
+            message,
+            review_question,
+            None,
+            None,
+            judgment_id,
+            canonical_table,
+            canonical_id,
             None,
             None,
             None,
-            recommended_review_question,
-            True,
+            None,
+            _now_iso(),
         ],
     )
 
@@ -247,3 +260,7 @@ def _next_sequence(
     if not rows:
         return 1
     return max(int(row[0].rsplit("_", maxsplit=1)[1]) for row in rows) + 1
+
+
+def _now_iso() -> str:
+    return dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")

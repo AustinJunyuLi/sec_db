@@ -1,8 +1,12 @@
-"""Convert validated Linkflow semantic payloads into claim tables."""
+"""Convert validated Linkflow semantic payloads into claim tables.
+
+Coverage finalization is owned by ``extract/disposition.py``; this module
+only writes spans, claims, claim_coverage_links, claim_evidence, and the
+typed claim row.
+"""
 
 from __future__ import annotations
 
-import json
 from typing import Iterable
 
 import duckdb
@@ -27,19 +31,6 @@ ClaimPayload = (
     | BidClaimPayload
     | ParticipationCountClaimPayload
     | ActorRelationClaimPayload
-)
-
-_NO_LINKED_CLAIM_REASON = (
-    "Python marked this obligation missed_supported_obligation because "
-    "Linkflow returned no supported claim linked to this obligation."
-)
-_NO_SUPPORTED_CLAIM_REASON = (
-    "Python found no source support for this applicable obligation in the "
-    "request window after applicability review."
-)
-_AMBIGUOUS_SUPPORT_REASON = (
-    "Python could not safely classify source support for this applicable "
-    "obligation after region and applicability review."
 )
 
 
@@ -73,14 +64,11 @@ def _insert_llm_response_rows(
     payloads = list(_iter_claim_payloads(response.payload))
     span_sequence = _next_sequence(conn, "spans", "evidence_id", request.deal_slug, "llmspan")
     claim_sequence = _next_sequence(conn, "claims", "claim_id", request.deal_slug, "claim")
-    coverage_sequence = _next_sequence(conn, "coverage_results", "coverage_result_id", request.deal_slug, "coverage")
-    review_flag_sequence = _next_sequence(conn, "review_flags", "flag_id", request.deal_slug, "reviewflag")
     inserted_claim_ids: list[str] = []
     obligations_by_id = {obligation.obligation_id: obligation for obligation in request.coverage_obligations}
     if len(obligations_by_id) != len(request.coverage_obligations):
         raise LLMContractError("request contains duplicate coverage obligation ids")
-    obligation_metadata = _obligation_metadata(conn, obligations_by_id.keys())
-    coverage_claim_counts = {obligation_id: 0 for obligation_id in obligations_by_id}
+    _verify_obligations_exist(conn, obligations_by_id.keys())
 
     for payload in payloads:
         if payload.claim_type not in request.allowed_claim_types:
@@ -146,181 +134,34 @@ def _insert_llm_response_rows(
         )
         conn.execute("INSERT INTO claim_evidence VALUES (?, ?, ?)", [claim_id, span.evidence_id, 1])
         _insert_typed_claim(conn, claim_id, payload)
-        coverage_claim_counts[payload.coverage_obligation_id] += 1
         inserted_claim_ids.append(claim_id)
 
-    for obligation in request.coverage_obligations:
-        count = coverage_claim_counts[obligation.obligation_id]
-        if count:
-            result = "claims_emitted"
-            reason_code = "linkflow_claims_linked"
-            reason = "Linkflow emitted at least one validated claim explicitly linked to this obligation."
-        else:
-            result, reason_code, reason = _classify_unlinked_obligation(
-                obligation,
-                obligation_metadata[obligation.obligation_id],
-                request,
-            )
-        coverage_result_id = make_id(request.deal_slug, "coverage", coverage_sequence)
-        coverage_sequence += 1
-        conn.execute(
-            "INSERT INTO coverage_results VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-            [coverage_result_id, run_id, obligation.obligation_id, result, reason_code, reason, count, True],
-        )
-        if result in {"missed_supported_obligation", "ambiguous_support"} and obligation.importance in {"required", "important"}:
-            _insert_coverage_review_flag(
-                conn,
-                request=request,
-                obligation=obligation,
-                run_id=run_id,
-                sequence=review_flag_sequence,
-                flag_type=result,
-                severity="review",
-                reason_code=reason_code,
-                reason=reason,
-            )
-            review_flag_sequence += 1
     return inserted_claim_ids
 
 
-def _insert_coverage_review_flag(
-    conn: duckdb.DuckDBPyConnection,
-    *,
-    request: LLMWindowRequest,
-    obligation: WindowObligation,
-    run_id: str,
-    sequence: int,
-    flag_type: str,
-    severity: str,
-    reason_code: str,
-    reason: str,
-) -> None:
-    conn.execute(
-        "INSERT INTO review_flags VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-        [
-            make_id(request.deal_slug, "reviewflag", sequence),
-            run_id,
-            request.deal_slug,
-            request.filing_id,
-            request.region_id,
-            obligation.obligation_id,
-            None,
-            None,
-            None,
-            None,
-            flag_type,
-            severity,
-            reason_code,
-            reason,
-            None,
-            request.window_id,
-            None,
-            "Review whether the selected source window supports this coverage obligation.",
-            True,
-        ],
-    )
-
-
-def _obligation_metadata(
+def _verify_obligations_exist(
     conn: duckdb.DuckDBPyConnection,
     obligation_ids: Iterable[str],
-) -> dict[str, dict[str, str]]:
+) -> None:
     ids = list(obligation_ids)
     if not ids:
-        return {}
+        return
     placeholders = ", ".join("?" for _ in ids)
     rows = conn.execute(
         f"""
-        SELECT obligation_id, obligation_kind, applicability_reason_code,
-               applicability_basis_json
+        SELECT obligation_id
         FROM coverage_obligations
         WHERE obligation_id IN ({placeholders})
         """,
         ids,
     ).fetchall()
-    metadata = {
-        obligation_id: {
-            "obligation_kind": obligation_kind,
-            "applicability_reason_code": applicability_reason_code,
-            "applicability_basis_json": applicability_basis_json,
-        }
-        for obligation_id, obligation_kind, applicability_reason_code, applicability_basis_json in rows
-    }
-    missing = sorted(set(ids) - set(metadata))
+    found = {row[0] for row in rows}
+    missing = sorted(set(ids) - found)
     if missing:
         raise LLMContractError(
             "request references coverage obligations absent from DuckDB: "
             + ", ".join(missing)
         )
-    return metadata
-
-
-def _classify_unlinked_obligation(
-    obligation: WindowObligation,
-    metadata: dict[str, str],
-    request: LLMWindowRequest,
-) -> tuple[str, str, str]:
-    reason_code = metadata["applicability_reason_code"]
-    if reason_code.startswith("process_scope:"):
-        return "ambiguous_support", "python_support_ambiguous", _AMBIGUOUS_SUPPORT_REASON
-    if _window_supports_obligation(obligation, metadata, request):
-        return "missed_supported_obligation", "linkflow_no_linked_claim", _NO_LINKED_CLAIM_REASON
-    return "no_supported_claim", "python_no_source_support", _NO_SUPPORTED_CLAIM_REASON
-
-
-def _window_supports_obligation(
-    obligation: WindowObligation,
-    metadata: dict[str, str],
-    request: LLMWindowRequest,
-) -> bool:
-    text = _folded_window_text(request)
-    for basis in _metadata_basis(metadata):
-        if basis.casefold() in text:
-            return True
-    kind = metadata["obligation_kind"]
-    label = obligation.obligation_label.casefold()
-    support_terms = {
-        "process_initiation": ("sale process", "strategic alternatives", "initiated", "began"),
-        "target_board": ("board", "directors"),
-        "target_financial_advisor": ("financial advisor", "financial adviser", "advisor", "adviser"),
-        "target_legal_advisor": ("legal advisor", "legal adviser", "counsel", "law firm"),
-        "final_consideration": ("per share", "$", "consideration", "purchase price"),
-        "final_approval_event": ("merger agreement", "approved", "executed", "signed"),
-        "contacted_count": ("contacted", "potential buyers", "potential bidders", "potential parties"),
-        "ioi_count": ("indication of interest", "indications of interest", "ioi", "proposal"),
-        "first_round_count": ("first round", "first-round", "first phase"),
-        "final_round_count": ("final round", "final-round", "best and final"),
-        "final_round_bid_event": ("final bid", "final proposal", "best and final"),
-        "exclusivity_grant": ("exclusivity", "exclusive negotiations"),
-        "go_shop_period": ("go-shop", "go shop"),
-        "buyer_group_composition": ("buyer group", "consortium", "acquisition vehicle"),
-        "rollover_holder": ("rollover", "roll-over", "rolled over", "retain equity"),
-        "voting_support": ("voting agreement", "support agreement", "agreed to vote"),
-        "special_committee": ("special committee", "transaction committee"),
-        "recusal": ("recused", "did not participate", "abstained"),
-        "financing_committed": ("debt commitment", "equity commitment", "financing commitment"),
-        "amendment": ("amendment", "amended merger agreement"),
-    }.get(kind, ())
-    if any(term in text for term in support_terms):
-        return True
-    return label and label in text
-
-
-def _metadata_basis(metadata: dict[str, str]) -> tuple[str, ...]:
-    raw = metadata["applicability_basis_json"]
-    try:
-        parsed = json.loads(raw)
-    except json.JSONDecodeError as exc:
-        raise LLMContractError("coverage obligation applicability_basis_json is invalid JSON") from exc
-    if not isinstance(parsed, list) or not all(isinstance(item, str) for item in parsed):
-        raise LLMContractError("coverage obligation applicability_basis_json must be a JSON string list")
-    return tuple(parsed)
-
-
-def _folded_window_text(request: LLMWindowRequest) -> str:
-    return "\n".join(
-        paragraph.paragraph_text for paragraph in request.ordered_paragraphs
-    ).casefold()
 
 
 def _validate_claim_obligation_links(payload: ClaimPayload, obligations_by_id: dict[str, WindowObligation]) -> None:

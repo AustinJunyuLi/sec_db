@@ -1,4 +1,4 @@
-"""Soft review flags for reviewer triage."""
+"""Reviewer-facing review_rows projection."""
 
 from __future__ import annotations
 
@@ -6,12 +6,13 @@ import duckdb
 
 
 def soft_flags(conn: duckdb.DuckDBPyConnection):
+    """Return the open review rows in deterministic order."""
+
     return conn.execute(
         """
-        SELECT flag_id, flag_type, severity, reason_code, reason
-        FROM review_flags
-        WHERE current = true
-          AND severity IN ('review', 'info')
-        ORDER BY flag_id
+        SELECT review_row_id, review_type, severity, reason_code, message
+        FROM review_rows
+        WHERE review_status = 'open'
+        ORDER BY review_row_id
         """
     ).fetchall()

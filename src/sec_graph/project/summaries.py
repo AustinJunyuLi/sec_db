@@ -16,7 +16,8 @@ from sec_graph.costs import (
     cost_summary_csv_rows,
 )
 from sec_graph.project.bidder_rows import build_bidder_rows
-from sec_graph.validate.integrity import HardCheck, validate_database
+from sec_graph.schema import status_from_open_review_count
+from sec_graph.validate.integrity import validate_database
 
 
 def write_projection_outputs(
@@ -74,18 +75,22 @@ def write_projection_outputs(
         ],
     )
     _write_csv(
-        run_dir / "review_flags.csv",
-        _review_flag_rows(conn),
+        run_dir / "review_rows.csv",
+        _review_row_rows(conn),
         [
             "deal_slug",
-            "flag_type",
+            "review_row_id",
+            "review_status",
+            "review_type",
             "severity",
             "reason_code",
+            "message",
             "claim_id",
+            "obligation_id",
             "judgment_id",
             "canonical_table",
             "canonical_id",
-            "recommended_review_question",
+            "review_question",
         ],
     )
     cost_summary = _cost_summary(conn, run_id)
@@ -131,7 +136,7 @@ def proof_summary(
         "projection_judgments",
         "bidder_rows",
         "judgments",
-        "review_flags",
+        "review_rows",
     )}
     row_counts["applicable_coverage_obligations"] = _count_query(
         conn,
@@ -164,29 +169,29 @@ def proof_summary(
     )
     rows_without_evidence = _rows_without_evidence(conn)
     validation = validate_database(conn)
-    validation_failure_count = len(validation.hard_failures)
-    semantic_validation_failures = sum(
-        1 for failure in validation.hard_failures if failure.check == HardCheck.SEMANTIC_CLAIM_EVIDENCE
-    )
+    system_failure_count = len(validation.system_failures)
+    review_item_count = len(validation.review_items)
     live_claims = _count_query(conn, "SELECT count(*) FROM claims WHERE provider_source_stage = 'linkflow'")
-    thin_live = live_claims < max(1, row_counts["applicable_coverage_obligations"] // 3)
-    review_flag_count = _count_query(conn, "SELECT count(*) FROM review_flags WHERE current = true AND severity = 'review'")
-    blocking_flag_count = _count_query(conn, "SELECT count(*) FROM review_flags WHERE current = true AND severity = 'blocking'")
-    verdict = _proof_verdict(conn, validation_passed=validation.passed, thin_live=thin_live)
+    open_review_rows = _count_query(
+        conn,
+        "SELECT count(*) FROM review_rows WHERE review_status = 'open'",
+    )
+    if validation.system_failures:
+        status = "failed_system"
+    else:
+        status = status_from_open_review_count(open_review_rows + review_item_count)
     return {
         "run_id": run_id,
         "projection_name": projection_name,
-        "verdict": verdict,
+        "status": status,
         "row_counts": row_counts,
         "live_linkflow_claims": live_claims,
         "insufficient_required_or_important_obligations": insufficient_required,
         "undisposed_claims": undisposed_claims,
         "canonical_rows_without_relational_evidence": rows_without_evidence,
-        "hard_validation_failures": validation_failure_count,
-        "semantic_validation_failures": semantic_validation_failures,
-        "thin_live_claim_warning": thin_live,
-        "review_flag_count": review_flag_count,
-        "blocking_flag_count": blocking_flag_count,
+        "system_failure_count": system_failure_count,
+        "review_item_count": review_item_count,
+        "open_review_row_count": open_review_rows,
         "judgment_counts": _group_count(conn, "judgments", "judgment_status"),
         "claim_counts_by_type": _group_count(conn, "claims", "claim_type"),
         "claim_dispositions": _group_count(conn, "claim_dispositions", "disposition"),
@@ -194,22 +199,6 @@ def proof_summary(
         "bidder_rows": bidder_rows,
         "deals": _deal_summaries(conn),
     }
-
-
-def _proof_verdict(conn: duckdb.DuckDBPyConnection, *, validation_passed: bool, thin_live: bool) -> str:
-    blocking_count = _count_query(
-        conn,
-        "SELECT count(*) FROM review_flags WHERE current = true AND severity = 'blocking'",
-    )
-    review_count = _count_query(
-        conn,
-        "SELECT count(*) FROM review_flags WHERE current = true AND severity = 'review'",
-    )
-    if not validation_passed or blocking_count:
-        return "UNSOUND"
-    if review_count or thin_live:
-        return "REVIEW_REQUIRED"
-    return "SOUND"
 
 
 def _rows_without_evidence(conn: duckdb.DuckDBPyConnection) -> int:
@@ -348,26 +337,30 @@ def _judgment_rows(conn: duckdb.DuckDBPyConnection) -> list[dict[str, Any]]:
     return [dict(zip(columns, row, strict=True)) for row in rows]
 
 
-def _review_flag_rows(conn: duckdb.DuckDBPyConnection) -> list[dict[str, Any]]:
+def _review_row_rows(conn: duckdb.DuckDBPyConnection) -> list[dict[str, Any]]:
     columns = [
         "deal_slug",
-        "flag_type",
+        "review_row_id",
+        "review_status",
+        "review_type",
         "severity",
         "reason_code",
+        "message",
         "claim_id",
+        "obligation_id",
         "judgment_id",
         "canonical_table",
         "canonical_id",
-        "recommended_review_question",
+        "review_question",
     ]
     rows = conn.execute(
         """
-        SELECT deal_slug, flag_type, severity, reason_code, claim_id,
-               judgment_id, canonical_table, canonical_id,
-               recommended_review_question
-        FROM review_flags
-        WHERE current = true
-        ORDER BY deal_slug, flag_id
+        SELECT deal_slug, review_row_id, review_status, review_type, severity,
+               reason_code, message, claim_id, obligation_id, judgment_id,
+               canonical_table, canonical_id, review_question
+        FROM review_rows
+        WHERE review_status = 'open'
+        ORDER BY deal_slug, review_row_id
         """
     ).fetchall()
     return [dict(zip(columns, row, strict=True)) for row in rows]
@@ -543,11 +536,12 @@ def _write_run_memo(path: Path, proof: dict[str, Any]) -> None:
     lines = [
         "# sec_graph Run Memo",
         "",
-        f"- Proof verdict: {proof['verdict']}",
+        f"- Run status: {proof['status']}",
         f"- Claims: {proof['row_counts']['claims']}",
         f"- Claim dispositions: {proof['row_counts']['claim_dispositions']}",
         f"- Coverage results: {proof['row_counts']['coverage_results']}",
         f"- Bidder rows: {proof['row_counts']['bidder_rows']}",
+        f"- Open review rows: {proof['open_review_row_count']}",
         f"- Rows without relational evidence: {proof['canonical_rows_without_relational_evidence']}",
     ]
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")

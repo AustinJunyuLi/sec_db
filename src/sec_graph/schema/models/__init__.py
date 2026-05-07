@@ -28,15 +28,32 @@ from .extraction import (
     ParticipationCountClaim,
 )
 from .filings import CleanFiling, FILINGS_DDL, Paragraph, Section, SourceSpan
-from .judgments import JUDGMENTS_DDL, Judgment, ReviewFlag, latest_judgments
+from .judgments import JUDGMENTS_DDL, Judgment, latest_judgments
 from .participation_counts import PARTICIPATION_COUNTS_DDL, ParticipationCount
 from .runtime import (
     RUN_METADATA_DDL,
     CostRuntimeRecord,
+    PointerStatus,
     ProgressLedgerEntry,
     RunManifest,
+    RunStatus,
     StageArtifact,
+    TRUSTED_STATUSES,
+    status_from_open_review_count,
 )
+
+
+def _review_row_export():
+    from sec_graph.project.review_rows import ReviewRow as _ReviewRow
+
+    return _ReviewRow
+
+
+def __getattr__(name: str):
+    if name == "ReviewRow":
+        return _review_row_export()
+    raise AttributeError(name)
+
 
 __all__ = [
     "Actor",
@@ -67,15 +84,19 @@ __all__ = [
     "Paragraph",
     "ParticipationCount",
     "ParticipationCountClaim",
+    "PointerStatus",
     "ProcessCycle",
     "ProgressLedgerEntry",
     "ProjectionJudgment",
     "ProjectionUnit",
-    "ReviewFlag",
+    "ReviewRow",
     "RowEvidence",
     "RUN_METADATA_DDL",
     "RunManifest",
+    "RunStatus",
     "Section",
     "SourceSpan",
     "StageArtifact",
+    "TRUSTED_STATUSES",
+    "status_from_open_review_count",
 ]

@@ -11,7 +11,10 @@ from pathlib import Path
 
 from sec_graph.cli.extract_cmd import llm_config_from_args
 from sec_graph.corpus import create_corpus_skeleton
-from sec_graph.extract.disposition import dispose_claims_for_filing
+from sec_graph.extract.disposition import (
+    dispose_claims_for_filing,
+    finalize_coverage_after_disposition,
+)
 from sec_graph.extract.llm.models import DEFAULT_REQUEST_MODE, LLMProviderConfig
 from sec_graph.extract.pipeline import run_extract
 from sec_graph.ingest.pipeline import DEFAULT_EXAMPLES_DIR, IngestSource, example_sources, filing_sources, ingest_sources
@@ -103,6 +106,9 @@ def run_pipeline(
             )
             append_progress(run_dir, run_id=run_id, deal_slug=filing.deal_slug, stage="extract", state="claims_imported", attempt=1, recorded_at=clock.timestamp("extract", sequence=1), artifact_digest=str(len(claim_ids)))
             dispose_claims_for_filing(conn, filing_id=filing.filing_id, run_id=run_id)
+            finalize_coverage_after_disposition(
+                conn, run_id=run_id, filing_id=filing.filing_id
+            )
             append_progress(
                 run_dir,
                 run_id=run_id,
@@ -155,7 +161,7 @@ def run_pipeline(
             "coverage_results.csv",
             "claim_dispositions.csv",
             "judgments.csv",
-            "review_flags.csv",
+            "review_rows.csv",
             "cost_runtime_summary.json",
             "cost_runtime_summary.csv",
             "provider_usage_ledger.jsonl",
@@ -319,16 +325,15 @@ def _write_failed_validation_proof(
     llm_config: LLMProviderConfig | None,
     request_mode: str,
 ) -> None:
-    artifact_root = Path("artifacts/linkflow") / run_id
-    success_count = len(list(artifact_root.glob("*_success.json"))) if artifact_root.exists() else 0
-    failure_count = len(list(artifact_root.glob("*_failure.json"))) if artifact_root.exists() else 0
+    success_count = 0
+    failure_count = 0
     atomic_write_json(
         run_dir / "failed_validation_proof.json",
         {
             "run_id": run_id,
             "resolved_commit": manifest.get("code_identity"),
             "validation_passed": bool(validation_report.get("passed")),
-            "validation_failure_count": len(validation_report.get("hard_failures", [])),
+            "validation_failure_count": len(validation_report.get("system_failures", [])),
             "provider": llm_config.provider_name if llm_config else None,
             "model": llm_config.model if llm_config else None,
             "reasoning_effort": llm_config.reasoning_effort if llm_config else None,
