@@ -13,6 +13,9 @@ Read these before any non-trivial change:
   full-pipeline authority for the hard reset.
 - `docs/spec.md` is the binding design and schema contract.
 - `docs/llm-interface.md` is the Linkflow typed-claim interface contract.
+- `quality_reports/plans/2026-05-07_validation_review_status_parallel_regions_plan.md`
+  is the binding contract for run status, review-row publication, and
+  parallel-region extraction.
 
 `docs/prior-pipeline-lessons.md` is failure-mode context only, not execution
 authority.

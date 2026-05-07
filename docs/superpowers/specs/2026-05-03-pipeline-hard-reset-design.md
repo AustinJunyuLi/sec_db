@@ -53,7 +53,7 @@ The run kernel makes the long run deterministic and resumable.
 - No canonical rows written by the model.
 - No cross-deal context in a model request.
 - No secrets in code, docs, artifacts, logs, or command output.
-- No rules-only run can produce a `SOUND` proof verdict.
+- No run is published without a successful live Linkflow extraction.
 - No canonical or projection row may exist without explainable source evidence.
 - No claim may disappear silently; every claim gets a current disposition.
 - No many-process concurrent writes to the same DuckDB file.
@@ -123,7 +123,8 @@ The run kernel owns:
 Proof runs require an explicit run id created by the top-level run command or
 corpus runner. Stage-level helpers must not silently create proof run ids.
 Developer-only commands may create clearly marked non-proof run ids, but those
-runs cannot produce a `SOUND` verdict.
+runs cannot publish a trusted run status (`passed_clean`, `needs_review`, or
+`high_burden`).
 
 Pipeline-generated `created_at` fields use the run clock, such as
 `run_manifest.started_at`, or another deterministic timestamp assigned by the
@@ -372,11 +373,11 @@ Proof artifacts summarize:
 - claim counts by type;
 - claim dispositions;
 - canonical row counts;
-- validation failures;
+- validation findings split into system failures and review items;
 - projection rows;
 - live provider status;
-- zero-claim or thin-claim warnings;
-- final verdict.
+- open review row count;
+- final run status.
 
 ## 5. Schema Reset
 
@@ -463,7 +464,8 @@ have one current coverage result:
 - `missed`.
 
 The `missed` result is assigned by Python when GPT fails to account for an
-obligation. A run with important missed obligations cannot be `SOUND`.
+obligation. A run with important missed obligations cannot be `passed_clean`;
+it publishes as `needs_review` or `high_burden` with explanatory review rows.
 
 ### 5.4 Canonical Graph
 
@@ -546,25 +548,14 @@ The stage artifact ledger records every durable artifact with:
 The resume report records what was reused, what was recomputed, and what was
 refused.
 
-## 6. Rules and Offline Mode
+## 6. Live-Only Extraction
 
-Rules-only/offline mode remains for local development and unit tests.
+Live Linkflow extraction is the only production path. Rules-only/offline mode
+is removed: every published run requires a successful live Linkflow
+extraction. Provider failures yield `failed_system` and import no claims.
 
-It may:
-
-- ingest filings;
-- build evidence maps;
-- produce mechanical date/dollar/count claims;
-- run schema and validation tests;
-- exercise reconcile code on fixtures.
-
-It may not:
-
-- claim live semantic extraction success;
-- produce a `SOUND` proof verdict;
-- silently stand in for Linkflow semantic claims.
-
-If no live Linkflow semantic claims ran, proof must be `SUSPECT` or `BLOCKED`.
+Local development and unit tests use fixture provider responses or fixture
+provider clients. Fixture-driven tests do not produce trusted run statuses.
 
 ## 7. Validation
 
@@ -589,26 +580,38 @@ Validation checks:
 - sequence and ordering fields do not depend on missing text-search positions;
 - durable artifacts listed in the stage artifact ledger exist and match their
   recorded digest;
-- progress ledger transitions are complete for every deal;
-- rules-only runs cannot be marked `SOUND`;
-- zero-claim or thin-claim live windows downgrade proof.
+- progress ledger transitions are complete for every deal.
 
-## 8. Proof Verdicts
+Validation produces two finding lists: `system_failures` (structural,
+artifact-integrity, and unsupported-canonical-row failures that block
+publication) and `review_items` (source-backed runs with missing or
+ambiguous facts that publish trusted graph artifacts and project into the
+`review_rows` table). The semantic gate that decides whether a quote
+supports a claim's typed fields lives only in `extract/disposition.py`;
+`validate/integrity.py` covers structural checks only.
 
-Verdicts:
+## 8. Run Status
 
-- `SOUND`: live Linkflow semantic extraction ran, coverage is sufficient,
-  dispositions are complete, canonical rows are source-backed, and projection
-  rows trace to canonical facts.
-- `SUSPECT`: output is structurally valid but thin, incomplete, rules-only, or
-  has important missed obligations.
-- `BLOCKED`: source, provider, schema, or required artifact failure prevents
-  meaningful extraction.
-- `UNSOUND`: output is wrong or misleading, such as unsupported relations,
-  par-value-as-bid rows, projection rows without canonical support, or quote
-  evidence that does not prove the row meaning.
+Run statuses (one value per run record):
 
-Green validation alone is not success.
+- `passed_clean`: trusted graph and review output, zero open review rows.
+- `needs_review`: trusted graph and review output, 1 to 10 open review rows.
+- `high_burden`: trusted graph and review output, more than 10 open review
+  rows.
+- `failed_system`: runtime, schema, artifact, or graph-integrity failure
+  blocks publication.
+
+Pointer status (one value per `runs/latest/{slug}.json`):
+
+- `passed_clean`, `needs_review`, `high_burden`, `failed_system`: mirror the
+  latest attempted run when no prior trusted run is preserved or when the
+  attempt itself is trusted.
+- `stale_after_failure`: latest attempt failed but a prior trusted run is
+  preserved in `latest_trusted`. A run record never carries this value.
+
+Green structural validation alone is not success: a trusted status also
+requires source-backed canonical rows, accepted projection judgments, and
+review rows that account for any missing or ambiguous obligations.
 
 ## 9. Cost and Runtime Envelope
 
@@ -675,8 +678,8 @@ The implementation acceptance gate is:
    - bidder-cycle projection rows;
    - claim dispositions;
    - coverage results.
-3. Proof artifacts explain remaining limitations.
-4. Rules-only proof is not accepted as `SOUND`.
+3. Proof artifacts explain remaining limitations through `review_rows`.
+4. Rules-only mode is removed; every published run carries a live Linkflow extraction.
 5. Offline tests pass with the repository's cache-free pytest command.
 6. The cost/runtime envelope exists for the three-deal proof and projected
    9/30/400/800-deal scales.
@@ -762,7 +765,7 @@ the execution should create focused lanes for:
 - Linkflow typed-claim schema and provider contract;
 - quote validation, claim insertion, and disposition ledger;
 - reconcile/canonical graph construction;
-- semantic validation and proof verdicts;
+- semantic validation and run status;
 - projection units and bidder-cycle rows;
 - corpus skeleton, sharding, and cost/runtime envelope;
 - stale-code/stale-doc cleanup and final review.

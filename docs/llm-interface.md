@@ -3,9 +3,9 @@
 **Status:** Binding relation-revised claim-only P8 Linkflow contract for the
 2026-05-04 schema freeze.
 
-The post-response support-disposition, derived-judgment, review-flag, and
-verdict contract is governed by
-`docs/superpowers/specs/2026-05-05-semantic-disposition-validity-design.md`.
+The post-response support-disposition, derived-judgment, review-row, and
+run-status contract is governed by
+`quality_reports/plans/2026-05-07_validation_review_status_parallel_regions_plan.md`.
 
 Linkflow GPT-5.5 is the primary live provider. Official OpenAI Responses API
 and structured-output behavior inform the request shape, but this repository

@@ -3,7 +3,7 @@
 **Status:** Approved hard-reset contract, updated for the 2026-05-04 P8
 schema freeze.
 **Execution authority:** `docs/superpowers/specs/2026-05-03-pipeline-hard-reset-design.md`.
-**Middle-pipeline authority:** `docs/superpowers/specs/2026-05-05-semantic-disposition-validity-design.md`.
+**Validation/review/parallel-region authority:** `quality_reports/plans/2026-05-07_validation_review_status_parallel_regions_plan.md`.
 
 This repository implements a source-backed SEC merger-filing extraction
 pipeline. The active architecture is:
@@ -245,23 +245,36 @@ The run kernel owns:
 Pipeline stages must not create implicit proof run ids. Pipeline-generated
 timestamps come from the run clock.
 
-## Validation And Verdicts
+## Validation And Run Status
 
 Validation checks source truth, claim disposition completeness, coverage result
 completeness, relational source proof, evidence fingerprints, projection unit
-traceability, and stage artifact digest integrity.
-Current applicable required or important obligations whose coverage result is
-`missed`, `no_supported_claim`, or `ambiguous` are hard validation failures;
-they may not be treated as complete merely because a coverage row exists.
+traceability, and stage artifact digest integrity. The semantic gate that
+decides whether a claim's quote supports its typed fields lives only in
+`extract/disposition.py`; `validate/integrity.py` covers structural checks
+only.
 
-Verdicts:
+Validation produces two finding lists per run: `system_failures` and
+`review_items`. Structurally bad runs (invalid provider payload, broken
+source hashes/spans, duplicate or missing proof rows, unsupported claims
+in canonical tables, projection traceability failures, artifact digest
+mismatches, bad resume identity) populate `system_failures`. Source-backed
+runs with missing or ambiguous facts populate `review_items` and still
+publish trusted graph artifacts.
 
-- `SOUND`: live Linkflow semantic extraction ran, coverage is sufficient,
-  dispositions are complete, canonical rows are source-backed, and projection
-  rows trace to actor-cycle facts.
-- `SUSPECT`: structurally valid but thin, incomplete, or rules-only.
-- `BLOCKED`: source, provider, schema, or artifact failure blocks meaningful
-  extraction.
-- `UNSOUND`: output is misleading or unsupported.
+A run record carries exactly one `status`:
 
-Rules-only runs may never produce `SOUND`.
+- `passed_clean`: trusted graph and review output, zero open review rows.
+- `needs_review`: trusted graph and review output, 1 to 10 open review rows.
+- `high_burden`: trusted graph and review output, more than 10 open review
+  rows.
+- `failed_system`: runtime, schema, artifact, or graph-integrity failure.
+
+The mutable index `runs/latest/{slug}.json` carries `pointer_status`, which
+adds one pointer-only value:
+
+- `passed_clean`, `needs_review`, `high_burden`, `failed_system`: mirror the
+  latest attempted run when no prior trusted run is preserved or when the
+  attempt itself is trusted.
+- `stale_after_failure`: latest attempt failed but a prior trusted run is
+  preserved in `latest_trusted`. A run record never carries this value.

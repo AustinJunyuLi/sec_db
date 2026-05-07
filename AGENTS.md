@@ -24,6 +24,9 @@ non-trivial change:
 - `docs/spec.md` is the binding design and schema contract. Its Schema
   Authority section is the deployable-schema authority.
 - `docs/llm-interface.md` is the Linkflow typed-claim interface contract.
+- `quality_reports/plans/2026-05-07_validation_review_status_parallel_regions_plan.md`
+  is the binding contract for run status, review-row publication, and
+  parallel-region extraction.
 
 `docs/prior-pipeline-lessons.md` is failure-mode context from the previous
 attempt and informs spec invariants but is not execution authority.
