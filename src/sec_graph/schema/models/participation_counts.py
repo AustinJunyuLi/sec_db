@@ -7,7 +7,7 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 ProcessStage = Literal["contacted", "nda_signed", "ioi_submitted", "first_round", "final_round", "exclusivity"]
-ActorClass = Literal["financial", "strategic", "mixed"]
+ActorClass = Literal["financial", "strategic", "mixed", "unknown"]
 CountQualifier = Literal["exact", "approximate", "lower_bound", "upper_bound", "range"]
 
 
@@ -42,7 +42,7 @@ CREATE TABLE participation_counts (
   cycle_id VARCHAR NOT NULL,
   event_id VARCHAR,
   process_stage VARCHAR NOT NULL CHECK (process_stage IN ('contacted', 'nda_signed', 'ioi_submitted', 'first_round', 'final_round', 'exclusivity')),
-  actor_class VARCHAR NOT NULL CHECK (actor_class IN ('financial', 'strategic', 'mixed')),
+  actor_class VARCHAR NOT NULL CHECK (actor_class IN ('financial', 'strategic', 'mixed', 'unknown')),
   count_min INTEGER NOT NULL,
   count_max INTEGER,
   count_qualifier VARCHAR NOT NULL CHECK (count_qualifier IN ('exact', 'approximate', 'lower_bound', 'upper_bound', 'range')),
