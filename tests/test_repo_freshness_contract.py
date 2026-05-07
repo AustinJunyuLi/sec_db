@@ -80,22 +80,42 @@ def test_semantic_disposition_authority_chain_is_current() -> None:
         / "2026-05-04_reference9_correctness_repair_plan.md"
     ).exists()
 
-    semantic_design = (
+    # The 2026-05-05 semantic-disposition design is moved to legacy/. The
+    # 2026-05-07 plan is the binding authority for run status, review-row
+    # publication, and parallel-region extraction.
+    legacy_semantic_design = (
+        REPO_ROOT
+        / "docs"
+        / "superpowers"
+        / "specs"
+        / "legacy"
+        / "2026-05-05-semantic-disposition-validity-design.md"
+    )
+    assert legacy_semantic_design.exists(), "moved to legacy/, must be preserved"
+    live_semantic_design = (
         REPO_ROOT
         / "docs"
         / "superpowers"
         / "specs"
         / "2026-05-05-semantic-disposition-validity-design.md"
     )
-    assert semantic_design.exists()
+    assert not live_semantic_design.exists(), "must not exist outside legacy/"
+
+    plan = (
+        REPO_ROOT
+        / "quality_reports"
+        / "plans"
+        / "2026-05-07_validation_review_status_parallel_regions_plan.md"
+    )
+    assert plan.exists()
 
     spec_text = (REPO_ROOT / "docs" / "spec.md").read_text(encoding="utf-8")
     llm_text = (REPO_ROOT / "docs" / "llm-interface.md").read_text(
         encoding="utf-8"
     )
-    authority = semantic_design.relative_to(REPO_ROOT).as_posix()
-    assert authority in spec_text
-    assert authority in llm_text
+    plan_authority = plan.relative_to(REPO_ROOT).as_posix()
+    assert plan_authority in spec_text
+    assert plan_authority in llm_text
 
 
 def test_session_logs_do_not_reference_missing_spec_section() -> None:

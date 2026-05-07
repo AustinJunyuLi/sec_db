@@ -414,7 +414,7 @@ def _duplicate_region(conn, *, filing_id: str, run_id: str, slug: str) -> None:
     for sequence, (claim_type, label, importance) in enumerate(obligations, start=1):
         new_obligation_id = f"{slug}_obligation_aux_{sequence}"
         conn.execute(
-            "INSERT INTO coverage_obligations VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO coverage_obligations VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             [
                 new_obligation_id,
                 run_id,
@@ -422,8 +422,12 @@ def _duplicate_region(conn, *, filing_id: str, run_id: str, slug: str) -> None:
                 filing_id,
                 slug,
                 claim_type,
+                "auxiliary_obligation",
                 label,
                 importance,
+                "applicable",
+                "test_aux_obligation",
+                "{}",
                 True,
             ],
         )

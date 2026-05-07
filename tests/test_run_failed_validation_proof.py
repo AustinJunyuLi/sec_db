@@ -16,7 +16,7 @@ from pathlib import Path
 import pytest
 
 from sec_graph.cli.run_cmd import run_pipeline
-from sec_graph.extract.llm.models import DEFAULT_REQUEST_MODE
+from sec_graph.extract.llm.models import DEFAULT_REQUEST_MODE, LLMProviderConfig
 from sec_graph.validate.integrity import (
     HardCheck,
     ValidationFinding,
@@ -45,9 +45,14 @@ def test_failed_validation_run_writes_failed_validation_proof(
     run_dir = tmp_path / run_id
     monkeypatch.setattr("sec_graph.cli.run_cmd.reconcile_all", lambda conn, run_id: None)
     monkeypatch.setattr(
+        "sec_graph.cli.run_cmd.run_extract",
+        lambda *args, **kwargs: [],
+    )
+    monkeypatch.setattr(
         "sec_graph.validate.integrity.validate_database",
         _stub_validation_with_one_failure,
     )
+    llm_config = LLMProviderConfig(provider_name="linkflow")
 
     with pytest.raises(RuntimeError) as excinfo:
         run_pipeline(
@@ -57,7 +62,7 @@ def test_failed_validation_run_writes_failed_validation_proof(
             slugs=["petsmart-inc"],
             projection_name="bidder_cycle_baseline_v1",
             request_mode=DEFAULT_REQUEST_MODE,
-            llm_config=None,
+            llm_config=llm_config,
         )
 
     assert "run failed validation" in str(excinfo.value)
@@ -67,9 +72,9 @@ def test_failed_validation_run_writes_failed_validation_proof(
     assert proof["run_id"] == run_id
     assert proof["validation_passed"] is False
     assert proof["validation_failure_count"] >= 1
-    assert proof["provider"] is None
-    assert proof["model"] is None
-    assert proof["reasoning_effort"] is None
+    assert proof["provider"] == "linkflow"
+    assert proof["model"] == "gpt-5.5"
+    assert proof["reasoning_effort"] == "medium"
     assert proof["request_mode"] == DEFAULT_REQUEST_MODE
     assert proof["artifact_counts"] == {
         "linkflow_success": 0,
