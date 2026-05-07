@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import duckdb
 
 from sec_graph.extract.evidence_map import build_evidence_map
@@ -13,18 +15,20 @@ def run_extract(
     *,
     filing_id: str,
     run_id: str,
-    llm_config: LLMProviderConfig | None = None,
+    run_dir: Path,
+    llm_config: LLMProviderConfig,
     request_mode: str = DEFAULT_REQUEST_MODE,
+    max_concurrency: int | None = None,
+    client_factory=None,
 ) -> list[str]:
-    """Build evidence map and import typed claims.
+    """Build the evidence map and import typed claims for one filing.
 
-    Rules-only mode records evidence-map obligations only. It is allowed for
-    offline tests but cannot produce a SOUND proof verdict.
+    The provider step fans region requests out under one ``asyncio.gather`` and
+    inserts successful responses sequentially in original window order. A
+    rules-only path no longer exists: ``llm_config`` is required.
     """
 
     build_evidence_map(conn, filing_id=filing_id, run_id=run_id)
-    if llm_config is None:
-        return []
 
     from sec_graph.extract.llm.linkflow import run_linkflow_requests
 
@@ -32,6 +36,9 @@ def run_extract(
         conn,
         filing_id=filing_id,
         run_id=run_id,
+        run_dir=run_dir,
         config=llm_config,
         request_mode=request_mode,
+        max_concurrency=max_concurrency,
+        client_factory=client_factory,
     )

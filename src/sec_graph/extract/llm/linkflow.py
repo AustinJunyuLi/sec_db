@@ -1,4 +1,13 @@
-"""Linkflow adapter for typed semantic claims."""
+"""Linkflow adapter for typed semantic claims.
+
+Region requests for one filing fan out under ``asyncio.gather`` against a
+shared ``AsyncOpenAI`` client and a bounded ``Semaphore``. Successful
+responses are sorted back into original window order and inserted under one
+DuckDB transaction on the caller thread. If any window's retries are
+exhausted the whole filing attempt is failed; failure artifacts remain on
+disk for audit but no claim, coverage, canonical, or projection row is
+written.
+"""
 
 from __future__ import annotations
 
@@ -8,10 +17,10 @@ import json
 import os
 import time
 from pathlib import Path
-from typing import Any
+from typing import Any, Sequence
 
 import duckdb
-from pydantic import ValidationError
+from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 from sec_graph.extract.llm.convert import insert_llm_response
 from sec_graph.extract.llm.models import (
@@ -26,10 +35,12 @@ from sec_graph.extract.llm.models import (
 )
 from sec_graph.extract.llm.prompt import build_window_messages
 from sec_graph.extract.llm.requests import build_llm_windows
+from sec_graph.run import record_artifact
 
-_ARTIFACT_ROOT = Path("artifacts/linkflow")
 _MAX_ATTEMPTS = 3
 _BACKOFF_SECONDS = (5.0, 15.0)
+_REGION_CONCURRENCY_ENV = "SEC_GRAPH_REGION_MAX_CONCURRENCY"
+_DEFAULT_REGION_CONCURRENCY = 2
 
 
 _CLAIM_ARRAY_BY_TYPE = {
@@ -221,8 +232,11 @@ def _response_payload(request: LLMWindowRequest, config: LLMProviderConfig) -> d
     }
 
 
-def _artifact_dir(run_id: str) -> Path:
-    return _ARTIFACT_ROOT / run_id
+def _attempt_artifact_path(run_dir: Path, request: LLMWindowRequest, kind: str) -> Path:
+    base = run_dir / "linkflow" / request.deal_slug / request.request_id
+    existing = sorted(base.glob("attempt-*.json")) if base.exists() else []
+    sequence = len(existing) + 1
+    return base / f"attempt-{sequence:03d}_{kind}.json"
 
 
 def _write_artifact(path: Path, payload: dict[str, Any]) -> None:
@@ -234,6 +248,18 @@ def _write_artifact(path: Path, payload: dict[str, Any]) -> None:
         handle.flush()
         os.fsync(handle.fileno())
     os.replace(tmp, path)
+
+
+def _record_attempt_artifact(run_dir: Path, run_id: str, request: LLMWindowRequest, path: Path) -> None:
+    record_artifact(
+        run_dir,
+        run_id=run_id,
+        path=path,
+        artifact_kind="linkflow_attempt",
+        owning_stage="extract",
+        deal_slug=request.deal_slug,
+        created_by="run_linkflow_requests",
+    )
 
 
 def _response_value(response: Any, name: str) -> Any:
@@ -287,12 +313,23 @@ def _parse_payload(text: str) -> SemanticClaimsPayload:
         ) from exc
 
 
-def _make_openai_client(*, api_key: str, base_url: str):
+def make_async_openai_client(config: LLMProviderConfig):
+    """Build an ``AsyncOpenAI`` client using the api key declared by ``config``.
+
+    Raises ``LLMContractError`` when the api key env var is missing or when the
+    ``openai`` package cannot be imported. The returned client is an async
+    context manager: callers must enter ``async with`` so the underlying HTTP
+    session is closed exactly once after all region calls complete.
+    """
+
+    api_key = os.environ.get(config.api_key_env)
+    if not api_key:
+        raise LLMContractError(f"{config.api_key_env} is required for live Linkflow calls")
     try:
         from openai import AsyncOpenAI
     except ImportError as exc:
         raise LLMContractError("openai is required for live Linkflow calls") from exc
-    return AsyncOpenAI(api_key=api_key, base_url=base_url, max_retries=0)
+    return AsyncOpenAI(api_key=api_key, base_url=config.base_url, max_retries=0)
 
 
 def _event_delta(event: Any) -> str:
@@ -369,50 +406,6 @@ async def _stream_with_retry(request: LLMWindowRequest, config: LLMProviderConfi
             await asyncio.sleep(_BACKOFF_SECONDS[min(attempts - 1, len(_BACKOFF_SECONDS) - 1)])
 
 
-async def _stream_with_client(request: LLMWindowRequest, config: LLMProviderConfig, api_key: str) -> tuple[str, str, int, Any, int]:
-    client = _make_openai_client(api_key=api_key, base_url=config.base_url)
-    try:
-        return await _stream_with_retry(request, config, client)
-    finally:
-        close = getattr(client, "close", None)
-        if close is not None:
-            await close()
-
-
-def extract(request: LLMWindowRequest, config: LLMProviderConfig, *, run_id: str) -> LLMExtractionResponse:
-    api_key = os.environ.get(config.api_key_env)
-    if not api_key:
-        raise LLMContractError(f"{config.api_key_env} is required for live Linkflow calls")
-    try:
-        output_text, _finish_reason, attempts, final_response, latency_ms = asyncio.run(
-            _stream_with_client(request, config, api_key)
-        )
-    except BaseException as exc:
-        _write_failure_artifact(request, config, run_id, exc)
-        if isinstance(exc, LLMContractError):
-            raise
-        raise LLMContractError("Linkflow request failed") from exc
-
-    digest = hashlib.sha256(output_text.encode("utf-8")).hexdigest()
-    try:
-        payload = _parse_payload(output_text)
-    except LLMContractError as exc:
-        _write_contract_failure(request, config, run_id, digest, str(exc))
-        raise
-    return LLMExtractionResponse(
-        request_id=request.request_id,
-        provider_name=config.provider_name,
-        provider_model=config.model,
-        reasoning_effort=config.reasoning_effort,
-        payload=payload,
-        raw_response_sha256=digest,
-        finish_status="completed",
-        latency_ms=latency_ms,
-        attempt_count=attempts,
-        usage=_usage(final_response),
-    )
-
-
 def _usage(final_response: Any) -> ProviderUsage:
     usage = _response_value(final_response, "usage")
     if usage is None:
@@ -424,51 +417,178 @@ def _usage(final_response: Any) -> ProviderUsage:
     return ProviderUsage()
 
 
-def _write_failure_artifact(request: LLMWindowRequest, config: LLMProviderConfig, run_id: str, exc: BaseException) -> None:
+class WindowBundle(BaseModel):
+    """Per-window outcome from one fan-out attempt.
+
+    Carries either the validated provider response or the captured error so the
+    caller can decide whether to commit the whole filing attempt.
+    """
+
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
+    sequence: int = Field(ge=1)
+    request_id: str
+    request: LLMWindowRequest
+    response: LLMExtractionResponse | None = None
+    error_type: str | None = None
+    error_message: str | None = None
+    http_status: int | None = None
+    finish_status: str | None = None
+    response_digest: str | None = None
+    artifact_payload: dict[str, Any] | None = None
+    artifact_kind: str | None = None  # "success" or "failure"
+
+    @property
+    def succeeded(self) -> bool:
+        return self.response is not None and self.error_message is None
+
+
+def _resolve_max_concurrency(value: int | None = None) -> int:
+    if value is not None:
+        if value < 1:
+            raise ValueError(f"region max concurrency must be a positive integer; got {value!r}")
+        return value
+    raw = os.environ.get(_REGION_CONCURRENCY_ENV)
+    if raw is None or raw == "":
+        return _DEFAULT_REGION_CONCURRENCY
+    try:
+        parsed = int(raw)
+    except ValueError as exc:
+        raise ValueError(
+            f"{_REGION_CONCURRENCY_ENV} must be a positive integer; got {raw!r}"
+        ) from exc
+    if parsed < 1:
+        raise ValueError(
+            f"{_REGION_CONCURRENCY_ENV} must be a positive integer; got {raw!r}"
+        )
+    return parsed
+
+
+async def _extract_one_window(
+    sequence: int,
+    request: LLMWindowRequest,
+    client: Any,
+    semaphore: asyncio.Semaphore,
+    config: LLMProviderConfig,
+    run_id: str,
+) -> WindowBundle:
+    async with semaphore:
+        try:
+            output_text, _finish_reason, attempts, final_response, latency_ms = await _stream_with_retry(
+                request, config, client
+            )
+        except BaseException as exc:  # noqa: BLE001 - we surface the captured error
+            return _failure_bundle(sequence, request, config, exc)
+
+    digest = hashlib.sha256(output_text.encode("utf-8")).hexdigest()
+    try:
+        payload = _parse_payload(output_text)
+    except LLMContractError as exc:
+        return _contract_failure_bundle(sequence, request, config, digest, str(exc))
+    response = LLMExtractionResponse(
+        request_id=request.request_id,
+        provider_name=config.provider_name,
+        provider_model=config.model,
+        reasoning_effort=config.reasoning_effort,
+        payload=payload,
+        raw_response_sha256=digest,
+        finish_status="completed",
+        latency_ms=latency_ms,
+        attempt_count=attempts,
+        usage=_usage(final_response),
+    )
+    return WindowBundle(
+        sequence=sequence,
+        request_id=request.request_id,
+        request=request,
+        response=response,
+        finish_status="completed",
+        response_digest=digest,
+        artifact_kind="success",
+        artifact_payload=_success_artifact_payload(request, config, run_id, response),
+    )
+
+
+def _failure_bundle(
+    sequence: int,
+    request: LLMWindowRequest,
+    config: LLMProviderConfig,
+    exc: BaseException,
+) -> WindowBundle:
     status = _status_code(exc)
     finish_status = "provider_incomplete"
     if status is not None and 400 <= status < 500 and status not in {408, 409, 425, 429}:
         finish_status = "provider_rejected"
     if isinstance(exc, LLMContractError):
         finish_status = "contract_invalid"
-    _write_artifact(
-        _artifact_dir(run_id) / f"{request.request_id}_{config.reasoning_effort}_failure.json",
-        {
-            "run_id": run_id,
-            "request_id": request.request_id,
-            "deal_slug": request.deal_slug,
-            "window_id": request.window_id,
-            "provider_name": config.provider_name,
-            "provider_model": config.model,
-            "reasoning_effort": config.reasoning_effort,
-            "finish_status": finish_status,
-            "http_status": status,
-            "error_type": type(exc).__name__,
-            "response_digest": hashlib.sha256(str(exc).encode("utf-8")).hexdigest(),
-        },
+    digest = hashlib.sha256(str(exc).encode("utf-8")).hexdigest()
+    payload = {
+        "request_id": request.request_id,
+        "deal_slug": request.deal_slug,
+        "window_id": request.window_id,
+        "provider_name": config.provider_name,
+        "provider_model": config.model,
+        "reasoning_effort": config.reasoning_effort,
+        "finish_status": finish_status,
+        "http_status": status,
+        "error_type": type(exc).__name__,
+        "response_digest": digest,
+        "error_message": str(exc),
+    }
+    return WindowBundle(
+        sequence=sequence,
+        request_id=request.request_id,
+        request=request,
+        response=None,
+        error_type=type(exc).__name__,
+        error_message=str(exc),
+        http_status=status,
+        finish_status=finish_status,
+        response_digest=digest,
+        artifact_kind="failure",
+        artifact_payload=payload,
     )
 
 
-def _write_contract_failure(request: LLMWindowRequest, config: LLMProviderConfig, run_id: str, digest: str, message: str) -> None:
-    _write_artifact(
-        _artifact_dir(run_id) / f"{request.request_id}_{config.reasoning_effort}_failure.json",
-        {
-            "run_id": run_id,
-            "request_id": request.request_id,
-            "deal_slug": request.deal_slug,
-            "window_id": request.window_id,
-            "provider_name": config.provider_name,
-            "provider_model": config.model,
-            "reasoning_effort": config.reasoning_effort,
-            "finish_status": "contract_invalid",
-            "response_digest": digest,
-            "error_type": "LLMContractError",
-            "contract_error": message,
-        },
+def _contract_failure_bundle(
+    sequence: int,
+    request: LLMWindowRequest,
+    config: LLMProviderConfig,
+    digest: str,
+    message: str,
+) -> WindowBundle:
+    payload = {
+        "request_id": request.request_id,
+        "deal_slug": request.deal_slug,
+        "window_id": request.window_id,
+        "provider_name": config.provider_name,
+        "provider_model": config.model,
+        "reasoning_effort": config.reasoning_effort,
+        "finish_status": "contract_invalid",
+        "response_digest": digest,
+        "error_type": "LLMContractError",
+        "contract_error": message,
+    }
+    return WindowBundle(
+        sequence=sequence,
+        request_id=request.request_id,
+        request=request,
+        response=None,
+        error_type="LLMContractError",
+        error_message=message,
+        finish_status="contract_invalid",
+        response_digest=digest,
+        artifact_kind="failure",
+        artifact_payload=payload,
     )
 
 
-def _write_success_artifact(request: LLMWindowRequest, config: LLMProviderConfig, run_id: str, response: LLMExtractionResponse, inserted_count: int) -> None:
+def _success_artifact_payload(
+    request: LLMWindowRequest,
+    config: LLMProviderConfig,
+    run_id: str,
+    response: LLMExtractionResponse,
+) -> dict[str, Any]:
     claim_count = sum(
         len(items)
         for items in (
@@ -479,26 +599,76 @@ def _write_success_artifact(request: LLMWindowRequest, config: LLMProviderConfig
             response.payload.actor_relation_claims,
         )
     )
-    _write_artifact(
-        _artifact_dir(run_id) / f"{request.request_id}_{config.reasoning_effort}_success.json",
-        {
-            "run_id": run_id,
-            "request_id": request.request_id,
-            "deal_slug": request.deal_slug,
-            "window_id": request.window_id,
-            "provider_name": config.provider_name,
-            "provider_model": config.model,
-            "reasoning_effort": config.reasoning_effort,
-            "finish_status": response.finish_status,
-            "attempt_count": response.attempt_count,
-            "latency_ms": response.latency_ms,
-            "token_usage": response.usage.model_dump(),
-            "response_digest": response.raw_response_sha256,
-            "claim_count": claim_count,
-            "inserted_claim_count": inserted_count,
-            "coverage_obligation_count": len(request.coverage_obligations),
-        },
-    )
+    return {
+        "run_id": run_id,
+        "request_id": request.request_id,
+        "deal_slug": request.deal_slug,
+        "window_id": request.window_id,
+        "provider_name": config.provider_name,
+        "provider_model": config.model,
+        "reasoning_effort": config.reasoning_effort,
+        "finish_status": response.finish_status,
+        "attempt_count": response.attempt_count,
+        "latency_ms": response.latency_ms,
+        "token_usage": response.usage.model_dump(),
+        "response_digest": response.raw_response_sha256,
+        "claim_count": claim_count,
+        "coverage_obligation_count": len(request.coverage_obligations),
+    }
+
+
+async def extract_linkflow_windows(
+    windows: Sequence[LLMWindowRequest],
+    config: LLMProviderConfig,
+    run_id: str,
+    *,
+    max_concurrency: int | None = None,
+    client_factory: Any | None = None,
+) -> list[WindowBundle]:
+    """Run all ``windows`` for one filing under one event loop.
+
+    Parameters
+    ----------
+    windows:
+        Original-order sequence of provider requests for one filing.
+    config:
+        Provider config (api key env name + model + reasoning effort).
+    run_id:
+        Top-level run id; written into success/failure artifact payloads.
+    max_concurrency:
+        Overrides ``SEC_GRAPH_REGION_MAX_CONCURRENCY``. Default is 2.
+    client_factory:
+        Optional zero-arg factory returning an async-context-manager-friendly
+        client. Tests inject a stub here. Production code uses the default
+        ``AsyncOpenAI`` client wired through ``make_async_openai_client``.
+    """
+
+    bound = _resolve_max_concurrency(max_concurrency)
+    semaphore = asyncio.Semaphore(bound)
+    factory = client_factory if client_factory is not None else (lambda: make_async_openai_client(config))
+    client = factory()
+    try:
+        async with client:
+            tasks = [
+                _extract_one_window(sequence, request, client, semaphore, config, run_id)
+                for sequence, request in enumerate(windows, start=1)
+            ]
+            bundles = await asyncio.gather(*tasks)
+    except TypeError:
+        # Some clients are not async-context-managers; fall back to manual close.
+        try:
+            tasks = [
+                _extract_one_window(sequence, request, client, semaphore, config, run_id)
+                for sequence, request in enumerate(windows, start=1)
+            ]
+            bundles = await asyncio.gather(*tasks)
+        finally:
+            close = getattr(client, "close", None)
+            if close is not None:
+                result = close()
+                if asyncio.iscoroutine(result):
+                    await result
+    return sorted(bundles, key=lambda bundle: bundle.sequence)
 
 
 def run_linkflow_requests(
@@ -506,21 +676,96 @@ def run_linkflow_requests(
     *,
     filing_id: str,
     run_id: str,
+    run_dir: Path,
     config: LLMProviderConfig,
     request_mode: str = DEFAULT_REQUEST_MODE,
+    max_concurrency: int | None = None,
+    client_factory: Any | None = None,
 ) -> list[str]:
+    """Fan out region requests for one filing, then sequentially insert.
+
+    Provider artifacts land under ``{run_dir}/linkflow/{deal_slug}/{request_id}``
+    and every artifact is recorded in ``stage_artifacts.jsonl``. If any window
+    fails, the function writes failure artifacts and raises ``LLMContractError``;
+    no claim is imported for the filing attempt.
+    """
+
+    windows = build_llm_windows(conn, filing_id=filing_id, request_mode=request_mode)
+    if not windows:
+        return []
+
+    bundles = asyncio.run(
+        extract_linkflow_windows(
+            windows,
+            config,
+            run_id,
+            max_concurrency=max_concurrency,
+            client_factory=client_factory,
+        )
+    )
+
+    failures = [bundle for bundle in bundles if not bundle.succeeded]
+    if failures:
+        # Write every bundle's artifact for audit, then raise. Successful bundles
+        # in this attempt are kept on disk so an external reviewer can inspect
+        # the partially-completed batch.
+        for bundle in bundles:
+            _persist_bundle_artifact(run_dir, run_id, bundle)
+        first = failures[0]
+        raise LLMContractError(
+            f"Linkflow region request failed for {first.request_id}: {first.error_message}"
+        )
+
     inserted: list[str] = []
-    for request in build_llm_windows(conn, filing_id=filing_id, request_mode=request_mode):
-        response = extract(request, config, run_id=run_id)
+    for bundle in bundles:
+        assert bundle.response is not None
         try:
-            claim_ids = insert_llm_response(conn, request, response, run_id=run_id)
+            claim_ids = insert_llm_response(conn, bundle.request, bundle.response, run_id=run_id)
         except LLMContractError as exc:
-            _write_contract_failure(request, config, run_id, response.raw_response_sha256, str(exc))
+            failure = _contract_failure_bundle(
+                bundle.sequence,
+                bundle.request,
+                config,
+                bundle.response.raw_response_sha256,
+                str(exc),
+            )
+            _persist_bundle_artifact(run_dir, run_id, failure)
             raise
-        _write_success_artifact(request, config, run_id, response, len(claim_ids))
-        _insert_cost_record(conn, request, run_id, config, response)
         inserted.extend(claim_ids)
+        # Augment the success payload with the inserted claim count, then write.
+        if bundle.artifact_payload is not None:
+            bundle.artifact_payload["inserted_claim_count"] = len(claim_ids)
+        _persist_bundle_artifact(run_dir, run_id, bundle)
+        _insert_cost_record(conn, bundle.request, run_id, config, bundle.response)
     return inserted
+
+
+def _persist_bundle_artifact(run_dir: Path, run_id: str, bundle: WindowBundle) -> None:
+    if bundle.artifact_payload is None or bundle.artifact_kind is None:
+        return
+    path = _attempt_artifact_path(run_dir, bundle.request, bundle.artifact_kind)
+    payload = dict(bundle.artifact_payload)
+    payload.setdefault("run_id", run_id)
+    _write_artifact(path, payload)
+    _record_attempt_artifact(run_dir, run_id, bundle.request, path)
+
+
+def extract(request: LLMWindowRequest, config: LLMProviderConfig, *, run_id: str, run_dir: Path) -> LLMExtractionResponse:
+    """Single-window adapter retained for legacy callers and tests.
+
+    Production code should call ``run_linkflow_requests`` so all windows for a
+    filing share one event loop and one shared client. This single-window path
+    preserves the fan-out artifact contract so direct callers do not silently
+    bypass the new artifact ledger.
+    """
+
+    bundles = asyncio.run(extract_linkflow_windows([request], config, run_id))
+    bundle = bundles[0]
+    _persist_bundle_artifact(run_dir, run_id, bundle)
+    if not bundle.succeeded:
+        raise LLMContractError(bundle.error_message or "Linkflow request failed")
+    assert bundle.response is not None
+    return bundle.response
 
 
 def _insert_cost_record(

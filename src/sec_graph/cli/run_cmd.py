@@ -66,6 +66,8 @@ def run_pipeline(
     request_mode: str = DEFAULT_REQUEST_MODE,
     resume: bool = False,
 ) -> dict[str, object]:
+    if llm_config is None:
+        raise ValueError("run_pipeline requires a typed-claim provider; pass --llm-provider linkflow")
     validate_run_id(run_id)
     selected_sources = _sources(source, slugs, all_selected=slugs is None, examples_dir=examples_dir)
     clock = RunClock(run_id)
@@ -101,6 +103,7 @@ def run_pipeline(
                 conn,
                 filing_id=filing.filing_id,
                 run_id=run_id,
+                run_dir=run_dir,
                 llm_config=llm_config,
                 request_mode=request_mode,
             )
