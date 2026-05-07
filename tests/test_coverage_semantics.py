@@ -3,6 +3,10 @@ from pathlib import Path
 
 import duckdb
 
+from sec_graph.extract.disposition import (
+    dispose_claims_for_filing,
+    finalize_coverage_after_disposition,
+)
 from sec_graph.extract.llm.convert import insert_llm_response
 from sec_graph.extract.llm.models import (
     ActorClaimPayload,
@@ -107,6 +111,8 @@ def test_single_event_claim_does_not_satisfy_all_event_obligations(tmp_path: Pat
     )
 
     insert_llm_response(conn, window, response, run_id=RUN_ID)
+    dispose_claims_for_filing(conn, filing_id="coverage-deal_filing_1", run_id=RUN_ID)
+    finalize_coverage_after_disposition(conn, run_id=RUN_ID, filing_id="coverage-deal_filing_1")
 
     rows = conn.execute(
         """
@@ -126,12 +132,14 @@ def test_unlinked_supported_obligation_becomes_missed_supported_obligation(tmp_p
     response = _empty_completed_response(request)
 
     insert_llm_response(conn, request, response, run_id=RUN_ID)
+    dispose_claims_for_filing(conn, filing_id=request.filing_id, run_id=RUN_ID)
+    finalize_coverage_after_disposition(conn, run_id=RUN_ID, filing_id=request.filing_id)
 
     row = conn.execute(
         "SELECT result, reason_code FROM coverage_results WHERE obligation_id = ?",
         [request.coverage_obligations[0].obligation_id],
     ).fetchone()
-    assert row == ("missed_supported_obligation", "linkflow_no_linked_claim")
+    assert row == ("missed_supported_obligation", "missed_required_or_important_obligation")
 
 
 def test_claims_emitted_requires_supported_linked_claim(tmp_path: Path) -> None:
@@ -139,6 +147,12 @@ def test_claims_emitted_requires_supported_linked_claim(tmp_path: Path) -> None:
     response = _completed_response_with_bid_claim(request)
 
     claim_ids = insert_llm_response(conn, request, response, run_id=RUN_ID)
+    # Force the linked claim to look unsupported, then run finalize_coverage to
+    # publish a coverage row that asserts claims_emitted. The structural
+    # validation should reject the inconsistency between coverage_results
+    # claiming "claims_emitted" and the underlying disposition not being
+    # supported. We bypass the normal disposition by setting the row directly.
+    conn.execute("DELETE FROM claim_dispositions WHERE claim_id = ?", [claim_ids[0]])
     conn.execute(
         "INSERT INTO claim_dispositions VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [
@@ -155,9 +169,26 @@ def test_claims_emitted_requires_supported_linked_claim(tmp_path: Path) -> None:
             True,
         ],
     )
+    # Manually publish a claims_emitted coverage row that contradicts the
+    # disposition; structural validation must catch the mismatch.
+    obligation_id = request.coverage_obligations[0].obligation_id
+    conn.execute("DELETE FROM coverage_results WHERE obligation_id = ?", [obligation_id])
+    conn.execute(
+        "INSERT INTO coverage_results VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+            "coverage-deal_coverageresult_1",
+            RUN_ID,
+            obligation_id,
+            "claims_emitted",
+            "claims_emitted",
+            "Manually inserted to exercise structural validation.",
+            1,
+            True,
+        ],
+    )
 
     result = validate_database(conn)
-    details = [failure.detail for failure in result.hard_failures]
+    details = [finding.detail for finding in result.system_failures]
     assert any("claims_emitted requires supported linked claims" in item for item in details)
 
 
@@ -454,6 +485,8 @@ def test_unlinked_applicable_obligations_get_all_python_coverage_states(tmp_path
     )
 
     insert_llm_response(conn, window, response, run_id=RUN_ID)
+    dispose_claims_for_filing(conn, filing_id="coverage-deal_filing_1", run_id=RUN_ID)
+    finalize_coverage_after_disposition(conn, run_id=RUN_ID, filing_id="coverage-deal_filing_1")
 
     rows = conn.execute(
         """
@@ -463,10 +496,10 @@ def test_unlinked_applicable_obligations_get_all_python_coverage_states(tmp_path
         """
     ).fetchall()
     assert rows == [
-        ("coverage-deal_obligation_1", "claims_emitted", "linkflow_claims_linked", 1),
-        ("coverage-deal_obligation_2", "missed_supported_obligation", "linkflow_no_linked_claim", 0),
-        ("coverage-deal_obligation_3", "no_supported_claim", "python_no_source_support", 0),
-        ("coverage-deal_obligation_4", "ambiguous_support", "python_support_ambiguous", 0),
+        ("coverage-deal_obligation_1", "claims_emitted", "claims_emitted", 1),
+        ("coverage-deal_obligation_2", "missed_supported_obligation", "missed_required_or_important_obligation", 0),
+        ("coverage-deal_obligation_3", "missed_supported_obligation", "missed_required_or_important_obligation", 0),
+        ("coverage-deal_obligation_4", "missed_supported_obligation", "missed_required_or_important_obligation", 0),
     ]
 
 

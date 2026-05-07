@@ -227,3 +227,77 @@ _TOPIC_PATTERNS: dict[str, tuple[tuple[str, str], ...]] = {
     "financing_committed": (("topic_only_or_ambiguous", r"\bfinancing\b"),),
     "amendment": (("topic_only_or_ambiguous", r"\bamend"),),
 }
+
+
+# --------------------------------------------------------------------------- #
+# Buyer-group / member_of quote support (Task 5)                              #
+# --------------------------------------------------------------------------- #
+#
+# ``member_of`` relation objects must be a named actor or actor group, not a
+# proposal description such as "joint acquisition proposal" or "transaction".
+# A relation quote that omits the subject actor cannot support a relation
+# claim about that actor.
+
+_PROPOSAL_LIKE_TOKENS: tuple[str, ...] = (
+    "proposal", "proposals",
+    "transaction", "transactions",
+    "offer", "offers",
+    "bid", "bids",
+    "process", "round", "rounds",
+    "agreement",
+    "consortium proposal", "joint proposal",
+    "joint acquisition proposal", "acquisition proposal",
+)
+
+_PROPOSAL_LIKE_PATTERN = "|".join(
+    sorted((re.escape(token) for token in _PROPOSAL_LIKE_TOKENS), key=len, reverse=True)
+)
+PROPOSAL_LIKE_RE = re.compile(rf"\b(?:{_PROPOSAL_LIKE_PATTERN})\b", re.IGNORECASE)
+
+
+def is_proposal_like_label(label: str) -> bool:
+    """Return ``True`` when ``label`` reads as a proposal/transaction phrase."""
+
+    if not label:
+        return False
+    return bool(PROPOSAL_LIKE_RE.search(label))
+
+
+def member_of_object_is_actor_like(object_label: str) -> bool:
+    """Return ``True`` when an object label is acceptable as a ``member_of`` peer.
+
+    Acceptable peers are *actor-shaped*: a named organization, person, or
+    actor group. Empty labels and labels that contain proposal-like tokens
+    are rejected.
+    """
+
+    label = (object_label or "").strip()
+    if not label:
+        return False
+    if is_proposal_like_label(label):
+        return False
+    return True
+
+
+def relation_quote_names_subject(subject_label: str, quote_text: str) -> bool:
+    """Return ``True`` when ``quote_text`` mentions ``subject_label`` literally."""
+
+    subject = (subject_label or "").strip().casefold()
+    quote = (quote_text or "").casefold()
+    if not subject or not quote:
+        return False
+    return subject in quote
+
+
+def member_of_quote_supports_pair(
+    subject_label: str,
+    object_label: str,
+    quote_text: str,
+) -> bool:
+    """Return ``True`` when a ``member_of`` quote names both peers and is actor-shaped."""
+
+    if not member_of_object_is_actor_like(object_label):
+        return False
+    if not relation_quote_names_subject(subject_label, quote_text):
+        return False
+    return relation_quote_names_subject(object_label, quote_text)

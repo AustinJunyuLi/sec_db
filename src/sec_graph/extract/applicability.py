@@ -382,3 +382,71 @@ def decide_applicability(
         else:  # pragma: no cover - exhausted by Literal
             raise ValueError(f"unknown obligation family {kind.family!r}")
     return decisions
+
+
+# --------------------------------------------------------------------------- #
+# Count-language gate (Task 5)                                                 #
+# --------------------------------------------------------------------------- #
+#
+# Count obligations are *applicable* only when the surrounding evidence
+# actually mentions a count. Stage words like ``first round`` or
+# ``best and final`` do not, on their own, justify a count obligation.
+#
+# This module is the single home for the gate. Other modules import from
+# here rather than reimplementing the regular expressions.
+
+_COUNT_WORDS: tuple[str, ...] = (
+    "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+    "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen",
+    "seventeen", "eighteen", "nineteen", "twenty",
+    "twenty-one", "twenty-two", "twenty-three", "twenty-four", "twenty-five",
+    "twenty-six", "twenty-seven", "twenty-eight", "twenty-nine",
+    "thirty", "thirty-five", "forty", "fifty", "sixty", "seventy",
+    "eighty", "ninety", "hundred",
+)
+
+_count_word_pattern = "|".join(
+    sorted((re.escape(word) for word in _COUNT_WORDS), key=len, reverse=True)
+)
+COUNT_WORD_OR_NUMBER_RE = re.compile(
+    rf"(?:\b\d+\b|\b(?:{_count_word_pattern})\b)",
+    re.IGNORECASE,
+)
+
+# Participation nouns. Restricted to *people-or-firm* nouns the filing uses to
+# describe sale-process participants. Stage nouns ("round", "proposal",
+# "process") are excluded so ``preliminary proposal`` does not, on its own,
+# trigger a count obligation.
+PARTICIPATION_NOUN_RE = re.compile(
+    r"\b(?:"
+    r"buyers"
+    r"|bidders"
+    r"|parties"
+    r"|participants"
+    r"|acquir(?:ors|ers)"
+    r"|sponsors"
+    r"|firms"
+    r"|companies"
+    r"|investors"
+    r"|counterparties"
+    r"|offerors"
+    r"|suitors"
+    r")\b",
+    re.IGNORECASE,
+)
+
+
+def has_count_language(text: str) -> bool:
+    """Return ``True`` when ``text`` contains both count cues and a participation noun.
+
+    Count obligations are applicable only when the surrounding evidence
+    mentions a count. Stage words like ``first round`` or ``best and final``
+    do not, on their own, justify a count obligation.
+    """
+
+    if not text:
+        return False
+    return bool(
+        COUNT_WORD_OR_NUMBER_RE.search(text)
+        and PARTICIPATION_NOUN_RE.search(text)
+    )
