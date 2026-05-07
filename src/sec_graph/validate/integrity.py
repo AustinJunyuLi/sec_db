@@ -1,11 +1,15 @@
-"""Hard semantic validation checks."""
+"""Hard-failure and review-item validation.
+
+Validation is split into two lists. ``system_failures`` represents
+structural breakage that must mark the run as ``failed_system``.
+``review_items`` represents source-backed review burden that does not
+block the run from publishing canonical rows.
+"""
 
 from __future__ import annotations
 
 import csv
-import datetime as dt
 import json
-import re
 from dataclasses import asdict, dataclass
 from enum import StrEnum
 from pathlib import Path
@@ -20,18 +24,18 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 class HardCheck(StrEnum):
     CLAIM_DISPOSITION = "claim_disposition"
     COVERAGE_RESULT = "coverage_result"
+    COVERAGE_REVIEW = "coverage_review"
     ROW_EVIDENCE = "row_evidence"
     CLAIM_EVIDENCE = "claim_evidence"
     SOURCE_TRUTH = "source_truth"
     EVIDENCE_FINGERPRINT = "evidence_fingerprint"
-    SEMANTIC_CLAIM_EVIDENCE = "semantic_claim_evidence"
     PROJECTION_UNIT = "projection_unit"
-    RULES_ONLY_SOUND = "rules_only_sound"
+    PROJECTION_REVIEW = "projection_review"
     STAGE_ARTIFACT_DIGEST = "stage_artifact_digest"
 
 
 @dataclass(frozen=True)
-class ValidationFailure:
+class ValidationFinding:
     check: HardCheck
     table_name: str
     row_id: str
@@ -40,23 +44,38 @@ class ValidationFailure:
 
 @dataclass(frozen=True)
 class ValidationResult:
-    hard_failures: list[ValidationFailure]
+    system_failures: list[ValidationFinding]
+    review_items: list[ValidationFinding]
 
     @property
     def passed(self) -> bool:
-        return not self.hard_failures
+        return not self.system_failures
+
+    @property
+    def open_review_count(self) -> int:
+        return len(self.review_items)
 
 
-def validate_database(conn: duckdb.DuckDBPyConnection, *, raw_source_root: Path | None = None) -> ValidationResult:
-    failures: list[ValidationFailure] = []
-    failures.extend(_check_claim_dispositions(conn))
-    failures.extend(_check_coverage_results(conn))
-    failures.extend(_check_claim_evidence(conn))
-    failures.extend(_check_semantic_claim_evidence(conn))
-    failures.extend(_check_row_evidence(conn))
-    failures.extend(_check_source_truth(conn, raw_source_root or REPO_ROOT))
-    failures.extend(_check_projection_units(conn))
-    return ValidationResult(failures)
+def validate_database(
+    conn: duckdb.DuckDBPyConnection,
+    *,
+    raw_source_root: Path | None = None,
+) -> ValidationResult:
+    system_failures: list[ValidationFinding] = []
+    review_items: list[ValidationFinding] = []
+
+    system_failures.extend(_check_claim_dispositions(conn))
+    system, review = _check_coverage_results(conn)
+    system_failures.extend(system)
+    review_items.extend(review)
+    system_failures.extend(_check_claim_evidence(conn))
+    system_failures.extend(_check_row_evidence(conn))
+    system_failures.extend(_check_source_truth(conn, raw_source_root or REPO_ROOT))
+    system, review = _check_projection_units(conn)
+    system_failures.extend(system)
+    review_items.extend(review)
+
+    return ValidationResult(system_failures=system_failures, review_items=review_items)
 
 
 def write_validation_outputs(
@@ -70,24 +89,51 @@ def write_validation_outputs(
         raise FileExistsError(f"{run_dir} already exists")
     run_dir.mkdir(parents=True, exist_ok=allow_existing)
     result = validate_database(conn, raw_source_root=raw_source_root)
-    report = {"passed": result.passed, "hard_failures": [asdict(item) for item in result.hard_failures]}
-    (run_dir / "validation_report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
-    with (run_dir / "ambiguity_queue.csv").open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=["check", "table_name", "row_id", "detail"])
+    report = {
+        "passed": result.passed,
+        "system_failures": [asdict(item) for item in result.system_failures],
+        "review_items": [asdict(item) for item in result.review_items],
+    }
+    (run_dir / "validation_report.json").write_text(
+        json.dumps(report, indent=2), encoding="utf-8"
+    )
+    with (run_dir / "validation_findings.csv").open(
+        "w", newline="", encoding="utf-8"
+    ) as handle:
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=["severity", "check", "table_name", "row_id", "detail"],
+        )
         writer.writeheader()
-        for failure in result.hard_failures:
+        for finding in result.system_failures:
             writer.writerow(
                 {
-                    "check": failure.check,
-                    "table_name": failure.table_name,
-                    "row_id": failure.row_id,
-                    "detail": failure.detail,
+                    "severity": "system_failure",
+                    "check": finding.check,
+                    "table_name": finding.table_name,
+                    "row_id": finding.row_id,
+                    "detail": finding.detail,
+                }
+            )
+        for finding in result.review_items:
+            writer.writerow(
+                {
+                    "severity": "review",
+                    "check": finding.check,
+                    "table_name": finding.table_name,
+                    "row_id": finding.row_id,
+                    "detail": finding.detail,
                 }
             )
     return report
 
 
-def _check_claim_dispositions(conn: duckdb.DuckDBPyConnection) -> list[ValidationFailure]:
+# --------------------------------------------------------------------------- #
+# Claim-level checks                                                          #
+# --------------------------------------------------------------------------- #
+
+
+def _check_claim_dispositions(conn: duckdb.DuckDBPyConnection) -> list[ValidationFinding]:
     rows = conn.execute(
         """
         SELECT claims.claim_id, count(claim_dispositions.disposition_id)
@@ -100,18 +146,48 @@ def _check_claim_dispositions(conn: duckdb.DuckDBPyConnection) -> list[Validatio
         """
     ).fetchall()
     return [
-        ValidationFailure(HardCheck.CLAIM_DISPOSITION, "claims", claim_id, f"current disposition count is {count}")
+        ValidationFinding(
+            HardCheck.CLAIM_DISPOSITION,
+            "claims",
+            claim_id,
+            f"current disposition count is {count}",
+        )
         for claim_id, count in rows
     ]
 
 
-def _check_coverage_results(conn: duckdb.DuckDBPyConnection) -> list[ValidationFailure]:
-    """Every applicable+current obligation must have exactly one current result.
+def _check_claim_evidence(conn: duckdb.DuckDBPyConnection) -> list[ValidationFinding]:
+    rows = conn.execute(
+        """
+        SELECT claims.claim_id
+        FROM claims
+        LEFT JOIN claim_evidence USING (claim_id)
+        WHERE claim_evidence.claim_id IS NULL
+        ORDER BY claims.claim_id
+        """
+    ).fetchall()
+    return [
+        ValidationFinding(
+            HardCheck.CLAIM_EVIDENCE,
+            "claims",
+            row[0],
+            "claim has no relational claim_evidence",
+        )
+        for row in rows
+    ]
 
-    Inapplicable obligations are recorded for audit but do not require a
-    coverage_result; the LLM never sees them and Python never invents a
-    ``missed`` outcome from their absence.
-    """
+
+# --------------------------------------------------------------------------- #
+# Coverage checks                                                             #
+# --------------------------------------------------------------------------- #
+
+
+def _check_coverage_results(
+    conn: duckdb.DuckDBPyConnection,
+) -> tuple[list[ValidationFinding], list[ValidationFinding]]:
+    system_failures: list[ValidationFinding] = []
+    review_items: list[ValidationFinding] = []
+
     count_rows = conn.execute(
         """
         SELECT coverage_obligations.obligation_id, count(coverage_results.coverage_result_id)
@@ -125,10 +201,16 @@ def _check_coverage_results(conn: duckdb.DuckDBPyConnection) -> list[ValidationF
         HAVING count(coverage_results.coverage_result_id) <> 1
         """
     ).fetchall()
-    failures = [
-        ValidationFailure(HardCheck.COVERAGE_RESULT, "coverage_obligations", obligation_id, f"current coverage result count is {count}")
+    system_failures.extend(
+        ValidationFinding(
+            HardCheck.COVERAGE_RESULT,
+            "coverage_obligations",
+            obligation_id,
+            f"current coverage result count is {count}",
+        )
         for obligation_id, count in count_rows
-    ]
+    )
+
     unresolved_rows = conn.execute(
         """
         SELECT coverage_obligations.obligation_id, coverage_obligations.importance,
@@ -144,15 +226,16 @@ def _check_coverage_results(conn: duckdb.DuckDBPyConnection) -> list[ValidationF
         ORDER BY coverage_obligations.obligation_id
         """
     ).fetchall()
-    failures.extend(
-        ValidationFailure(
-            HardCheck.COVERAGE_RESULT,
+    review_items.extend(
+        ValidationFinding(
+            HardCheck.COVERAGE_REVIEW,
             "coverage_obligations",
             obligation_id,
             f"{importance} applicable coverage is unresolved with result {result}",
         )
         for obligation_id, importance, result in unresolved_rows
     )
+
     bad_not_applicable_rows = conn.execute(
         """
         SELECT coverage_obligations.obligation_id, coverage_results.coverage_result_id
@@ -165,8 +248,8 @@ def _check_coverage_results(conn: duckdb.DuckDBPyConnection) -> list[ValidationF
         ORDER BY coverage_obligations.obligation_id
         """
     ).fetchall()
-    failures.extend(
-        ValidationFailure(
+    system_failures.extend(
+        ValidationFinding(
             HardCheck.COVERAGE_RESULT,
             "coverage_obligations",
             obligation_id,
@@ -174,6 +257,7 @@ def _check_coverage_results(conn: duckdb.DuckDBPyConnection) -> list[ValidationF
         )
         for obligation_id, coverage_result_id in bad_not_applicable_rows
     )
+
     unlinked_claims_emitted = conn.execute(
         """
         SELECT coverage_results.obligation_id
@@ -188,8 +272,8 @@ def _check_coverage_results(conn: duckdb.DuckDBPyConnection) -> list[ValidationF
            OR count(claim_coverage_links.claim_id) <> coverage_results.claim_count
         """
     ).fetchall()
-    failures.extend(
-        ValidationFailure(
+    system_failures.extend(
+        ValidationFinding(
             HardCheck.COVERAGE_RESULT,
             "coverage_results",
             obligation_id,
@@ -197,6 +281,7 @@ def _check_coverage_results(conn: duckdb.DuckDBPyConnection) -> list[ValidationF
         )
         for (obligation_id,) in unlinked_claims_emitted
     )
+
     unsupported_claims_emitted = conn.execute(
         """
         SELECT coverage_results.obligation_id, claim_coverage_links.claim_id
@@ -216,8 +301,8 @@ def _check_coverage_results(conn: duckdb.DuckDBPyConnection) -> list[ValidationF
         ORDER BY coverage_results.obligation_id, claim_coverage_links.claim_id
         """
     ).fetchall()
-    failures.extend(
-        ValidationFailure(
+    system_failures.extend(
+        ValidationFinding(
             HardCheck.COVERAGE_RESULT,
             "claim_coverage_links",
             obligation_id,
@@ -225,6 +310,7 @@ def _check_coverage_results(conn: duckdb.DuckDBPyConnection) -> list[ValidationF
         )
         for obligation_id, claim_id in unsupported_claims_emitted
     )
+
     bad_link_rows = conn.execute(
         """
         SELECT coverage_results.obligation_id, claim_coverage_links.claim_id
@@ -251,8 +337,8 @@ def _check_coverage_results(conn: duckdb.DuckDBPyConnection) -> list[ValidationF
         ORDER BY coverage_results.obligation_id, claim_coverage_links.claim_id
         """
     ).fetchall()
-    failures.extend(
-        ValidationFailure(
+    system_failures.extend(
+        ValidationFinding(
             HardCheck.COVERAGE_RESULT,
             "claim_coverage_links",
             obligation_id,
@@ -260,104 +346,17 @@ def _check_coverage_results(conn: duckdb.DuckDBPyConnection) -> list[ValidationF
         )
         for obligation_id, claim_id in bad_link_rows
     )
-    return failures
+
+    return system_failures, review_items
 
 
-def _check_claim_evidence(conn: duckdb.DuckDBPyConnection) -> list[ValidationFailure]:
-    rows = conn.execute(
-        """
-        SELECT claims.claim_id
-        FROM claims
-        LEFT JOIN claim_evidence USING (claim_id)
-        WHERE claim_evidence.claim_id IS NULL
-        ORDER BY claims.claim_id
-        """
-    ).fetchall()
-    return [ValidationFailure(HardCheck.CLAIM_EVIDENCE, "claims", row[0], "claim has no relational claim_evidence") for row in rows]
+# --------------------------------------------------------------------------- #
+# Row evidence and source truth                                               #
+# --------------------------------------------------------------------------- #
 
 
-def _check_semantic_claim_evidence(conn: duckdb.DuckDBPyConnection) -> list[ValidationFailure]:
-    failures: list[ValidationFailure] = []
-    failures.extend(_check_bid_claim_semantics(conn))
-    failures.extend(_check_actor_relation_claim_semantics(conn))
-    return failures
-
-
-def _check_bid_claim_semantics(conn: duckdb.DuckDBPyConnection) -> list[ValidationFailure]:
-    rows = conn.execute(
-        """
-        SELECT bid_claims.claim_id, bid_claims.bidder_label, bid_claims.bid_date,
-               bid_claims.bid_value, bid_claims.bid_value_lower,
-               bid_claims.bid_value_upper, bid_claims.bid_stage,
-               claims.quote_text, claims.raw_value
-        FROM bid_claims
-        JOIN claims USING (claim_id)
-        ORDER BY bid_claims.claim_id
-        """
-    ).fetchall()
-    failures: list[ValidationFailure] = []
-    for claim_id, bidder_label, bid_date, bid_value, bid_value_lower, bid_value_upper, bid_stage, quote_text, raw_value in rows:
-        missing: list[str] = []
-        if not _contains_phrase(quote_text, bidder_label):
-            missing.append("bidder_label")
-        if bid_date is None or not _date_supported_by_quote(bid_date, quote_text):
-            missing.append("bid_date")
-        values = [value for value in (bid_value, bid_value_lower, bid_value_upper) if value is not None]
-        if not values or not any(_number_supported_by_quote(float(value), quote_text) for value in values):
-            missing.append("bid_value")
-        if not _bid_context_supported_by_quote(str(bid_stage), quote_text):
-            missing.append("bid_context")
-        if missing:
-            failures.append(
-                ValidationFailure(
-                    HardCheck.SEMANTIC_CLAIM_EVIDENCE,
-                    "bid_claims",
-                    claim_id,
-                    (
-                        "bid claim quote_text does not support "
-                        f"{', '.join(missing)}; raw_value={raw_value!r}"
-                    ),
-                )
-            )
-    return failures
-
-
-def _check_actor_relation_claim_semantics(conn: duckdb.DuckDBPyConnection) -> list[ValidationFailure]:
-    rows = conn.execute(
-        """
-        SELECT actor_relation_claims.claim_id, subject_label, object_label,
-               relation_type, role_detail, claims.quote_text, claims.raw_value
-        FROM actor_relation_claims
-        JOIN claims USING (claim_id)
-        ORDER BY actor_relation_claims.claim_id
-        """
-    ).fetchall()
-    failures: list[ValidationFailure] = []
-    for claim_id, subject_label, object_label, relation_type, role_detail, quote_text, raw_value in rows:
-        missing: list[str] = []
-        if not _contains_phrase(quote_text, subject_label):
-            missing.append("subject_label")
-        if not _contains_phrase(quote_text, object_label):
-            missing.append("object_label")
-        if not _relation_supported_by_quote(str(relation_type), role_detail, quote_text):
-            missing.append("relation_type")
-        if missing:
-            failures.append(
-                ValidationFailure(
-                    HardCheck.SEMANTIC_CLAIM_EVIDENCE,
-                    "actor_relation_claims",
-                    claim_id,
-                    (
-                        "actor relation quote_text does not support "
-                        f"{', '.join(missing)}; raw_value={raw_value!r}"
-                    ),
-                )
-            )
-    return failures
-
-
-def _check_row_evidence(conn: duckdb.DuckDBPyConnection) -> list[ValidationFailure]:
-    failures: list[ValidationFailure] = []
+def _check_row_evidence(conn: duckdb.DuckDBPyConnection) -> list[ValidationFinding]:
+    failures: list[ValidationFinding] = []
     for table, id_col in (
         ("deals", "deal_id"),
         ("process_cycles", "cycle_id"),
@@ -380,125 +379,50 @@ def _check_row_evidence(conn: duckdb.DuckDBPyConnection) -> list[ValidationFailu
             [table],
         ).fetchall()
         failures.extend(
-            ValidationFailure(HardCheck.ROW_EVIDENCE, table, row[0], "canonical row has no relational row_evidence")
+            ValidationFinding(
+                HardCheck.ROW_EVIDENCE,
+                table,
+                row[0],
+                "canonical row has no relational row_evidence",
+            )
             for row in rows
         )
     return failures
 
 
-def _contains_phrase(text: str | None, phrase: str | None) -> bool:
-    if not text or not phrase:
-        return False
-    return _normalize_text(phrase) in _normalize_text(text)
-
-
-def _normalize_text(value: str) -> str:
-    return re.sub(r"\s+", " ", value.casefold().replace("-", " ").replace("_", " ")).strip()
-
-
-def _date_supported_by_quote(value: object, quote_text: str | None) -> bool:
-    if not quote_text:
-        return False
-    parsed = _coerce_date(value)
-    if parsed is None:
-        return False
-    folded = quote_text.casefold()
-    if parsed.isoformat() in folded:
-        return True
-    month_name = parsed.strftime("%B").casefold()
-    month_abbr = parsed.strftime("%b").casefold()
-    has_month = month_name in folded or month_abbr in folded or str(parsed.month) in _numeric_tokens(folded)
-    return str(parsed.year) in folded and has_month and str(parsed.day) in _numeric_tokens(folded)
-
-
-def _coerce_date(value: object) -> dt.date | None:
-    if isinstance(value, dt.datetime):
-        return value.date()
-    if isinstance(value, dt.date):
-        return value
-    if isinstance(value, str):
-        try:
-            return dt.date.fromisoformat(value)
-        except ValueError:
-            return None
-    return None
-
-
-def _numeric_tokens(value: str) -> set[str]:
-    return {token.lstrip("0") or "0" for token in re.findall(r"\d+", value)}
-
-
-def _number_supported_by_quote(value: float, quote_text: str | None) -> bool:
-    if not quote_text:
-        return False
-    tokens = _numeric_tokens(quote_text)
-    candidates = {
-        f"{value:g}",
-        f"{value:.1f}",
-        f"{value:.2f}",
-    }
-    if value.is_integer():
-        candidates.add(str(int(value)))
-    normalized_candidates = {candidate.rstrip("0").rstrip(".") for candidate in candidates}
-    quote_decimal_values = {match.rstrip("0").rstrip(".") for match in re.findall(r"\d+(?:\.\d+)?", quote_text)}
-    return bool(normalized_candidates & quote_decimal_values) or str(int(value)) in tokens
-
-
-def _bid_context_supported_by_quote(bid_stage: str, quote_text: str | None) -> bool:
-    if not quote_text:
-        return False
-    folded = _normalize_text(quote_text)
-    context_terms = {
-        "bid",
-        "offer",
-        "proposal",
-        "submitted",
-        "proposed",
-        "indication of interest",
-    }
-    if bid_stage and bid_stage != "unspecified":
-        context_terms.add(bid_stage.replace("_", " "))
-    return any(term in folded for term in context_terms)
-
-
-def _relation_supported_by_quote(relation_type: str, role_detail: str | None, quote_text: str | None) -> bool:
-    if not quote_text:
-        return False
-    folded = _normalize_text(quote_text)
-    terms = {relation_type.replace("_", " ")}
-    if role_detail:
-        terms.add(role_detail)
-    relation_synonyms = {
-        "acquisition_vehicle_of": ("acquisition vehicle", "vehicle of"),
-        "member_of": ("member of", "part of", "together we refer", "who together", "together as"),
-        "affiliate_of": ("affiliate of", "affiliated with"),
-        "controls": ("controls", "controlled by", "purchased by", "acquired by", "owned by"),
-        "advises": ("advisor", "adviser", "advises"),
-        "finances": ("financing", "finances", "provide capital", "capital required", "financing letter"),
-        "supports": ("support", "supports", "guarantee", "guarantees"),
-        "voting_support_for": ("voting agreement", "support agreement", "vote in favor", "agreed to vote", "voting and support"),
-        "rollover_holder_for": ("rollover", "rolled", "contribute", "retain equity", "equity rollover"),
-        "committee_member_of": ("committee", "member", "composed of", "appointed", "added"),
-        "recused_from": ("recuse", "recused", "exclude", "excluded", "not participate"),
-    }
-    terms.update(relation_synonyms.get(relation_type, ()))
-    return any(_normalize_text(term) in folded for term in terms if term)
-
-
-def _check_source_truth(conn: duckdb.DuckDBPyConnection, raw_source_root: Path) -> list[ValidationFailure]:
-    failures: list[ValidationFailure] = []
+def _check_source_truth(
+    conn: duckdb.DuckDBPyConnection, raw_source_root: Path
+) -> list[ValidationFinding]:
+    failures: list[ValidationFinding] = []
     filing_text: dict[str, str] = {}
-    for filing_id, source_path, raw_sha256 in conn.execute("SELECT filing_id, source_path, raw_sha256 FROM filings").fetchall():
+    for filing_id, source_path, raw_sha256 in conn.execute(
+        "SELECT filing_id, source_path, raw_sha256 FROM filings"
+    ).fetchall():
         if not source_path:
-            failures.append(ValidationFailure(HardCheck.SOURCE_TRUTH, "filings", filing_id, "missing source_path"))
+            failures.append(
+                ValidationFinding(
+                    HardCheck.SOURCE_TRUTH, "filings", filing_id, "missing source_path"
+                )
+            )
             continue
         path = _resolve_source_path(raw_source_root, source_path)
         if not path.exists():
-            failures.append(ValidationFailure(HardCheck.SOURCE_TRUTH, "filings", filing_id, f"source file missing: {path}"))
+            failures.append(
+                ValidationFinding(
+                    HardCheck.SOURCE_TRUTH,
+                    "filings",
+                    filing_id,
+                    f"source file missing: {path}",
+                )
+            )
             continue
         text = path.read_text(encoding="utf-8")
         if quote_hash(text) != raw_sha256:
-            failures.append(ValidationFailure(HardCheck.SOURCE_TRUTH, "filings", filing_id, "raw_sha256 mismatch"))
+            failures.append(
+                ValidationFinding(
+                    HardCheck.SOURCE_TRUTH, "filings", filing_id, "raw_sha256 mismatch"
+                )
+            )
             continue
         filing_text[filing_id] = text
 
@@ -513,19 +437,54 @@ def _check_source_truth(conn: duckdb.DuckDBPyConnection, raw_source_root: Path) 
         if text is None:
             continue
         if char_start < 0 or char_end < char_start or char_end > len(text):
-            failures.append(ValidationFailure(HardCheck.SOURCE_TRUTH, "spans", evidence_id, "span coordinates out of bounds"))
+            failures.append(
+                ValidationFinding(
+                    HardCheck.SOURCE_TRUTH,
+                    "spans",
+                    evidence_id,
+                    "span coordinates out of bounds",
+                )
+            )
             continue
         if text[char_start:char_end] != quote_text:
-            failures.append(ValidationFailure(HardCheck.SOURCE_TRUTH, "spans", evidence_id, "quote_text does not match source coordinates"))
+            failures.append(
+                ValidationFinding(
+                    HardCheck.SOURCE_TRUTH,
+                    "spans",
+                    evidence_id,
+                    "quote_text does not match source coordinates",
+                )
+            )
         if quote_hash(quote_text) != quote_text_hash:
-            failures.append(ValidationFailure(HardCheck.EVIDENCE_FINGERPRINT, "spans", evidence_id, "quote_text_hash mismatch"))
+            failures.append(
+                ValidationFinding(
+                    HardCheck.EVIDENCE_FINGERPRINT,
+                    "spans",
+                    evidence_id,
+                    "quote_text_hash mismatch",
+                )
+            )
         expected = evidence_fingerprint(filing_id, char_start, char_end, quote_text_hash)
         if expected != stored_fingerprint:
-            failures.append(ValidationFailure(HardCheck.EVIDENCE_FINGERPRINT, "spans", evidence_id, "location-aware evidence_fingerprint mismatch"))
+            failures.append(
+                ValidationFinding(
+                    HardCheck.EVIDENCE_FINGERPRINT,
+                    "spans",
+                    evidence_id,
+                    "location-aware evidence_fingerprint mismatch",
+                )
+            )
     return failures
 
 
-def _check_projection_units(conn: duckdb.DuckDBPyConnection) -> list[ValidationFailure]:
+# --------------------------------------------------------------------------- #
+# Projection                                                                  #
+# --------------------------------------------------------------------------- #
+
+
+def _check_projection_units(
+    conn: duckdb.DuckDBPyConnection,
+) -> tuple[list[ValidationFinding], list[ValidationFinding]]:
     rows = conn.execute(
         """
         SELECT bidder_rows.bidder_row_id
@@ -534,27 +493,34 @@ def _check_projection_units(conn: duckdb.DuckDBPyConnection) -> list[ValidationF
         WHERE projection_units.projection_unit_id IS NULL
         """
     ).fetchall()
-    return [
-        ValidationFailure(HardCheck.PROJECTION_UNIT, "bidder_rows", row[0], "bidder row lacks actor-cycle projection unit")
-        for row in rows
-    ] + [
-        ValidationFailure(
+    system_failures = [
+        ValidationFinding(
             HardCheck.PROJECTION_UNIT,
-            "review_flags",
-            flag_id,
+            "bidder_rows",
+            row[0],
+            "bidder row lacks actor-cycle projection unit",
+        )
+        for row in rows
+    ]
+    review_items = [
+        ValidationFinding(
+            HardCheck.PROJECTION_REVIEW,
+            "review_rows",
+            review_row_id,
             "projection depends on review-required judgment",
         )
-        for (flag_id,) in conn.execute(
+        for (review_row_id,) in conn.execute(
             """
-            SELECT review_flags.flag_id
-            FROM review_flags
-            WHERE review_flags.current = true
-              AND review_flags.flag_type IN ('judgment_substrate_missing', 'judgment_conflict', 'projection_trace_failure')
-              AND review_flags.severity IN ('blocking', 'review')
-            ORDER BY review_flags.flag_id
+            SELECT review_row_id
+            FROM review_rows
+            WHERE review_status = 'open'
+              AND review_type = 'judgment'
+              AND severity IN ('review', 'info')
+            ORDER BY review_row_id
             """
         ).fetchall()
     ]
+    return system_failures, review_items
 
 
 def _resolve_source_path(raw_source_root: Path, source_path: str) -> Path:

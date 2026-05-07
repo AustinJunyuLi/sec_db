@@ -6,6 +6,34 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
+RunStatus = Literal[
+    "passed_clean",
+    "needs_review",
+    "high_burden",
+    "failed_system",
+]
+
+PointerStatus = Literal[
+    "passed_clean",
+    "needs_review",
+    "high_burden",
+    "failed_system",
+    "stale_after_failure",
+]
+
+TRUSTED_STATUSES: frozenset[str] = frozenset(
+    {"passed_clean", "needs_review", "high_burden"}
+)
+
+
+def status_from_open_review_count(open_review_count: int) -> RunStatus:
+    if open_review_count == 0:
+        return "passed_clean"
+    if open_review_count <= 10:
+        return "needs_review"
+    return "high_burden"
+
+
 ProgressState = Literal[
     "queued",
     "ingested",
@@ -164,5 +192,29 @@ CREATE TABLE cost_runtime_records (
   retry_count INTEGER NOT NULL,
   provider_failure VARCHAR,
   CHECK (retry_count >= 0)
+);
+
+CREATE TABLE review_rows (
+  review_row_id VARCHAR PRIMARY KEY,
+  run_id VARCHAR NOT NULL,
+  deal_slug VARCHAR NOT NULL,
+  review_status VARCHAR NOT NULL CHECK (review_status IN ('open', 'accepted', 'rejected', 'deferred')),
+  review_type VARCHAR NOT NULL CHECK (review_type IN ('coverage', 'claim_disposition', 'judgment', 'projection', 'validation')),
+  source_table VARCHAR NOT NULL,
+  source_id VARCHAR NOT NULL,
+  severity VARCHAR NOT NULL CHECK (severity IN ('review', 'info')),
+  reason_code VARCHAR NOT NULL,
+  message VARCHAR NOT NULL,
+  review_question VARCHAR NOT NULL,
+  claim_id VARCHAR,
+  obligation_id VARCHAR,
+  judgment_id VARCHAR,
+  canonical_table VARCHAR,
+  canonical_id VARCHAR,
+  evidence_json VARCHAR,
+  resolution_notes VARCHAR,
+  resolved_by VARCHAR,
+  resolved_at VARCHAR,
+  created_at VARCHAR NOT NULL
 );
 """

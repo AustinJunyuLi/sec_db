@@ -23,7 +23,7 @@ def test_range_bid_derives_informal_judgment() -> None:
     assert row == ("bid_formality", "informal", "accepted", "bid_formality_v1")
 
 
-def test_missing_formality_substrate_creates_review_flag() -> None:
+def test_missing_formality_substrate_creates_review_row() -> None:
     conn = duckdb.connect(":memory:")
     init_schema(conn)
     _seed_deal_cycle_actor_and_bid_event(
@@ -36,10 +36,10 @@ def test_missing_formality_substrate_creates_review_flag() -> None:
 
     derive_judgments(conn, run_id="run-1")
 
-    flag = conn.execute(
-        "SELECT flag_type, severity, reason_code FROM review_flags"
+    row = conn.execute(
+        "SELECT review_type, severity, reason_code FROM review_rows"
     ).fetchone()
-    assert flag == ("judgment_substrate_missing", "review", "formality_substrate_missing")
+    assert row == ("judgment", "review", "formality_substrate_missing")
 
 
 def test_observed_drop_gets_projected_fate_judgment() -> None:
