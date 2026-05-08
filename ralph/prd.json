@@ -219,8 +219,8 @@
         "python3 -m pytest -q passes"
       ],
       "priority": 12,
-      "passes": false,
-      "notes": ""
+      "passes": true,
+      "notes": "Phase 11 (binding plan §15 'Phase 11 - Calibration Seed'). Created calibration/verifier_seed.jsonl (12 cards: 3 confirmed_correct, 3 single-field errors broken into date/actor/amount, 2 multi-field errors, 2 plausible hallucinations, 1 genuinely_ambiguous, 1 coverage_gap), src/sec_review_compiler/orchestration/calibration.py (load_calibration_cards strict-validates required keys + duplicate card_id + minimum count of 12; run_calibration produces CalibrationReport with per_category_counts/match_rate/fail_closed/fail_reason; fail_closed fires when every card receives 'confirm' OR when every rejection-class card (single/multi-field errors + plausible hallucinations) is confirmed — guarding against rubber-stamping), and tests/test_calibration.py. Seed cards key off the synthetic filing fixture (raw_text used during run_calibration). Tests verify: seed loads, all required categories present, breakdown matches the §15 quotas; planted single/multi/plausible cards never receive verdict='confirm' under OfflineFakeVerifier (the altered quotes are not verbatim → rejected); per-category counts present; match_rate strictly between 0 and 1 (offline verifier cannot diagnose ambiguous duplicates or coverage gaps); _AlwaysConfirmVerifier triggers fail_closed=True; OfflineFakeVerifier does NOT trigger fail_closed. CalibrationLoadError is raised on invalid card schemas. Commands run: `python3 -m pytest -q` reported `246 passed in 1.77s` (237 prior + 9 across TestSeedShape, TestPlantedErrors, TestFailClosed). Files touched: calibration/verifier_seed.jsonl, src/sec_review_compiler/orchestration/calibration.py, src/sec_review_compiler/orchestration/__init__.py, tests/test_calibration.py, ralph/prd.json. No live Linkflow calls in this story; calibration runs against the deterministic OfflineFakeVerifier, so LINKFLOW_REASONING level was not exercised."
     },
     {
       "id": "US-013",

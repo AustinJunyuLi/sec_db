@@ -5,6 +5,14 @@ state transitions, canonical compilation, and publication (design spec
 §13). Agents emit proposals; the orchestrator validates and commits.
 """
 
+from .calibration import (
+    CalibrationCard,
+    CalibrationLoadError,
+    CalibrationReport,
+    CardResult,
+    load_calibration_cards,
+    run_calibration,
+)
 from .consistency import (
     ConsistencyFindingRecord,
     NoOpConsistencyChecker,
@@ -27,6 +35,10 @@ from .verifier import (
 )
 
 __all__ = [
+    "CalibrationCard",
+    "CalibrationLoadError",
+    "CalibrationReport",
+    "CardResult",
     "ConsistencyFindingRecord",
     "ExtractedClaim",
     "LiveLinkflowExtractor",
@@ -42,4 +54,6 @@ __all__ = [
     "VerifierProposal",
     "build_tool_definitions",
     "compute_initial_coverage_for_slice",
+    "load_calibration_cards",
+    "run_calibration",
 ]
