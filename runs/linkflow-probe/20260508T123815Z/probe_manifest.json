@@ -1,0 +1,16 @@
+{
+  "environment": {
+    "LINKFLOW_API_KEY_present": true,
+    "LINKFLOW_BASE_URL_present": true
+  },
+  "linkflow_base_url": "https://www.linkflow.run/v1",
+  "models_tested": [
+    "gpt-5.5"
+  ],
+  "openai_version": "2.31.0",
+  "platform": "macOS-26.4.1-arm64-arm-64bit",
+  "probe_run_id": "20260508T123815Z",
+  "probe_suite_version": "0.1.0",
+  "python_version": "3.12.13 (main, Mar  3 2026, 12:39:30) [Clang 17.0.0 (clang-1700.6.3.2)]",
+  "started_at": "2026-05-08T12:38:15.596362+00:00"
+}

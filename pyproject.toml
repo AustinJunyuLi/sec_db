@@ -1,0 +1,12 @@
+[project]
+name = "sec-agentic-linkflow-probe"
+version = "0.1.0"
+description = "Clean-slate Linkflow capability probe for the SEC agentic review compiler."
+requires-python = ">=3.12"
+dependencies = [
+  "openai>=2.31.0",
+  "pydantic>=2.13.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

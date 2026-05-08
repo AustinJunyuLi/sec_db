@@ -1,0 +1,153 @@
+{
+  "entries": [
+    {
+      "capability": "sdk_connectivity",
+      "evidence_artifacts": [
+        "sanitized_calls.jsonl:2",
+        "raw_shape_samples.jsonl:1"
+      ],
+      "notes": "completed with text='OK'",
+      "status": "supported",
+      "tier": 1
+    },
+    {
+      "capability": "model_and_reasoning_acceptance",
+      "evidence_artifacts": [
+        "sanitized_calls.jsonl:4",
+        "raw_shape_samples.jsonl:2",
+        "sanitized_calls.jsonl:6",
+        "raw_shape_samples.jsonl:3",
+        "sanitized_calls.jsonl:8",
+        "raw_shape_samples.jsonl:4"
+      ],
+      "notes": "supported=['low', 'medium', 'high']; failures=[]",
+      "status": "supported",
+      "tier": 1
+    },
+    {
+      "capability": "strict_structured_output_minimal",
+      "evidence_artifacts": [
+        "sanitized_calls.jsonl:10",
+        "raw_shape_samples.jsonl:5"
+      ],
+      "notes": "validated=True; keys=['confidence', 'label', 'reason']",
+      "status": "supported",
+      "tier": 1
+    },
+    {
+      "capability": "strict_structured_output_nested",
+      "evidence_artifacts": [
+        "sanitized_calls.jsonl:12",
+        "raw_shape_samples.jsonl:6",
+        "sanitized_calls.jsonl:14",
+        "raw_shape_samples.jsonl:7"
+      ],
+      "notes": "nullable:supported; nonnullable:supported",
+      "status": "supported",
+      "tier": 1
+    },
+    {
+      "capability": "tool_call_single_round",
+      "evidence_artifacts": [
+        "sanitized_calls.jsonl:16",
+        "raw_shape_samples.jsonl:8",
+        "sanitized_calls.jsonl:18",
+        "raw_shape_samples.jsonl:9"
+      ],
+      "notes": "final_text='Synthetic target signed an NDA on 2026-01-02.'",
+      "status": "supported",
+      "tier": 1
+    },
+    {
+      "capability": "tool_call_multi_turn_loop",
+      "evidence_artifacts": [
+        "sanitized_calls.jsonl:20",
+        "raw_shape_samples.jsonl:10",
+        "sanitized_calls.jsonl:22",
+        "raw_shape_samples.jsonl:11",
+        "sanitized_calls.jsonl:24",
+        "raw_shape_samples.jsonl:12",
+        "sanitized_calls.jsonl:26",
+        "raw_shape_samples.jsonl:13"
+      ],
+      "notes": "tool_results=3; final_text='The paragraph about Buyer A\u2019s confidentiality agreement is:\\n\\n\u201cOn January 2, 2026, Buyer A entered into a confidentiality agreement with Target Co.\u201d'",
+      "status": "supported",
+      "tier": 1
+    },
+    {
+      "capability": "tool_use_plus_final_structured_output",
+      "evidence_artifacts": [
+        "sanitized_calls.jsonl:28",
+        "raw_shape_samples.jsonl:14",
+        "sanitized_calls.jsonl:30",
+        "raw_shape_samples.jsonl:15",
+        "sanitized_calls.jsonl:32",
+        "raw_shape_samples.jsonl:16",
+        "sanitized_calls.jsonl:34",
+        "raw_shape_samples.jsonl:17"
+      ],
+      "notes": "tool_results=3; payload={'paragraph_id': 'p1', 'quote': 'On January 2, 2026, Buyer A entered into a confidentiality agreement with Target Co.', 'reason': 'The paragraph directly states that Buyer A entered into a confidentiality agreement with Target Co. on January 2, 2026, and the quote was verified verbatim.', 'verdict': 'confirm'}",
+      "status": "supported",
+      "tier": 1
+    },
+    {
+      "capability": "error_and_retry_taxonomy",
+      "evidence_artifacts": [
+        "failures.jsonl:1",
+        "failures.jsonl:2",
+        "failures.jsonl:3"
+      ],
+      "notes": "invalid_model:classified; invalid_schema:classified; timeout:classified",
+      "status": "supported",
+      "tier": 1
+    },
+    {
+      "capability": "bounded_concurrency",
+      "evidence_artifacts": [
+        "sanitized_calls.jsonl:38",
+        "raw_shape_samples.jsonl:18",
+        "sanitized_calls.jsonl:41",
+        "raw_shape_samples.jsonl:19",
+        "sanitized_calls.jsonl:42",
+        "raw_shape_samples.jsonl:20",
+        "sanitized_calls.jsonl:47",
+        "raw_shape_samples.jsonl:21",
+        "sanitized_calls.jsonl:48",
+        "raw_shape_samples.jsonl:22",
+        "sanitized_calls.jsonl:49",
+        "raw_shape_samples.jsonl:23",
+        "sanitized_calls.jsonl:50",
+        "raw_shape_samples.jsonl:24",
+        "sanitized_calls.jsonl:59",
+        "raw_shape_samples.jsonl:25",
+        "sanitized_calls.jsonl:60",
+        "raw_shape_samples.jsonl:26",
+        "sanitized_calls.jsonl:61",
+        "raw_shape_samples.jsonl:27",
+        "sanitized_calls.jsonl:62",
+        "raw_shape_samples.jsonl:28",
+        "sanitized_calls.jsonl:63",
+        "raw_shape_samples.jsonl:29",
+        "sanitized_calls.jsonl:64",
+        "raw_shape_samples.jsonl:30",
+        "sanitized_calls.jsonl:65",
+        "raw_shape_samples.jsonl:31",
+        "sanitized_calls.jsonl:66",
+        "raw_shape_samples.jsonl:32"
+      ],
+      "notes": "max_supported=8; concurrency_1:1/1; concurrency_2:2/2; concurrency_4:4/4; concurrency_8:8/8",
+      "status": "supported",
+      "tier": 1
+    },
+    {
+      "capability": "streaming_event_shapes",
+      "evidence_artifacts": [
+        "sanitized_calls.jsonl:67"
+      ],
+      "notes": "event_types=['ResponseCompletedEvent', 'ResponseContentPartAddedEvent', 'ResponseContentPartDoneEvent', 'ResponseCreatedEvent', 'ResponseInProgressEvent', 'ResponseOutputItemAddedEvent', 'ResponseOutputItemDoneEvent', 'ResponseTextDeltaEvent', 'ResponseTextDoneEvent[TypeVar]']",
+      "status": "supported",
+      "tier": 2
+    }
+  ],
+  "gate": "GO"
+}
