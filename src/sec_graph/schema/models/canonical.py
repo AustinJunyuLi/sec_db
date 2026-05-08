@@ -40,6 +40,8 @@ EventSubtype = Literal[
     "advancement_declined",
     "rollover_executed",
     "financing_committed",
+    "go_shop_period",
+    "amendment",
 ]
 EventActorRole = Literal[
     "target",
@@ -291,7 +293,7 @@ CREATE TABLE events (
   deal_id VARCHAR NOT NULL,
   cycle_id VARCHAR NOT NULL,
   event_type VARCHAR NOT NULL CHECK (event_type IN ('process', 'bid', 'transaction')),
-  event_subtype VARCHAR NOT NULL CHECK (event_subtype IN ('contact_initial', 'nda_signed', 'ioi_submitted', 'first_round_bid', 'final_round_bid', 'exclusivity_grant', 'merger_agreement_executed', 'withdrawn_by_bidder', 'excluded_by_target', 'non_responsive', 'cohort_closure', 'advancement_admitted', 'advancement_declined', 'rollover_executed', 'financing_committed')),
+  event_subtype VARCHAR NOT NULL CHECK (event_subtype IN ('contact_initial', 'nda_signed', 'ioi_submitted', 'first_round_bid', 'final_round_bid', 'exclusivity_grant', 'merger_agreement_executed', 'withdrawn_by_bidder', 'excluded_by_target', 'non_responsive', 'cohort_closure', 'advancement_admitted', 'advancement_declined', 'rollover_executed', 'financing_committed', 'go_shop_period', 'amendment')),
   event_date DATE,
   description VARCHAR NOT NULL,
   bid_value DOUBLE,

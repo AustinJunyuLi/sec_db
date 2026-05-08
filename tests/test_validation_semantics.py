@@ -538,37 +538,37 @@ def test_participation_count_actor_class_accepts_unknown(tmp_path: Path) -> None
 def test_event_subtype_taxonomy_includes_go_shop_and_amendment() -> None:
     """Event obligations need go-shop and amendment subtypes; the closed enum must cover them."""
 
-    from sec_graph.schema.models.extraction import EventSubtype
+    from sec_graph.schema.models.canonical import EventSubtype as CanonicalEventSubtype
+    from sec_graph.schema.models.extraction import EventSubtype as ExtractionEventSubtype
 
-    args = set(EventSubtype.__args__)
-    assert "go_shop_period" in args
-    assert "amendment" in args
+    extraction_args = set(ExtractionEventSubtype.__args__)
+    canonical_args = set(CanonicalEventSubtype.__args__)
+    assert "go_shop_period" in extraction_args
+    assert "amendment" in extraction_args
+    assert "go_shop_period" in canonical_args
+    assert "amendment" in canonical_args
 
 
 def test_event_subtype_check_constraint_accepts_new_values() -> None:
-    """The DDL CHECK on event_claims.event_subtype must include the new values."""
+    """The real canonical events CHECK constraint must include the new values."""
 
     conn = connect(":memory:")
     init_schema(conn)
-    # Probe the schema constraint by replicating the same CHECK clause.
+    conn.execute(
+        "INSERT INTO deals VALUES ('deal_1', 'run_1', 'slug', 'actor_1', NULL)"
+    )
+    conn.execute(
+        "INSERT INTO process_cycles VALUES ('cycle_1', 'run_1', 'deal_1', 1, 'primary', NULL, NULL)"
+    )
     conn.execute(
         """
-        CREATE TABLE _event_subtype_probe (
-          event_subtype VARCHAR CHECK (event_subtype IN (
-            'contact_initial', 'nda_signed', 'ioi_submitted',
-            'first_round_bid', 'final_round_bid', 'exclusivity_grant',
-            'merger_agreement_executed', 'withdrawn_by_bidder',
-            'excluded_by_target', 'non_responsive', 'cohort_closure',
-            'advancement_admitted', 'advancement_declined',
-            'rollover_executed', 'financing_committed',
-            'go_shop_period', 'amendment'
-          ))
-        )
+        INSERT INTO events
+        VALUES
+          ('event_1', 'run_1', 'deal_1', 'cycle_1', 'process', 'go_shop_period', NULL, 'go-shop period', NULL, NULL, NULL, NULL, NULL),
+          ('event_2', 'run_1', 'deal_1', 'cycle_1', 'transaction', 'amendment', NULL, 'amendment', NULL, NULL, NULL, NULL, NULL)
         """
     )
-    conn.execute("INSERT INTO _event_subtype_probe VALUES ('go_shop_period')")
-    conn.execute("INSERT INTO _event_subtype_probe VALUES ('amendment')")
     rows = conn.execute(
-        "SELECT event_subtype FROM _event_subtype_probe ORDER BY event_subtype"
+        "SELECT event_subtype FROM events ORDER BY event_subtype"
     ).fetchall()
     assert rows == [("amendment",), ("go_shop_period",)]

@@ -126,6 +126,7 @@ def finalize_coverage_after_disposition(
         """,
         [filing_id],
     ).fetchall()
+    _refresh_current_coverage_links(conn, filing_id=filing_id)
     deal_slug = _filing_deal_slug(conn, filing_id)
     coverage_sequence = _next_sequence(
         conn, "coverage_results", "coverage_result_id", deal_slug, "coverage"
@@ -136,12 +137,8 @@ def finalize_coverage_after_disposition(
                 """
                 SELECT count(*)
                 FROM claim_coverage_links
-                JOIN claim_dispositions
-                  ON claim_dispositions.claim_id = claim_coverage_links.claim_id
-                 AND claim_dispositions.current = true
                 WHERE claim_coverage_links.obligation_id = ?
                   AND claim_coverage_links.current = true
-                  AND claim_dispositions.disposition IN ('supported', 'merged_duplicate')
                 """,
                 [obligation_id],
             ).fetchone()[0]
@@ -417,7 +414,6 @@ def _classify_obligation(
             SELECT count(*)
             FROM claim_coverage_links
             WHERE obligation_id = ?
-              AND current = true
             """,
             [obligation_id],
         ).fetchone()[0]
@@ -450,6 +446,52 @@ def _classify_obligation(
 # --------------------------------------------------------------------------- #
 # Inserts and helpers                                                         #
 # --------------------------------------------------------------------------- #
+
+
+def _refresh_current_coverage_links(
+    conn: duckdb.DuckDBPyConnection,
+    *,
+    filing_id: str,
+) -> None:
+    """Mark current coverage links as the supported proof links for a filing."""
+
+    conn.execute(
+        """
+        UPDATE claim_coverage_links
+        SET current = false
+        WHERE obligation_id IN (
+            SELECT obligation_id
+            FROM coverage_obligations
+            WHERE filing_id = ?
+              AND applicability = 'applicable'
+              AND current = true
+        )
+        """,
+        [filing_id],
+    )
+    conn.execute(
+        """
+        UPDATE claim_coverage_links
+        SET current = true
+        WHERE claim_id IN (
+            SELECT claims.claim_id
+            FROM claims
+            JOIN claim_dispositions
+              ON claim_dispositions.claim_id = claims.claim_id
+             AND claim_dispositions.current = true
+            WHERE claims.filing_id = ?
+              AND claim_dispositions.disposition IN ('supported', 'merged_duplicate')
+        )
+          AND obligation_id IN (
+            SELECT obligation_id
+            FROM coverage_obligations
+            WHERE filing_id = ?
+              AND applicability = 'applicable'
+              AND current = true
+          )
+        """,
+        [filing_id, filing_id],
+    )
 
 
 def _insert_disposition(

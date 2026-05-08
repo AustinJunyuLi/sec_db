@@ -267,6 +267,116 @@ def test_inserted_claim_persists_coverage_obligation_link(tmp_path: Path) -> Non
     ]
 
 
+def test_coverage_finalization_keeps_only_supported_links_current(tmp_path: Path) -> None:
+    conn = connect(":memory:")
+    init_schema(conn)
+    _insert_window_source(conn, tmp_path)
+    _replace_obligations(
+        conn,
+        [
+            (
+                "target_board",
+                "actor",
+                "Target board",
+                "required",
+                "universal_sale_process",
+                [],
+            )
+        ],
+    )
+    request = LLMWindowRequest(
+        request_id="coverage-deal_llmrequest_1",
+        deal_slug="coverage-deal",
+        deal_id="coverage-deal",
+        filing_id="coverage-deal_filing_1",
+        region_id="coverage-deal_region_1",
+        window_id="coverage-deal_window_1",
+        region_kind="sale_process_narrative",
+        ordered_paragraphs=[
+            WindowParagraph(
+                paragraph_id="coverage-deal_para_1",
+                source_span_id="coverage-deal_evidence_1",
+                char_start=0,
+                char_end=89,
+                paragraph_text=(
+                    "The Board began a sale process. "
+                    "The Board later granted exclusivity to Buyer A."
+                ),
+            )
+        ],
+        coverage_obligations=[
+            WindowObligation(
+                obligation_id="coverage-deal_obligation_1",
+                expected_claim_type="actor",
+                obligation_label="Target board",
+                importance="required",
+            )
+        ],
+        allowed_claim_types=["actor"],
+        schema_version=1,
+        extract_version=1,
+        request_mode=DEFAULT_REQUEST_MODE,
+    )
+    payload = SemanticClaimsPayload(
+        actor_claims=[
+            ActorClaimPayload(
+                claim_type="actor",
+                coverage_obligation_id="coverage-deal_obligation_1",
+                actor_label="The Board",
+                actor_kind="committee",
+                observability="named",
+                confidence="high",
+                quote_text="The Board began a sale process.",
+            ),
+            ActorClaimPayload(
+                claim_type="actor",
+                coverage_obligation_id="coverage-deal_obligation_1",
+                actor_label="Buyer A",
+                actor_kind="organization",
+                observability="named",
+                confidence="medium",
+                quote_text="The Board began a sale process.",
+            ),
+        ]
+    )
+    response = LLMExtractionResponse(
+        request_id=request.request_id,
+        provider_name="linkflow",
+        provider_model="gpt-5.5",
+        reasoning_effort="medium",
+        payload=payload,
+        raw_response_sha256=quote_hash(json.dumps(payload.model_dump(mode="json"), sort_keys=True)),
+        finish_status="completed",
+    )
+
+    insert_llm_response(conn, request, response, run_id=RUN_ID)
+    dispose_claims_for_filing(conn, filing_id=request.filing_id, run_id=RUN_ID)
+    finalize_coverage_after_disposition(conn, run_id=RUN_ID, filing_id=request.filing_id)
+
+    coverage = conn.execute(
+        "SELECT result, claim_count FROM coverage_results WHERE obligation_id = ?",
+        ["coverage-deal_obligation_1"],
+    ).fetchone()
+    assert coverage == ("claims_emitted", 1)
+    links = conn.execute(
+        """
+        SELECT claims.raw_value, claim_dispositions.disposition, claim_coverage_links.current
+        FROM claim_coverage_links
+        JOIN claims USING (claim_id)
+        JOIN claim_dispositions
+          ON claim_dispositions.claim_id = claims.claim_id
+         AND claim_dispositions.current = true
+        WHERE claim_coverage_links.obligation_id = ?
+        ORDER BY claims.raw_value
+        """,
+        ["coverage-deal_obligation_1"],
+    ).fetchall()
+    assert links == [
+        ("Buyer A", "rejected_unsupported", False),
+        ("The Board", "supported", True),
+    ]
+
+
 def test_rejected_claim_obligation_link_rolls_back_partial_inserts(tmp_path: Path) -> None:
     conn = connect(":memory:")
     init_schema(conn)
