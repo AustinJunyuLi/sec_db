@@ -1,12 +1,28 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "sec-agentic-linkflow-probe"
+name = "sec-review-compiler"
 version = "0.1.0"
-description = "Clean-slate Linkflow capability probe for the SEC agentic review compiler."
+description = "Clean-slate SEC merger filing agentic review compiler."
 requires-python = ">=3.12"
 dependencies = [
+  "duckdb>=1.4.0",
   "openai>=2.31.0",
   "pydantic>=2.13.0",
 ]
 
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src", "."]
+include = ["sec_review_compiler*", "linkflow_probe*"]
+exclude = ["tests*", "runs*"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["src", "."]
