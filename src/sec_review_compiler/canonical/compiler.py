@@ -191,12 +191,19 @@ class CanonicalCompiler:
             rows_by_table.setdefault("source_span", []).append(span.model_dump(mode="json"))
 
         # Build event rows now (we already validated bindings).
+        # Every accepted attempt with bindings yields a canonical event row;
+        # the event_type comes from the payload (or the attempt's claim_type
+        # as a fallback) so the compiler does not gate on fixture-specific
+        # claim_type strings.
         for attempt in attempts:
             attempt_id = attempt["attempt_id"]
             attempt_bindings = bindings_by_attempt.get(attempt_id, [])
-            if attempt["claim_type"] != "timeline_event":
-                continue
-            payload = json.loads(attempt["payload_json"])
+            try:
+                payload = json.loads(attempt["payload_json"])
+            except json.JSONDecodeError:
+                payload = {}
+            if "event_type" not in payload:
+                payload["event_type"] = attempt["claim_type"]
             event = self._build_event(
                 payload=payload,
                 evidence_ids=tuple(b["evidence_id"] for b in attempt_bindings),

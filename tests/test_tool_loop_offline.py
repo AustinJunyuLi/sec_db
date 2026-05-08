@@ -247,6 +247,7 @@ class TestRequestShape:
         loop.run([{"role": "developer", "content": "go"}])
         first_request = client.responses.requests[0]
         assert first_request["model"] == "gpt-5.5"
-        assert first_request["response_format"]["strict"] is True
+        # Responses API uses text={"format": <strict schema>} not response_format.
+        assert first_request["text"]["format"]["strict"] is True
         assert first_request["reasoning"] == {"effort": "low"}
         assert first_request["tools"] == []

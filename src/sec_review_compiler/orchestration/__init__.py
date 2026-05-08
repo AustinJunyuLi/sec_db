@@ -16,6 +16,10 @@ from .orchestrator import (
     OfflineConfidentialityExtractor,
     ExtractedClaim,
 )
+from .live_extractor import LiveLinkflowExtractor
+from .live_verifier import LiveLinkflowVerifier
+from .recorders import ProviderCallRecorder, ToolCallRecorder
+from .tool_handlers import build_tool_definitions
 from .verifier import (
     OfflineFakeVerifier,
     Verifier,
@@ -25,12 +29,17 @@ from .verifier import (
 __all__ = [
     "ConsistencyFindingRecord",
     "ExtractedClaim",
+    "LiveLinkflowExtractor",
+    "LiveLinkflowVerifier",
     "NoOpConsistencyChecker",
     "OfflineConfidentialityExtractor",
     "OfflineFakeVerifier",
     "Orchestrator",
+    "ProviderCallRecorder",
     "SliceResult",
+    "ToolCallRecorder",
     "Verifier",
     "VerifierProposal",
+    "build_tool_definitions",
     "compute_initial_coverage_for_slice",
 ]

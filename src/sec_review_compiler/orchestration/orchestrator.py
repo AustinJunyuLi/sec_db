@@ -49,6 +49,7 @@ from ..store.repository import (
 )
 from .consistency import NoOpConsistencyChecker
 from .coverage import compute_initial_coverage_for_slice
+from .recorders import ProviderCallRecorder, ToolCallRecorder
 from .verifier import OfflineFakeVerifier, Verifier, VerifierProposal
 
 
@@ -146,11 +147,15 @@ class Orchestrator:
         extractor: Extractor,
         verifier: Verifier,
         consistency_checker: NoOpConsistencyChecker | None = None,
+        provider_recorder: ProviderCallRecorder | None = None,
+        tool_recorder: ToolCallRecorder | None = None,
     ) -> None:
         self._deal_slug = deal_slug
         self._extractor = extractor
         self._verifier = verifier
         self._consistency = consistency_checker or NoOpConsistencyChecker()
+        self._provider_recorder = provider_recorder
+        self._tool_recorder = tool_recorder
 
     @property
     def deal_slug(self) -> str:
@@ -190,6 +195,10 @@ class Orchestrator:
         )
         atlas = build_atlas(package)
         index = RetrievalIndex.from_atlas(atlas, raw_text=raw_text, filing_id=filing_id)
+
+        # Bind index into live verifier if supported (duck-typed).
+        if hasattr(self._verifier, "bind_index"):
+            self._verifier.bind_index(index)  # type: ignore[attr-defined]
 
         # Persist the filing package manifest (small, deterministic).
         atomic_write_json(
@@ -383,11 +392,17 @@ class Orchestrator:
                 ),
                 SliceArtifact(
                     name="provider_calls.jsonl",
-                    path=export_provider_calls(deal_dir, []),
+                    path=export_provider_calls(
+                        deal_dir,
+                        self._provider_recorder.records if self._provider_recorder else [],
+                    ),
                 ),
                 SliceArtifact(
                     name="tool_calls.jsonl",
-                    path=export_tool_calls(deal_dir, []),
+                    path=export_tool_calls(
+                        deal_dir,
+                        self._tool_recorder.records if self._tool_recorder else [],
+                    ),
                 ),
             ]
         finally:

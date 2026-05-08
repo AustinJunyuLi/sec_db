@@ -203,6 +203,9 @@ class ToolLoop:
         self._client = client
         self._model = model
         self._tools = tools
+        # OpenAI Responses API uses `text={"format": ...}` for structured
+        # output. We accept the wrapper {type, name, strict, schema} that
+        # `strict_response_format` produces and unwrap it before sending.
         self._response_format = response_format
         self._reasoning_effort = reasoning_effort
         self._max_turns = max_turns
@@ -221,16 +224,20 @@ class ToolLoop:
                 "tools": self._tools.api_tool_definitions(),
             }
             if self._response_format is not None:
-                payload["response_format"] = self._response_format
+                payload["text"] = {"format": self._response_format}
             if self._reasoning_effort is not None:
                 payload["reasoning"] = {"effort": self._reasoning_effort}
 
             response = self._client.responses.create(**payload)
-            calls = _function_calls(response)
+            output_items = _output_items(response)
+            calls = [item for item in output_items if item.get("type") == "function_call"]
 
             if not calls:
                 final_text = _final_text(response)
                 final_output = self._parse_final_output(final_text)
+                # Extend history with the assistant's terminal output so audit
+                # logs see the full conversation.
+                history.extend(output_items)
                 return ToolLoopResult(
                     final_output=final_output,
                     final_text=final_text,
@@ -239,8 +246,10 @@ class ToolLoop:
                     turns_used=turn,
                 )
 
+            # Echo every output item back into history so the next request
+            # carries the full prior turn (Responses API multi-turn pattern).
+            history.extend(output_items)
             for call in calls:
-                history.append(call)  # echo the function_call into history
                 args = _parse_tool_args(call)
                 handler = self._tools.get(call["name"]).handler
                 result = handler(args)
