@@ -29,3 +29,27 @@ class MissingTenderOfferExhibitError(FilingPackageError):
     required for tender-offer deal processing. The package builder must fail
     loudly rather than substitute a cover document.
     """
+
+
+class LinkflowError(CompilerError):
+    """Base class for Linkflow adapter errors."""
+
+
+class MissingLinkflowCredentialsError(LinkflowError):
+    """Raised before any network call when LINKFLOW_API_KEY is missing."""
+
+
+class InvalidLinkflowConfigError(LinkflowError):
+    """Raised when an environment-configured Linkflow value fails validation."""
+
+
+class MalformedToolArgumentsError(LinkflowError):
+    """Raised when an agent emits tool-call arguments that cannot be parsed.
+
+    No silent recovery; the orchestrator surfaces this and the attempt is
+    marked malformed in the audit log.
+    """
+
+
+class ToolDispatchError(LinkflowError):
+    """Raised when an agent calls a tool not registered with the loop."""
