@@ -19,6 +19,11 @@ The only companion authority is:
 
 - `docs/superpowers/specs/2026-05-08-linkflow-api-probe-spec.md`
 
+The execution handoff is:
+
+- `docs/superpowers/plans/2026-05-08-agentic-review-compiler-ralph-implementation.md`
+- `ralph/prd.json`
+
 An implementation agent should treat every other file, if present, as
 out-of-scope unless the user explicitly reintroduces it. The implementation
 target is a new system whose behavior is derived from this spec, from raw SEC
@@ -62,6 +67,21 @@ audited agent step.
 to load, index, inspect, or verify.
 - Secrets are environment-only and never written to committed files or raw
 artifacts.
+- The no-fallback, no-backward-compatibility, no-overengineering, no-overfit,
+  no-patchlike-behavior, always-first-principle doctrine is binding.
+
+The doctrine means:
+
+- build from the current filing evidence, current specs, and current Linkflow
+  probe results, not from historical pipeline shape;
+- reject compatibility bridges, legacy aliases, fallback readers, silent
+  downgrade paths, and temporary shim layers;
+- implement the smallest complete mechanism that satisfies a verified
+  requirement, with tests and audit artifacts;
+- do not hard-code behavior to one fixture, one deal, one provider accident, or
+  one expected answer;
+- when a requirement is unclear, fail loudly or surface a review-visible gap
+  instead of patching around it.
 
 ## 4. Success definition
 
@@ -648,9 +668,22 @@ The implementation is not acceptable until it can demonstrate:
 - no dependency on external extraction outputs;
 - no stale files from an older pipeline in the active repository.
 
-## 19. Implementation-agent instruction
+## 19. Execution governance
 
-Before writing code, an implementation agent must read this spec and the
-Linkflow probe spec. The intended execution mode is clean-slate: derive the repo
-structure, schema, tests, and runtime behavior from these two documents and from
-live evidence gathered during implementation.
+Before writing code, an implementation agent must read this spec, the Linkflow
+probe spec, the Ralph implementation plan, and `ralph/prd.json`.
+
+Execution is not administered through `/goal`. The intended execution mode is a
+Claude-administered Ralph loop:
+
+- Claude is the administrator and review gate.
+- Ralph executes one `ralph/prd.json` user story at a time.
+- Claude verifies each story against this design, the Ralph plan, tests, secret
+  scans, and git status before marking a story complete.
+- Claude updates Ralph story notes only after verification evidence exists.
+- A story that violates the doctrine in Section 3 is not complete even if tests
+  pass.
+
+The implementation remains clean-slate: derive the repo structure, schema,
+tests, and runtime behavior from the active specs, the Ralph handoff, and live
+evidence gathered during implementation.

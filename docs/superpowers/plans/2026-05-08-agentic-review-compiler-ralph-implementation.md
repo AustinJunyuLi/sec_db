@@ -1,8 +1,8 @@
-# Agentic Review Compiler Implementation Plan
+# Agentic Review Compiler Ralph Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:subagent-driven-development` (recommended) or `superpowers:executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For Ralph/Claude execution:** Claude administers the Ralph loop. Ralph executes one `ralph/prd.json` user story at a time. Claude verifies the story against this plan, the design spec, tests, secret scans, and git status before marking it complete. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build the clean-slate SEC merger-filing agentic review compiler described by the two specs, using the completed Linkflow probe as the provider contract gate.
+**Goal:** Build the clean-slate SEC merger-filing agentic review compiler described by the two specs, using the completed Linkflow probe as the provider contract gate, under a Claude-administered Ralph execution loop.
 
 **Architecture:** Implement a new Python package, `sec_review_compiler`, rather than reviving archived source trees. The system is filing-first and deal-room-first: raw filing packages become atlases and retrieval indexes; agents propose claim attempts through Linkflow tool loops; deterministic Python owns source spans, evidence binding, verdict aggregation, coverage, canonical compilation, exports, and publication. The committed Linkflow probe run `runs/linkflow-probe/20260508T123815Z/` is the evidence that Tier 1 Linkflow capabilities are usable.
 
@@ -10,20 +10,30 @@
 
 ---
 
-## 0. `/goal` Objective To Paste
+## 0. Ralph/Claude Execution Directive
 
-Use this as the top-level `/goal` objective:
+Use this as Claude's Ralph administration directive:
 
 ```text
-Implement the clean-slate SEC filing agentic review compiler in /Users/austinli/Projects/sec_graph on branch clean-slate/agentic-review-compiler.
+Administer Ralph execution for the clean-slate SEC filing agentic review compiler in /Users/austinli/Projects/sec_graph on branch clean-slate/agentic-review-compiler.
 
 Read first:
 - docs/superpowers/specs/2026-05-08-agentic-review-compiler-design.md
 - docs/superpowers/specs/2026-05-08-linkflow-api-probe-spec.md
+- docs/superpowers/plans/2026-05-08-agentic-review-compiler-ralph-implementation.md
+- ralph/prd.json
 - runs/linkflow-probe/20260508T123815Z/README.md
 - runs/linkflow-probe/20260508T123815Z/capability_matrix.json
 
 Treat the prior pipeline as out of scope. Do not inspect or restore archived source code unless Austin explicitly asks for donor analysis. Implement a new package named sec_review_compiler.
+
+Ralph governance:
+- Use Ralph for execution, not /goal.
+- Ralph executes one user story from ralph/prd.json per iteration.
+- Claude administers the loop, reviews diffs, runs verification, records story notes, and marks stories complete only after evidence exists.
+- Do not batch unrelated Ralph stories into one iteration.
+- Commit and push after each verified story or phase gate.
+- Stop and report before moving past any failed story acceptance criterion.
 
 Required constraints:
 - Use Linkflow direct SDK calls only for model calls.
@@ -32,6 +42,10 @@ Required constraints:
 - Use strict structured outputs for extractor and verifier responses.
 - Use a plain Python orchestrator for V1.
 - Do not add fallback extraction modes, legacy readers, loose JSON parsers, or compatibility shims.
+- Do not overengineer: implement only mechanisms required by the active story, spec, tests, and visible evidence.
+- Do not overfit: no hard-coded fixture, deal, expected-answer, or provider-accident logic.
+- Do not write patchlike behavior: no shims, sidecar bridges, temporary compatibility layers, or workaround paths around failed contracts.
+- Work from first principles: filing text, current specs, current Linkflow probe evidence, and current test failures are authority.
 - Filing text is truth. Python owns source coordinates, evidence identity, state transitions, canonical rows, and publication.
 - Agents emit proposals only. They never write DuckDB directly.
 - Verifier partial corrections create new claim attempts; they do not mutate accepted claims.
@@ -39,7 +53,7 @@ Required constraints:
 - Coverage gaps are first-class records.
 - Every accepted canonical row must trace to exact evidence.
 
-Use parallel subagents where useful:
+Use Ralph story ownership lanes:
 - Lane A: package skeleton, run kernel, CLI, config, artifact IO.
 - Lane B: filing package, atlas, source spans, retrieval index, deterministic tools.
 - Lane C: deal-room DuckDB schema, lifecycle, coverage, conflicts, human decisions.
@@ -47,7 +61,7 @@ Use parallel subagents where useful:
 - Lane E: orchestrator, vertical slice, canonical compiler, exports.
 - Lane F: tests, security scan, docs, final acceptance audit.
 
-Commit after each completed phase. Stop and report before moving past any failed phase gate.
+Commit after each completed verified story or phase. Stop and report before moving past any failed gate.
 ```
 
 ## 1. Current Starting State
@@ -62,6 +76,9 @@ The repository is intentionally small and clean:
   - `tests/test_sanitize.py`
   - `tests/test_schema_transforms.py`
   - `tests/test_matrix_report.py`
+- Ralph execution handoff:
+  - `docs/superpowers/plans/2026-05-08-agentic-review-compiler-ralph-implementation.md`
+  - `ralph/prd.json`
 - committed probe evidence:
   - `runs/linkflow-probe/20260508T123815Z/capability_matrix.json`
   - `runs/linkflow-probe/20260508T123815Z/probe_manifest.json`
@@ -148,7 +165,7 @@ Each phase must end with:
 python3 -m pytest -q
 git status --short --branch
 git grep -n 'sk-\|LINKFLOW_API_KEY=.*sk\|Authorization: Bearer' HEAD -- \
-  ':!docs/superpowers/plans/2026-05-08-agentic-review-compiler-goal-implementation.md' || true
+  ':!docs/superpowers/plans/2026-05-08-agentic-review-compiler-ralph-implementation.md' || true
 ```
 
 Expected:
@@ -173,9 +190,12 @@ git push
 
 - Modify: `docs/superpowers/specs/2026-05-08-agentic-review-compiler-design.md`
 - Modify: `docs/superpowers/specs/2026-05-08-linkflow-api-probe-spec.md`
-- Create: `docs/superpowers/plans/2026-05-08-agentic-review-compiler-goal-implementation.md` if this file is absent in the execution branch
+- Modify: `docs/superpowers/plans/2026-05-08-agentic-review-compiler-ralph-implementation.md`
+- Modify: `ralph/prd.json`
 
 - [ ] Record in the compiler spec that probe run `20260508T123815Z` returned `GO`.
+- [ ] Confirm in the compiler spec that execution is Claude-administered Ralph, not `/goal`.
+- [ ] Confirm the no-fallback, no-backward-compatibility, no-overengineering, no-overfit, no-patchlike-behavior, always-first-principle doctrine remains binding.
 - [ ] Replace any wording that says Tier 1 Linkflow support is unknown with wording that says Tier 1 is proven for the committed run, while long-context and corpus-scale behavior remain unproven.
 - [ ] Keep the Linkflow probe as a reusable regression harness; do not delete it.
 - [ ] Run:
@@ -740,7 +760,7 @@ Expected: `Gate: GO`.
 
 ```bash
 git grep -n 'bids_try\|old pipeline\|previous pipeline\|P8\|Reference 9\|disposition.py\|docs/spec.md' HEAD -- \
-  ':!docs/superpowers/plans/2026-05-08-agentic-review-compiler-goal-implementation.md' || true
+  ':!docs/superpowers/plans/2026-05-08-agentic-review-compiler-ralph-implementation.md' || true
 ```
 
 Expected: no live authority references. Mentions are allowed only inside explicitly archived/probe evidence if the executor intentionally added such an archive, which this plan does not require.
@@ -749,7 +769,7 @@ Expected: no live authority references. Mentions are allowed only inside explici
 
 ```bash
 git grep -n 'sk-\|LINKFLOW_API_KEY=.*sk\|Authorization: Bearer' HEAD -- \
-  ':!docs/superpowers/plans/2026-05-08-agentic-review-compiler-goal-implementation.md' || true
+  ':!docs/superpowers/plans/2026-05-08-agentic-review-compiler-ralph-implementation.md' || true
 ```
 
 Expected: no real credential. Test fixtures may contain dummy strings like `sk-test`.
@@ -794,9 +814,10 @@ Stop and report instead of improvising if any of these occur:
 
 ## 18. Definition Of Done
 
-The `/goal` run is complete only when:
+The Ralph execution is complete only when:
 
 - all committed specs remain present;
+- `ralph/prd.json` has every story marked passing by Claude only after verification;
 - Linkflow probe evidence remains committed and says `GO`;
 - `src/sec_review_compiler` implements the V1 vertical slice;
 - synthetic live run produces deal-room state, review exports, and canonical rows;

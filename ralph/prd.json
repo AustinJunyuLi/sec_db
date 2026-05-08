@@ -1,0 +1,244 @@
+{
+  "project": "sec_graph",
+  "branchName": "ralph/agentic-review-compiler",
+  "description": "Clean-slate SEC filing agentic review compiler executed by Ralph one story at a time and administered by Claude. The build is governed by the no-fallback, no-backward-compatibility, no-overengineering, no-overfit, no-patchlike-behavior, always-first-principle doctrine.",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Freeze Linkflow GO evidence and Ralph governance",
+      "description": "As Claude administering Ralph, I need the specs and handoff to name the committed Linkflow probe run and Ralph execution model before any code is added.",
+      "acceptanceCriteria": [
+        "docs/superpowers/specs/2026-05-08-agentic-review-compiler-design.md states that execution is Claude-administered Ralph, not /goal",
+        "docs/superpowers/specs/2026-05-08-agentic-review-compiler-design.md states the no-fallback, no-backward-compatibility, no-overengineering, no-overfit, no-patchlike-behavior, always-first-principle doctrine",
+        "docs/superpowers/plans/2026-05-08-agentic-review-compiler-ralph-implementation.md is the active human-readable implementation plan",
+        "ralph/prd.json is the active Ralph story list",
+        "python3 -m linkflow_probe summarize runs/linkflow-probe/20260508T123815Z prints Gate: GO",
+        "python3 -m pytest -q passes"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-002",
+      "title": "Create package skeleton and run kernel",
+      "description": "As the compiler runtime, I need a new sec_review_compiler package with deterministic run ids, manifests, atomic artifact writes, and a minimal CLI.",
+      "acceptanceCriteria": [
+        "src/sec_review_compiler package exists with __init__.py, __main__.py, cli.py, config.py, errors.py, and run modules",
+        "Run ids validate the shape YYYYMMDDTHHMMSSZ_<slug>_<8hex>",
+        "RunManifest includes run_id, started_at, config_hash, linkflow_probe_run_id, and package_version",
+        "Atomic JSON/text writes use temp file plus replace",
+        "python3 -m sec_review_compiler init-run --deal-slug synthetic-demo --run-root runs/dev creates a run manifest",
+        "tests/test_run_kernel.py covers invalid ids, manifest fields, atomic writes, and CLI init",
+        "python3 -m pytest -q passes"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-003",
+      "title": "Build filing package and atlas",
+      "description": "As the evidence layer, I need immutable filing packages, exact source spans, and atlas records before any agent can propose facts.",
+      "acceptanceCriteria": [
+        "tests/fixtures/synthetic_filing.txt contains a transaction heading, background section, dated Buyer A paragraphs, a table-like block, and an exhibit marker",
+        "FilingPackage stores filing_id, raw_text, raw_sha256, normalized_text, and ordered paragraphs",
+        "Paragraph splitting preserves source order and original character offsets",
+        "SourceSpan.identity() hashes filing_id, char_start, char_end, and quote_text_hash",
+        "Atlas records sections, paragraphs, tables, source_spans, section_candidates, and atlas_warnings",
+        "Ambiguous section labels create atlas_warnings instead of silent skips",
+        "Missing substantive tender-offer exhibit raises a typed error",
+        "tests/test_filing_atlas.py passes",
+        "python3 -m pytest -q passes"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-004",
+      "title": "Add retrieval index and deterministic tools",
+      "description": "As an agent support layer, I need deterministic local tools for search, quote verification, parsing, and filing-local actor labels.",
+      "acceptanceCriteria": [
+        "RetrievalIndex supports literal lookup, regex lookup, BM25-style token scoring, section fetch, paragraph fetch, neighborhood fetch, and table fetch",
+        "verify_quote returns verbatim_present, positions, paragraph_ids, and ambiguity",
+        "parse_date, parse_money, and parse_count return conservative structured values",
+        "parse_date('early March 2026') returns an ambiguous structured value rather than a fake exact date",
+        "parse_money('$14.00 per share') preserves per-share unit semantics",
+        "parse_count('between 20 and 25 parties') returns min 20 and max 25",
+        "normalize_actor_label is filing-local only and does not create cross-deal actor pooling",
+        "tests/test_retrieval_tools.py passes",
+        "python3 -m pytest -q passes"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-005",
+      "title": "Create deal-room DuckDB schema and lifecycle",
+      "description": "As the deal-room authority, I need append-oriented tables for claims, evidence, verifier verdicts, coverage, conflicts, human decisions, and canonical rows.",
+      "acceptanceCriteria": [
+        "DuckDB schema defines source_records, claim_attempts, evidence_bindings, normalized_values, verifier_verdicts, verdict_aggregates, coverage_checks, conflicts, human_decisions, canonical_rows, and canonical_row_evidence or documented equivalent normalized tables",
+        "Lifecycle states include proposed, binding_failed, bound, verified_confirmed, verified_partial, verified_rejected, escalated, consistent, accepted, and superseded",
+        "Partial corrections create new attempt_id values and never mutate original attempts",
+        "attempt_id and claim_fingerprint are distinct concepts covered by tests",
+        "Duplicate semantic facts from two agents remain separate attempts",
+        "Latest-verdict-wins behavior is impossible under lifecycle tests",
+        "failed_to_check coverage blocks trusted publication",
+        "tests/test_deal_room_schema.py and tests/test_lifecycle.py pass",
+        "python3 -m pytest -q passes"
+      ],
+      "priority": 5,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-006",
+      "title": "Implement Linkflow adapter and tool loop",
+      "description": "As the model boundary, I need Linkflow direct SDK calls, strict output schemas, environment-only credentials, and an explicit Python tool loop.",
+      "acceptanceCriteria": [
+        "LinkflowClientConfig reads LINKFLOW_API_KEY, LINKFLOW_BASE_URL, LINKFLOW_MODEL, LINKFLOW_REASONING_EFFORT, and concurrency from environment",
+        "Missing LINKFLOW_API_KEY fails before any network client call when live mode is requested",
+        "Strict structured output schemas exist for scout maps, extractor claim attempts, verifier verdicts, and consistency checker findings",
+        "Tool loop uses explicit conversation history and function_call_output records",
+        "Malformed tool arguments fail loudly",
+        "Offline fake Linkflow responses support unit tests without credentials",
+        "Agent code cannot write directly to DuckDB",
+        "tests/test_linkflow_adapter.py and tests/test_tool_loop_offline.py pass",
+        "Existing linkflow_probe tests still pass",
+        "python3 -m pytest -q passes"
+      ],
+      "priority": 6,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-007",
+      "title": "Prove first offline vertical slice",
+      "description": "As Claude reviewing Ralph output, I need one synthetic deal to move through atlas, one specialist, evidence binding, verifier, lifecycle aggregation, and review export without live credentials.",
+      "acceptanceCriteria": [
+        "Orchestrator.run_synthetic_vertical_slice(run_dir, filing_path) exists",
+        "Synthetic fixture produces at least one confidentiality-agreement claim attempt",
+        "Claim quote is bound by deterministic verify_quote",
+        "Offline fake verifier is used when Linkflow env vars are absent",
+        "Exports include claim_cards.csv, review_queue.csv, human_decisions_template.csv, provider_calls.jsonl, and tool_calls.jsonl",
+        "Accepted claim has exact evidence",
+        "Rejected claim does not enter canonical eligibility",
+        "Partial correction creates a new attempt",
+        "All generated artifacts are under runs/<run_id>/<deal_slug>/",
+        "tests/test_orchestrator_vertical_slice.py and tests/test_exports.py pass",
+        "python3 -m pytest -q passes"
+      ],
+      "priority": 7,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-008",
+      "title": "Add deterministic canonical compiler",
+      "description": "As the publication layer, I need accepted source-backed attempts to compile into canonical graph rows with row-evidence links.",
+      "acceptanceCriteria": [
+        "Minimal canonical models exist for deal, filing, source_span, actor, event, event_actor_link, and canonical_row_evidence",
+        "Compiler reads accepted attempts, evidence bindings, coverage records, conflicts, and human decisions",
+        "Compiler refuses unbound attempts, missing evidence coordinates, failed_to_check coverage, and blocking conflicts",
+        "Canonical ids are deterministic from run id, deal slug, source ids, and payload keys",
+        "Deleting canonical rows and recompiling produces identical rows",
+        "Model-owned source offsets are impossible because compiler reads evidence bindings only",
+        "tests/test_canonical_compile.py passes",
+        "python3 -m pytest -q passes"
+      ],
+      "priority": 8,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-009",
+      "title": "Add human decision import and coverage ledger",
+      "description": "As the hand-review interface, I need human decisions and coverage states represented in the data model without a UI dependency.",
+      "acceptanceCriteria": [
+        "human_decisions_template.csv import supports accept, reject, correct, and defer",
+        "Human correct creates a new claim attempt unless the correction is notes-only",
+        "Coverage states include checked_found, checked_absent, ambiguous, not_applicable, and failed_to_check",
+        "failed_to_check blocks trusted canonical publication",
+        "checked_absent remains review-visible but does not invent a fact",
+        "tests/test_exports.py, tests/test_lifecycle.py, and tests/test_canonical_compile.py pass",
+        "python3 -m pytest -q passes"
+      ],
+      "priority": 9,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-010",
+      "title": "Add full agent role surface",
+      "description": "As the orchestrator, I need the full V1 agent role surface without expanding canonical schema beyond proven vertical-slice needs.",
+      "acceptanceCriteria": [
+        "Roles include scout, party_relation_extractor, timeline_bid_extractor, count_coverage_extractor, omission_inspector, verifier, and consistency_checker",
+        "Every role has a strict output schema",
+        "Every role has a prompt hash",
+        "No role exposes a comparison or answer-key tool",
+        "Omission inspector emits coverage checks only, not free-form speculation",
+        "No role writes truth directly",
+        "tests/test_agent_roles.py and tests/test_orchestrator_vertical_slice.py pass",
+        "python3 -m pytest -q passes"
+      ],
+      "priority": 10,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-011",
+      "title": "Run live synthetic Linkflow vertical slice",
+      "description": "As the operator, I need one credential-backed synthetic run to prove the architecture with live Linkflow calls while keeping secrets out of artifacts.",
+      "acceptanceCriteria": [
+        "CLI command python3 -m sec_review_compiler run-synthetic --run-root runs/dev --deal-slug synthetic-demo exists",
+        "CLI command python3 -m sec_review_compiler summarize-run runs/dev/<run_id>/synthetic-demo exists",
+        "Live mode without credentials fails before network",
+        "Live mode with credentials reads them from environment only and never prints them",
+        "Live synthetic run creates deal_room.duckdb, review exports, tool logs, provider logs, and canonical output",
+        "quality_reports/session_logs/2026-05-08_live_vertical_slice.md records redacted command, run directory, agent call count, claim count, verdict counts, canonical row count, and review queue count",
+        "python3 -m pytest -q passes",
+        "A targeted secret scan finds no real credential"
+      ],
+      "priority": 11,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-012",
+      "title": "Add verifier calibration seed",
+      "description": "As Claude evaluating verifier rigor, I need a calibration artifact with adversarial cards and fail-closed metrics before trusting verifier output.",
+      "acceptanceCriteria": [
+        "calibration/verifier_seed.jsonl contains at least 12 seed cards",
+        "Seed cards include confirmed-correct, single-field errors, multi-field errors, plausible hallucinations, ambiguous cases, and coverage gaps",
+        "Calibration runner sends cards through the verifier and computes category metrics",
+        "Calibration fails closed if all cards are rubber-stamped confirm",
+        "Wrong dates and wrong actors are not counted as confirmed-correct",
+        "tests/test_calibration.py passes",
+        "python3 -m pytest -q passes"
+      ],
+      "priority": 12,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-013",
+      "title": "Complete final acceptance audit",
+      "description": "As Claude administering Ralph, I need final proof that the clean-slate implementation satisfies the specs, contains no stale authority surface, and leaks no secrets.",
+      "acceptanceCriteria": [
+        "python3 -m pytest -q passes",
+        "python3 -m linkflow_probe summarize runs/linkflow-probe/20260508T123815Z prints Gate: GO",
+        "Source-tree stale-surface scan finds no live authority references to forbidden prior surfaces outside explicitly allowed archive/probe evidence",
+        "Secret scan finds no real credential",
+        "git ls-tree inventory contains no .env, .venv, __pycache__, .pytest_cache, .DS_Store, or raw provider secret file",
+        "quality_reports/session_logs/2026-05-08_agentic_review_compiler_acceptance.md records exact command outputs, probe run id, live vertical slice run id, known limitations, and next recommended extension",
+        "README.md exists and points to the specs, Ralph plan, ralph/prd.json, Linkflow probe evidence, and basic commands",
+        "US-001 through US-012 in ralph/prd.json are marked passes=true only after Claude verification notes are present; Claude marks US-013 after this final audit passes"
+      ],
+      "priority": 13,
+      "passes": false,
+      "notes": ""
+    }
+  ]
+}
