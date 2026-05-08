@@ -352,6 +352,7 @@ class Orchestrator:
                 package=package,
                 accepted_attempt_ids=accepted_ids,
                 created_at_run_clock=now,
+                atlas=atlas,
             ):
                 repo.insert_coverage_check(cov)
             decision = can_publish_trusted(
