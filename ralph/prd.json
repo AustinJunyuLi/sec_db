@@ -16,8 +16,8 @@
         "python3 -m pytest -q passes"
       ],
       "priority": 1,
-      "passes": false,
-      "notes": ""
+      "passes": true,
+      "notes": "Phase 0 (binding plan §4 'Phase 0 - Freeze Provider Evidence And Update Authority'). Verified by reading the four governance artifacts in place: design spec §19 declares Claude-administered Ralph and §3 binds the no-fallback/no-backward-compatibility/no-overengineering/no-overfit/no-patchlike-behavior/always-first-principle doctrine; plan §0-§16 maps Phases 0-12 to US-001..US-013; ralph/prd.json contains 13 stories with priorities 1..13. Commands: `python3 -m linkflow_probe summarize runs/linkflow-probe/20260508T123815Z` printed `Gate: GO` and Tier-1 supported across SDK connectivity, reasoning levels (low/medium/high), strict structured output (minimal+nested), single tool call, multi-turn tool loop, tool-loop+final structured output, error/retry taxonomy, bounded concurrency 1/2/4/8, and streaming event shapes; `python3 -m pytest -q` reported `7 passed in 0.13s`. No agent calls in this story so no LINKFLOW_REASONING level was exercised. Files touched: .gitignore (gitignore .claude/ralph-loop.local.md and .claude/state/), .claude/ralph-loop.local.md (Ralph state file, gitignored), ralph/prd.json (this US-001 notes/passes update)."
     },
     {
       "id": "US-002",
