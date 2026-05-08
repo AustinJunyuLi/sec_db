@@ -16,3 +16,16 @@ class InvalidRunIdError(CompilerError):
 
 class AtomicWriteError(CompilerError):
     """Raised when an atomic write cannot be completed safely."""
+
+
+class FilingPackageError(CompilerError):
+    """Base class for filing package construction failures."""
+
+
+class MissingTenderOfferExhibitError(FilingPackageError):
+    """Raised when a tender-offer filing lacks the substantive offer exhibit.
+
+    Per the design spec §6, the substantive offer-to-purchase exhibit is
+    required for tender-offer deal processing. The package builder must fail
+    loudly rather than substitute a cover document.
+    """
